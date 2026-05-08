@@ -1,0 +1,4 @@
+chroma_db/
+repos/
+__pycache__/
+*.pyc
