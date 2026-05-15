@@ -6,6 +6,7 @@ nest_asyncio.apply()
 
 from indexer import clone_repo, chunk_repo, index_chunks, is_indexed
 from agent.qa_agent import ask_stream
+from memory.knowledge import get_memory_stats
 
 st.set_page_config(page_title="Codebase QA", page_icon="🔍", layout="wide")
 st.title("🔍 Codebase Q&A")
@@ -57,6 +58,14 @@ with st.sidebar:
 
     st.divider()
     st.caption("支持的文件类型：.py .js .ts .go .java .rs .cpp .rb .swift 等")
+
+    # 知识库统计
+    if "repo_url" in st.session_state:
+        stats = get_memory_stats(st.session_state["repo_url"])
+        if stats["count"] > 0:
+            st.success(f"💡 知识库：{stats['count']} 条")
+        else:
+            st.info("💡 知识库：空（问答后自动积累）")
 
 # --- 对话区 ---
 if "messages" not in st.session_state:

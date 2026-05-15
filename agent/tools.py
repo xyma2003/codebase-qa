@@ -2,6 +2,7 @@ import os
 from dataclasses import dataclass
 from pydantic_ai import RunContext
 from indexer.vector_store import search, list_files
+from memory.knowledge import search_memory
 
 
 @dataclass
@@ -19,7 +20,18 @@ def make_tools(agent):
         Semantically search the codebase for code relevant to a query.
         Use this to find functions, classes, or logic related to a concept.
         Returns the top matching code snippets with file paths and line numbers.
+        Automatically uses accumulated knowledge from past Q&A when available.
         """
+        # 先查 memory（沉淀的问答知识），命中则直接返回
+        memory_hit = search_memory(query, ctx.deps.repo_url)
+        if memory_hit:
+            return (
+                f"💡 **来自知识库**（相似度 {memory_hit['score']}，"
+                f"已被使用 {memory_hit['hit_count']} 次）\n\n"
+                f"{memory_hit['answer']}"
+            )
+
+        # 未命中，走原有代码搜索
         results = search(query, ctx.deps.repo_url, n_results=5)
         if not results:
             return "No relevant code found for that query."

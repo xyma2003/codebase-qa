@@ -1,7 +1,9 @@
 import os
 from pydantic_ai import Agent
 from agent.tools import RepoDeps, make_tools
-from config import CLAUDE_MODEL, ANTHROPIC_API_KEY
+from config import CLAUDE_MODEL, ANTHROPIC_API_KEY, QUALITY_THRESHOLD
+from memory.quality import evaluate
+from memory.knowledge import save_qa
 
 _agent: Agent | None = None
 
@@ -41,12 +43,32 @@ async def ask(question: str, repo_url: str, repo_root: str) -> str:
     """Run a single question against the indexed repo."""
     deps = RepoDeps(repo_url=repo_url, repo_root=repo_root)
     result = await _get_agent().run(question, deps=deps)
-    return result.output
+    answer = result.output
+
+    # 评估质量，达标则沉淀到知识库
+    score = evaluate(question, answer)
+    if score >= QUALITY_THRESHOLD:
+        try:
+            save_qa(question, answer, repo_url)
+        except Exception:
+            pass  # 沉淀失败不影响主流程
+
+    return answer
 
 
 async def ask_stream(question: str, repo_url: str, repo_root: str):
-    """Stream a response token by token."""
+    """Stream a response token by token，流结束后触发知识沉淀。"""
     deps = RepoDeps(repo_url=repo_url, repo_root=repo_root)
+    full_response = ""
     async with _get_agent().run_stream(question, deps=deps) as result:
         async for chunk in result.stream_output(debounce_by=None):
+            full_response += chunk
             yield chunk
+
+    # 流结束后评估并沉淀
+    score = evaluate(question, full_response)
+    if score >= QUALITY_THRESHOLD:
+        try:
+            save_qa(question, full_response, repo_url)
+        except Exception:
+            pass
