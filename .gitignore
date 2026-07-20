@@ -1,4 +1,23 @@
-chroma_db/
-repos/
+# Secrets
+.env
+*.env
+.env.local
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Project
+chroma_db/
+repos/
