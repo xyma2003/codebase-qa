@@ -127,7 +127,7 @@ Claude claude-sonnet-4-5   # 综合工具结果生成回答
 
 ```bash
 # 1. 克隆本项目
-git clone https://github.com/your-username/codebase-qa.git
+git clone https://github.com/xyma2003/codebase-qa.git
 cd codebase-qa
 
 # 2. 创建虚拟环境（推荐）
