@@ -1,7 +1,7 @@
 import os
 from pydantic_ai import Agent
 from agent.tools import RepoDeps, make_tools
-from config import CLAUDE_MODEL, ANTHROPIC_API_KEY, QUALITY_THRESHOLD
+from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD
 from memory.quality import evaluate
 from memory.knowledge import save_qa
 
@@ -14,12 +14,19 @@ def _get_agent() -> Agent:
     if _agent is not None:
         return _agent
 
-    # 设置环境变量（优先使用 .env 中的值）
-    if ANTHROPIC_API_KEY:
-        os.environ["ANTHROPIC_API_KEY"] = ANTHROPIC_API_KEY
+    # Build model — for OpenAI-compatible (SiliconFlow), pass explicit base_url
+    # because Pydantic AI's model-string shortcut doesn't read OPENAI_API_BASE.
+    if LLM_PROVIDER == "openai":
+        from pydantic_ai.models.openai import OpenAIChatModel
+        from pydantic_ai.providers.openai import OpenAIProvider
+        provider = OpenAIProvider(api_key=OPENAI_API_KEY, base_url=OPENAI_API_BASE)
+        model = OpenAIChatModel(OPENAI_MODEL, provider=provider)
+    else:
+        # Anthropic — model string shortcut works fine
+        model = LLM_MODEL_STRING
 
     _agent = Agent(
-        f"anthropic:{CLAUDE_MODEL}",
+        model,
         deps_type=RepoDeps,
         system_prompt=(
             "You are an expert software engineer helping developers understand a codebase. "

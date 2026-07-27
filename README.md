@@ -142,11 +142,27 @@ pip install -r requirements.txt
 
 ### 配置
 
-在项目根目录创建 `.env` 文件：
+支持两种 LLM backend：**SiliconFlow/OpenAI-compatible**（国内默认）和 **Anthropic**（海外）。
+
+**Option A — SiliconFlow（国内推荐）**：
 
 ```bash
+# .env
+OPENAI_API_KEY=sk-...
+OPENAI_API_BASE=https://api.siliconflow.cn/v1
+OPENAI_MODEL=Qwen/Qwen3-32B
+```
+
+获取 key：https://cloud.siliconflow.cn/（有免费额度）
+
+**Option B — Anthropic（海外）**：
+
+```bash
+# .env
 ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxxxxxxxxxx
 ```
+
+> 当 `OPENAI_API_KEY` 设了，自动用 SiliconFlow；否则 fallback 到 Anthropic。
 
 所有其他配置项在 `config.py` 中，可按需修改：
 

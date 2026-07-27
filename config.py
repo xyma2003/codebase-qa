@@ -3,10 +3,28 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
+# LLM provider: "openai" (SiliconFlow/any OpenAI-compatible) or "anthropic"
+# Defaults to "openai" if OPENAI_API_KEY is set, else "anthropic".
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "https://api.siliconflow.cn/v1")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "Qwen/Qwen3-32B")
 
-# Pydantic AI 使用原生 anthropic model string
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 CLAUDE_MODEL = "claude-sonnet-4-5"
+
+# Build Pydantic AI model string — prefer OpenAI-compatible (SiliconFlow),
+# fall back to Anthropic.
+if OPENAI_API_KEY:
+    LLM_PROVIDER = "openai"
+    LLM_MODEL_STRING = f"openai:{OPENAI_MODEL}"
+    # Pydantic AI reads these env vars for the openai provider
+    os.environ.setdefault("OPENAI_API_KEY", OPENAI_API_KEY)
+    os.environ.setdefault("OPENAI_API_BASE", OPENAI_API_BASE)
+else:
+    LLM_PROVIDER = "anthropic"
+    LLM_MODEL_STRING = f"anthropic:{CLAUDE_MODEL}"
+    if ANTHROPIC_API_KEY:
+        os.environ.setdefault("ANTHROPIC_API_KEY", ANTHROPIC_API_KEY)
 
 CHROMA_DIR = "chroma_db"
 CLONE_DIR = "repos"
