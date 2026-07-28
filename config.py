@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)  # .env wins over stale shell vars
 
 # LLM provider: "openai" (SiliconFlow/any OpenAI-compatible) or "anthropic"
 # Defaults to "openai" if OPENAI_API_KEY is set, else "anthropic".
