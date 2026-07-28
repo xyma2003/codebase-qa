@@ -1,0 +1,6 @@
+# Disable file watcher to suppress noisy torchvision warnings during startup.
+# Streamlit scans all installed modules (including transformers'
+# image_processing_*) which raises ModuleNotFoundError for torchvision —
+# harmless noise since this project uses text embeddings (all-MiniLM-L6-v2).
+[server]
+fileWatcherType = "none"
