@@ -2,6 +2,9 @@ import asyncio
 import streamlit as st
 import nest_asyncio
 
+# uvloop (installed as a dep by chromadb/pydantic-ai) is incompatible with
+# nest_asyncio — reset to the standard asyncio policy before patching.
+asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
 nest_asyncio.apply()
 
 from indexer import clone_repo, chunk_repo, index_chunks, is_indexed
