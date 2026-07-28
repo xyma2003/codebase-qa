@@ -89,19 +89,18 @@ if question := st.chat_input("问一个关于代码的问题..."):
         # 流式输出 Agent 回复
         with st.chat_message("assistant"):
             response_placeholder = st.empty()
-            full_response = ""
+            result = [""]  # mutable container — avoids nonlocal (script-level scope)
 
             async def stream_response():
-                nonlocal full_response
                 async for chunk in ask_stream(
                     question,
                     st.session_state["repo_url"],
                     st.session_state["repo_root"],
                 ):
-                    full_response += chunk
-                    response_placeholder.markdown(full_response + "▌")
-                response_placeholder.markdown(full_response)
+                    result[0] += chunk
+                    response_placeholder.markdown(result[0] + "▌")
+                response_placeholder.markdown(result[0])
 
             asyncio.run(stream_response())
 
-        st.session_state["messages"].append({"role": "assistant", "content": full_response})
+        st.session_state["messages"].append({"role": "assistant", "content": result[0]})
