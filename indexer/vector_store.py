@@ -32,10 +32,15 @@ def is_indexed(repo_url: str) -> bool:
     return name in existing
 
 
-def index_chunks(chunks: list[CodeChunk], repo_url: str) -> int:
+def index_chunks(
+    chunks: list[CodeChunk],
+    repo_url: str,
+    progress_callback=None,
+) -> int:
     """
     Store chunks in ChromaDB. Returns number of chunks indexed.
     Overwrites any existing collection for this repo.
+    Optional progress_callback(done, total) called after each batch.
     """
     client = _get_client()
     name = _get_collection_name(repo_url)
@@ -52,8 +57,8 @@ def index_chunks(chunks: list[CodeChunk], repo_url: str) -> int:
         metadata={"repo_url": repo_url},
     )
 
-    # ChromaDB batch add (max 5461 per call due to sqlite limits)
-    batch_size = 500
+    # Smaller batch size for finer-grained progress updates
+    batch_size = 100
     for i in range(0, len(chunks), batch_size):
         batch = chunks[i: i + batch_size]
         collection.add(
@@ -67,6 +72,8 @@ def index_chunks(chunks: list[CodeChunk], repo_url: str) -> int:
                 "name": c.name,
             } for c in batch],
         )
+        if progress_callback:
+            progress_callback(i + len(batch), len(chunks))
 
     return len(chunks)
 

@@ -34,7 +34,7 @@ with st.sidebar:
 
         if not already_indexed:
             if st.button("克隆并索引", type="primary"):
-                with st.spinner("克隆仓库中..."):
+                with st.spinner("克隆仓库中（浅克隆 depth=1）..."):
                     try:
                         repo_root = clone_repo(repo_url)
                         st.session_state["repo_root"] = repo_root
@@ -42,11 +42,24 @@ with st.sidebar:
                         st.error(f"克隆失败：{e}")
                         st.stop()
 
-                progress = st.progress(0, text="解析代码文件...")
-                chunks = list(chunk_repo(repo_root))
-                progress.progress(50, text=f"已解析 {len(chunks)} 个代码块，正在建立向量索引...")
+                progress = st.progress(0, text="解析代码文件中（AST + 滑动窗口）...")
+                chunks = []
+                for chunk in chunk_repo(repo_root):
+                    chunks.append(chunk)
+                    if len(chunks) % 200 == 0:
+                        progress.progress(
+                            min(30, len(chunks) // 10),
+                            text=f"已解析 {len(chunks)} 个代码块...",
+                        )
+                progress.progress(30, text=f"已解析 {len(chunks)} 个代码块")
 
-                index_chunks(chunks, repo_url)
+                progress.progress(40, text=f"正在计算 embedding 向量（{len(chunks)} 个代码块，CPU 推理）...")
+
+                def update_progress(done, total):
+                    pct = 40 + int(55 * done / total) if total else 95
+                    progress.progress(pct, text=f"已索引 {done}/{total} 个代码块...")
+
+                index_chunks(chunks, repo_url, progress_callback=update_progress)
                 progress.progress(100, text="索引完成！")
 
                 st.session_state["repo_url"] = repo_url
@@ -89,21 +102,12 @@ if question := st.chat_input("问一个关于代码的问题..."):
         with st.chat_message("user"):
             st.markdown(question)
 
-        # 流式输出 Agent 回复
+        # 流式输出 Agent 回复 — st.write_stream handles markdown rendering (code blocks, etc.)
         with st.chat_message("assistant"):
-            response_placeholder = st.empty()
-            result = [""]  # mutable container — avoids nonlocal (script-level scope)
+            response = st.write_stream(ask_stream(
+                question,
+                st.session_state["repo_url"],
+                st.session_state["repo_root"],
+            ))
 
-            async def stream_response():
-                async for chunk in ask_stream(
-                    question,
-                    st.session_state["repo_url"],
-                    st.session_state["repo_root"],
-                ):
-                    result[0] += chunk
-                    response_placeholder.markdown(result[0] + "▌")
-                response_placeholder.markdown(result[0])
-
-            asyncio.run(stream_response())
-
-        st.session_state["messages"].append({"role": "assistant", "content": result[0]})
+        st.session_state["messages"].append({"role": "assistant", "content": response})
