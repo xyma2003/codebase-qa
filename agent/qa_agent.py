@@ -64,13 +64,22 @@ async def ask(question: str, repo_url: str, repo_root: str) -> str:
 
 
 async def ask_stream(question: str, repo_url: str, repo_root: str):
-    """Stream a response token by token，流结束后触发知识沉淀。"""
+    """Stream a response token by token，流结束后触发知识沉淀。
+
+    NOTE: Pydantic AI's run_stream() doesn't work with SiliconFlow's OpenAI-compatible
+    API (returns empty chunks). We use run() for tool use + answer generation, then
+    simulate streaming by yielding the answer in small chunks for better UX.
+    """
     deps = RepoDeps(repo_url=repo_url, repo_root=repo_root)
-    full_response = ""
-    async with _get_agent().run_stream(question, deps=deps) as result:
-        async for chunk in result.stream_output(debounce_by=None):
-            full_response += chunk
-            yield chunk
+
+    # Run the full agent (with tool use) to get the complete answer
+    result = await _get_agent().run(question, deps=deps)
+    full_response = result.output
+
+    # Simulate streaming: yield in ~10-char chunks for responsive UI
+    chunk_size = 10
+    for i in range(0, len(full_response), chunk_size):
+        yield full_response[i:i + chunk_size]
 
     # 流结束后评估并沉淀
     score = evaluate(question, full_response)
