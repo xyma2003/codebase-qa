@@ -43,8 +43,8 @@ Codebase Q&A 是一个本地运行的代码问答工具。它将 GitHub 仓库�
              │                                   │
              ▼ clone                             ▼ LLM 推理
     ┌─────────────────┐              ┌───────────────────────┐
-    │  repos/ 目录     │              │  Anthropic API         │
-    │  (浅克隆，depth=1)│              │  claude-sonnet-4-5    │
+    │  repos/ 目录     │              │  LLM API               │
+    │  (浅克隆，depth=1)│              │  (SiliconFlow/Anthropic)│
     └─────────────────┘              └───────────────────────┘
 ```
 
@@ -55,8 +55,8 @@ Codebase Q&A 是一个本地运行的代码问答工具。它将 GitHub 仓库�
 | 组件 | 版本 / 说明 |
 |------|-------------|
 | **Pydantic AI** | `pydantic-ai[anthropic]==1.91.0`，Agent 框架，负责工具注册和流式调用 |
-| **Claude Sonnet** | `claude-sonnet-4-5`，通过 Anthropic API 驱动问答推理 |
-| **ChromaDB** | 本地持久化向量数据库，存储代码块嵌入，支持语义检索 |
+| **LLM** | SiliconFlow `Qwen/Qwen3-32B`（默认）或 Claude Sonnet（通过 Anthropic API） |
+| **ChromaDB** | 本地持久化向量数据库，存储代码块嵌入 + 记忆库，支持语义检索 |
 | **sentence-transformers** | `all-MiniLM-L6-v2` 模型，生成代码嵌入向量，完全本地运行 |
 | **Streamlit** | Web UI，提供仓库索引侧边栏和流式对话主界面 |
 | **GitPython** | 执行 `depth=1` 浅克隆，快速拉取仓库 |
@@ -107,7 +107,7 @@ ask_stream()          # Pydantic AI Agent.run_stream()
     │       └── read_file(file_path)    → 读取完整文件（超 8000 字符截断）
     │
     ▼
-Claude claude-sonnet-4-5   # 综合工具结果生成回答
+LLM   # 综合工具结果生成回答（SiliconFlow Qwen3-32B 或 Claude Sonnet）
     │
     ▼
 流式 token 输出 → Streamlit 实时渲染
@@ -121,7 +121,7 @@ Claude claude-sonnet-4-5   # 综合工具结果生成回答
 
 - Python 3.10 或更高版本
 - `git` 命令（用于克隆目标仓库）
-- Anthropic API Key（[申请地址](https://console.anthropic.com/)）
+- LLM API Key：SiliconFlow（国内推荐，[获取地址](https://cloud.siliconflow.cn/)）或 Anthropic（[申请地址](https://console.anthropic.com/)）
 
 ### 安装步骤
 
@@ -259,7 +259,52 @@ async def read_file(ctx: RunContext[RepoDeps], file_path: str) -> str
 
 ---
 
-## 7. 代码解析策略
+## 7. 自学习记忆（Self-improving Memory）
+
+除了每次问答的即时检索，系统还维护一个**持久化记忆库**——高质量问答对会自动存入 ChromaDB 的 memory 集合（`{owner}-{repo}-memory`），后续相同/相似问题优先命中记忆，跳过完整的 Agent 推理流程。
+
+### 工作流程
+
+```
+用户提问
+    │
+    ▼
+memory.search(question)        # 先查记忆库
+    │
+    ├── 命中（相似度 ≥ 0.45）──► 直接返回历史答案，跳过 Agent
+    │
+    └── 未命中 ──► Agent 正常推理（search_code / read_file / ...）
+                       │
+                       ▼
+                 memory.quality.evaluate()  # 纯 Python 规则评分（0.0-1.0）
+                       │
+                       └── 评分 ≥ 0.6 ──► memory.save() 存入记忆库
+```
+
+### 质量评估规则（`memory/quality.py`）
+
+不调 LLM，零延迟。评分维度：
+
+| 维度 | 加分项 |
+|------|--------|
+| 技术深度 | 回答含函数名/类名/技术关键词（正则匹配） |
+| 引用准确性 | 回答含文件路径（`.py`/`.js`/`.ts` 等） |
+| 问答匹配 | 问题与回答有语义关联词 |
+| 对话上下文 | 有多轮对话历史 |
+
+**扣分项**：不确定性词汇（"你确定吗"/"能详细说说"）、回答过短、回答无技术词。
+
+### 配置
+
+```python
+# config.py
+MEMORY_SIMILARITY_THRESHOLD = 0.45   # memory 命中阈值
+QUALITY_THRESHOLD = 0.6              # 问答质量评分阈值，>= 此值才保存
+```
+
+---
+
+## 8. 代码解析策略
 
 ### Python 文件：AST 解析
 
@@ -294,12 +339,12 @@ async def read_file(ctx: RunContext[RepoDeps], file_path: str) -> str
 
 ---
 
-## 8. 项目结构
+## 9. 项目结构
 
 ```
 codebase-qa/
 ├── app.py                  # Streamlit 主入口，UI 逻辑
-├── config.py               # 全局配置（模型、路径、扩展名白名单）
+├── config.py               # 全局配置（模型、路径、扩展名白名单、memory 阈值）
 ├── requirements.txt        # Python 依赖
 ├── .env                    # API Key（需自行创建，不提交到 git）
 │
@@ -314,13 +359,17 @@ codebase-qa/
 │   ├── qa_agent.py         # Pydantic AI Agent 定义，ask() 和 ask_stream()
 │   └── tools.py            # 三个工具函数 + RepoDeps dataclass
 │
+├── memory/                 # 自学习记忆模块
+│   ├── knowledge.py        # 记忆库 CRUD（ChromaDB memory 集合）
+│   └── quality.py          # 问答质量评估（纯 Python 规则，零延迟）
+│
 ├── chroma_db/              # ChromaDB 持久化目录（自动创建）
 └── repos/                  # 克隆的仓库目录（自动创建）
 ```
 
 ---
 
-## 9. 常见问题
+## 10. 常见问题
 
 **Q: 索引大型仓库（如 React、Django）时很慢怎么办？**
 
