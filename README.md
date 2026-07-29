@@ -167,11 +167,16 @@ ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxxxxxxxxxx
 所有其他配置项在 `config.py` 中，可按需修改：
 
 ```python
-CLAUDE_MODEL    = "claude-sonnet-4-5"   # 使用的模型
-CHROMA_DIR      = "chroma_db"           # 向量数据库存储目录
-CLONE_DIR       = "repos"              # 仓库克隆目录
-EMBED_MODEL     = "all-MiniLM-L6-v2"   # 嵌入模型
-MAX_CHUNK_TOKENS = 512                  # 滑动窗口单块最大 token 数
+# LLM — .env 里配 OPENAI_API_KEY 则用 SiliconFlow，否则 fallback 到 Anthropic
+OPENAI_API_KEY    = os.getenv("OPENAI_API_KEY", "")
+OPENAI_API_BASE   = os.getenv("OPENAI_API_BASE", "https://api.siliconflow.cn/v1")
+OPENAI_MODEL      = os.getenv("OPENAI_MODEL", "Qwen/Qwen3-32B")
+CLAUDE_MODEL      = "claude-sonnet-4-5"   # Anthropic fallback 模型
+
+CHROMA_DIR        = "chroma_db"           # 向量数据库存储目录
+CLONE_DIR         = "repos"               # 仓库克隆目录
+EMBED_MODEL       = "all-MiniLM-L6-v2"    # 嵌入模型（本地运行）
+MAX_CHUNK_TOKENS  = 512                   # 滑动窗口单块最大 token 数
 ```
 
 ### 启动
