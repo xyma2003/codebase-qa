@@ -62,6 +62,7 @@ Codebase Q&A 是一个本地运行的代码问答工具。它将 GitHub 仓库�
 | **GitPython** | 执行 `depth=1` 浅克隆，快速拉取仓库 |
 | **python-dotenv** | 从 `.env` 文件加载 API Key |
 | **nest-asyncio** | 解决 Streamlit 事件循环与 `asyncio.run()` 的嵌套冲突 |
+| **MCP** | `mcp>=1.0.0`，Model Context Protocol server，暴露代码搜索 tool 给 Claude Desktop / Cursor 等外部 client |
 
 ---
 
@@ -368,6 +369,7 @@ codebase-qa/
 │   ├── knowledge.py        # 记忆库 CRUD（ChromaDB memory 集合）
 │   └── quality.py          # 问答质量评估（纯 Python 规则，零延迟）
 │
+├── mcp_server.py           # MCP server — 暴露 4 个 tool 给任何 MCP client
 ├── chroma_db/              # ChromaDB 持久化目录（自动创建）
 └── repos/                  # 克隆的仓库目录（自动创建）
 ```
@@ -407,3 +409,43 @@ Streamlit 的 `session_state` 仅在当前浏览器会话内有效，刷新页�
 **Q: read_file 有字符限制，读不到完整文件怎么办？**
 
 `read_file` 工具当前截断阈值为 8000 字符。对于超长文件，可以在提问时指明需要看的具体部分，Agent 通常会先用 `search_code` 定位到相关代码片段，再按需调用 `read_file`，从而避免读取整个文件。
+
+---
+
+## 11. MCP Server
+
+本项目还包含一个 [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server，可以将代码搜索能力暴露给任何 MCP client（Claude Desktop、Cursor、Cline 等）。
+
+### 工作方式
+
+Streamlit app 是一个独立的 AI 问答应用。MCP server 则是一个标准协议服务，让**外部 AI 客户端**直接调用代码搜索工具——不需要打开浏览器，在你的编辑器或聊天客户端里就能查代码。
+
+### 暴露的 Tools
+
+| Tool | 功能 |
+|------|------|
+| `set_repo(repo_url)` | 设置当前仓库（未索引则自动克隆+索引） |
+| `search_code(query)` | 语义搜索代码，命中知识库优先返回 |
+| `list_repo_files(pattern)` | 列出仓库文件，支持子串过滤 |
+| `read_file(file_path)` | 读取文件完整内容（超 8000 字符截断） |
+
+### 配置（Claude Desktop）
+
+编辑 `~/Library/Application Support/Claude/claude_desktop_config.json`：
+
+```json
+{
+  "mcpServers": {
+    "codebase-qa": {
+      "command": "python",
+      "args": ["/absolute/path/to/codebase-qa/mcp_server.py"]
+    }
+  }
+}
+```
+
+重启 Claude Desktop 后，在对话中可以直接说 "搜索 skflow 项目里的 TensorFlow 相关代码"，Claude 会自动调用 `set_repo` → `search_code`。
+
+### 配置（Cursor / VS Code）
+
+在设置中添加 MCP server 路径指向 `mcp_server.py`，或通过 `claude mcp add` 命令注册。
