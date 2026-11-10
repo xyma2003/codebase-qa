@@ -4,6 +4,8 @@ from indexer.vector_store import search, list_files
 from memory.knowledge import search_memory
 from indexer.source_reader import SourceReadError, read_source_file
 from agent.evidence import EvidenceStore
+from indexer.code_search import SearchMode, find_in_snapshot
+from pydantic import StrictBool, StrictInt
 
 
 @dataclass
@@ -23,6 +25,31 @@ class RepoDeps:
 
 def make_tools(agent):
     """Register all tools onto a Pydantic AI agent."""
+
+    @agent.tool
+    async def find_code(
+        ctx: RunContext[RepoDeps], query: str, mode: SearchMode = "text",
+        path_filter: str = "", case_sensitive: StrictBool = False,
+        limit: StrictInt = 20, offset: StrictInt = 0,
+    ) -> str:
+        """Locate literal text, paths or Python definitions in the selected snapshot.
+
+        mode: text (one hit per matching line), path (matching file paths), or
+        symbol (Python class/function definitions, including qualified names).
+        query and path_filter are literal substrings, not regex or globs.
+        Search is case-insensitive by default. Follow next_offset for more hits.
+        Check scan_limited and skipped_count; narrow path_filter if incomplete.
+        Previews are locators, not citation evidence. Use read_file for [S1] etc.
+        """
+        if not ctx.deps.commit_sha:
+            return "Source lookup requires a selected repository version."
+        try:
+            return find_in_snapshot(
+                ctx.deps.repo_root, ctx.deps.repo_url, ctx.deps.commit_sha,
+                query, mode, path_filter, case_sensitive, limit, offset,
+            ).model_dump_json()
+        except (ValueError, OSError) as exc:
+            return f"Source lookup failed: {exc}"
 
     @agent.tool
     async def search_code(ctx: RunContext[RepoDeps], query: str) -> str:

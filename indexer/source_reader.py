@@ -40,13 +40,10 @@ class SourceExcerpt:
         return result
 
 
-def read_source_file(
-    repo_root: str, file_path: str, start_line: int = 1, end_line: int | None = None
-) -> SourceExcerpt:
-    if type(start_line) is not int or start_line < 1:
-        raise SourceReadError("start_line must be a positive integer.")
-    if end_line is not None and (type(end_line) is not int or end_line < start_line):
-        raise SourceReadError("end_line must be an integer greater than or equal to start_line.")
+def read_source_bytes(repo_root: str, file_path: str, max_bytes: int | None = None) -> tuple[str, bytes]:
+    """Shared path checks; optional byte bound for whole-file source scanning."""
+    if max_bytes is not None and (type(max_bytes) is not int or max_bytes < 1):
+        raise SourceReadError("max_bytes must be a positive integer.")
     if not file_path or "\x00" in file_path:
         raise SourceReadError("A repository-relative file path is required.")
     relative = Path(file_path)
@@ -66,14 +63,27 @@ def read_source_file(
         path = candidate.resolve(strict=True)
         if not path.is_relative_to(root) or not path.is_file():
             raise SourceReadError("Path must point to a regular file inside the repository.")
-        data = path.read_bytes()
+        with path.open("rb") as source:
+            data = source.read() if max_bytes is None else source.read(max_bytes + 1)
     except (OSError, RuntimeError) as exc:
         raise SourceReadError("File is missing or cannot be read.") from exc
+    if max_bytes is not None and len(data) > max_bytes:
+        raise SourceReadError("File exceeds the source scanning byte limit.")
+    return path.relative_to(root).as_posix(), data
+
+
+def read_source_file(
+    repo_root: str, file_path: str, start_line: int = 1, end_line: int | None = None
+) -> SourceExcerpt:
+    if type(start_line) is not int or start_line < 1:
+        raise SourceReadError("start_line must be a positive integer.")
+    if end_line is not None and (type(end_line) is not int or end_line < start_line):
+        raise SourceReadError("end_line must be an integer greater than or equal to start_line.")
+    name, data = read_source_bytes(repo_root, file_path)
     if b"\x00" in data:
         raise SourceReadError("Binary files cannot be read as source text.")
     lines = data.decode("utf-8", errors="ignore").splitlines()
     digest = hashlib.sha256(data).hexdigest()
-    name = path.relative_to(root).as_posix()
     if not lines:
         if start_line != 1 or end_line is not None:
             raise SourceReadError("The file is empty and has no line range.")

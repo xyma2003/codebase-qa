@@ -29,7 +29,8 @@ from indexer.repository_service import import_repository, list_repository_versio
 from memory.knowledge import search_memory
 from indexer.source_reader import SourceReadError, read_source_file
 from indexer.citations import check_source_citation
-from pydantic import StrictInt
+from pydantic import StrictBool, StrictInt
+from indexer.code_search import SearchMode, find_in_snapshot
 
 mcp = FastMCP("codebase-qa")
 
@@ -76,6 +77,29 @@ def list_repo_versions() -> str:
         f"{version.commit_sha} ({version.file_count} files, {version.chunk_count} chunks)"
         for version in list_repository_versions(_current_repo_url)
     )
+
+
+@mcp.tool()
+def find_code(
+    query: str, mode: SearchMode = "text", path_filter: str = "",
+    case_sensitive: StrictBool = False, limit: StrictInt = 20, offset: StrictInt = 0,
+) -> dict:
+    """Locate literal text, file paths or Python class/function definitions.
+
+    query and path_filter are literal substrings (no regex/globs). Default is
+    case-insensitive. Follow next_offset for more hits; narrow path_filter when
+    scan_limited or skipped_count indicates incomplete coverage. Previews are
+    locators only; read_file and verify_source_citation can verify the source.
+    """
+    if _current_repository is None:
+        return {"error": "No repo set. Call set_repo first with a GitHub URL."}
+    try:
+        return find_in_snapshot(
+            _current_repo_root, _current_repo_url, _current_repository.commit_sha,
+            query, mode, path_filter, case_sensitive, limit, offset,
+        ).model_dump(mode="json")
+    except (ValueError, OSError) as exc:
+        return {"error": str(exc)}
 
 
 @mcp.tool()

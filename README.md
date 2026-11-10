@@ -9,6 +9,7 @@
 - 导入公开 GitHub 仓库，Python 按函数和类解析，其他支持的文本按窗口分块。
 - 使用本地 `all-MiniLM-L6-v2` 嵌入和 ChromaDB 检索代码。
 - 通过 Agent 搜索代码、列出文件、按行读取；回答需要配置模型接口。
+- 按文本、路径和 Python 函数或类名查找当前快照，覆盖导入语句和模块配置；支持路径过滤、大小写选择和分页。
 - 从 Git 已提交内容建立快照，记录完整 Commit SHA 和文件 SHA256；不会把工作区的未提交文件混入快照。
 - 更新索引时先构建、回读验证，再发布新版本。失败保留旧索引，旧版本可以重新选择。
 - 历史问答按仓库和代码版本保存，避免直接复用其他版本的答案。
@@ -82,22 +83,36 @@ GitHub 仓库 → 获取 Git 提交 → 源码快照和文件清单
 
 ## 工具
 
-Agent 保留三个工具：
+Agent 提供四个工具：
 
 | 工具 | 功能 |
 | --- | --- |
+| `find_code(query, mode="text", path_filter="", case_sensitive=False, limit=20, offset=0)` | 按文本、路径或 Python 定义定位当前快照 |
 | `search_code(query)` | 在所选版本的索引中检索代码 |
 | `list_repo_files(pattern="")` | 列出所选版本已索引的文件 |
 | `read_file(file_path, start_line=1, end_line=None)` | 返回真实行号；首尾行均包含在内 |
 
 读取保留单次 8000 字符内容上限，可用后续行范围续读。绝对路径、`..`、符号链接、Git 元数据及二进制内容会被拒绝。单行超限时明确标记部分显示。
 
-MCP 另提供版本选择、查询和原文校验，共六个工具：
+`find_code` 的三种模式：
+
+| 模式 | 查找范围与示例 |
+| --- | --- |
+| `text` | 逐行查找字面文本，如 `OPENAI_MODEL =`、`os.getenv(`；每行只返回一条 |
+| `path` | 按文件路径子串定位，如 `config.py`、`indexer/` |
+| `symbol` | Python 函数、异步函数及类定义，支持 `Class.method` 和嵌套定义名 |
+
+`query` 和 `path_filter` 都是字面子串，不解释正则或通配符。默认忽略大小写；`limit` 为 1–50，`offset` 从 0 开始，按 `next_offset` 继续分页。结果绑定 Commit，文本和符号查找会核对文件 SHA256；路径模式读取快照文件清单。查找预览是定位线索，仍需 `read_file` 获取可核对的引用编号。
+
+查找仅处理支持的扩展名，跳过依赖、构建等目录。单个文件超过 1 MiB、含二进制内容，或 Python 定义无法解析时会计入 `skipped_count`；`skipped_examples` 最多列出 10 个例子。单次最多检查 2000 个候选文件、读取 10 MiB 源码，触及上限会返回 `scan_limited=True`，可缩小 `path_filter` 后查找。预览最多 240 字符，截短时返回 `preview_truncated=True`。
+
+MCP 另提供版本选择、查询和原文校验，共七个工具：
 
 | 工具 | 功能 |
 | --- | --- |
 | `set_repo(repo_url, refresh=False, commit_sha=None)` | 导入仓库、更新默认分支，或选择已索引的完整 SHA |
 | `list_repo_versions()` | 列出当前仓库可用版本 |
+| `find_code(query, mode="text", path_filter="", case_sensitive=False, limit=20, offset=0)` | 与 Agent 共用快照查找，返回定位结果及扫描范围信息 |
 | `search_code(query)` | 检索所选版本 |
 | `list_repo_files(pattern="")` | 列出所选版本文件 |
 | `read_file(file_path, start_line=1, end_line=None)` | 读取所选版本源码 |
@@ -129,6 +144,8 @@ MCP 客户端配置示例：
 [按行读取验收](docs/checks/20261110-source-reader.md)与[版本管理验收](docs/checks/20261110-repository-versions.md)分别保存记录。真实存储检查脚本为 `scripts/check_repository_versions.py`，新运行使用新的 `--output` 文件，避免覆盖已保存的证据。
 
 [源码引用验收](docs/checks/20261110-citations.md)记录本地框架工具调用、MCP、引用检查和页面样例。`scripts/check_citations.py` 不调用真实聊天模型，新运行也必须使用新的 `--output` 文件。
+
+[源码查找验收](docs/checks/20261110-code-search.md)记录 70 项测试、真实快照查找、MCP 和本地模拟模型流程。`scripts/check_code_search.py` 使用已保存的快照，不更新索引；复查时指定新的 `--output` 文件。
 
 每个功能点验收后独立提交，直接 push 到 `main`，保留逐项回滚的提交记录。阶段零原版检查点是 `3aee328`，按行读取检查点是 `5a6b945`；需要补原版真实模型基线时，应检出原版代码，不把后续实现的结果记作原版结果。
 
