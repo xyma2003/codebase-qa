@@ -46,9 +46,9 @@ def _get_agent() -> Agent:
     return _agent
 
 
-async def ask(question: str, repo_url: str, repo_root: str) -> str:
+async def ask(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None) -> str:
     """Run a single question against the indexed repo."""
-    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root)
+    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha)
     result = await _get_agent().run(question, deps=deps)
     answer = result.output
 
@@ -56,21 +56,21 @@ async def ask(question: str, repo_url: str, repo_root: str) -> str:
     score = evaluate(question, answer)
     if score >= QUALITY_THRESHOLD:
         try:
-            save_qa(question, answer, repo_url)
+            save_qa(question, answer, repo_url, commit_sha=commit_sha)
         except Exception:
             pass  # 沉淀失败不影响主流程
 
     return answer
 
 
-async def ask_stream(question: str, repo_url: str, repo_root: str):
+async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None):
     """Stream a response token by token，流结束后触发知识沉淀。
 
     NOTE: Pydantic AI's run_stream() doesn't work with SiliconFlow's OpenAI-compatible
     API (returns empty chunks). We use run() for tool use + answer generation, then
     simulate streaming by yielding the answer in small chunks for better UX.
     """
-    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root)
+    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha)
 
     # Run the full agent (with tool use) to get the complete answer
     result = await _get_agent().run(question, deps=deps)
@@ -85,6 +85,6 @@ async def ask_stream(question: str, repo_url: str, repo_root: str):
     score = evaluate(question, full_response)
     if score >= QUALITY_THRESHOLD:
         try:
-            save_qa(question, full_response, repo_url)
+            save_qa(question, full_response, repo_url, commit_sha=commit_sha)
         except Exception:
             pass

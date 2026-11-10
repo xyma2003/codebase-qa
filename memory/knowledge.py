@@ -5,6 +5,7 @@ memory/knowledge.py — 知识库管理
 存储高质量问答对，搜索时优先命中。
 """
 import datetime
+import hashlib
 import uuid
 from typing import Optional
 
@@ -24,31 +25,34 @@ def _get_embed_fn() -> SentenceTransformerEmbeddingFunction:
     return SentenceTransformerEmbeddingFunction(model_name=EMBED_MODEL)
 
 
-def _memory_collection_name(repo_url: str) -> str:
+def _memory_collection_name(repo_url: str, commit_sha: str | None = None) -> str:
     """memory 集合名 = 代码集合名 + '-memory'"""
     repo_name = repo_url.rstrip("/").split("/")[-1].replace(".git", "")
     owner = repo_url.rstrip("/").split("/")[-2]
     base = f"{owner}-{repo_name}".lower().replace("_", "-")[:55]
+    if commit_sha:
+        identity = hashlib.sha256(f"{repo_url}@{commit_sha}".encode()).hexdigest()[:24]
+        return f"{base[:30]}-m-{identity}"
     return f"{base}-memory"
 
 
-def _get_or_create_memory_collection(repo_url: str):
+def _get_or_create_memory_collection(repo_url: str, commit_sha: str | None = None):
     client = _get_client()
-    name = _memory_collection_name(repo_url)
+    name = _memory_collection_name(repo_url, commit_sha)
     return client.get_or_create_collection(
         name=name,
         embedding_function=_get_embed_fn(),
-        metadata={"repo_url": repo_url, "type": "memory"},
+        metadata={"repo_url": repo_url, "type": "memory", **({"commit_sha": commit_sha} if commit_sha else {})},
     )
 
 
-def save_qa(question: str, answer: str, repo_url: str) -> str:
+def save_qa(question: str, answer: str, repo_url: str, *, commit_sha: str | None = None) -> str:
     """
     保存一条高质量问答到 memory 集合。
     文档内容 = "Q: {question}\nA: {answer}"，便于语义检索。
     返回新条目的 ID。
     """
-    collection = _get_or_create_memory_collection(repo_url)
+    collection = _get_or_create_memory_collection(repo_url, commit_sha)
     doc_id = str(uuid.uuid4())
     document = f"Q: {question}\nA: {answer}"
     collection.add(
@@ -60,18 +64,19 @@ def save_qa(question: str, answer: str, repo_url: str) -> str:
             "saved_at": datetime.datetime.now().isoformat(),
             "hit_count": 0,
             "source": "qa_pair",
+            **({"commit_sha": commit_sha} if commit_sha else {}),
         }],
     )
     return doc_id
 
 
-def search_memory(query: str, repo_url: str) -> Optional[dict]:
+def search_memory(query: str, repo_url: str, *, commit_sha: str | None = None) -> Optional[dict]:
     """
     在 memory 集合中语义搜索最相似的知识。
     返回 dict（含 question/answer/score）或 None（无命中或集合不存在）。
     """
     client = _get_client()
-    name = _memory_collection_name(repo_url)
+    name = _memory_collection_name(repo_url, commit_sha)
 
     # 集合不存在则直接返回
     existing = [c.name for c in client.list_collections()]
@@ -125,10 +130,10 @@ def _increment_hit_count(collection, doc_id: str, meta: dict):
         pass
 
 
-def get_memory_stats(repo_url: str) -> dict:
+def get_memory_stats(repo_url: str, *, commit_sha: str | None = None) -> dict:
     """返回知识库统计信息"""
     client = _get_client()
-    name = _memory_collection_name(repo_url)
+    name = _memory_collection_name(repo_url, commit_sha)
     existing = [c.name for c in client.list_collections()]
 
     if name not in existing:

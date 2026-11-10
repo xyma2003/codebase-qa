@@ -14,8 +14,8 @@ Configuration (Claude Desktop claude_desktop_config.json):
   }
 }
 
-Before using tools, call set_repo with a repo URL that has been indexed
-via the Streamlit app (streamlit run app.py).
+Before using tools, call set_repo to import or select a version. Refreshing
+the remote default branch is explicit; indexed old versions remain available.
 """
 import os
 import sys
@@ -24,8 +24,8 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from mcp.server.fastmcp import FastMCP
-from indexer.vector_store import search, list_files, is_indexed
-from indexer.cloner import clone_repo
+from indexer.vector_store import search, list_files
+from indexer.repository_service import import_repository, list_repository_versions
 from memory.knowledge import search_memory
 from indexer.source_reader import SourceReadError, read_source_file
 
@@ -34,41 +34,46 @@ mcp = FastMCP("codebase-qa")
 # Track the currently active repo (set by the client via set_repo tool)
 _current_repo_url: str = ""
 _current_repo_root: str = ""
+_current_repository = None
 
 
 @mcp.tool()
-def set_repo(repo_url: str) -> str:
+def set_repo(repo_url: str, refresh: bool = False, commit_sha: str | None = None) -> str:
     """Set the active repository for code search and file reading.
 
-    The repo must already be indexed. If not indexed, it will be cloned
-    and indexed automatically (this may take 1-3 minutes for large repos).
+    Reuse a ready code version, import a new repository, or explicitly refresh
+    the remote default branch. commit_sha selects a previously indexed version.
 
     Args:
         repo_url: GitHub repository URL (e.g. https://github.com/owner/repo)
+        refresh: Fetch the remote default branch and publish only after indexing succeeds.
+        commit_sha: Full SHA of an already indexed version; cannot be combined with refresh.
 
     Returns:
         Confirmation message with the number of indexed files.
     """
-    global _current_repo_url, _current_repo_root
+    global _current_repo_url, _current_repo_root, _current_repository
+    try:
+        repository = import_repository(repo_url, refresh=refresh, commit_sha=commit_sha)
+    except Exception as exc:
+        _current_repository = None
+        _current_repo_url = _current_repo_root = ""
+        return f"Failed to select repository: {exc}"
+    _current_repository = repository
+    _current_repo_url = repository.repo_url
+    _current_repo_root = repository.repo_root
+    return f"Active repo: {repository.repo_url} ({repository.file_count} files indexed). Commit: {repository.commit_sha}"
 
-    if not is_indexed(repo_url):
-        # Auto-clone and index
-        try:
-            repo_root = clone_repo(repo_url)
-            from indexer.chunker import chunk_repo
-            from indexer.vector_store import index_chunks
-            chunks = list(chunk_repo(repo_root))
-            index_chunks(chunks, repo_url)
-            _current_repo_root = repo_root
-        except Exception as e:
-            return f"Failed to index {repo_url}: {e}"
-    else:
-        # Already indexed — just clone to get the local path
-        _current_repo_root = clone_repo(repo_url)
 
-    _current_repo_url = repo_url
-    files = list_files(repo_url)
-    return f"Active repo: {repo_url} ({len(files)} files indexed). You can now use search_code, list_repo_files, and read_file."
+@mcp.tool()
+def list_repo_versions() -> str:
+    """List successfully indexed versions of the selected repository."""
+    if not _current_repo_url:
+        return "No repo set. Call set_repo first with a GitHub URL."
+    return "\n".join(
+        f"{version.commit_sha} ({version.file_count} files, {version.chunk_count} chunks)"
+        for version in list_repository_versions(_current_repo_url)
+    )
 
 
 @mcp.tool()
@@ -89,16 +94,19 @@ def search_code(query: str) -> str:
         return "No repo set. Call set_repo first with a GitHub URL."
 
     # Check memory (accumulated Q&A knowledge) first
-    memory_hit = search_memory(query, _current_repo_url)
+    revision = _current_repository.commit_sha if _current_repository else None
+    collection = _current_repository.collection_name if _current_repository else None
+    memory_hit = search_memory(query, _current_repo_url, commit_sha=revision)
     if memory_hit:
         return (
+            (f"Commit: {revision}\n" if revision else "") +
             f"From knowledge base (similarity {memory_hit['score']}, "
             f"used {memory_hit['hit_count']} times):\n\n"
             f"{memory_hit['answer']}"
         )
 
     # Semantic code search
-    results = search(query, _current_repo_url, n_results=5)
+    results = search(query, _current_repo_url, n_results=5, collection_name=collection)
     if not results:
         return "No relevant code found for that query."
 
@@ -108,7 +116,7 @@ def search_code(query: str) -> str:
             f"{r['file_path']} (lines {r['start_line']}–{r['end_line']}, "
             f"{r['chunk_type']}: {r['name']})\n{r['content']}"
         )
-    return "\n\n---\n\n".join(output)
+    return (f"Commit: {revision}\n" if revision else "") + "\n\n---\n\n".join(output)
 
 
 @mcp.tool()
@@ -126,7 +134,10 @@ def list_repo_files(pattern: str = "") -> str:
     if not _current_repo_url:
         return "No repo set. Call set_repo first with a GitHub URL."
 
-    files = list_files(_current_repo_url, pattern or None)
+    files = list_files(
+        _current_repo_url, pattern or None,
+        collection_name=_current_repository.collection_name if _current_repository else None,
+    )
     if not files:
         return "No files found matching that pattern."
     return "\n".join(files)
@@ -148,6 +159,12 @@ def read_file(file_path: str, start_line: int = 1, end_line: int | None = None) 
         return "No repo set. Call set_repo first with a GitHub URL."
 
     try:
+        if _current_repository:
+            from indexer.snapshots import load_snapshot
+            snapshot = load_snapshot(_current_repo_root)
+            if snapshot.commit_sha != _current_repository.commit_sha or snapshot.repo_url != _current_repo_url:
+                raise SourceReadError("Repository and snapshot version differ.")
+            return f"Commit: {snapshot.commit_sha}\n" + snapshot.read(file_path, start_line, end_line).format()
         return read_source_file(_current_repo_root, file_path, start_line, end_line).format()
     except SourceReadError as exc:
         return f"Error reading {file_path}: {exc}"

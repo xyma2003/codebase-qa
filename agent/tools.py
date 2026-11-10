@@ -3,12 +3,19 @@ from pydantic_ai import RunContext
 from indexer.vector_store import search, list_files
 from memory.knowledge import search_memory
 from indexer.source_reader import SourceReadError, read_source_file
+from indexer.snapshots import load_snapshot
 
 
 @dataclass
 class RepoDeps:
     repo_url: str
     repo_root: str
+    collection_name: str | None = None
+    commit_sha: str | None = None
+
+    def __post_init__(self):
+        if bool(self.collection_name) != bool(self.commit_sha):
+            raise ValueError("A pinned repository requires both collection_name and commit_sha.")
 
 
 def make_tools(agent):
@@ -23,16 +30,17 @@ def make_tools(agent):
         Automatically uses accumulated knowledge from past Q&A when available.
         """
         # 先查 memory（沉淀的问答知识），命中则直接返回
-        memory_hit = search_memory(query, ctx.deps.repo_url)
+        memory_hit = search_memory(query, ctx.deps.repo_url, commit_sha=ctx.deps.commit_sha)
         if memory_hit:
             return (
+                (f"Commit: {ctx.deps.commit_sha}\n" if ctx.deps.commit_sha else "") +
                 f"💡 **来自知识库**（相似度 {memory_hit['score']}，"
                 f"已被使用 {memory_hit['hit_count']} 次）\n\n"
                 f"{memory_hit['answer']}"
             )
 
         # 未命中，走原有代码搜索
-        results = search(query, ctx.deps.repo_url, n_results=5)
+        results = search(query, ctx.deps.repo_url, n_results=5, collection_name=ctx.deps.collection_name)
         if not results:
             return "No relevant code found for that query."
 
@@ -42,7 +50,8 @@ def make_tools(agent):
                 f"**{r['file_path']}** (lines {r['start_line']}–{r['end_line']}, "
                 f"{r['chunk_type']}: `{r['name']}`)\n```\n{r['content']}\n```"
             )
-        return "\n\n---\n\n".join(output)
+        prefix = f"Commit: {ctx.deps.commit_sha}\n" if ctx.deps.commit_sha else ""
+        return prefix + "\n\n---\n\n".join(output)
 
     @agent.tool
     async def list_repo_files(ctx: RunContext[RepoDeps], pattern: str = "") -> str:
@@ -51,7 +60,7 @@ def make_tools(agent):
         Optionally filter by a substring pattern (e.g. 'test', '.py', 'auth').
         Use this to explore the repo structure before diving into code.
         """
-        files = list_files(ctx.deps.repo_url, pattern or None)
+        files = list_files(ctx.deps.repo_url, pattern or None, collection_name=ctx.deps.collection_name)
         if not files:
             return "No files found matching that pattern."
         return "\n".join(files)
@@ -68,6 +77,11 @@ def make_tools(agent):
         Responses retain the existing 8000-character source-content limit.
         """
         try:
+            if ctx.deps.commit_sha:
+                snapshot = load_snapshot(ctx.deps.repo_root)
+                if snapshot.commit_sha != ctx.deps.commit_sha or snapshot.repo_url != ctx.deps.repo_url:
+                    raise SourceReadError("Repository and snapshot version differ.")
+                return f"Commit: {snapshot.commit_sha}\n" + snapshot.read(file_path, start_line, end_line).format()
             return read_source_file(ctx.deps.repo_root, file_path, start_line, end_line).format()
         except SourceReadError as exc:
             return f"Error reading {file_path}: {exc}"

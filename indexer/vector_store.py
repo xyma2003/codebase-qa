@@ -78,13 +78,13 @@ def index_chunks(
     return len(chunks)
 
 
-def search(query: str, repo_url: str, n_results: int = 5) -> list[dict]:
+def search(query: str, repo_url: str, n_results: int = 5, *, collection_name: str | None = None) -> list[dict]:
     """
     Semantic search over indexed repo chunks.
     Returns list of dicts with keys: content, file_path, start_line, end_line, chunk_type, name.
     """
     client = _get_client()
-    name = _get_collection_name(repo_url)
+    name = collection_name or _get_collection_name(repo_url)
     collection = client.get_collection(name=name, embedding_function=_get_embed_fn())
 
     results = collection.query(query_texts=[query], n_results=n_results)
@@ -98,14 +98,15 @@ def search(query: str, repo_url: str, n_results: int = 5) -> list[dict]:
             "end_line": meta["end_line"],
             "chunk_type": meta["chunk_type"],
             "name": meta["name"],
+            "commit_sha": meta.get("commit_sha"),
         })
     return output
 
 
-def list_files(repo_url: str, pattern: Optional[str] = None) -> list[str]:
+def list_files(repo_url: str, pattern: Optional[str] = None, *, collection_name: str | None = None) -> list[str]:
     """List all indexed file paths. Optionally filter by substring pattern."""
     client = _get_client()
-    name = _get_collection_name(repo_url)
+    name = collection_name or _get_collection_name(repo_url)
     collection = client.get_collection(name=name, embedding_function=_get_embed_fn())
 
     # Get all unique file paths from metadata
@@ -116,3 +117,39 @@ def list_files(repo_url: str, pattern: Optional[str] = None) -> list[str]:
         paths = [p for p in paths if pattern.lower() in p.lower()]
 
     return paths
+
+
+def build_collection(chunks, repo_url, name, commit_sha, embeddings=None, progress_callback=None):
+    """Build and read back a new collection; never delete a published index."""
+    client = _get_client()
+    collection = client.create_collection(
+        name=name, embedding_function=_get_embed_fn(),
+        metadata={"repo_url": repo_url, "commit_sha": commit_sha},
+    )
+    for offset in range(0, len(chunks), 100):
+        batch = chunks[offset:offset + 100]
+        values = dict(
+            ids=[f"{chunk.file_path}:{chunk.start_line}" for chunk in batch],
+            documents=[chunk.content for chunk in batch],
+            metadatas=[{
+                "file_path": chunk.file_path, "start_line": chunk.start_line,
+                "end_line": chunk.end_line, "chunk_type": chunk.chunk_type,
+                "name": chunk.name, "commit_sha": commit_sha,
+            } for chunk in batch],
+        )
+        if embeddings is not None:
+            values["embeddings"] = embeddings[offset:offset + len(batch)]
+        collection.add(**values)
+        if progress_callback:
+            progress_callback(offset + len(batch), len(chunks))
+    stored = collection.get(include=["documents", "metadatas"])
+    expected = {f"{chunk.file_path}:{chunk.start_line}": chunk for chunk in chunks}
+    if len(expected) != len(chunks) or set(stored["ids"]) != set(expected):
+        raise ValueError("索引回读的代码块数量或身份不匹配。")
+    for identity, document, metadata in zip(stored["ids"], stored["documents"], stored["metadatas"]):
+        chunk = expected[identity]
+        if document != chunk.content or metadata["commit_sha"] != commit_sha or any(
+            metadata.get(key) != getattr(chunk, key)
+            for key in ("file_path", "start_line", "end_line", "chunk_type", "name")
+        ):
+            raise ValueError("索引回读内容与代码快照不匹配。")
