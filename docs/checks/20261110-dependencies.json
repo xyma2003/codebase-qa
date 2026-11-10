@@ -1,0 +1,965 @@
+{
+  "status": "passed",
+  "chat_model_called": false,
+  "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+  "outgoing": {
+    "repo_url": "https://github.com/xyma2003/codebase-qa",
+    "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+    "file_path": "agent/qa_agent.py",
+    "source_root": "",
+    "direction": "outgoing",
+    "references": [
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 1,
+        "end_line": 1,
+        "kind": "import",
+        "module": "os",
+        "imported_name": null,
+        "alias": null,
+        "context": [],
+        "resolution": "module_not_located",
+        "member_not_followed": false,
+        "targets": [],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 1,
+          "end_line": 1,
+          "source_text": "import os",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L1-L1"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 2,
+        "end_line": 2,
+        "kind": "from",
+        "module": "pydantic_ai",
+        "imported_name": "Agent",
+        "alias": null,
+        "context": [],
+        "resolution": "module_not_located",
+        "member_not_followed": true,
+        "targets": [],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 2,
+          "end_line": 2,
+          "source_text": "from pydantic_ai import Agent",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L2-L2"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 3,
+        "end_line": 3,
+        "kind": "from",
+        "module": "agent.tools",
+        "imported_name": "RepoDeps",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "agent/tools.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 3,
+          "end_line": 3,
+          "source_text": "from agent.tools import RepoDeps, make_tools",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L3-L3"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 3,
+        "end_line": 3,
+        "kind": "from",
+        "module": "agent.tools",
+        "imported_name": "make_tools",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "agent/tools.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 3,
+          "end_line": 3,
+          "source_text": "from agent.tools import RepoDeps, make_tools",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L3-L3"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 4,
+        "end_line": 4,
+        "kind": "from",
+        "module": "config",
+        "imported_name": "LLM_PROVIDER",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "config.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 4,
+          "end_line": 4,
+          "source_text": "from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 4,
+        "end_line": 4,
+        "kind": "from",
+        "module": "config",
+        "imported_name": "OPENAI_API_KEY",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "config.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 4,
+          "end_line": 4,
+          "source_text": "from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 4,
+        "end_line": 4,
+        "kind": "from",
+        "module": "config",
+        "imported_name": "OPENAI_API_BASE",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "config.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 4,
+          "end_line": 4,
+          "source_text": "from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 4,
+        "end_line": 4,
+        "kind": "from",
+        "module": "config",
+        "imported_name": "OPENAI_MODEL",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "config.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 4,
+          "end_line": 4,
+          "source_text": "from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 4,
+        "end_line": 4,
+        "kind": "from",
+        "module": "config",
+        "imported_name": "LLM_MODEL_STRING",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "config.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 4,
+          "end_line": 4,
+          "source_text": "from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 4,
+        "end_line": 4,
+        "kind": "from",
+        "module": "config",
+        "imported_name": "QUALITY_THRESHOLD",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "config.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 4,
+          "end_line": 4,
+          "source_text": "from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 5,
+        "end_line": 5,
+        "kind": "from",
+        "module": "memory.quality",
+        "imported_name": "evaluate",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "memory/quality.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 5,
+          "end_line": 5,
+          "source_text": "from memory.quality import evaluate",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L5-L5"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 6,
+        "end_line": 6,
+        "kind": "from",
+        "module": "memory.knowledge",
+        "imported_name": "save_qa",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "memory/knowledge.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 6,
+          "end_line": 6,
+          "source_text": "from memory.knowledge import save_qa",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L6-L6"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 20,
+        "end_line": 20,
+        "kind": "from",
+        "module": "pydantic_ai.models.openai",
+        "imported_name": "OpenAIChatModel",
+        "alias": null,
+        "context": [
+          "FunctionDef:_get_agent",
+          "If"
+        ],
+        "resolution": "module_not_located",
+        "member_not_followed": true,
+        "targets": [],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 20,
+          "end_line": 20,
+          "source_text": "        from pydantic_ai.models.openai import OpenAIChatModel",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L20-L20"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/qa_agent.py",
+        "start_line": 21,
+        "end_line": 21,
+        "kind": "from",
+        "module": "pydantic_ai.providers.openai",
+        "imported_name": "OpenAIProvider",
+        "alias": null,
+        "context": [
+          "FunctionDef:_get_agent",
+          "If"
+        ],
+        "resolution": "module_not_located",
+        "member_not_followed": true,
+        "targets": [],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 21,
+          "end_line": 21,
+          "source_text": "        from pydantic_ai.providers.openai import OpenAIProvider",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L21-L21"
+        },
+        "evidence_unavailable": false
+      }
+    ],
+    "offset": 0,
+    "limit": 20,
+    "next_offset": null,
+    "scanned_files": 1,
+    "scan_limited": false,
+    "skipped_count": 0,
+    "skipped_examples": [],
+    "unresolved_count": 14,
+    "unresolved_examples": [
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 1,
+        "reason": "module_not_located"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 2,
+        "reason": "module_not_located"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 3,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 3,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 4,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 4,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 4,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 4,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 4,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 4,
+        "reason": "imported_member_not_followed"
+      }
+    ]
+  },
+  "incoming": {
+    "repo_url": "https://github.com/xyma2003/codebase-qa",
+    "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+    "file_path": "indexer/vector_store.py",
+    "source_root": "",
+    "direction": "incoming",
+    "references": [
+      {
+        "source_file": "agent/tools.py",
+        "start_line": 4,
+        "end_line": 4,
+        "kind": "from",
+        "module": "indexer.vector_store",
+        "imported_name": "search",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "indexer/vector_store.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/tools.py",
+          "start_line": 4,
+          "end_line": 4,
+          "source_text": "from indexer.vector_store import search, list_files",
+          "file_sha256": "6eba7f872705cd0e25dcbed24613857fac717f656207adbcc3687987311b8294",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/tools.py#L4-L4"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "agent/tools.py",
+        "start_line": 4,
+        "end_line": 4,
+        "kind": "from",
+        "module": "indexer.vector_store",
+        "imported_name": "list_files",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "indexer/vector_store.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/tools.py",
+          "start_line": 4,
+          "end_line": 4,
+          "source_text": "from indexer.vector_store import search, list_files",
+          "file_sha256": "6eba7f872705cd0e25dcbed24613857fac717f656207adbcc3687987311b8294",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/tools.py#L4-L4"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "indexer/__init__.py",
+        "start_line": 3,
+        "end_line": 3,
+        "kind": "from",
+        "module": ".vector_store",
+        "imported_name": "index_chunks",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "indexer/vector_store.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "indexer/__init__.py",
+          "start_line": 3,
+          "end_line": 3,
+          "source_text": "from .vector_store import index_chunks, search, list_files, is_indexed",
+          "file_sha256": "efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/indexer/__init__.py#L3-L3"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "indexer/__init__.py",
+        "start_line": 3,
+        "end_line": 3,
+        "kind": "from",
+        "module": ".vector_store",
+        "imported_name": "search",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "indexer/vector_store.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "indexer/__init__.py",
+          "start_line": 3,
+          "end_line": 3,
+          "source_text": "from .vector_store import index_chunks, search, list_files, is_indexed",
+          "file_sha256": "efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/indexer/__init__.py#L3-L3"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "indexer/__init__.py",
+        "start_line": 3,
+        "end_line": 3,
+        "kind": "from",
+        "module": ".vector_store",
+        "imported_name": "list_files",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "indexer/vector_store.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "indexer/__init__.py",
+          "start_line": 3,
+          "end_line": 3,
+          "source_text": "from .vector_store import index_chunks, search, list_files, is_indexed",
+          "file_sha256": "efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/indexer/__init__.py#L3-L3"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "indexer/__init__.py",
+        "start_line": 3,
+        "end_line": 3,
+        "kind": "from",
+        "module": ".vector_store",
+        "imported_name": "is_indexed",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "indexer/vector_store.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "indexer/__init__.py",
+          "start_line": 3,
+          "end_line": 3,
+          "source_text": "from .vector_store import index_chunks, search, list_files, is_indexed",
+          "file_sha256": "efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/indexer/__init__.py#L3-L3"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "mcp_server.py",
+        "start_line": 27,
+        "end_line": 27,
+        "kind": "from",
+        "module": "indexer.vector_store",
+        "imported_name": "search",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "indexer/vector_store.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "mcp_server.py",
+          "start_line": 27,
+          "end_line": 27,
+          "source_text": "from indexer.vector_store import search, list_files, is_indexed",
+          "file_sha256": "cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L27-L27"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "mcp_server.py",
+        "start_line": 27,
+        "end_line": 27,
+        "kind": "from",
+        "module": "indexer.vector_store",
+        "imported_name": "list_files",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "indexer/vector_store.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "mcp_server.py",
+          "start_line": 27,
+          "end_line": 27,
+          "source_text": "from indexer.vector_store import search, list_files, is_indexed",
+          "file_sha256": "cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L27-L27"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "mcp_server.py",
+        "start_line": 27,
+        "end_line": 27,
+        "kind": "from",
+        "module": "indexer.vector_store",
+        "imported_name": "is_indexed",
+        "alias": null,
+        "context": [],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "indexer/vector_store.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "mcp_server.py",
+          "start_line": 27,
+          "end_line": 27,
+          "source_text": "from indexer.vector_store import search, list_files, is_indexed",
+          "file_sha256": "cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L27-L27"
+        },
+        "evidence_unavailable": false
+      },
+      {
+        "source_file": "mcp_server.py",
+        "start_line": 58,
+        "end_line": 58,
+        "kind": "from",
+        "module": "indexer.vector_store",
+        "imported_name": "index_chunks",
+        "alias": null,
+        "context": [
+          "FunctionDef:set_repo",
+          "If",
+          "Try"
+        ],
+        "resolution": "local_module_candidate",
+        "member_not_followed": true,
+        "targets": [
+          {
+            "file_path": "indexer/vector_store.py",
+            "role": "module"
+          }
+        ],
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "mcp_server.py",
+          "start_line": 58,
+          "end_line": 58,
+          "source_text": "            from indexer.vector_store import index_chunks",
+          "file_sha256": "cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L58-L58"
+        },
+        "evidence_unavailable": false
+      }
+    ],
+    "offset": 0,
+    "limit": 20,
+    "next_offset": null,
+    "scanned_files": 13,
+    "scan_limited": false,
+    "skipped_count": 0,
+    "skipped_examples": [],
+    "unresolved_count": 84,
+    "unresolved_examples": [
+      {
+        "file_path": "agent/__init__.py",
+        "line": 1,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/__init__.py",
+        "line": 1,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/__init__.py",
+        "line": 2,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 1,
+        "reason": "module_not_located"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 2,
+        "reason": "module_not_located"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 3,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 3,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 4,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 4,
+        "reason": "imported_member_not_followed"
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "line": 4,
+        "reason": "imported_member_not_followed"
+      }
+    ]
+  },
+  "framework": {
+    "model": "local FunctionModel fixture",
+    "model_turns": 3,
+    "memory_write_mocked": true,
+    "answer": {
+      "text": "本地测试样例：agent/qa_agent.py 的导入指向 agent/tools.py 候选 [S1](https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L3-L3)。",
+      "citations": [
+        {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 3,
+          "end_line": 3,
+          "source_text": "from agent.tools import RepoDeps, make_tools",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "reference_id": "S1"
+        }
+      ],
+      "issues": []
+    }
+  },
+  "mcp": {
+    "tool_count": 9,
+    "calls_passed": 11,
+    "results": {
+      "select": {
+        "tool": "set_repo",
+        "arguments": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa"
+        },
+        "is_error": false,
+        "text": "Active repo: https://github.com/xyma2003/codebase-qa (16 files indexed). Commit: 7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb"
+      },
+      "outgoing": {
+        "tool": "get_file_dependencies",
+        "arguments": {
+          "file_path": "agent/qa_agent.py"
+        },
+        "is_error": false,
+        "text": "{\n  \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n  \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n  \"file_path\": \"agent/qa_agent.py\",\n  \"source_root\": \"\",\n  \"direction\": \"outgoing\",\n  \"references\": [\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 1,\n      \"end_line\": 1,\n      \"kind\": \"import\",\n      \"module\": \"os\",\n      \"imported_name\": null,\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"module_not_located\",\n      \"member_not_followed\": false,\n      \"targets\": [],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 1,\n        \"end_line\": 1,\n        \"source_text\": \"import os\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L1-L1\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 2,\n      \"end_line\": 2,\n      \"kind\": \"from\",\n      \"module\": \"pydantic_ai\",\n      \"imported_name\": \"Agent\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"module_not_located\",\n      \"member_not_followed\": true,\n      \"targets\": [],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 2,\n        \"end_line\": 2,\n        \"source_text\": \"from pydantic_ai import Agent\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L2-L2\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 3,\n      \"end_line\": 3,\n      \"kind\": \"from\",\n      \"module\": \"agent.tools\",\n      \"imported_name\": \"RepoDeps\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"agent/tools.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 3,\n        \"end_line\": 3,\n        \"source_text\": \"from agent.tools import RepoDeps, make_tools\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L3-L3\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 3,\n      \"end_line\": 3,\n      \"kind\": \"from\",\n      \"module\": \"agent.tools\",\n      \"imported_name\": \"make_tools\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"agent/tools.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 3,\n        \"end_line\": 3,\n        \"source_text\": \"from agent.tools import RepoDeps, make_tools\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L3-L3\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 4,\n      \"end_line\": 4,\n      \"kind\": \"from\",\n      \"module\": \"config\",\n      \"imported_name\": \"LLM_PROVIDER\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"config.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 4,\n        \"end_line\": 4,\n        \"source_text\": \"from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 4,\n      \"end_line\": 4,\n      \"kind\": \"from\",\n      \"module\": \"config\",\n      \"imported_name\": \"OPENAI_API_KEY\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"config.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 4,\n        \"end_line\": 4,\n        \"source_text\": \"from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 4,\n      \"end_line\": 4,\n      \"kind\": \"from\",\n      \"module\": \"config\",\n      \"imported_name\": \"OPENAI_API_BASE\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"config.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 4,\n        \"end_line\": 4,\n        \"source_text\": \"from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 4,\n      \"end_line\": 4,\n      \"kind\": \"from\",\n      \"module\": \"config\",\n      \"imported_name\": \"OPENAI_MODEL\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"config.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 4,\n        \"end_line\": 4,\n        \"source_text\": \"from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 4,\n      \"end_line\": 4,\n      \"kind\": \"from\",\n      \"module\": \"config\",\n      \"imported_name\": \"LLM_MODEL_STRING\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"config.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 4,\n        \"end_line\": 4,\n        \"source_text\": \"from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 4,\n      \"end_line\": 4,\n      \"kind\": \"from\",\n      \"module\": \"config\",\n      \"imported_name\": \"QUALITY_THRESHOLD\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"config.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 4,\n        \"end_line\": 4,\n        \"source_text\": \"from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L4-L4\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 5,\n      \"end_line\": 5,\n      \"kind\": \"from\",\n      \"module\": \"memory.quality\",\n      \"imported_name\": \"evaluate\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"memory/quality.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 5,\n        \"end_line\": 5,\n        \"source_text\": \"from memory.quality import evaluate\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L5-L5\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 6,\n      \"end_line\": 6,\n      \"kind\": \"from\",\n      \"module\": \"memory.knowledge\",\n      \"imported_name\": \"save_qa\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"memory/knowledge.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 6,\n        \"end_line\": 6,\n        \"source_text\": \"from memory.knowledge import save_qa\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L6-L6\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 20,\n      \"end_line\": 20,\n      \"kind\": \"from\",\n      \"module\": \"pydantic_ai.models.openai\",\n      \"imported_name\": \"OpenAIChatModel\",\n      \"alias\": null,\n      \"context\": [\n        \"FunctionDef:_get_agent\",\n        \"If\"\n      ],\n      \"resolution\": \"module_not_located\",\n      \"member_not_followed\": true,\n      \"targets\": [],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 20,\n        \"end_line\": 20,\n        \"source_text\": \"        from pydantic_ai.models.openai import OpenAIChatModel\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L20-L20\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 21,\n      \"end_line\": 21,\n      \"kind\": \"from\",\n      \"module\": \"pydantic_ai.providers.openai\",\n      \"imported_name\": \"OpenAIProvider\",\n      \"alias\": null,\n      \"context\": [\n        \"FunctionDef:_get_agent\",\n        \"If\"\n      ],\n      \"resolution\": \"module_not_located\",\n      \"member_not_followed\": true,\n      \"targets\": [],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 21,\n        \"end_line\": 21,\n        \"source_text\": \"        from pydantic_ai.providers.openai import OpenAIProvider\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L21-L21\"\n      },\n      \"evidence_unavailable\": false\n    }\n  ],\n  \"offset\": 0,\n  \"limit\": 20,\n  \"next_offset\": null,\n  \"scanned_files\": 1,\n  \"scan_limited\": false,\n  \"skipped_count\": 0,\n  \"skipped_examples\": [],\n  \"unresolved_count\": 14,\n  \"unresolved_examples\": [\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 1,\n      \"reason\": \"module_not_located\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 2,\n      \"reason\": \"module_not_located\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 3,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 3,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 4,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 4,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 4,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 4,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 4,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 4,\n      \"reason\": \"imported_member_not_followed\"\n    }\n  ]\n}"
+      },
+      "incoming": {
+        "tool": "get_file_dependencies",
+        "arguments": {
+          "file_path": "indexer/vector_store.py",
+          "direction": "incoming"
+        },
+        "is_error": false,
+        "text": "{\n  \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n  \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n  \"file_path\": \"indexer/vector_store.py\",\n  \"source_root\": \"\",\n  \"direction\": \"incoming\",\n  \"references\": [\n    {\n      \"source_file\": \"agent/tools.py\",\n      \"start_line\": 4,\n      \"end_line\": 4,\n      \"kind\": \"from\",\n      \"module\": \"indexer.vector_store\",\n      \"imported_name\": \"search\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"indexer/vector_store.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/tools.py\",\n        \"start_line\": 4,\n        \"end_line\": 4,\n        \"source_text\": \"from indexer.vector_store import search, list_files\",\n        \"file_sha256\": \"6eba7f872705cd0e25dcbed24613857fac717f656207adbcc3687987311b8294\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/tools.py#L4-L4\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"agent/tools.py\",\n      \"start_line\": 4,\n      \"end_line\": 4,\n      \"kind\": \"from\",\n      \"module\": \"indexer.vector_store\",\n      \"imported_name\": \"list_files\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"indexer/vector_store.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/tools.py\",\n        \"start_line\": 4,\n        \"end_line\": 4,\n        \"source_text\": \"from indexer.vector_store import search, list_files\",\n        \"file_sha256\": \"6eba7f872705cd0e25dcbed24613857fac717f656207adbcc3687987311b8294\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/tools.py#L4-L4\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"indexer/__init__.py\",\n      \"start_line\": 3,\n      \"end_line\": 3,\n      \"kind\": \"from\",\n      \"module\": \".vector_store\",\n      \"imported_name\": \"index_chunks\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"indexer/vector_store.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"indexer/__init__.py\",\n        \"start_line\": 3,\n        \"end_line\": 3,\n        \"source_text\": \"from .vector_store import index_chunks, search, list_files, is_indexed\",\n        \"file_sha256\": \"efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/indexer/__init__.py#L3-L3\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"indexer/__init__.py\",\n      \"start_line\": 3,\n      \"end_line\": 3,\n      \"kind\": \"from\",\n      \"module\": \".vector_store\",\n      \"imported_name\": \"search\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"indexer/vector_store.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"indexer/__init__.py\",\n        \"start_line\": 3,\n        \"end_line\": 3,\n        \"source_text\": \"from .vector_store import index_chunks, search, list_files, is_indexed\",\n        \"file_sha256\": \"efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/indexer/__init__.py#L3-L3\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"indexer/__init__.py\",\n      \"start_line\": 3,\n      \"end_line\": 3,\n      \"kind\": \"from\",\n      \"module\": \".vector_store\",\n      \"imported_name\": \"list_files\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"indexer/vector_store.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"indexer/__init__.py\",\n        \"start_line\": 3,\n        \"end_line\": 3,\n        \"source_text\": \"from .vector_store import index_chunks, search, list_files, is_indexed\",\n        \"file_sha256\": \"efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/indexer/__init__.py#L3-L3\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"indexer/__init__.py\",\n      \"start_line\": 3,\n      \"end_line\": 3,\n      \"kind\": \"from\",\n      \"module\": \".vector_store\",\n      \"imported_name\": \"is_indexed\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"indexer/vector_store.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"indexer/__init__.py\",\n        \"start_line\": 3,\n        \"end_line\": 3,\n        \"source_text\": \"from .vector_store import index_chunks, search, list_files, is_indexed\",\n        \"file_sha256\": \"efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/indexer/__init__.py#L3-L3\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"mcp_server.py\",\n      \"start_line\": 27,\n      \"end_line\": 27,\n      \"kind\": \"from\",\n      \"module\": \"indexer.vector_store\",\n      \"imported_name\": \"search\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"indexer/vector_store.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"mcp_server.py\",\n        \"start_line\": 27,\n        \"end_line\": 27,\n        \"source_text\": \"from indexer.vector_store import search, list_files, is_indexed\",\n        \"file_sha256\": \"cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L27-L27\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"mcp_server.py\",\n      \"start_line\": 27,\n      \"end_line\": 27,\n      \"kind\": \"from\",\n      \"module\": \"indexer.vector_store\",\n      \"imported_name\": \"list_files\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"indexer/vector_store.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"mcp_server.py\",\n        \"start_line\": 27,\n        \"end_line\": 27,\n        \"source_text\": \"from indexer.vector_store import search, list_files, is_indexed\",\n        \"file_sha256\": \"cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L27-L27\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"mcp_server.py\",\n      \"start_line\": 27,\n      \"end_line\": 27,\n      \"kind\": \"from\",\n      \"module\": \"indexer.vector_store\",\n      \"imported_name\": \"is_indexed\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"indexer/vector_store.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"mcp_server.py\",\n        \"start_line\": 27,\n        \"end_line\": 27,\n        \"source_text\": \"from indexer.vector_store import search, list_files, is_indexed\",\n        \"file_sha256\": \"cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L27-L27\"\n      },\n      \"evidence_unavailable\": false\n    },\n    {\n      \"source_file\": \"mcp_server.py\",\n      \"start_line\": 58,\n      \"end_line\": 58,\n      \"kind\": \"from\",\n      \"module\": \"indexer.vector_store\",\n      \"imported_name\": \"index_chunks\",\n      \"alias\": null,\n      \"context\": [\n        \"FunctionDef:set_repo\",\n        \"If\",\n        \"Try\"\n      ],\n      \"resolution\": \"local_module_candidate\",\n      \"member_not_followed\": true,\n      \"targets\": [\n        {\n          \"file_path\": \"indexer/vector_store.py\",\n          \"role\": \"module\"\n        }\n      ],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"mcp_server.py\",\n        \"start_line\": 58,\n        \"end_line\": 58,\n        \"source_text\": \"            from indexer.vector_store import index_chunks\",\n        \"file_sha256\": \"cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L58-L58\"\n      },\n      \"evidence_unavailable\": false\n    }\n  ],\n  \"offset\": 0,\n  \"limit\": 20,\n  \"next_offset\": null,\n  \"scanned_files\": 13,\n  \"scan_limited\": false,\n  \"skipped_count\": 0,\n  \"skipped_examples\": [],\n  \"unresolved_count\": 84,\n  \"unresolved_examples\": [\n    {\n      \"file_path\": \"agent/__init__.py\",\n      \"line\": 1,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/__init__.py\",\n      \"line\": 1,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/__init__.py\",\n      \"line\": 2,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 1,\n      \"reason\": \"module_not_located\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 2,\n      \"reason\": \"module_not_located\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 3,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 3,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 4,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 4,\n      \"reason\": \"imported_member_not_followed\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 4,\n      \"reason\": \"imported_member_not_followed\"\n    }\n  ]\n}"
+      },
+      "verify_source": {
+        "tool": "verify_source_citation",
+        "arguments": {
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 3,
+          "end_line": 3,
+          "source_text": "from agent.tools import RepoDeps, make_tools"
+        },
+        "is_error": false,
+        "text": "{\n  \"valid\": true,\n  \"citation\": {\n    \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n    \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n    \"file_path\": \"agent/qa_agent.py\",\n    \"start_line\": 3,\n    \"end_line\": 3,\n    \"source_text\": \"from agent.tools import RepoDeps, make_tools\",\n    \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\"\n  },\n  \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L3-L3\"\n}"
+      },
+      "first_page": {
+        "tool": "get_file_dependencies",
+        "arguments": {
+          "file_path": "agent/qa_agent.py",
+          "limit": 1
+        },
+        "is_error": false,
+        "text": "{\n  \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n  \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n  \"file_path\": \"agent/qa_agent.py\",\n  \"source_root\": \"\",\n  \"direction\": \"outgoing\",\n  \"references\": [\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 1,\n      \"end_line\": 1,\n      \"kind\": \"import\",\n      \"module\": \"os\",\n      \"imported_name\": null,\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"module_not_located\",\n      \"member_not_followed\": false,\n      \"targets\": [],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 1,\n        \"end_line\": 1,\n        \"source_text\": \"import os\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L1-L1\"\n      },\n      \"evidence_unavailable\": false\n    }\n  ],\n  \"offset\": 0,\n  \"limit\": 1,\n  \"next_offset\": 1,\n  \"scanned_files\": 1,\n  \"scan_limited\": false,\n  \"skipped_count\": 0,\n  \"skipped_examples\": [],\n  \"unresolved_count\": 2,\n  \"unresolved_examples\": [\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 1,\n      \"reason\": \"module_not_located\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 2,\n      \"reason\": \"module_not_located\"\n    }\n  ]\n}"
+      },
+      "second_page": {
+        "tool": "get_file_dependencies",
+        "arguments": {
+          "file_path": "agent/qa_agent.py",
+          "limit": 1,
+          "offset": 1
+        },
+        "is_error": false,
+        "text": "{\n  \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n  \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n  \"file_path\": \"agent/qa_agent.py\",\n  \"source_root\": \"\",\n  \"direction\": \"outgoing\",\n  \"references\": [\n    {\n      \"source_file\": \"agent/qa_agent.py\",\n      \"start_line\": 2,\n      \"end_line\": 2,\n      \"kind\": \"from\",\n      \"module\": \"pydantic_ai\",\n      \"imported_name\": \"Agent\",\n      \"alias\": null,\n      \"context\": [],\n      \"resolution\": \"module_not_located\",\n      \"member_not_followed\": true,\n      \"targets\": [],\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"agent/qa_agent.py\",\n        \"start_line\": 2,\n        \"end_line\": 2,\n        \"source_text\": \"from pydantic_ai import Agent\",\n        \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L2-L2\"\n      },\n      \"evidence_unavailable\": false\n    }\n  ],\n  \"offset\": 1,\n  \"limit\": 1,\n  \"next_offset\": 2,\n  \"scanned_files\": 1,\n  \"scan_limited\": false,\n  \"skipped_count\": 0,\n  \"skipped_examples\": [],\n  \"unresolved_count\": 3,\n  \"unresolved_examples\": [\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 1,\n      \"reason\": \"module_not_located\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 2,\n      \"reason\": \"module_not_located\"\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"line\": 3,\n      \"reason\": \"imported_member_not_followed\"\n    }\n  ]\n}"
+      },
+      "root_escape": {
+        "tool": "get_file_dependencies",
+        "arguments": {
+          "file_path": "agent/qa_agent.py",
+          "source_root": "../"
+        },
+        "is_error": false,
+        "text": "{\n  \"error\": \"Paths must stay inside the selected source root.\"\n}"
+      },
+      "invalid_direction": {
+        "tool": "get_file_dependencies",
+        "arguments": {
+          "file_path": "agent/qa_agent.py",
+          "direction": "both"
+        },
+        "is_error": true,
+        "text": "Error executing tool get_file_dependencies: 1 validation error for get_file_dependenciesArguments\ndirection\n  Input should be 'outgoing' or 'incoming' [type=literal_error, input_value='both', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.14/v/literal_error"
+      },
+      "boolean_limit": {
+        "tool": "get_file_dependencies",
+        "arguments": {
+          "file_path": "agent/qa_agent.py",
+          "limit": true
+        },
+        "is_error": true,
+        "text": "Error executing tool get_file_dependencies: 1 validation error for get_file_dependenciesArguments\nlimit\n  Input should be a valid integer [type=int_type, input_value=True, input_type=bool]\n    For further information visit https://errors.pydantic.dev/2.14/v/int_type"
+      },
+      "invalid_selection": {
+        "tool": "set_repo",
+        "arguments": {
+          "repo_url": "file:///invalid"
+        },
+        "is_error": false,
+        "text": "Failed to select repository: 请输入 https://github.com/owner/repo 格式的仓库地址。"
+      },
+      "cleared_context": {
+        "tool": "get_file_dependencies",
+        "arguments": {
+          "file_path": "agent/qa_agent.py"
+        },
+        "is_error": false,
+        "text": "{\n  \"error\": \"No repo set. Call set_repo first with a GitHub URL.\"\n}"
+      }
+    }
+  },
+  "active_index_unchanged": true,
+  "source_sha256": {
+    "indexer/dependencies.py": "265dc96182602bc2aa1bda351b180e4e5e75639a3eee20aeb40b6d0a5c240a0e",
+    "agent/tools.py": "1218b7833e5a71706e4d8073063d40e3b4d001517cae3792933d490b3e6a3595",
+    "agent/qa_agent.py": "1c1f13731e5e51cb8f958a72c35b905ddd203d15fbc022cf39fd60edcb2245ef",
+    "mcp_server.py": "8aac604f9fe254bcacc8c26925b1d82402c1e3782b42907f12f4e17b126af9ec",
+    "scripts/check_dependencies.py": "95c82df86a7b1cf0f956e562714a6246bc5a959a6283b15d3d36a13c882d4084",
+    "config.py": "a284358103003e929e9701c81a8b3328cb09312ee371a53d6bc5c4819b9285f4",
+    "indexer/source_reader.py": "5c6b05ef5f7b680aa00dddc28fcec02555b3af194715bed7b1ea17a81fcefa81"
+  }
+}

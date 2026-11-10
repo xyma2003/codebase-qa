@@ -32,6 +32,7 @@ from indexer.citations import check_source_citation
 from pydantic import StrictBool, StrictInt
 from indexer.code_search import SearchMode, find_in_snapshot
 from indexer.overview import build_repository_overview, overview_payload
+from indexer.dependencies import DependencyDirection, get_file_dependencies as lookup_dependencies, dependency_payload
 
 mcp = FastMCP("codebase-qa")
 
@@ -78,6 +79,30 @@ def list_repo_versions() -> str:
         f"{version.commit_sha} ({version.file_count} files, {version.chunk_count} chunks)"
         for version in list_repository_versions(_current_repo_url)
     )
+
+
+@mcp.tool()
+def get_file_dependencies(
+    file_path: str, direction: DependencyDirection = "outgoing", source_root: str = "",
+    limit: StrictInt = 20, offset: StrictInt = 0,
+) -> dict:
+    """Find static Python import candidates or possible incoming references.
+
+    file_path stays repository-relative. source_root is explicit, defaulting to
+    the repo root; use 'src' for a src layout. No target code or import hooks run.
+    Resolution/context and scan flags describe uncertainty; this is not a runtime
+    graph. Unresolved counts cover inspected statements, not just the target.
+    Use next_offset for pagination and verify_source_citation to recheck passages.
+    """
+    if _current_repository is None:
+        return {"error": "No repo set. Call set_repo first with a GitHub URL."}
+    try:
+        return dependency_payload(lookup_dependencies(
+            _current_repo_root, _current_repo_url, _current_repository.commit_sha,
+            file_path, direction, source_root, limit, offset,
+        ))
+    except (ValueError, OSError) as exc:
+        return {"error": str(exc)}
 
 
 @mcp.tool()

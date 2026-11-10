@@ -33,6 +33,7 @@ def _get_agent() -> Agent:
             "You are an expert software engineer helping developers understand a codebase. "
             "You have access to these tools:\n"
             "- get_repo_overview: inspect directories, modules, README and static entry clues\n"
+            "- get_file_dependencies: locate static Python import candidates and possible incoming references\n"
             "- find_code: locate literal text, file paths or Python definitions in the selected version\n"
             "- search_code: semantic search over the codebase\n"
             "- list_repo_files: list all files (optionally filtered)\n"
@@ -42,7 +43,8 @@ def _get_agent() -> Agent:
             "2. Use list_repo_files to explore structure when needed\n"
             "3. Use read_file to inspect located code and obtain source citation identifiers\n"
             "4. Always cite file paths and line numbers in your answers\n"
-            "5. For 'how to add a feature' questions, show exactly where to make changes"
+            "5. For 'how to add a feature' questions, show exactly where to make changes\n"
+            "6. Use get_file_dependencies for cross-file import clues; distinguish static candidates from runtime behavior"
         ),
     )
     make_tools(_agent)

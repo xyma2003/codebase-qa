@@ -8,6 +8,7 @@ from agent.evidence import EvidenceStore
 from indexer.code_search import SearchMode, find_in_snapshot
 from pydantic import StrictBool, StrictInt
 from indexer.overview import build_repository_overview, overview_payload
+from indexer.dependencies import DependencyDirection, get_file_dependencies as lookup_dependencies, dependency_payload
 
 
 @dataclass
@@ -27,6 +28,29 @@ class RepoDeps:
 
 def make_tools(agent):
     """Register all tools onto a Pydantic AI agent."""
+
+    @agent.tool
+    async def get_file_dependencies(
+        ctx: RunContext[RepoDeps], file_path: str, direction: DependencyDirection = "outgoing",
+        source_root: str = "", limit: StrictInt = 20, offset: StrictInt = 0,
+    ) -> str:
+        """Locate Python import candidates or possible incoming file references.
+
+        file_path is repository-relative. source_root defaults to the repo root;
+        explicitly pass 'src' for a src import layout. No sys.path probing occurs.
+        Results are static candidates, not runtime calls or a complete impact map.
+        Check resolution, member_not_followed, context, scan and skip information;
+        unresolved counts cover inspected statements, not only the target file.
+        Follow next_offset for more rows. Use read_file to obtain citation IDs.
+        """
+        if not ctx.deps.commit_sha:
+            return "Dependency lookup requires a selected repository version."
+        try:
+            result = lookup_dependencies(ctx.deps.repo_root, ctx.deps.repo_url, ctx.deps.commit_sha,
+                                         file_path, direction, source_root, limit, offset)
+            return json.dumps(dependency_payload(result), ensure_ascii=False)
+        except (ValueError, OSError) as exc:
+            return f"Dependency lookup failed: {exc}"
 
     @agent.tool
     async def get_repo_overview(ctx: RunContext[RepoDeps]) -> str:
