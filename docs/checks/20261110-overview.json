@@ -1,0 +1,396 @@
+{
+  "status": "passed",
+  "chat_model_called": false,
+  "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+  "overview": {
+    "repo_url": "https://github.com/xyma2003/codebase-qa",
+    "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+    "file_count": 20,
+    "python_file_count": 13,
+    "directories": [
+      {
+        "name": "./",
+        "file_count": 9
+      },
+      {
+        "name": ".streamlit/",
+        "file_count": 1
+      },
+      {
+        "name": "agent/",
+        "file_count": 3
+      },
+      {
+        "name": "indexer/",
+        "file_count": 4
+      },
+      {
+        "name": "memory/",
+        "file_count": 3
+      }
+    ],
+    "directories_truncated": false,
+    "configuration_files": [
+      ".env.example",
+      "config.py",
+      "requirements.txt"
+    ],
+    "configuration_files_truncated": false,
+    "readme": {
+      "repo_url": "https://github.com/xyma2003/codebase-qa",
+      "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+      "file_path": "README.md",
+      "start_line": 1,
+      "end_line": 20,
+      "source_text": "# Codebase Q&A\n\n用自然语言提问任意 GitHub 代码仓库。输入仓库地址，点击索引，然后直接问问题——系统会自动检索相关代码片段，交由 Claude 给出精确、带引用路径的回答。\n\n---\n\n## 1. 项目介绍\n\nCodebase Q&A 是一个本地运行的代码问答工具。它将 GitHub 仓库的源代码拆解成结构化代码块、嵌入向量数据库，然后用 AI Agent 回答开发者关于代码的任何问题：函数实现、架构设计、如何添加新功能、某个 bug 在哪里，等等。\n\n**架构总览**\n\n```\n┌─────────────────────────────────────────────────────────────────┐\n│                        Streamlit UI (app.py)                    │\n│                                                                 │\n│   ┌──────────────────┐           ┌──────────────────────────┐  │\n│   │   侧边栏：仓库索引  │           │   主区域：对话界面          │  │\n│   │  repo_url 输入框  │           │   流式输出 Agent 回复       │  │\n│   └────────┬─────────┘           └────────────┬─────────────┘  │",
+      "file_sha256": "03b161d4c67c99670bdac3d7371b290829b29382d9f6160e8dc1e99f48fc76c5",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/README.md#L1-L20"
+    },
+    "modules": [
+      {
+        "file_path": "agent/__init__.py",
+        "definitions": [],
+        "imports": [
+          ".qa_agent",
+          ".tools"
+        ],
+        "docstring_excerpt": "",
+        "file_sha256": "f6c5739aeb17458b1f0cc725823aa2aaa7f62714317ad9daf7a5f29928ac071e",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "agent/qa_agent.py",
+        "definitions": [
+          "_get_agent",
+          "ask",
+          "ask_stream"
+        ],
+        "imports": [
+          "os",
+          "pydantic_ai",
+          "agent.tools",
+          "config",
+          "memory.quality",
+          "memory.knowledge"
+        ],
+        "docstring_excerpt": "",
+        "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "agent/tools.py",
+        "definitions": [
+          "RepoDeps",
+          "make_tools"
+        ],
+        "imports": [
+          "os",
+          "dataclasses",
+          "pydantic_ai",
+          "indexer.vector_store",
+          "memory.knowledge"
+        ],
+        "docstring_excerpt": "",
+        "file_sha256": "6eba7f872705cd0e25dcbed24613857fac717f656207adbcc3687987311b8294",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "app.py",
+        "definitions": [],
+        "imports": [
+          "asyncio",
+          "streamlit",
+          "nest_asyncio",
+          "indexer",
+          "agent.qa_agent",
+          "memory.knowledge"
+        ],
+        "docstring_excerpt": "",
+        "file_sha256": "6b0407b2bb1ef355e128b7dde28d51401ff4d75c65f9d8752472e3122f239a73",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "config.py",
+        "definitions": [],
+        "imports": [
+          "os",
+          "dotenv"
+        ],
+        "docstring_excerpt": "",
+        "file_sha256": "a284358103003e929e9701c81a8b3328cb09312ee371a53d6bc5c4819b9285f4",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "indexer/__init__.py",
+        "definitions": [],
+        "imports": [
+          ".cloner",
+          ".chunker",
+          ".vector_store"
+        ],
+        "docstring_excerpt": "",
+        "file_sha256": "efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "indexer/chunker.py",
+        "definitions": [
+          "CodeChunk",
+          "_sliding_window",
+          "_parse_python",
+          "chunk_file",
+          "chunk_repo"
+        ],
+        "imports": [
+          "ast",
+          "os",
+          "dataclasses",
+          "typing",
+          "config"
+        ],
+        "docstring_excerpt": "",
+        "file_sha256": "f1e7fd63e6c607302153486797a30273c5f9f26997c2a5d8091520f0044146f4",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "indexer/cloner.py",
+        "definitions": [
+          "clone_repo",
+          "remove_repo"
+        ],
+        "imports": [
+          "os",
+          "shutil",
+          "git",
+          "config"
+        ],
+        "docstring_excerpt": "",
+        "file_sha256": "e14c46434e4bd18f862745326e894a35faf289847d32c4710d09551a3fa1f9ae",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "indexer/vector_store.py",
+        "definitions": [
+          "_get_collection_name",
+          "_get_client",
+          "_get_embed_fn",
+          "is_indexed",
+          "index_chunks",
+          "search",
+          "list_files"
+        ],
+        "imports": [
+          "os",
+          "typing",
+          "chromadb",
+          "chromadb.utils.embedding_functions",
+          "indexer.chunker",
+          "config"
+        ],
+        "docstring_excerpt": "",
+        "file_sha256": "68dc090ec4fbbfdf9bf777694ed4b79f148d9b97b614c4f2c679648bfe50953c",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "mcp_server.py",
+        "definitions": [
+          "set_repo",
+          "search_code",
+          "list_repo_files",
+          "read_file"
+        ],
+        "imports": [
+          "os",
+          "sys",
+          "mcp.server.fastmcp",
+          "indexer.vector_store",
+          "indexer.cloner",
+          "memory.knowledge"
+        ],
+        "docstring_excerpt": "mcp_server.py — MCP server exposing codebase-qa tools to any MCP client.\n\nThis lets Claude Desktop, Cursor, Cline, or any MCP-compatible client\nsearch and read code in indexed GitHub repositories.\n\nConfiguration (Claude Desktop claude_desktop_config.json):\n{\n  \"mcpServers\": {\n    \"codebase-qa\": {\n  ",
+        "file_sha256": "cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "memory/__init__.py",
+        "definitions": [],
+        "imports": [
+          ".quality",
+          ".knowledge"
+        ],
+        "docstring_excerpt": "",
+        "file_sha256": "27d619cadde29bc7c5928b79c64f2b18a2e299c7df4ee64f83aee36d43d0431c",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "memory/knowledge.py",
+        "definitions": [
+          "_get_client",
+          "_get_embed_fn",
+          "_memory_collection_name",
+          "_get_or_create_memory_collection",
+          "save_qa",
+          "search_memory",
+          "_increment_hit_count",
+          "get_memory_stats"
+        ],
+        "imports": [
+          "datetime",
+          "uuid",
+          "typing",
+          "chromadb",
+          "chromadb.utils.embedding_functions",
+          "config"
+        ],
+        "docstring_excerpt": "memory/knowledge.py — 知识库管理\n\n每个仓库有一个独立的 memory 集合（{owner}-{repo}-memory），\n存储高质量问答对，搜索时优先命中。",
+        "file_sha256": "a59fd60559cba68f22d8846112739ae64724e69bb9690de5920c1083142887af",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      },
+      {
+        "file_path": "memory/quality.py",
+        "definitions": [
+          "evaluate"
+        ],
+        "imports": [
+          "re"
+        ],
+        "docstring_excerpt": "memory/quality.py — 问答质量评估\n\n纯 Python 规则，不调 LLM，零延迟。\n评分 0.0-1.0，>= QUALITY_THRESHOLD 才保存到知识库。",
+        "file_sha256": "047d91a074a3daf67cca3c40e31ff9ef60416cb35babd7da28eb9fb4e9028f47",
+        "definitions_truncated": false,
+        "imports_truncated": false
+      }
+    ],
+    "modules_truncated": false,
+    "entry_clues": [
+      {
+        "kind": "streamlit_page",
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "app.py",
+          "start_line": 14,
+          "end_line": 14,
+          "source_text": "st.set_page_config(page_title=\"Codebase QA\", page_icon=\"🔍\", layout=\"wide\")",
+          "file_sha256": "6b0407b2bb1ef355e128b7dde28d51401ff4d75c65f9d8752472e3122f239a73",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/app.py#L14-L14"
+        }
+      },
+      {
+        "kind": "main_guard",
+        "evidence": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "mcp_server.py",
+          "start_line": 163,
+          "end_line": 164,
+          "source_text": "if __name__ == \"__main__\":\n    mcp.run()",
+          "file_sha256": "cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3",
+          "url": "https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L163-L164"
+        }
+      }
+    ],
+    "entry_clues_truncated": false,
+    "scanned_files": 14,
+    "scan_limited": false,
+    "skipped_count": 0,
+    "skipped_examples": []
+  },
+  "framework": {
+    "model": "local FunctionModel fixture",
+    "model_turns": 3,
+    "memory_write_mocked": true,
+    "answer": {
+      "text": "本地测试样例：mcp_server.py 包含 Python 启动判断 [S1](https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L163-L164)。",
+      "citations": [
+        {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "mcp_server.py",
+          "start_line": 163,
+          "end_line": 164,
+          "source_text": "if __name__ == \"__main__\":\n    mcp.run()",
+          "file_sha256": "cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3",
+          "reference_id": "S1"
+        }
+      ],
+      "issues": []
+    }
+  },
+  "mcp": {
+    "tool_count": 8,
+    "calls_passed": 7,
+    "results": {
+      "select": {
+        "tool": "set_repo",
+        "arguments": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa"
+        },
+        "text": "Active repo: https://github.com/xyma2003/codebase-qa (16 files indexed). Commit: 7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb"
+      },
+      "overview": {
+        "tool": "get_repo_overview",
+        "arguments": {},
+        "text": "{\n  \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n  \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n  \"file_count\": 20,\n  \"python_file_count\": 13,\n  \"directories\": [\n    {\n      \"name\": \"./\",\n      \"file_count\": 9\n    },\n    {\n      \"name\": \".streamlit/\",\n      \"file_count\": 1\n    },\n    {\n      \"name\": \"agent/\",\n      \"file_count\": 3\n    },\n    {\n      \"name\": \"indexer/\",\n      \"file_count\": 4\n    },\n    {\n      \"name\": \"memory/\",\n      \"file_count\": 3\n    }\n  ],\n  \"directories_truncated\": false,\n  \"configuration_files\": [\n    \".env.example\",\n    \"config.py\",\n    \"requirements.txt\"\n  ],\n  \"configuration_files_truncated\": false,\n  \"readme\": {\n    \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n    \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n    \"file_path\": \"README.md\",\n    \"start_line\": 1,\n    \"end_line\": 20,\n    \"source_text\": \"# Codebase Q&A\\n\\n用自然语言提问任意 GitHub 代码仓库。输入仓库地址，点击索引，然后直接问问题——系统会自动检索相关代码片段，交由 Claude 给出精确、带引用路径的回答。\\n\\n---\\n\\n## 1. 项目介绍\\n\\nCodebase Q&A 是一个本地运行的代码问答工具。它将 GitHub 仓库的源代码拆解成结构化代码块、嵌入向量数据库，然后用 AI Agent 回答开发者关于代码的任何问题：函数实现、架构设计、如何添加新功能、某个 bug 在哪里，等等。\\n\\n**架构总览**\\n\\n```\\n┌─────────────────────────────────────────────────────────────────┐\\n│                        Streamlit UI (app.py)                    │\\n│                                                                 │\\n│   ┌──────────────────┐           ┌──────────────────────────┐  │\\n│   │   侧边栏：仓库索引  │           │   主区域：对话界面          │  │\\n│   │  repo_url 输入框  │           │   流式输出 Agent 回复       │  │\\n│   └────────┬─────────┘           └────────────┬─────────────┘  │\",\n    \"file_sha256\": \"03b161d4c67c99670bdac3d7371b290829b29382d9f6160e8dc1e99f48fc76c5\",\n    \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/README.md#L1-L20\"\n  },\n  \"modules\": [\n    {\n      \"file_path\": \"agent/__init__.py\",\n      \"definitions\": [],\n      \"imports\": [\n        \".qa_agent\",\n        \".tools\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"f6c5739aeb17458b1f0cc725823aa2aaa7f62714317ad9daf7a5f29928ac071e\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"definitions\": [\n        \"_get_agent\",\n        \"ask\",\n        \"ask_stream\"\n      ],\n      \"imports\": [\n        \"os\",\n        \"pydantic_ai\",\n        \"agent.tools\",\n        \"config\",\n        \"memory.quality\",\n        \"memory.knowledge\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"agent/tools.py\",\n      \"definitions\": [\n        \"RepoDeps\",\n        \"make_tools\"\n      ],\n      \"imports\": [\n        \"os\",\n        \"dataclasses\",\n        \"pydantic_ai\",\n        \"indexer.vector_store\",\n        \"memory.knowledge\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"6eba7f872705cd0e25dcbed24613857fac717f656207adbcc3687987311b8294\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"app.py\",\n      \"definitions\": [],\n      \"imports\": [\n        \"asyncio\",\n        \"streamlit\",\n        \"nest_asyncio\",\n        \"indexer\",\n        \"agent.qa_agent\",\n        \"memory.knowledge\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"6b0407b2bb1ef355e128b7dde28d51401ff4d75c65f9d8752472e3122f239a73\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"config.py\",\n      \"definitions\": [],\n      \"imports\": [\n        \"os\",\n        \"dotenv\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"a284358103003e929e9701c81a8b3328cb09312ee371a53d6bc5c4819b9285f4\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"indexer/__init__.py\",\n      \"definitions\": [],\n      \"imports\": [\n        \".cloner\",\n        \".chunker\",\n        \".vector_store\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"indexer/chunker.py\",\n      \"definitions\": [\n        \"CodeChunk\",\n        \"_sliding_window\",\n        \"_parse_python\",\n        \"chunk_file\",\n        \"chunk_repo\"\n      ],\n      \"imports\": [\n        \"ast\",\n        \"os\",\n        \"dataclasses\",\n        \"typing\",\n        \"config\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"f1e7fd63e6c607302153486797a30273c5f9f26997c2a5d8091520f0044146f4\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"indexer/cloner.py\",\n      \"definitions\": [\n        \"clone_repo\",\n        \"remove_repo\"\n      ],\n      \"imports\": [\n        \"os\",\n        \"shutil\",\n        \"git\",\n        \"config\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"e14c46434e4bd18f862745326e894a35faf289847d32c4710d09551a3fa1f9ae\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"indexer/vector_store.py\",\n      \"definitions\": [\n        \"_get_collection_name\",\n        \"_get_client\",\n        \"_get_embed_fn\",\n        \"is_indexed\",\n        \"index_chunks\",\n        \"search\",\n        \"list_files\"\n      ],\n      \"imports\": [\n        \"os\",\n        \"typing\",\n        \"chromadb\",\n        \"chromadb.utils.embedding_functions\",\n        \"indexer.chunker\",\n        \"config\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"68dc090ec4fbbfdf9bf777694ed4b79f148d9b97b614c4f2c679648bfe50953c\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"mcp_server.py\",\n      \"definitions\": [\n        \"set_repo\",\n        \"search_code\",\n        \"list_repo_files\",\n        \"read_file\"\n      ],\n      \"imports\": [\n        \"os\",\n        \"sys\",\n        \"mcp.server.fastmcp\",\n        \"indexer.vector_store\",\n        \"indexer.cloner\",\n        \"memory.knowledge\"\n      ],\n      \"docstring_excerpt\": \"mcp_server.py — MCP server exposing codebase-qa tools to any MCP client.\\n\\nThis lets Claude Desktop, Cursor, Cline, or any MCP-compatible client\\nsearch and read code in indexed GitHub repositories.\\n\\nConfiguration (Claude Desktop claude_desktop_config.json):\\n{\\n  \\\"mcpServers\\\": {\\n    \\\"codebase-qa\\\": {\\n  \",\n      \"file_sha256\": \"cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"memory/__init__.py\",\n      \"definitions\": [],\n      \"imports\": [\n        \".quality\",\n        \".knowledge\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"27d619cadde29bc7c5928b79c64f2b18a2e299c7df4ee64f83aee36d43d0431c\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"memory/knowledge.py\",\n      \"definitions\": [\n        \"_get_client\",\n        \"_get_embed_fn\",\n        \"_memory_collection_name\",\n        \"_get_or_create_memory_collection\",\n        \"save_qa\",\n        \"search_memory\",\n        \"_increment_hit_count\",\n        \"get_memory_stats\"\n      ],\n      \"imports\": [\n        \"datetime\",\n        \"uuid\",\n        \"typing\",\n        \"chromadb\",\n        \"chromadb.utils.embedding_functions\",\n        \"config\"\n      ],\n      \"docstring_excerpt\": \"memory/knowledge.py — 知识库管理\\n\\n每个仓库有一个独立的 memory 集合（{owner}-{repo}-memory），\\n存储高质量问答对，搜索时优先命中。\",\n      \"file_sha256\": \"a59fd60559cba68f22d8846112739ae64724e69bb9690de5920c1083142887af\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"memory/quality.py\",\n      \"definitions\": [\n        \"evaluate\"\n      ],\n      \"imports\": [\n        \"re\"\n      ],\n      \"docstring_excerpt\": \"memory/quality.py — 问答质量评估\\n\\n纯 Python 规则，不调 LLM，零延迟。\\n评分 0.0-1.0，>= QUALITY_THRESHOLD 才保存到知识库。\",\n      \"file_sha256\": \"047d91a074a3daf67cca3c40e31ff9ef60416cb35babd7da28eb9fb4e9028f47\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    }\n  ],\n  \"modules_truncated\": false,\n  \"entry_clues\": [\n    {\n      \"kind\": \"streamlit_page\",\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"app.py\",\n        \"start_line\": 14,\n        \"end_line\": 14,\n        \"source_text\": \"st.set_page_config(page_title=\\\"Codebase QA\\\", page_icon=\\\"🔍\\\", layout=\\\"wide\\\")\",\n        \"file_sha256\": \"6b0407b2bb1ef355e128b7dde28d51401ff4d75c65f9d8752472e3122f239a73\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/app.py#L14-L14\"\n      }\n    },\n    {\n      \"kind\": \"main_guard\",\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"mcp_server.py\",\n        \"start_line\": 163,\n        \"end_line\": 164,\n        \"source_text\": \"if __name__ == \\\"__main__\\\":\\n    mcp.run()\",\n        \"file_sha256\": \"cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L163-L164\"\n      }\n    }\n  ],\n  \"entry_clues_truncated\": false,\n  \"scanned_files\": 14,\n  \"scan_limited\": false,\n  \"skipped_count\": 0,\n  \"skipped_examples\": []\n}"
+      },
+      "verify_entry_source": {
+        "tool": "verify_source_citation",
+        "arguments": {
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "mcp_server.py",
+          "start_line": 163,
+          "end_line": 164,
+          "source_text": "if __name__ == \"__main__\":\n    mcp.run()"
+        },
+        "text": "{\n  \"valid\": true,\n  \"citation\": {\n    \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n    \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n    \"file_path\": \"mcp_server.py\",\n    \"start_line\": 163,\n    \"end_line\": 164,\n    \"source_text\": \"if __name__ == \\\"__main__\\\":\\n    mcp.run()\",\n    \"file_sha256\": \"cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3\"\n  },\n  \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L163-L164\"\n}"
+      },
+      "explicit_version": {
+        "tool": "set_repo",
+        "arguments": {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb"
+        },
+        "text": "Active repo: https://github.com/xyma2003/codebase-qa (16 files indexed). Commit: 7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb"
+      },
+      "same_version": {
+        "tool": "get_repo_overview",
+        "arguments": {},
+        "text": "{\n  \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n  \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n  \"file_count\": 20,\n  \"python_file_count\": 13,\n  \"directories\": [\n    {\n      \"name\": \"./\",\n      \"file_count\": 9\n    },\n    {\n      \"name\": \".streamlit/\",\n      \"file_count\": 1\n    },\n    {\n      \"name\": \"agent/\",\n      \"file_count\": 3\n    },\n    {\n      \"name\": \"indexer/\",\n      \"file_count\": 4\n    },\n    {\n      \"name\": \"memory/\",\n      \"file_count\": 3\n    }\n  ],\n  \"directories_truncated\": false,\n  \"configuration_files\": [\n    \".env.example\",\n    \"config.py\",\n    \"requirements.txt\"\n  ],\n  \"configuration_files_truncated\": false,\n  \"readme\": {\n    \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n    \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n    \"file_path\": \"README.md\",\n    \"start_line\": 1,\n    \"end_line\": 20,\n    \"source_text\": \"# Codebase Q&A\\n\\n用自然语言提问任意 GitHub 代码仓库。输入仓库地址，点击索引，然后直接问问题——系统会自动检索相关代码片段，交由 Claude 给出精确、带引用路径的回答。\\n\\n---\\n\\n## 1. 项目介绍\\n\\nCodebase Q&A 是一个本地运行的代码问答工具。它将 GitHub 仓库的源代码拆解成结构化代码块、嵌入向量数据库，然后用 AI Agent 回答开发者关于代码的任何问题：函数实现、架构设计、如何添加新功能、某个 bug 在哪里，等等。\\n\\n**架构总览**\\n\\n```\\n┌─────────────────────────────────────────────────────────────────┐\\n│                        Streamlit UI (app.py)                    │\\n│                                                                 │\\n│   ┌──────────────────┐           ┌──────────────────────────┐  │\\n│   │   侧边栏：仓库索引  │           │   主区域：对话界面          │  │\\n│   │  repo_url 输入框  │           │   流式输出 Agent 回复       │  │\\n│   └────────┬─────────┘           └────────────┬─────────────┘  │\",\n    \"file_sha256\": \"03b161d4c67c99670bdac3d7371b290829b29382d9f6160e8dc1e99f48fc76c5\",\n    \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/README.md#L1-L20\"\n  },\n  \"modules\": [\n    {\n      \"file_path\": \"agent/__init__.py\",\n      \"definitions\": [],\n      \"imports\": [\n        \".qa_agent\",\n        \".tools\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"f6c5739aeb17458b1f0cc725823aa2aaa7f62714317ad9daf7a5f29928ac071e\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"agent/qa_agent.py\",\n      \"definitions\": [\n        \"_get_agent\",\n        \"ask\",\n        \"ask_stream\"\n      ],\n      \"imports\": [\n        \"os\",\n        \"pydantic_ai\",\n        \"agent.tools\",\n        \"config\",\n        \"memory.quality\",\n        \"memory.knowledge\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"agent/tools.py\",\n      \"definitions\": [\n        \"RepoDeps\",\n        \"make_tools\"\n      ],\n      \"imports\": [\n        \"os\",\n        \"dataclasses\",\n        \"pydantic_ai\",\n        \"indexer.vector_store\",\n        \"memory.knowledge\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"6eba7f872705cd0e25dcbed24613857fac717f656207adbcc3687987311b8294\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"app.py\",\n      \"definitions\": [],\n      \"imports\": [\n        \"asyncio\",\n        \"streamlit\",\n        \"nest_asyncio\",\n        \"indexer\",\n        \"agent.qa_agent\",\n        \"memory.knowledge\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"6b0407b2bb1ef355e128b7dde28d51401ff4d75c65f9d8752472e3122f239a73\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"config.py\",\n      \"definitions\": [],\n      \"imports\": [\n        \"os\",\n        \"dotenv\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"a284358103003e929e9701c81a8b3328cb09312ee371a53d6bc5c4819b9285f4\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"indexer/__init__.py\",\n      \"definitions\": [],\n      \"imports\": [\n        \".cloner\",\n        \".chunker\",\n        \".vector_store\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"indexer/chunker.py\",\n      \"definitions\": [\n        \"CodeChunk\",\n        \"_sliding_window\",\n        \"_parse_python\",\n        \"chunk_file\",\n        \"chunk_repo\"\n      ],\n      \"imports\": [\n        \"ast\",\n        \"os\",\n        \"dataclasses\",\n        \"typing\",\n        \"config\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"f1e7fd63e6c607302153486797a30273c5f9f26997c2a5d8091520f0044146f4\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"indexer/cloner.py\",\n      \"definitions\": [\n        \"clone_repo\",\n        \"remove_repo\"\n      ],\n      \"imports\": [\n        \"os\",\n        \"shutil\",\n        \"git\",\n        \"config\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"e14c46434e4bd18f862745326e894a35faf289847d32c4710d09551a3fa1f9ae\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"indexer/vector_store.py\",\n      \"definitions\": [\n        \"_get_collection_name\",\n        \"_get_client\",\n        \"_get_embed_fn\",\n        \"is_indexed\",\n        \"index_chunks\",\n        \"search\",\n        \"list_files\"\n      ],\n      \"imports\": [\n        \"os\",\n        \"typing\",\n        \"chromadb\",\n        \"chromadb.utils.embedding_functions\",\n        \"indexer.chunker\",\n        \"config\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"68dc090ec4fbbfdf9bf777694ed4b79f148d9b97b614c4f2c679648bfe50953c\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"mcp_server.py\",\n      \"definitions\": [\n        \"set_repo\",\n        \"search_code\",\n        \"list_repo_files\",\n        \"read_file\"\n      ],\n      \"imports\": [\n        \"os\",\n        \"sys\",\n        \"mcp.server.fastmcp\",\n        \"indexer.vector_store\",\n        \"indexer.cloner\",\n        \"memory.knowledge\"\n      ],\n      \"docstring_excerpt\": \"mcp_server.py — MCP server exposing codebase-qa tools to any MCP client.\\n\\nThis lets Claude Desktop, Cursor, Cline, or any MCP-compatible client\\nsearch and read code in indexed GitHub repositories.\\n\\nConfiguration (Claude Desktop claude_desktop_config.json):\\n{\\n  \\\"mcpServers\\\": {\\n    \\\"codebase-qa\\\": {\\n  \",\n      \"file_sha256\": \"cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"memory/__init__.py\",\n      \"definitions\": [],\n      \"imports\": [\n        \".quality\",\n        \".knowledge\"\n      ],\n      \"docstring_excerpt\": \"\",\n      \"file_sha256\": \"27d619cadde29bc7c5928b79c64f2b18a2e299c7df4ee64f83aee36d43d0431c\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"memory/knowledge.py\",\n      \"definitions\": [\n        \"_get_client\",\n        \"_get_embed_fn\",\n        \"_memory_collection_name\",\n        \"_get_or_create_memory_collection\",\n        \"save_qa\",\n        \"search_memory\",\n        \"_increment_hit_count\",\n        \"get_memory_stats\"\n      ],\n      \"imports\": [\n        \"datetime\",\n        \"uuid\",\n        \"typing\",\n        \"chromadb\",\n        \"chromadb.utils.embedding_functions\",\n        \"config\"\n      ],\n      \"docstring_excerpt\": \"memory/knowledge.py — 知识库管理\\n\\n每个仓库有一个独立的 memory 集合（{owner}-{repo}-memory），\\n存储高质量问答对，搜索时优先命中。\",\n      \"file_sha256\": \"a59fd60559cba68f22d8846112739ae64724e69bb9690de5920c1083142887af\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    },\n    {\n      \"file_path\": \"memory/quality.py\",\n      \"definitions\": [\n        \"evaluate\"\n      ],\n      \"imports\": [\n        \"re\"\n      ],\n      \"docstring_excerpt\": \"memory/quality.py — 问答质量评估\\n\\n纯 Python 规则，不调 LLM，零延迟。\\n评分 0.0-1.0，>= QUALITY_THRESHOLD 才保存到知识库。\",\n      \"file_sha256\": \"047d91a074a3daf67cca3c40e31ff9ef60416cb35babd7da28eb9fb4e9028f47\",\n      \"definitions_truncated\": false,\n      \"imports_truncated\": false\n    }\n  ],\n  \"modules_truncated\": false,\n  \"entry_clues\": [\n    {\n      \"kind\": \"streamlit_page\",\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"app.py\",\n        \"start_line\": 14,\n        \"end_line\": 14,\n        \"source_text\": \"st.set_page_config(page_title=\\\"Codebase QA\\\", page_icon=\\\"🔍\\\", layout=\\\"wide\\\")\",\n        \"file_sha256\": \"6b0407b2bb1ef355e128b7dde28d51401ff4d75c65f9d8752472e3122f239a73\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/app.py#L14-L14\"\n      }\n    },\n    {\n      \"kind\": \"main_guard\",\n      \"evidence\": {\n        \"repo_url\": \"https://github.com/xyma2003/codebase-qa\",\n        \"commit_sha\": \"7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb\",\n        \"file_path\": \"mcp_server.py\",\n        \"start_line\": 163,\n        \"end_line\": 164,\n        \"source_text\": \"if __name__ == \\\"__main__\\\":\\n    mcp.run()\",\n        \"file_sha256\": \"cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3\",\n        \"url\": \"https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/mcp_server.py#L163-L164\"\n      }\n    }\n  ],\n  \"entry_clues_truncated\": false,\n  \"scanned_files\": 14,\n  \"scan_limited\": false,\n  \"skipped_count\": 0,\n  \"skipped_examples\": []\n}"
+      },
+      "invalid_selection": {
+        "tool": "set_repo",
+        "arguments": {
+          "repo_url": "file:///invalid"
+        },
+        "text": "Failed to select repository: 请输入 https://github.com/owner/repo 格式的仓库地址。"
+      },
+      "cleared_context": {
+        "tool": "get_repo_overview",
+        "arguments": {},
+        "text": "{\n  \"error\": \"No repo set. Call set_repo first with a GitHub URL.\"\n}"
+      }
+    }
+  },
+  "active_index_unchanged": true,
+  "source_sha256": {
+    "indexer/overview.py": "da03a035ffde403f1b3700e9466897dc86dbf8d64608ece43f932db31c82ddce",
+    "app.py": "af7905309a9452ab0b2cfb06b6e3205527fa3097420886cc7b50247feea1fa66",
+    "agent/tools.py": "15756086fd0ec9ef9e30e75fd9141bac0d112905ebbe2403ece2c45af59bad5d",
+    "agent/qa_agent.py": "e359f5a9ace49237236d10ba5c8d31536b968870c9de234f9a5385592d91cfbc",
+    "mcp_server.py": "8af76ac844e872bcd6f86be355053c58a37567ac4de732f3a7d9f4ef2c379a32",
+    "scripts/check_overview.py": "f9f04d863498b7df5c97efa97eeff532a0ddd6d054dfe0679488e2d5c0a2facf",
+    "config.py": "a284358103003e929e9701c81a8b3328cb09312ee371a53d6bc5c4819b9285f4",
+    "indexer/source_reader.py": "5c6b05ef5f7b680aa00dddc28fcec02555b3af194715bed7b1ea17a81fcefa81"
+  }
+}

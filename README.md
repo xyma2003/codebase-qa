@@ -10,6 +10,7 @@
 - 使用本地 `all-MiniLM-L6-v2` 嵌入和 ChromaDB 检索代码。
 - 通过 Agent 搜索代码、列出文件、按行读取；回答需要配置模型接口。
 - 按文本、路径和 Python 函数或类名查找当前快照，覆盖导入语句和模块配置；支持路径过滤、大小写选择和分页。
+- 查看静态项目概览：目录文件数、Python 模块定义与导入、配置文件、README 摘录，以及可回到原文的入口线索。
 - 从 Git 已提交内容建立快照，记录完整 Commit SHA 和文件 SHA256；不会把工作区的未提交文件混入快照。
 - 更新索引时先构建、回读验证，再发布新版本。失败保留旧索引，旧版本可以重新选择。
 - 历史问答按仓库和代码版本保存，避免直接复用其他版本的答案。
@@ -55,6 +56,10 @@ streamlit run app.py
 3. “更新索引”抓取远端默认分支的新提交。同一提交已索引时直接复用。
 4. 配置模型后，可以提问实现位置、执行流程或修改思路，并核对代码行号。
 
+导入后可点击“查看项目概览”，不需要聊天模型密钥。概览展示选定快照中的事实：目录、Python 模块、配置文件、README 原文，以及 Python 顶层启动判断、`__main__.py` 和 Streamlit 页面配置调用。入口线索可展开查看源码，也可打开固定 Commit 的链接；它们不证明对应程序已成功运行。用途与模块职责的分析说明仍需模型及后续验证。
+
+概览文件数来自排除依赖、构建目录后的快照清单，包含未进入向量索引的文件，因此可能与“已索引文件数”不同。切换仓库或版本会清除旧概览。
+
 当前导入和刷新针对远端默认分支；选择旧版本使用已索引的完整 SHA。任意分支选择仍在后续范围。
 
 切换仓库或代码版本会清空当前显示的对话，避免把不同代码的讨论混在一起。真正的多轮模型上下文将在后续阶段实现。当前回答仍沿用原实现，完整生成后分段显示。
@@ -83,10 +88,11 @@ GitHub 仓库 → 获取 Git 提交 → 源码快照和文件清单
 
 ## 工具
 
-Agent 提供四个工具：
+Agent 提供五个工具：
 
 | 工具 | 功能 |
 | --- | --- |
+| `get_repo_overview()` | 查看当前快照的静态目录、Python 模块、README 和入口线索 |
 | `find_code(query, mode="text", path_filter="", case_sensitive=False, limit=20, offset=0)` | 按文本、路径或 Python 定义定位当前快照 |
 | `search_code(query)` | 在所选版本的索引中检索代码 |
 | `list_repo_files(pattern="")` | 列出所选版本已索引的文件 |
@@ -106,12 +112,13 @@ Agent 提供四个工具：
 
 查找仅处理支持的扩展名，跳过依赖、构建等目录。单个文件超过 1 MiB、含二进制内容，或 Python 定义无法解析时会计入 `skipped_count`；`skipped_examples` 最多列出 10 个例子。单次最多检查 2000 个候选文件、读取 10 MiB 源码，触及上限会返回 `scan_limited=True`，可缩小 `path_filter` 后查找。预览最多 240 字符，截短时返回 `preview_truncated=True`。
 
-MCP 另提供版本选择、查询和原文校验，共七个工具：
+MCP 另提供版本选择、查询和原文校验，共八个工具：
 
 | 工具 | 功能 |
 | --- | --- |
 | `set_repo(repo_url, refresh=False, commit_sha=None)` | 导入仓库、更新默认分支，或选择已索引的完整 SHA |
 | `list_repo_versions()` | 列出当前仓库可用版本 |
+| `get_repo_overview()` | 返回静态概览及入口的源码原文、行号和固定版本链接 |
 | `find_code(query, mode="text", path_filter="", case_sensitive=False, limit=20, offset=0)` | 与 Agent 共用快照查找，返回定位结果及扫描范围信息 |
 | `search_code(query)` | 检索所选版本 |
 | `list_repo_files(pattern="")` | 列出所选版本文件 |
@@ -146,6 +153,8 @@ MCP 客户端配置示例：
 [源码引用验收](docs/checks/20261110-citations.md)记录本地框架工具调用、MCP、引用检查和页面样例。`scripts/check_citations.py` 不调用真实聊天模型，新运行也必须使用新的 `--output` 文件。
 
 [源码查找验收](docs/checks/20261110-code-search.md)记录 70 项测试、真实快照查找、MCP 和本地模拟模型流程。`scripts/check_code_search.py` 使用已保存的快照，不更新索引；复查时指定新的 `--output` 文件。
+
+[静态概览验收](docs/checks/20261110-overview.md)记录 87 项测试、真实快照事实、MCP 和浏览器检查。`scripts/check_overview.py` 不调用真实模型、不更新索引，复查也需指定新输出文件。
 
 每个功能点验收后独立提交，直接 push 到 `main`，保留逐项回滚的提交记录。阶段零原版检查点是 `3aee328`，按行读取检查点是 `5a6b945`；需要补原版真实模型基线时，应检出原版代码，不把后续实现的结果记作原版结果。
 

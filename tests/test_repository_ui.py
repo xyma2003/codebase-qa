@@ -5,6 +5,9 @@ from unittest.mock import patch
 from streamlit.testing.v1 import AppTest
 from indexer.repository_service import RepositoryIndex
 from agent.evidence import CheckedAnswer, CitedSource, CitationIssue
+from indexer.citations import SourceCitation
+from indexer.overview import RepositoryOverview, DirectoryInfo, EntryClue
+from indexer.source_reader import SourceReadError
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = "https://github.com/example/fixture"
@@ -45,7 +48,7 @@ class RepositoryUITests(unittest.TestCase):
 
     def test_failed_refresh_keeps_the_displayed_version(self):
         with patch("indexer.repository_service.import_repository", side_effect=RuntimeError("FIXTURE_REFRESH_ERROR")):
-            self.app.button[0].click().run(timeout=60)
+            next(button for button in self.app.button if button.label == "更新索引").click().run(timeout=60)
         self.assertEqual(len(self.app.exception), 0)
         self.assertEqual(self.app.session_state["repository_index"].commit_sha, self.new.commit_sha)
         self.assertIn("FIXTURE_REFRESH_ERROR", self.app.error[0].value)
@@ -53,7 +56,7 @@ class RepositoryUITests(unittest.TestCase):
     def test_refresh_can_return_from_an_old_selection_to_the_current_version(self):
         self.app.selectbox[0].select(self.old.commit_sha).run(timeout=60)
         with patch("indexer.repository_service.import_repository", return_value=self.new):
-            self.app.button[0].click().run(timeout=60)
+            next(button for button in self.app.button if button.label == "更新索引").click().run(timeout=60)
         self.assertEqual(len(self.app.exception), 0)
         self.assertEqual(self.app.session_state["repository_index"].commit_sha, self.new.commit_sha)
         self.assertEqual(self.app.selectbox[0].value, self.new.commit_sha)
@@ -88,6 +91,53 @@ class RepositoryUITests(unittest.TestCase):
         self.assertEqual(len(self.app.exception), 0)
         self.assertIn("S99：引用编号不存在。", self.app.markdown[-1].value)
         self.assertEqual(len(self.app.code), 0)
+
+    def fixture_overview(self, commit_sha=None):
+        source = SourceCitation(repo_url=URL, commit_sha=commit_sha or self.new.commit_sha,
+                                file_path="app [x].py", start_line=2, end_line=3,
+                                source_text="if __name__ == '__main__':\n    main()", file_sha256="c" * 64)
+        return RepositoryOverview(repo_url=URL, commit_sha=source.commit_sha, file_count=2, python_file_count=1,
+                                  directories=(DirectoryInfo(name="./", file_count=2),),
+                                  entry_clues=(EntryClue(kind="main_guard", evidence=source),))
+
+    def click_overview(self):
+        next(button for button in self.app.button if button.label == "查看项目概览").click().run(timeout=60)
+
+    def test_overview_is_on_demand_and_persists_with_same_version(self):
+        fixture = self.fixture_overview()
+        with patch("indexer.overview.build_repository_overview", return_value=fixture) as build:
+            self.app.run(timeout=60)
+            build.assert_not_called()
+            self.click_overview()
+            build.assert_called_once_with(self.new.repo_root, URL, self.new.commit_sha)
+        self.assertEqual(len(self.app.exception), 0)
+        self.assertEqual(self.app.session_state["repo_overview"].commit_sha, self.new.commit_sha)
+        self.assertEqual(self.app.code[0].value, fixture.entry_clues[0].evidence.numbered_source)
+        self.assertTrue(any(r"app \[x\].py" in item.value for item in self.app.markdown))
+        self.app.run(timeout=60)
+        self.assertEqual(self.app.session_state["repo_overview"], fixture)
+
+    def test_switching_version_clears_the_old_overview(self):
+        with patch("indexer.overview.build_repository_overview", return_value=self.fixture_overview()):
+            self.click_overview()
+        self.app.selectbox[0].select(self.old.commit_sha).run(timeout=60)
+        self.assertNotIn("repo_overview", self.app.session_state)
+        self.assertEqual(len(self.app.code), 0)
+
+    def test_failed_overview_clears_previous_result_and_keeps_repository(self):
+        self.app.session_state["repo_overview"] = self.fixture_overview()
+        with patch("indexer.overview.build_repository_overview", side_effect=SourceReadError("FIXTURE_OVERVIEW_ERROR")):
+            self.click_overview()
+        self.assertEqual(len(self.app.exception), 0)
+        self.assertNotIn("repo_overview", self.app.session_state)
+        self.assertEqual(self.app.session_state["repository_index"], self.new)
+        self.assertIn("FIXTURE_OVERVIEW_ERROR", self.app.error[0].value)
+
+    def test_mismatched_overview_is_rejected_before_display(self):
+        with patch("indexer.overview.build_repository_overview", return_value=self.fixture_overview(self.old.commit_sha)):
+            self.click_overview()
+        self.assertNotIn("repo_overview", self.app.session_state)
+        self.assertIn("版本不一致", self.app.error[0].value)
 
 
 if __name__ == "__main__":
