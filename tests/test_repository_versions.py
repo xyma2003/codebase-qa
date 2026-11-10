@@ -225,9 +225,13 @@ class RepositoryVersionTests(unittest.TestCase):
 
     def test_agent_forwards_pinned_version_to_tools_and_memory(self):
         from agent import qa_agent
-        run = AsyncMock(return_value=SimpleNamespace(output="fixture answer"))
+        snapshot = snapshots.create_snapshot(URL, str(self.work))
+        async def respond(question, *, deps, **kwargs):
+            deps.evidence.read("example.py")
+            return SimpleNamespace(output="fixture answer [S1]")
+        run = AsyncMock(side_effect=respond)
         with patch.object(qa_agent, "_get_agent", return_value=SimpleNamespace(run=run)), patch.object(qa_agent, "evaluate", return_value=1), patch.object(qa_agent, "save_qa") as save:
-            asyncio.run(qa_agent.ask("question", URL, "root", collection_name="fixed-collection", commit_sha=self.first))
+            asyncio.run(qa_agent.ask("question", URL, snapshot.root, collection_name="fixed-collection", commit_sha=self.first))
             deps = run.call_args.kwargs["deps"]
             self.assertEqual((deps.collection_name, deps.commit_sha), ("fixed-collection", self.first))
             self.assertEqual(save.call_args.kwargs["commit_sha"], self.first)
@@ -241,13 +245,17 @@ class RepositoryVersionTests(unittest.TestCase):
 
     def test_stream_entrypoint_keeps_the_same_pinned_version(self):
         from agent import qa_agent
-        run = AsyncMock(return_value=SimpleNamespace(output="fixture streamed answer"))
+        snapshot = snapshots.create_snapshot(URL, str(self.work))
+        async def respond(question, *, deps, **kwargs):
+            deps.evidence.read("example.py")
+            return SimpleNamespace(output="fixture streamed answer [S1]")
+        run = AsyncMock(side_effect=respond)
         async def collect():
             return "".join([part async for part in qa_agent.ask_stream(
-                "question", URL, "root", collection_name="fixed-collection", commit_sha=self.first,
+                "question", URL, snapshot.root, collection_name="fixed-collection", commit_sha=self.first,
             )])
         with patch.object(qa_agent, "_get_agent", return_value=SimpleNamespace(run=run)), patch.object(qa_agent, "evaluate", return_value=1), patch.object(qa_agent, "save_qa") as save:
-            self.assertEqual(asyncio.run(collect()), "fixture streamed answer")
+            self.assertIn(f"/blob/{self.first}/example.py#L1-L2", asyncio.run(collect()))
             self.assertEqual(run.call_args.kwargs["deps"].commit_sha, self.first)
             self.assertEqual(save.call_args.kwargs["commit_sha"], self.first)
 

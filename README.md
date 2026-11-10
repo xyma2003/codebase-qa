@@ -12,6 +12,7 @@
 - 从 Git 已提交内容建立快照，记录完整 Commit SHA 和文件 SHA256；不会把工作区的未提交文件混入快照。
 - 更新索引时先构建、回读验证，再发布新版本。失败保留旧索引，旧版本可以重新选择。
 - 历史问答按仓库和代码版本保存，避免直接复用其他版本的答案。
+- 版本化问答使用本次工具读取生成的引用编号，核对原文后生成固定 Commit 的源码链接；页面可展开查看行号和原文。
 - 提供 Streamlit 页面和 MCP 接口。
 
 真实聊天模型问答仍待 SiliconFlow 密钥。环境、索引、MCP、页面及版本管理的验证范围见[实施进度](docs/IMPLEMENTATION_STATUS.md)，尚未报告回答准确率。
@@ -38,7 +39,7 @@ OPENAI_API_BASE=https://api.siliconflow.cn/v1
 OPENAI_MODEL=Qwen/Qwen3-32B
 ```
 
-`.env` 被 Git 忽略。原有 Anthropic 接口也保留在 `config.py`；本轮没有切换模型、修改 Prompt 或调整检索、记忆阈值。
+`.env` 被 Git 忽略。原有 Anthropic 接口也保留在 `config.py`。模型和检索、记忆阈值保持原值；版本化问答新增引用格式指令，要求使用工具提供的编号。
 
 ```bash
 streamlit run app.py
@@ -75,6 +76,10 @@ GitHub 仓库 → 获取 Git 提交 → 源码快照和文件清单
 
 历史问答按仓库和 Commit 隔离。保存条件仍是原来的规则评分；这只是答案积累，不会训练模型，也不能证明答案正确。
 
+版本化问答另外要求有可核对的引用，且引用没有检查错误，才允许保存。工具为实际读到的完整源码行生成 `[S1]` 等编号；回答生成后再次检查快照、文件校验值、行号和原文。未知编号、缺少引用或源码被改动时，页面会在“源码引用”中列出问题。缓存中的旧回答仅作参考，必须重新读取源码才能获得本次编号。
+
+检查只覆盖这些引用编号的位置和原文，不证明回答结论正确，也不把正文中自由书写的文件名或其他链接自动算作已核对引用。
+
 ## 工具
 
 Agent 保留三个工具：
@@ -87,7 +92,7 @@ Agent 保留三个工具：
 
 读取保留单次 8000 字符内容上限，可用后续行范围续读。绝对路径、`..`、符号链接、Git 元数据及二进制内容会被拒绝。单行超限时明确标记部分显示。
 
-MCP 另提供版本选择和查询，共五个工具：
+MCP 另提供版本选择、查询和原文校验，共六个工具：
 
 | 工具 | 功能 |
 | --- | --- |
@@ -96,8 +101,11 @@ MCP 另提供版本选择和查询，共五个工具：
 | `search_code(query)` | 检索所选版本 |
 | `list_repo_files(pattern="")` | 列出所选版本文件 |
 | `read_file(file_path, start_line=1, end_line=None)` | 读取所选版本源码 |
+| `verify_source_citation(file_path, start_line, end_line, source_text, commit_sha)` | 核对指定完整 SHA、行号及逐行原文，返回固定版本链接 |
 
 `refresh=True` 和 `commit_sha` 不能同时使用。选择失败会清空 MCP 当前选择，后续工具不会继续查询另一个仓库。
+
+`verify_source_citation` 的 `source_text` 使用不带行号的原文，不包含范围之外的结尾换行。范围首尾均包含；越界、超过 8000 字符读取上限或原文不一致时拒绝通过，不模糊匹配。
 
 MCP 客户端配置示例：
 
@@ -119,6 +127,8 @@ MCP 客户端配置示例：
 ```
 
 [按行读取验收](docs/checks/20261110-source-reader.md)与[版本管理验收](docs/checks/20261110-repository-versions.md)分别保存记录。真实存储检查脚本为 `scripts/check_repository_versions.py`，新运行使用新的 `--output` 文件，避免覆盖已保存的证据。
+
+[源码引用验收](docs/checks/20261110-citations.md)记录本地框架工具调用、MCP、引用检查和页面样例。`scripts/check_citations.py` 不调用真实聊天模型，新运行也必须使用新的 `--output` 文件。
 
 每个功能点独立验收、提交和 push。阶段零原版检查点是 `3aee328`，按行读取检查点是 `5a6b945`；需要补原版真实模型基线时，应检出原版代码，不把后续实现的结果记作原版结果。
 

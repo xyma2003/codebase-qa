@@ -4,6 +4,7 @@ from agent.tools import RepoDeps, make_tools
 from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD
 from memory.quality import evaluate
 from memory.knowledge import save_qa
+from agent.evidence import CITATION_INSTRUCTIONS, CheckedAnswer
 
 _agent: Agent | None = None
 
@@ -46,24 +47,27 @@ def _get_agent() -> Agent:
     return _agent
 
 
-async def ask(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None) -> str:
-    """Run a single question against the indexed repo."""
-    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha)
-    result = await _get_agent().run(question, deps=deps)
-    answer = result.output
-
-    # 评估质量，达标则沉淀到知识库
-    score = evaluate(question, answer)
-    if score >= QUALITY_THRESHOLD:
+async def _run_answer(question, deps):
+    options = {"instructions": CITATION_INSTRUCTIONS} if deps.evidence else {}
+    result = await _get_agent().run(question, deps=deps, **options)
+    checked = deps.evidence.check_answer(result.output) if deps.evidence else CheckedAnswer(text=result.output)
+    # Keep the existing score and threshold; pinned answers additionally need checked references.
+    score = evaluate(question, result.output)
+    if score >= QUALITY_THRESHOLD and (deps.evidence is None or checked.can_save):
         try:
-            save_qa(question, answer, repo_url, commit_sha=commit_sha)
+            save_qa(question, checked.text, deps.repo_url, commit_sha=deps.commit_sha)
         except Exception:
             pass  # 沉淀失败不影响主流程
+    return checked
 
-    return answer
+
+async def ask(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None) -> str:
+    """Run a question and resolve source references against the selected version."""
+    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha)
+    return (await _run_answer(question, deps)).text
 
 
-async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None):
+async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, on_result=None):
     """Stream a response token by token，流结束后触发知识沉淀。
 
     NOTE: Pydantic AI's run_stream() doesn't work with SiliconFlow's OpenAI-compatible
@@ -72,19 +76,12 @@ async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection
     """
     deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha)
 
-    # Run the full agent (with tool use) to get the complete answer
-    result = await _get_agent().run(question, deps=deps)
-    full_response = result.output
+    checked = await _run_answer(question, deps)
+    if on_result is not None:
+        on_result(checked)
+    full_response = checked.text
 
     # Simulate streaming: yield in ~10-char chunks for responsive UI
     chunk_size = 10
     for i in range(0, len(full_response), chunk_size):
         yield full_response[i:i + chunk_size]
-
-    # 流结束后评估并沉淀
-    score = evaluate(question, full_response)
-    if score >= QUALITY_THRESHOLD:
-        try:
-            save_qa(question, full_response, repo_url, commit_sha=commit_sha)
-        except Exception:
-            pass

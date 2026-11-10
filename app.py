@@ -1,4 +1,5 @@
 import asyncio
+import re
 import streamlit as st
 import nest_asyncio
 
@@ -14,10 +15,24 @@ from indexer.repository_service import (
 from indexer.snapshots import normalize_repo_url
 from agent.qa_agent import ask_stream
 from memory.knowledge import get_memory_stats
+from agent.evidence import CheckedAnswer
 
 st.set_page_config(page_title="Codebase QA", page_icon="🔍", layout="wide")
 st.title("🔍 Codebase Q&A")
 st.caption("输入 GitHub 仓库地址，用自然语言提问代码相关问题")
+
+
+def show_sources(result):
+    if result is None:
+        return
+    with st.expander("源码引用"):
+        for citation in result.citations:
+            label = re.sub(r"([\\\[\]])", r"\\\1", citation.label).replace("\n", " ").replace("\r", " ")
+            st.markdown(f"[{citation.reference_id} · {label}]({citation.url})")
+            st.caption(f"Commit {citation.commit_sha}")
+            st.code(citation.numbered_source, language=None)
+        for issue in result.issues:
+            st.write(f"{issue.reference_id}：{issue.message}" if issue.reference_id else issue.message)
 
 
 def clear_repository():
@@ -108,6 +123,8 @@ if "messages" not in st.session_state:
 for msg in st.session_state["messages"]:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
+        if msg.get("sources"):
+            show_sources(CheckedAnswer.model_validate(msg["sources"]))
 
 # 输入框
 if question := st.chat_input("问一个关于代码的问题..."):
@@ -122,12 +139,19 @@ if question := st.chat_input("问一个关于代码的问题..."):
         # 流式输出 Agent 回复 — st.write_stream handles markdown rendering (code blocks, etc.)
         with st.chat_message("assistant"):
             repository = st.session_state["repository_index"]
+            checked_results = []
             response = st.write_stream(ask_stream(
                 question,
                 st.session_state["repo_url"],
                 st.session_state["repo_root"],
                 collection_name=repository.collection_name,
                 commit_sha=repository.commit_sha,
+                on_result=checked_results.append,
             ))
+            checked = checked_results[0] if checked_results else None
+            show_sources(checked)
 
-        st.session_state["messages"].append({"role": "assistant", "content": response})
+        st.session_state["messages"].append({
+            "role": "assistant", "content": response,
+            "sources": checked.model_dump(mode="json") if checked else None,
+        })

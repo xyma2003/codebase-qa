@@ -28,6 +28,8 @@ from indexer.vector_store import search, list_files
 from indexer.repository_service import import_repository, list_repository_versions
 from memory.knowledge import search_memory
 from indexer.source_reader import SourceReadError, read_source_file
+from indexer.citations import check_source_citation
+from pydantic import StrictInt
 
 mcp = FastMCP("codebase-qa")
 
@@ -168,6 +170,28 @@ def read_file(file_path: str, start_line: int = 1, end_line: int | None = None) 
         return read_source_file(_current_repo_root, file_path, start_line, end_line).format()
     except SourceReadError as exc:
         return f"Error reading {file_path}: {exc}"
+
+
+@mcp.tool()
+def verify_source_citation(file_path: str, start_line: StrictInt, end_line: StrictInt, source_text: str, commit_sha: str) -> dict:
+    """Check an exact, unnumbered source passage against the selected repository.
+
+    Supply the selected full commit SHA and inclusive line range. No approximate
+    matching or truncated ranges. A successful check establishes location and
+    text equality, not whether the passage supports a conclusion.
+    """
+    if _current_repository is None:
+        return {"valid": False, "error": "No repo set. Call set_repo first with a GitHub URL."}
+    try:
+        citation = check_source_citation(
+            _current_repo_root, _current_repo_url, commit_sha, file_path,
+            start_line, end_line, source_text,
+        )
+        if commit_sha != _current_repository.commit_sha:
+            raise SourceReadError("引用与当前选择的代码版本不一致。")
+        return {"valid": True, "citation": citation.model_dump(), "url": citation.url}
+    except (ValueError, OSError) as exc:
+        return {"valid": False, "error": str(exc)}
 
 
 if __name__ == "__main__":

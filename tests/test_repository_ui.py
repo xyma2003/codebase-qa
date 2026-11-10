@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 from streamlit.testing.v1 import AppTest
 from indexer.repository_service import RepositoryIndex
+from agent.evidence import CheckedAnswer, CitedSource, CitationIssue
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = "https://github.com/example/fixture"
@@ -56,6 +57,37 @@ class RepositoryUITests(unittest.TestCase):
         self.assertEqual(len(self.app.exception), 0)
         self.assertEqual(self.app.session_state["repository_index"].commit_sha, self.new.commit_sha)
         self.assertEqual(self.app.selectbox[0].value, self.new.commit_sha)
+
+    def test_answer_sources_are_rendered_and_retained_on_rerun(self):
+        source = CitedSource(
+            reference_id="S1", repo_url=URL, commit_sha=self.new.commit_sha,
+            file_path="src/[example].py", start_line=4, end_line=5,
+            source_text="def value():\n    return 1", file_sha256="c" * 64,
+        )
+        checked = CheckedAnswer(text=f"测试回答 [S1]({source.url})", citations=(source,))
+        async def response(*args, on_result=None, **kwargs):
+            on_result(checked)
+            yield checked.text
+        with patch("agent.qa_agent.ask_stream", side_effect=response):
+            self.app.chat_input[0].set_value("测试问题").run(timeout=60)
+        self.assertEqual(len(self.app.exception), 0)
+        self.assertEqual(self.app.code[0].value, "4 | def value():\n5 |     return 1")
+        self.assertIn(source.url, self.app.markdown[-1].value)
+        self.assertIn(r"src/\[example\].py", self.app.markdown[-1].value)
+        self.app.run(timeout=60)
+        self.assertEqual(self.app.code[0].value, source.numbered_source)
+        self.assertEqual(self.app.session_state["messages"][-1]["sources"]["citations"][0]["commit_sha"], self.new.commit_sha)
+
+    def test_invalid_reference_is_visible_without_a_fake_source_link(self):
+        checked = CheckedAnswer(text="测试回答 [S99]", issues=(CitationIssue(reference_id="S99", message="引用编号不存在。"),))
+        async def response(*args, on_result=None, **kwargs):
+            on_result(checked)
+            yield checked.text
+        with patch("agent.qa_agent.ask_stream", side_effect=response):
+            self.app.chat_input[0].set_value("测试问题").run(timeout=60)
+        self.assertEqual(len(self.app.exception), 0)
+        self.assertIn("S99：引用编号不存在。", self.app.markdown[-1].value)
+        self.assertEqual(len(self.app.code), 0)
 
 
 if __name__ == "__main__":

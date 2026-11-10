@@ -1,9 +1,9 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pydantic_ai import RunContext
 from indexer.vector_store import search, list_files
 from memory.knowledge import search_memory
 from indexer.source_reader import SourceReadError, read_source_file
-from indexer.snapshots import load_snapshot
+from agent.evidence import EvidenceStore
 
 
 @dataclass
@@ -12,10 +12,13 @@ class RepoDeps:
     repo_root: str
     collection_name: str | None = None
     commit_sha: str | None = None
+    evidence: EvidenceStore | None = field(default=None, init=False, repr=False)
 
     def __post_init__(self):
         if bool(self.collection_name) != bool(self.commit_sha):
             raise ValueError("A pinned repository requires both collection_name and commit_sha.")
+        if self.commit_sha:
+            self.evidence = EvidenceStore(self.repo_url, self.repo_root, self.commit_sha)
 
 
 def make_tools(agent):
@@ -36,7 +39,8 @@ def make_tools(agent):
                 (f"Commit: {ctx.deps.commit_sha}\n" if ctx.deps.commit_sha else "") +
                 f"💡 **来自知识库**（相似度 {memory_hit['score']}，"
                 f"已被使用 {memory_hit['hit_count']} 次）\n\n"
-                f"{memory_hit['answer']}"
+                f"{memory_hit['answer']}" +
+                ("\nCached answer only; use read_file to obtain source identifiers for this run." if ctx.deps.evidence else "")
             )
 
         # 未命中，走原有代码搜索
@@ -46,6 +50,14 @@ def make_tools(agent):
 
         output = []
         for r in results:
+            if ctx.deps.evidence:
+                try:
+                    if r.get("commit_sha") != ctx.deps.commit_sha:
+                        raise SourceReadError("Search result belongs to another code version.")
+                    output.append(ctx.deps.evidence.read(r["file_path"], r["start_line"], r["end_line"]))
+                except (SourceReadError, OSError) as exc:
+                    output.append(f"Source evidence unavailable: {exc}")
+                continue
             output.append(
                 f"**{r['file_path']}** (lines {r['start_line']}–{r['end_line']}, "
                 f"{r['chunk_type']}: `{r['name']}`)\n```\n{r['content']}\n```"
@@ -77,11 +89,8 @@ def make_tools(agent):
         Responses retain the existing 8000-character source-content limit.
         """
         try:
-            if ctx.deps.commit_sha:
-                snapshot = load_snapshot(ctx.deps.repo_root)
-                if snapshot.commit_sha != ctx.deps.commit_sha or snapshot.repo_url != ctx.deps.repo_url:
-                    raise SourceReadError("Repository and snapshot version differ.")
-                return f"Commit: {snapshot.commit_sha}\n" + snapshot.read(file_path, start_line, end_line).format()
+            if ctx.deps.evidence:
+                return ctx.deps.evidence.read(file_path, start_line, end_line)
             return read_source_file(ctx.deps.repo_root, file_path, start_line, end_line).format()
         except SourceReadError as exc:
             return f"Error reading {file_path}: {exc}"
