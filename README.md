@@ -107,7 +107,7 @@ ask_stream()          # Pydantic AI Agent.run_stream()
     ├── Agent 决策：调用哪些工具
     │       ├── search_code(query)      → ChromaDB 语义检索，返回 top-5 代码片段
     │       ├── list_repo_files(pattern) → 列出所有已索引文件路径
-    │       └── read_file(file_path)    → 读取完整文件（超 8000 字符截断）
+    │       └── read_file(file_path, start_line, end_line) → 按行读取代码
     │
     ▼
 LLM   # 综合工具结果生成回答（SiliconFlow Qwen3-32B 或 Claude Sonnet）
@@ -257,10 +257,13 @@ async def list_repo_files(ctx: RunContext[RepoDeps], pattern: str = "") -> str
 ### `read_file`
 
 ```python
-async def read_file(ctx: RunContext[RepoDeps], file_path: str) -> str
+async def read_file(
+    ctx: RunContext[RepoDeps], file_path: str,
+    start_line: int = 1, end_line: int | None = None,
+) -> str
 ```
 
-读取指定文件的**完整内容**。`file_path` 应为 `list_repo_files` 返回的相对路径。超过 8000 字符的文件会被截断，并显示总字符数。
+读取指定文件的代码行，返回真实行号及文件总行数。`file_path` 是仓库内的相对路径，`start_line` 和 `end_line` 从 1 开始，包含首尾两行；省略范围时从文件开头读取。每次保留原有的 8000 字符内容上限，截断时返回续读位置。绝对路径、`..`、符号链接和 Git 元数据会被拒绝。
 
 - 适用场景：需要了解某个文件的完整上下文，而不仅仅是片段
 - Agent 策略：在 `search_code` 找到相关文件后，有时会进一步调用此工具获取完整实现
@@ -410,7 +413,7 @@ Streamlit 的 `session_state` 仅在当前浏览器会话内有效，刷新页�
 
 **Q: read_file 有字符限制，读不到完整文件怎么办？**
 
-`read_file` 工具当前截断阈值为 8000 字符。对于超长文件，可以在提问时指明需要看的具体部分，Agent 通常会先用 `search_code` 定位到相关代码片段，再按需调用 `read_file`，从而避免读取整个文件。
+使用行范围，例如 `read_file("src/main.py", start_line=200, end_line=260)`。读取受单次 8000 字符上限约束，返回截断信息时可从下一行继续。单行本身超过上限时，会明确标记最后一行只显示了部分内容。
 
 ---
 
@@ -429,7 +432,7 @@ Streamlit app 是一个独立的 AI 问答应用。MCP server 则是一个标准
 | `set_repo(repo_url)` | 设置当前仓库（未索引则自动克隆+索引） |
 | `search_code(query)` | 语义搜索代码，命中知识库优先返回 |
 | `list_repo_files(pattern)` | 列出仓库文件，支持子串过滤 |
-| `read_file(file_path)` | 读取文件完整内容（超 8000 字符截断） |
+| `read_file(file_path, start_line=1, end_line=None)` | 按行读取仓库代码，返回行号；单次保留 8000 字符内容上限 |
 
 ### 配置（Claude Desktop）
 

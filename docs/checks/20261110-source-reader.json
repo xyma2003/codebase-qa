@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "protocol": "2025-11-25",
+  "tool_count": 4,
+  "tool_calls_passed": 7,
+  "chat_model_called": false,
+  "index_rebuilt": false,
+  "source_sha256": {
+    "indexer/source_reader.py": "1438fb70228481cec741299c6c59a9ffd08f9a1d476486c30fa11dd2b5aab10e",
+    "agent/tools.py": "2e7e3794e6188c2956c8f09256efd2b1ae2454f7b2e62f5d4be3253bf0c492dd",
+    "mcp_server.py": "38e8e968a953db02873243532a597080c118d9577160c6f1220d5a95818f92fc"
+  },
+  "results": {
+    "select_existing_repository": {
+      "tool": "set_repo",
+      "arguments": {
+        "repo_url": "https://github.com/xyma2003/codebase-qa"
+      },
+      "text": "Active repo: https://github.com/xyma2003/codebase-qa (16 files indexed). You can now use search_code, list_repo_files, and read_file."
+    },
+    "list_files": {
+      "tool": "list_repo_files",
+      "arguments": {
+        "pattern": "config.py"
+      },
+      "text": "config.py"
+    },
+    "legacy_read_call": {
+      "tool": "read_file",
+      "arguments": {
+        "file_path": "config.py"
+      },
+      "text": "**config.py** (lines 1–47, 47 total)\n```\n1 | import os\n2 | from dotenv import load_dotenv\n3 | \n4 | load_dotenv(override=True)  # .env wins over stale shell vars\n5 | \n6 | # LLM provider: \"openai\" (SiliconFlow/any OpenAI-compatible) or \"anthropic\"\n7 | # Defaults to \"openai\" if OPENAI_API_KEY is set, else \"anthropic\".\n8 | OPENAI_API_KEY = os.getenv(\"OPENAI_API_KEY\", \"\")\n9 | OPENAI_API_BASE = os.getenv(\"OPENAI_API_BASE\", \"https://api.siliconflow.cn/v1\")\n10 | OPENAI_MODEL = os.getenv(\"OPENAI_MODEL\", \"Qwen/Qwen3-32B\")\n11 | \n12 | ANTHROPIC_API_KEY = os.getenv(\"ANTHROPIC_API_KEY\", \"\")\n13 | CLAUDE_MODEL = \"claude-sonnet-4-5\"\n14 | \n15 | # Build Pydantic AI model string — prefer OpenAI-compatible (SiliconFlow),\n16 | # fall back to Anthropic.\n17 | if OPENAI_API_KEY:\n18 |     LLM_PROVIDER = \"openai\"\n19 |     LLM_MODEL_STRING = f\"openai:{OPENAI_MODEL}\"\n20 |     # Pydantic AI reads these env vars for the openai provider\n21 |     os.environ.setdefault(\"OPENAI_API_KEY\", OPENAI_API_KEY)\n22 |     os.environ.setdefault(\"OPENAI_API_BASE\", OPENAI_API_BASE)\n23 | else:\n24 |     LLM_PROVIDER = \"anthropic\"\n25 |     LLM_MODEL_STRING = f\"anthropic:{CLAUDE_MODEL}\"\n26 |     if ANTHROPIC_API_KEY:\n27 |         os.environ.setdefault(\"ANTHROPIC_API_KEY\", ANTHROPIC_API_KEY)\n28 | \n29 | CHROMA_DIR = \"chroma_db\"\n30 | CLONE_DIR = \"repos\"\n31 | EMBED_MODEL = \"all-MiniLM-L6-v2\"\n32 | \n33 | # 代码文件扩展名白名单\n34 | CODE_EXTENSIONS = {\n35 |     \".py\", \".js\", \".ts\", \".tsx\", \".jsx\",\n36 |     \".go\", \".java\", \".rs\", \".cpp\", \".c\",\n37 |     \".rb\", \".swift\", \".kt\", \".scala\",\n38 |     \".sh\", \".yaml\", \".yml\", \".toml\", \".json\",\n39 |     \".md\",\n40 | }\n41 | \n42 | # 单 chunk 最大 token 数（滑动窗口 fallback 用）\n43 | MAX_CHUNK_TOKENS = 512\n44 | \n45 | # Self-improving memory 配置\n46 | MEMORY_SIMILARITY_THRESHOLD = 0.45   # memory 命中阈值（ChromaDB L2 距离转相似度）\n47 | QUALITY_THRESHOLD = 0.6              # 问答质量评分阈值，>= 此值才保存\n```"
+    },
+    "numbered_range": {
+      "tool": "read_file",
+      "arguments": {
+        "file_path": "config.py",
+        "start_line": 10,
+        "end_line": 15
+      },
+      "text": "**config.py** (lines 10–15, 47 total)\n```\n10 | OPENAI_MODEL = os.getenv(\"OPENAI_MODEL\", \"Qwen/Qwen3-32B\")\n11 | \n12 | ANTHROPIC_API_KEY = os.getenv(\"ANTHROPIC_API_KEY\", \"\")\n13 | CLAUDE_MODEL = \"claude-sonnet-4-5\"\n14 | \n15 | # Build Pydantic AI model string — prefer OpenAI-compatible (SiliconFlow),\n```"
+    },
+    "outside_repository": {
+      "tool": "read_file",
+      "arguments": {
+        "file_path": "../source-reader-ng6on1to"
+      },
+      "text": "Error reading ../source-reader-ng6on1to: Only repository-relative paths without '..' are allowed."
+    },
+    "invalid_line_range": {
+      "tool": "read_file",
+      "arguments": {
+        "file_path": "config.py",
+        "start_line": 0
+      },
+      "text": "Error reading config.py: start_line must be a positive integer."
+    },
+    "existing_search": {
+      "tool": "search_code",
+      "arguments": {
+        "query": "How are repository code chunks indexed?"
+      },
+      "text": "mcp_server.py (lines 39–70, function: set_repo)\ndef set_repo(repo_url: str) -> str:\n    \"\"\"Set the active repository for code search and file reading.\n\n    The repo must already be indexed. If not indexed, it will be cloned\n    and indexed automatically (this may take 1-3 minutes for large repos).\n\n    Args:\n        repo_url: GitHub repository URL (e.g. https://github.com/owner/repo)\n\n    Returns:\n        Confirmation message with the number of indexed files.\n    \"\"\"\n    global _current_repo_url, _current_repo_root\n\n    if not is_indexed(repo_url):\n        # Auto-clone and index\n        try:\n            repo_root = clone_repo(repo_url)\n            from indexer.chunker import chunk_repo\n            from indexer.vector_store import index_chunks\n            chunks = list(chunk_repo(repo_root))\n            index_chunks(chunks, repo_url)\n            _current_repo_root = repo_root\n        except Exception as e:\n            return f\"Failed to index {repo_url}: {e}\"\n    else:\n        # Already indexed — just clone to get the local path\n        _current_repo_root = clone_repo(repo_url)\n\n    _current_repo_url = repo_url\n    files = list_files(repo_url)\n    return f\"Active repo: {repo_url} ({len(files)} files indexed). You can now use search_code, list_repo_files, and read_file.\"\n\n---\n\nindexer/__init__.py (lines 1–9, other: __init__.py)\nfrom .cloner import clone_repo, remove_repo\nfrom .chunker import chunk_repo, CodeChunk\nfrom .vector_store import index_chunks, search, list_files, is_indexed\n\n__all__ = [\n    \"clone_repo\", \"remove_repo\",\n    \"chunk_repo\", \"CodeChunk\",\n    \"index_chunks\", \"search\", \"list_files\", \"is_indexed\",\n]\n\n---\n\nindexer/chunker.py (lines 101–113, function: chunk_repo)\ndef chunk_repo(repo_root: str) -> Iterator[CodeChunk]:\n    \"\"\"Walk entire repo and yield chunks for all code files.\"\"\"\n    skip_dirs = {\".git\", \"node_modules\", \"__pycache__\", \".venv\", \"venv\",\n                 \"dist\", \"build\", \".next\", \"vendor\"}\n\n    for dirpath, dirnames, filenames in os.walk(repo_root):\n        # Prune skip dirs in-place so os.walk doesn't descend into them\n        dirnames[:] = [d for d in dirnames if d not in skip_dirs]\n\n        for filename in filenames:\n            full_path = os.path.join(dirpath, filename)\n            for chunk in chunk_file(full_path, repo_root):\n                yield chunk\n\n---\n\nRESEARCH_PYDANTIC.md (lines 282–334, other: RESEARCH_PYDANTIC.md)\n├── indexer.py            # Clone repo, parse files, chunk, store embeddings\n├── chunker.py            # AST/tree-sitter chunking logic per language\n├── retriever.py          # ChromaDB wrapper (query, add, reset)\n├── ui.py                 # Streamlit UI or CLI entry point\n├── config.py             # Settings (model name, chunk size, db path, etc.)\n├── requirements.txt\n└── .env                  # ANTHROPIC_API_KEY\n```\n\n### Module Responsibilities\n\n| Module | Responsibility |\n|--------|---------------|\n| `agent.py` | Agent + tool definitions; the brain |\n| `indexer.py` | Orchestrates cloning, walking files, chunking, calling retriever.add() |\n| `chunker.py` | Language-specific chunking: Python AST, JS regex, fallback sliding window |\n| `retriever.py` | ChromaDB client wrapper; query() and add() with metadata |\n| `ui.py` | User-facing interface (Streamlit or Click CLI) |\n| `config.py` | Pydantic Settings model for config/env management |\n\n---\n\n## 8. UI Recommendation: Streamlit\n\n**Use Streamlit over CLI** because:\n- Shows streaming output naturally with `st.write_stream`\n- Lets users paste GitHub URLs in a text input\n- Displays retrieved code chunks in expandable blocks with syntax highlighting\n- Session state can cache the indexed repo so re-indexing is not triggered per question\n\n**Use CLI** only if you want zero extra dependencies or want to pipe output.\n\nFor the codebase agent, Streamlit is the better fit:\n\n```bash\npip install streamlit\nstreamlit run ui.py\n```\n\n---\n\n## 9. Common Pitfalls\n\n### CRITICAL\n\n**Pitfall 1: Using old `result.data` API**\nThe `result.data` attribute was removed in v0.6.0 (August 2025). Use `result.output`. Any tutorial/blog post before mid-2025 likely uses the old API. The full rename map:\n- `result.data` → `result.output`\n- `Agent(result_type=...)` → `Agent(output_type=...)`\n- `StreamedRunResult.get_data()` → `StreamedRunResult.get_output()`\n\n**Pitfall 2: `run_sync` inside Jupyter / async context**\n`run_sync` internally calls `asyncio.run()`. If you are already inside an async context (Jupyter, Streamlit's async server), this raises `RuntimeError: This event loop is already running`.\n\n---\n\nindexer/vector_store.py (lines 35–78, function: index_chunks)\ndef index_chunks(\n    chunks: list[CodeChunk],\n    repo_url: str,\n    progress_callback=None,\n) -> int:\n    \"\"\"\n    Store chunks in ChromaDB. Returns number of chunks indexed.\n    Overwrites any existing collection for this repo.\n    Optional progress_callback(done, total) called after each batch.\n    \"\"\"\n    client = _get_client()\n    name = _get_collection_name(repo_url)\n\n    # Delete existing collection if present (re-index)\n    try:\n        client.delete_collection(name)\n    except Exception:\n        pass\n\n    collection = client.create_collection(\n        name=name,\n        embedding_function=_get_embed_fn(),\n        metadata={\"repo_url\": repo_url},\n    )\n\n    # Smaller batch size for finer-grained progress updates\n    batch_size = 100\n    for i in range(0, len(chunks), batch_size):\n        batch = chunks[i: i + batch_size]\n        collection.add(\n            ids=[f\"{c.file_path}:{c.start_line}\" for c in batch],\n            documents=[c.content for c in batch],\n            metadatas=[{\n                \"file_path\": c.file_path,\n                \"start_line\": c.start_line,\n                \"end_line\": c.end_line,\n                \"chunk_type\": c.chunk_type,\n                \"name\": c.name,\n            } for c in batch],\n        )\n        if progress_callback:\n            progress_callback(i + len(batch), len(chunks))\n\n    return len(chunks)"
+    }
+  }
+}

@@ -1,8 +1,8 @@
-import os
 from dataclasses import dataclass
 from pydantic_ai import RunContext
 from indexer.vector_store import search, list_files
 from memory.knowledge import search_memory
+from indexer.source_reader import SourceReadError, read_source_file
 
 
 @dataclass
@@ -57,20 +57,17 @@ def make_tools(agent):
         return "\n".join(files)
 
     @agent.tool
-    async def read_file(ctx: RunContext[RepoDeps], file_path: str) -> str:
+    async def read_file(
+        ctx: RunContext[RepoDeps], file_path: str,
+        start_line: int = 1, end_line: int | None = None,
+    ) -> str:
         """
-        Read the full contents of a specific file in the repository.
-        Use this when you need the complete file, not just a matching snippet.
-        file_path should be a relative path as returned by list_repo_files.
+        Read numbered source lines from a repository-relative file.
+        start_line and end_line are 1-based and inclusive. Omit them to start
+        at the beginning. Use a later start_line to inspect long files.
+        Responses retain the existing 8000-character source-content limit.
         """
-        full_path = os.path.join(ctx.deps.repo_root, file_path)
-        if not os.path.exists(full_path):
-            return f"File not found: {file_path}"
         try:
-            with open(full_path, "r", encoding="utf-8", errors="ignore") as f:
-                content = f.read()
-            if len(content) > 8000:
-                content = content[:8000] + f"\n\n... (truncated, {len(content)} chars total)"
-            return f"**{file_path}**\n```\n{content}\n```"
-        except Exception as e:
-            return f"Error reading {file_path}: {e}"
+            return read_source_file(ctx.deps.repo_root, file_path, start_line, end_line).format()
+        except SourceReadError as exc:
+            return f"Error reading {file_path}: {exc}"

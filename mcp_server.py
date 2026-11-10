@@ -27,6 +27,7 @@ from mcp.server.fastmcp import FastMCP
 from indexer.vector_store import search, list_files, is_indexed
 from indexer.cloner import clone_repo
 from memory.knowledge import search_memory
+from indexer.source_reader import SourceReadError, read_source_file
 
 mcp = FastMCP("codebase-qa")
 
@@ -132,32 +133,24 @@ def list_repo_files(pattern: str = "") -> str:
 
 
 @mcp.tool()
-def read_file(file_path: str) -> str:
-    """Read the full contents of a specific file in the repository.
-
-    Use this when you need the complete file, not just a matching snippet.
-    file_path should be a relative path as returned by list_repo_files.
+def read_file(file_path: str, start_line: int = 1, end_line: int | None = None) -> str:
+    """Read numbered source lines from a repository-relative file.
 
     Args:
         file_path: Relative path to the file (e.g. 'src/main.py')
+        start_line: First line, 1-based and inclusive.
+        end_line: Last line, inclusive. Omit to read toward the end.
 
     Returns:
-        File contents (truncated to 8000 chars if longer).
+        Numbered lines, bounded by the existing 8000-character content limit.
     """
     if not _current_repo_root:
         return "No repo set. Call set_repo first with a GitHub URL."
 
-    full_path = os.path.join(_current_repo_root, file_path)
-    if not os.path.exists(full_path):
-        return f"File not found: {file_path}"
     try:
-        with open(full_path, "r", encoding="utf-8", errors="ignore") as f:
-            content = f.read()
-        if len(content) > 8000:
-            content = content[:8000] + f"\n\n... (truncated, {len(content)} chars total)"
-        return content
-    except Exception as e:
-        return f"Error reading {file_path}: {e}"
+        return read_source_file(_current_repo_root, file_path, start_line, end_line).format()
+    except SourceReadError as exc:
+        return f"Error reading {file_path}: {exc}"
 
 
 if __name__ == "__main__":
