@@ -1,0 +1,2 @@
+2026-11-10 18:21:54.844 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+{"phase": "ui", "started_at": "2026-11-10T18:21:54.642768+08:00", "status": "passed", "result": {"test": "Streamlit AppTest", "initial_render": "passed", "indexed_repository_render": "passed", "titles": ["🔍 Codebase Q&A"], "success_messages": ["已索引 ✓"], "model_question_submitted": false}, "elapsed_seconds": 1.399}

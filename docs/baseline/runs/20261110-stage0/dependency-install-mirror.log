@@ -1,0 +1,7 @@
+WARN Fixing invalid version specifier by removing star after comparison operator other than equal and not equal (before: `>3.4.*, <4`; after: `>3.4, <4`)
+WARN Fixing invalid version specifier by removing star after comparison operator other than equal and not equal (before: `>=3.5.*, <4`; after: `>=3.5, <4`)
+WARN Fixing invalid version specifier by removing stray quotes (before: `>= '2.7'`; after: `>= 2.7`)
+  × No solution found when resolving dependencies:
+  ╰─▶ Because there is no version of openai==3.49.0 and you require
+      openai==3.49.0, we can conclude that your requirements are
+      unsatisfiable.

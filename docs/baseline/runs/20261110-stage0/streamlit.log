@@ -1,0 +1,9 @@
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to false.
+
+2026-11-10 18:18:39.574 Uvicorn server started on 127.0.0.1:18524
+
+  You can now view your Streamlit app in your browser.
+
+  URL: http://127.0.0.1:18524
+

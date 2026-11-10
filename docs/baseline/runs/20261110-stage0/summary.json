@@ -1,0 +1,18 @@
+{
+  "source_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+  "phases": {
+    "inspect": "passed",
+    "index": "passed",
+    "mcp": "passed",
+    "ui": "passed",
+    "ask": "blocked"
+  },
+  "browser": "passed",
+  "dependency_count": 194,
+  "file_count": 16,
+  "chunk_count": 58,
+  "end_to_end_baseline_established": false,
+  "stage0_status": "waiting_for_siliconflow_api_key",
+  "live_model_request_sent": false,
+  "report": "REPORT.md"
+}

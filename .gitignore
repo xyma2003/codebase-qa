@@ -21,3 +21,4 @@ venv/
 # Project
 chroma_db/
 repos/
+.baseline_runtime/

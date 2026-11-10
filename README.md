@@ -2,6 +2,8 @@
 
 用自然语言提问任意 GitHub 代码仓库。输入仓库地址，点击索引，然后直接问问题——系统会自动检索相关代码片段，交由 Claude 给出精确、带引用路径的回答。
 
+开发文档：[产品方案](docs/PRODUCT_PLAN.md) · [技术方案](docs/TECHNICAL_PLAN.md) · [实施进度](docs/IMPLEMENTATION_STATUS.md) · [运行基线](docs/baseline/README.md)
+
 ---
 
 ## 1. 项目介绍

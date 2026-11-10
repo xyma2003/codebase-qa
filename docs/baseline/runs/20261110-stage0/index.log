@@ -1,0 +1,4 @@
+W1110 18:19:20.138000 95471 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 19739.25it/s]
+{"phase": "index", "started_at": "2026-11-10T18:18:33.372393+08:00", "status": "passed", "result": {"target_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb", "chunk_count": 58, "indexed_chunk_count": 58, "file_count": 16, "chunk_line_checks": "passed", "persisted_content_readback": "passed", "reused_existing_index": false, "retrieval_count": 5, "retrieval_quality": "not_scored"}, "elapsed_seconds": 88.139}

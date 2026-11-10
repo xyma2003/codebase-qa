@@ -1,0 +1,43 @@
+{
+  "recorded_at": "2026-11-10T18:03:42.345108+08:00",
+  "source_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+  "source_files_unchanged": true,
+  "source_sha256": {
+    ".streamlit/config.toml": "8f49cd67f9a444d57350b6346ad10ee6a329b73f69d65bd457d9bdbb5b1166b9",
+    "agent/__init__.py": "f6c5739aeb17458b1f0cc725823aa2aaa7f62714317ad9daf7a5f29928ac071e",
+    "agent/qa_agent.py": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+    "agent/tools.py": "6eba7f872705cd0e25dcbed24613857fac717f656207adbcc3687987311b8294",
+    "app.py": "6b0407b2bb1ef355e128b7dde28d51401ff4d75c65f9d8752472e3122f239a73",
+    "config.py": "a284358103003e929e9701c81a8b3328cb09312ee371a53d6bc5c4819b9285f4",
+    "indexer/__init__.py": "efce47668425e07353f93efc9b09763bf966689ef7442be6807483a598241de3",
+    "indexer/chunker.py": "f1e7fd63e6c607302153486797a30273c5f9f26997c2a5d8091520f0044146f4",
+    "indexer/cloner.py": "e14c46434e4bd18f862745326e894a35faf289847d32c4710d09551a3fa1f9ae",
+    "indexer/vector_store.py": "68dc090ec4fbbfdf9bf777694ed4b79f148d9b97b614c4f2c679648bfe50953c",
+    "mcp_server.py": "cd2c64ded31c5dcd85f1ccabb7fc7adc7e87a2dff8ec922c0b22fdad26981fa3",
+    "memory/__init__.py": "27d619cadde29bc7c5928b79c64f2b18a2e299c7df4ee64f83aee36d43d0431c",
+    "memory/knowledge.py": "a59fd60559cba68f22d8846112739ae64724e69bb9690de5920c1083142887af",
+    "memory/quality.py": "047d91a074a3daf67cca3c40e31ff9ef60416cb35babd7da28eb9fb4e9028f47",
+    "requirements.txt": "7118eb8218e923832c0e979fb7c935a872507f5895feaebdac361186b4440970"
+  },
+  "requested_model": {
+    "provider": "SiliconFlow",
+    "base_url": "https://api.siliconflow.cn/v1",
+    "model": "Qwen/Qwen3-32B"
+  },
+  "api_key_configured": false,
+  "historical_successful_configuration": null,
+  "runtime_python": "3.12.13",
+  "python_executable": "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/bin/python",
+  "platform": "macOS-26.7-arm64-arm-64bit",
+  "dependency_install_command": "uv pip install --python .venv/bin/python -r requirements.txt --cache-dir /tmp/codebase-qa-uv-cache",
+  "dependency_install_status": "passed",
+  "checks": {
+    "original_python_syntax": "passed",
+    "documentation_links": "passed",
+    "questions_reference_paths": "passed",
+    "question_count": 6
+  },
+  "live_model_request_sent": false,
+  "stage0_status": "waiting_for_siliconflow_api_key",
+  "end_to_end_baseline_established": false
+}

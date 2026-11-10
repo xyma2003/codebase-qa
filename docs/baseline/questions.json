@@ -1,0 +1,50 @@
+{
+  "version": "0.1",
+  "repository_url": "https://github.com/xyma2003/codebase-qa",
+  "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+  "purpose": "固定第 0 阶段研究问题。参考文件供人工核对，不注入模型提示词。正确率尚未测量。",
+  "cases": [
+    {
+      "id": "B01",
+      "type": "实现追踪",
+      "question": "这个项目如何从 GitHub 仓库地址建立索引？请指出主要函数、文件和执行顺序。",
+      "reference_files": ["app.py", "indexer/cloner.py", "indexer/chunker.py", "indexer/vector_store.py"],
+      "review_points": ["克隆、分块、嵌入与持久化的执行顺序", "引用实际函数及代码位置"]
+    },
+    {
+      "id": "B02",
+      "type": "功能定位",
+      "question": "问答 Agent 可以使用哪些工具？每个工具负责什么？",
+      "reference_files": ["agent/tools.py", "agent/qa_agent.py"],
+      "review_points": ["列出三个 Agent 工具", "区分 Agent 工具与 MCP 接口"]
+    },
+    {
+      "id": "B03",
+      "type": "修改规划",
+      "question": "我想让这个项目支持真正的多轮对话，需要修改哪些地方？",
+      "reference_files": ["app.py", "agent/qa_agent.py"],
+      "review_points": ["区分界面历史和传给模型的历史", "说明保存和传递消息的位置", "建议实际验证连续追问"]
+    },
+    {
+      "id": "B04",
+      "type": "版本行为",
+      "question": "点击重新索引会自动拉取 GitHub 上的最新代码吗？请根据实现说明。",
+      "reference_files": ["app.py", "indexer/cloner.py"],
+      "review_points": ["已有本地目录直接返回", "重新索引不等于更新本地代码"]
+    },
+    {
+      "id": "B05",
+      "type": "证据与限制",
+      "question": "记忆库怎样判断回答质量？这个评分能证明答案正确吗？",
+      "reference_files": ["memory/quality.py", "memory/knowledge.py", "agent/qa_agent.py"],
+      "review_points": ["说明实际规则评分", "不将规则得分当作事实正确性", "解释持久化历史问答的作用"]
+    },
+    {
+      "id": "B06",
+      "type": "无答案",
+      "question": "这个仓库的微信支付回调验签在哪里实现？",
+      "reference_files": [],
+      "review_points": ["未发现对应业务实现时明确说明", "不虚构函数、文件和行号"]
+    }
+  ]
+}

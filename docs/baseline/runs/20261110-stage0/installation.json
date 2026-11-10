@@ -1,0 +1,49 @@
+{
+  "official_package_probe": {
+    "bytes_expected": 2142205,
+    "bytes_received": 784535,
+    "seconds": 30.001563,
+    "bytes_per_second": 26149,
+    "exit_code": 28,
+    "error": "Operation timed out"
+  },
+  "mirror_same_wheel_probe": {
+    "bytes_received": 2142205,
+    "seconds": 0.857862,
+    "bytes_per_second": 2497144,
+    "exit_code": 0
+  },
+  "lock_origin": "Official PyPI metadata already resolved and cached",
+  "lock_package_count": 194,
+  "lock_sha256": "72002f141f855c37f442955d00ef93e3c50f7ed4e83a760f8d1467f6cdb14297",
+  "hash_check_required": true,
+  "attempts": [
+    {
+      "id": "official",
+      "status": "interrupted",
+      "exit_code": 130,
+      "reason": "Measured slow download; versions locked before changing download route",
+      "log": "dependency-install.log"
+    },
+    {
+      "id": "mirror_only",
+      "status": "failed",
+      "exit_code": 1,
+      "error": "Mirror does not contain openai==3.49.0",
+      "log": "dependency-install-mirror.log"
+    },
+    {
+      "id": "mirror_with_official_fallback",
+      "status": "passed",
+      "index": "https://pypi.tuna.tsinghua.edu.cn/simple",
+      "default_index": "https://pypi.org/simple",
+      "index_strategy": "unsafe-best-match",
+      "requirements": "requirements-hashed.txt",
+      "require_hashes": true,
+      "exit_code": 0
+    }
+  ],
+  "installed_package_count": 194,
+  "installed_versions_match_lock": true,
+  "dependency_check": "All installed packages are compatible"
+}

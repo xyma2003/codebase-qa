@@ -1,0 +1,16 @@
+{
+  "phase": "mcp",
+  "started_at": "2026-11-10T18:20:55.403131+08:00",
+  "status": "passed",
+  "result": {
+    "tools": [
+      "list_repo_files",
+      "read_file",
+      "search_code",
+      "set_repo"
+    ],
+    "calls_passed": 4,
+    "protocol": "2025-11-25"
+  },
+  "elapsed_seconds": 8.207
+}

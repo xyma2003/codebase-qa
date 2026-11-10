@@ -1,0 +1,2 @@
+# Preserve terminal output exactly as captured in baseline evidence.
+docs/baseline/runs/**/*.log -whitespace

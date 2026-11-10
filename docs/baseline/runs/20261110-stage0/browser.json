@@ -1,0 +1,19 @@
+{
+  "recorded_at": "2026-11-10T18:24:12.206038+08:00",
+  "url": "http://127.0.0.1:18524/",
+  "title": "Codebase QA",
+  "observed_heading": "🔍 Codebase Q&A",
+  "repository_url": "https://github.com/xyma2003/codebase-qa",
+  "observed_index_state": "已索引 ✓",
+  "observed_memory_state": "知识库：空（问答后自动积累）",
+  "model_question_submitted": false,
+  "health": {
+    "url": "http://127.0.0.1:18524/_stcore/health",
+    "response": "ok",
+    "status": "passed"
+  },
+  "server_command": "HF_HOME=\"$PWD/.baseline_runtime/huggingface\" .venv/bin/streamlit run app.py --server.address 127.0.0.1 --server.port 18524 --server.headless true",
+  "screenshot": "browser.png",
+  "preview": "browser-preview.png",
+  "screenshot_sha256": "0eb17e22639617302fe15ef607668d83775797ffd9a08f804e35b893d5e3334e"
+}

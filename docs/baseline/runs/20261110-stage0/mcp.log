@@ -1,0 +1,45 @@
+[11/10/26 18:20:56] INFO     Processing request of type            server.py:733
+                             ListToolsRequest                                   
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+W1110 18:21:00.494000 96593 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+[11/10/26 18:21:01] INFO     HTTP Request: GET                   _client.py:1025
+                             https://huggingface.co/api/models/s                
+                             entence-transformers/all-MiniLM-L6-                
+                             v2 "HTTP/1.1 200 OK"                               
+                    INFO     Loading SentenceTransformer model     model.py:1210
+                             from                                               
+                             sentence-transformers/all-MiniLM-L6-v              
+                             2.                                                 
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 13696.88it/s]
+[11/10/26 18:21:02] INFO     HTTP Request: GET                   _client.py:1025
+                             https://huggingface.co/api/models/s                
+                             entence-transformers/all-MiniLM-L6-                
+                             v2/tree/main/additional_chat_templa                
+                             tes?recursive=false&expand=false                   
+                             "HTTP/1.1 404 Not Found"                           
+                    INFO     HTTP Request: GET                   _client.py:1025
+                             https://huggingface.co/api/models/s                
+                             entence-transformers/all-MiniLM-L6-                
+                             v2/tree/main?recursive=true&expand=                
+                             false "HTTP/1.1 200 OK"                            
+[11/10/26 18:21:03] INFO     HTTP Request: HEAD                  _client.py:1025
+                             https://huggingface.co/sentence-tra                
+                             nsformers/all-MiniLM-L6-v2/resolve/                
+                             1110a243fdf4706b3f48f1d95db1a4f5529                
+                             b4d41/2_Normalize/config.json                      
+                             "HTTP/1.1 404 Not Found"                           
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+                    WARNING  Warning: You are sending               _http.py:993
+                             unauthenticated requests to the HF                 
+                             Hub. Please set a HF_TOKEN to enable               
+                             higher rate limits and faster                      
+                             downloads.                                         
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.41it/s]
+{"phase": "mcp", "started_at": "2026-11-10T18:20:55.403131+08:00", "status": "passed", "result": {"tools": ["list_repo_files", "read_file", "search_code", "set_repo"], "calls_passed": 4, "protocol": "2025-11-25"}, "elapsed_seconds": 8.207}
