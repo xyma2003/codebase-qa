@@ -1,0 +1,143 @@
+{
+  "status": "passed",
+  "chat_model_called": false,
+  "model": "local FunctionModel fixture",
+  "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+  "collection_name": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+  "completed_questions": 4,
+  "framework_model_steps": 7,
+  "observed_history": [
+    {
+      "questions": [
+        "本地测试：qa_agent.py 调用了什么工具模块？"
+      ],
+      "native_message_count": 1
+    },
+    {
+      "questions": [
+        "本地测试：qa_agent.py 调用了什么工具模块？"
+      ],
+      "native_message_count": 3
+    },
+    {
+      "questions": [
+        "本地测试：qa_agent.py 调用了什么工具模块？",
+        "本地测试：继续看刚才提到的那个工具模块。"
+      ],
+      "native_message_count": 5
+    },
+    {
+      "questions": [
+        "本地测试：qa_agent.py 调用了什么工具模块？",
+        "本地测试：继续看刚才提到的那个工具模块。"
+      ],
+      "native_message_count": 7
+    },
+    {
+      "questions": [
+        "本地测试：qa_agent.py 调用了什么工具模块？",
+        "本地测试：继续看刚才提到的那个工具模块。",
+        "本地测试：直接复制上一轮引用。"
+      ],
+      "native_message_count": 9
+    },
+    {
+      "questions": [
+        "本地测试：新建对话。"
+      ],
+      "native_message_count": 1
+    },
+    {
+      "questions": [
+        "本地测试：新建对话。"
+      ],
+      "native_message_count": 3
+    }
+  ],
+  "separate_process_readback": {
+    "revision": 1,
+    "native_message_count": 4,
+    "reference_count": 1,
+    "questions": [
+      "本地测试：qa_agent.py 调用了什么工具模块？"
+    ]
+  },
+  "version_mismatch_error": "对话与当前仓库、代码版本或索引不一致。请新建对话。",
+  "answers": [
+    {
+      "text": "本地测试样例：qa_agent 使用 agent/tools.py 中的工具 [S1](https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L1-L12)。",
+      "citations": [
+        {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 1,
+          "end_line": 12,
+          "source_text": "import os\nfrom pydantic_ai import Agent\nfrom agent.tools import RepoDeps, make_tools\nfrom config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD\nfrom memory.quality import evaluate\nfrom memory.knowledge import save_qa\n\n_agent: Agent | None = None\n\n\ndef _get_agent() -> Agent:\n    \"\"\"懒加载 Agent，确保 API key 在 import 时不被检查。\"\"\"",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "reference_id": "S1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "text": "本地测试样例：qa_agent 使用 agent/tools.py 中的工具 [S2](https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/tools.py#L1-L12)。",
+      "citations": [
+        {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/tools.py",
+          "start_line": 1,
+          "end_line": 12,
+          "source_text": "import os\nfrom dataclasses import dataclass\nfrom pydantic_ai import RunContext\nfrom indexer.vector_store import search, list_files\nfrom memory.knowledge import search_memory\n\n\n@dataclass\nclass RepoDeps:\n    repo_url: str\n    repo_root: str\n",
+          "file_sha256": "6eba7f872705cd0e25dcbed24613857fac717f656207adbcc3687987311b8294",
+          "reference_id": "S2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "text": "本地测试样例：复制旧引用 [S1]。",
+      "citations": [],
+      "issues": [
+        {
+          "reference_id": "S1",
+          "message": "引用编号不存在。"
+        }
+      ]
+    },
+    {
+      "text": "本地测试样例：qa_agent 使用 agent/tools.py 中的工具 [S1](https://github.com/xyma2003/codebase-qa/blob/7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb/agent/qa_agent.py#L1-L12)。",
+      "citations": [
+        {
+          "repo_url": "https://github.com/xyma2003/codebase-qa",
+          "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+          "file_path": "agent/qa_agent.py",
+          "start_line": 1,
+          "end_line": 12,
+          "source_text": "import os\nfrom pydantic_ai import Agent\nfrom agent.tools import RepoDeps, make_tools\nfrom config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD\nfrom memory.quality import evaluate\nfrom memory.knowledge import save_qa\n\n_agent: Agent | None = None\n\n\ndef _get_agent() -> Agent:\n    \"\"\"懒加载 Agent，确保 API key 在 import 时不被检查。\"\"\"",
+          "file_sha256": "d714f139fd7899f18643f6b2dbfdaf4a89ddec613ea4832301a11e28dcb029e4",
+          "reference_id": "S1"
+        }
+      ],
+      "issues": []
+    }
+  ],
+  "stored_conversation_revision": 3,
+  "stored_native_message_count": 10,
+  "reference_count": 2,
+  "standalone_cache_mocked": true,
+  "standalone_cache_writes": 2,
+  "follow_up_cache_writes": 0,
+  "new_conversation_isolated": true,
+  "database": "temporary SQLite database, removed after verification",
+  "active_index_unchanged": true,
+  "source_sha256": {
+    "agent/conversations.py": "48b203f52a19253f6db26f620d2a3a0045ba9033e0d01e5627b69b1bd0a4d6cc",
+    "agent/evidence.py": "6547da63a641c9a3bbe53dc7f9fe17a4e525bad82a411353333bc1b45ae42861",
+    "agent/qa_agent.py": "150c61ec58fee7a301431dfd86e65c62d9aab6784e4ec83b5b31c318f768d4af",
+    "app.py": "8745f48100a74f4714471e9e8b8d4f6e264811adda9eef5bd4a7435a8dd37f63",
+    "scripts/check_conversations.py": "f78fb5567387a02ca330574e19e97c5f14f49ada55365d2d2b56cc4fd675aecd",
+    "config.py": "a284358103003e929e9701c81a8b3328cb09312ee371a53d6bc5c4819b9285f4"
+  }
+}

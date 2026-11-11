@@ -1,4 +1,5 @@
 from pathlib import Path
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -8,6 +9,7 @@ from agent.evidence import CheckedAnswer, CitedSource, CitationIssue
 from indexer.citations import SourceCitation
 from indexer.overview import RepositoryOverview, DirectoryInfo, EntryClue
 from indexer.source_reader import SourceReadError
+from agent import conversations
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = "https://github.com/example/fixture"
@@ -15,11 +17,14 @@ URL = "https://github.com/example/fixture"
 
 class RepositoryUITests(unittest.TestCase):
     def setUp(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
         def version(sha, collection):
             return RepositoryIndex(URL, sha, "fixture-root", collection, 1, 1, "2026-11-10", "fixture")
         self.old = version("a" * 40, "old-collection")
         self.new = version("b" * 40, "new-collection")
         contexts = [
+            patch.object(conversations, "CHROMA_DIR", directory.name),
             patch("indexer.repository_service.get_current_repository", side_effect=lambda url: self.new if url == URL else None),
             patch("indexer.repository_service.list_repository_versions", return_value=[self.new, self.old]),
             patch("indexer.repository_service.get_repository_version", side_effect=lambda url, sha: self.old if sha == self.old.commit_sha else self.new),
@@ -34,17 +39,52 @@ class RepositoryUITests(unittest.TestCase):
 
     def test_version_selection_binds_the_matching_collection_and_clears_chat(self):
         self.app.session_state["messages"] = [{"role": "assistant", "content": "previous version"}]
+        self.app.session_state["conversation_id"] = "previous-session"
         self.app.selectbox[0].select(self.old.commit_sha).run(timeout=60)
         self.assertEqual(len(self.app.exception), 0)
         selected = self.app.session_state["repository_index"]
         self.assertEqual((selected.commit_sha, selected.collection_name), (self.old.commit_sha, "old-collection"))
         self.assertEqual(self.app.session_state["messages"], [])
+        self.assertNotIn("conversation_id", self.app.session_state)
 
     def test_changing_repository_clears_the_old_context(self):
+        self.app.session_state["conversation_id"] = "previous-session"
         self.app.text_input[0].set_value("https://github.com/example/other").run(timeout=60)
         self.assertEqual(len(self.app.exception), 0)
         self.assertNotIn("repository_index", self.app.session_state)
         self.assertNotIn("repo_url", self.app.session_state)
+        self.assertNotIn("conversation_id", self.app.session_state)
+
+    def test_chat_passes_same_session_on_follow_up_and_new_chat_resets_it(self):
+        sessions = []
+        async def response(*args, conversation_id=None, on_result=None, **kwargs):
+            sessions.append(conversation_id)
+            on_result(CheckedAnswer(text="local fixture"))
+            yield "local fixture"
+        with patch("agent.qa_agent.ask_stream", side_effect=response):
+            self.app.chat_input[0].set_value("first").run(timeout=60)
+            self.app.run(timeout=60)
+            self.app.chat_input[0].set_value("follow-up").run(timeout=60)
+            self.assertEqual(len(self.app.session_state["messages"]), 4)
+            self.assertEqual(sessions[0], sessions[1])
+            next(button for button in self.app.button if button.label == "新建对话").click().run(timeout=60)
+            self.assertEqual(self.app.session_state["messages"], [])
+            self.assertNotIn("conversation_id", self.app.session_state)
+            self.app.chat_input[0].set_value("new first").run(timeout=60)
+        self.assertNotEqual(sessions[0], sessions[2])
+        self.assertEqual(len(self.app.exception), 0)
+
+    def test_failed_answer_preserves_previous_messages_and_allows_next_question(self):
+        self.app.session_state["messages"] = [{"role": "assistant", "content": "previous answer"}]
+        async def failure(*args, **kwargs):
+            raise RuntimeError("FIXTURE_MODEL_FAILURE")
+            yield  # async generator interface
+        with patch("agent.qa_agent.ask_stream", side_effect=failure) as ask:
+            self.app.chat_input[0].set_value("failed").run(timeout=60)
+        self.assertEqual(ask.call_count, 1)
+        self.assertEqual(len(self.app.exception), 0)
+        self.assertEqual(self.app.session_state["messages"], [{"role": "assistant", "content": "previous answer"}])
+        self.assertIn("FIXTURE_MODEL_FAILURE", self.app.error[0].value)
 
     def test_failed_refresh_keeps_the_displayed_version(self):
         with patch("indexer.repository_service.import_repository", side_effect=RuntimeError("FIXTURE_REFRESH_ERROR")):

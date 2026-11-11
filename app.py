@@ -16,6 +16,7 @@ from indexer.snapshots import normalize_repo_url
 from agent.qa_agent import ask_stream
 from memory.knowledge import get_memory_stats
 from agent.evidence import CheckedAnswer
+from agent.conversations import create_conversation
 from indexer.overview import build_repository_overview
 
 st.set_page_config(page_title="Codebase QA", page_icon="🔍", layout="wide")
@@ -37,7 +38,7 @@ def show_sources(result):
 
 
 def clear_repository():
-    for key in ("repository_index", "repo_url", "repo_root", "repo_overview"):
+    for key in ("repository_index", "repo_url", "repo_root", "repo_overview", "conversation_id"):
         st.session_state.pop(key, None)
     st.session_state["messages"] = []
 
@@ -96,6 +97,10 @@ with st.sidebar:
                 bind_repository(get_repository_version(repo_url, revision))
                 if st.button("更新索引"):
                     import_selected_repository(repo_url, refresh=True)
+                if st.button("新建对话"):
+                    st.session_state.pop("conversation_id", None)
+                    st.session_state["messages"] = []
+                    st.rerun()
         except (ValueError, OSError) as exc:
             clear_repository()
             st.error(str(exc))
@@ -189,26 +194,32 @@ if question := st.chat_input("问一个关于代码的问题..."):
         st.warning("请先在左侧索引一个仓库")
     else:
         # 显示用户消息
-        st.session_state["messages"].append({"role": "user", "content": question})
         with st.chat_message("user"):
             st.markdown(question)
 
-        # 流式输出 Agent 回复 — st.write_stream handles markdown rendering (code blocks, etc.)
-        with st.chat_message("assistant"):
+        try:
             repository = st.session_state["repository_index"]
-            checked_results = []
-            response = st.write_stream(ask_stream(
-                question,
-                st.session_state["repo_url"],
-                st.session_state["repo_root"],
-                collection_name=repository.collection_name,
-                commit_sha=repository.commit_sha,
-                on_result=checked_results.append,
-            ))
-            checked = checked_results[0] if checked_results else None
-            show_sources(checked)
-
-        st.session_state["messages"].append({
-            "role": "assistant", "content": response,
-            "sources": checked.model_dump(mode="json") if checked else None,
-        })
+            if "conversation_id" not in st.session_state:
+                st.session_state["conversation_id"] = create_conversation(
+                    repository.repo_url, repository.commit_sha, repository.collection_name,
+                )
+            with st.chat_message("assistant"):
+                checked_results = []
+                response = st.write_stream(ask_stream(
+                    question,
+                    repository.repo_url,
+                    repository.repo_root,
+                    collection_name=repository.collection_name,
+                    commit_sha=repository.commit_sha,
+                    conversation_id=st.session_state["conversation_id"],
+                    on_result=checked_results.append,
+                ))
+                checked = checked_results[0] if checked_results else None
+                show_sources(checked)
+            st.session_state["messages"].extend([
+                {"role": "user", "content": question},
+                {"role": "assistant", "content": response,
+                 "sources": checked.model_dump(mode="json") if checked else None},
+            ])
+        except Exception as exc:
+            st.error(f"回答失败：{exc}")
