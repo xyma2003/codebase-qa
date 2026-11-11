@@ -63,15 +63,15 @@ def load_snapshot(root: str, verify: bool = False) -> RepositorySnapshot:
     return snapshot
 
 
-def create_snapshot(repo_url: str, checkout: str, commit_sha: str | None = None) -> RepositorySnapshot:
+def create_snapshot(repo_url: str, checkout: str, commit_sha: str | None = None, *, storage_dir=None) -> RepositorySnapshot:
     repo_url = normalize_repo_url(repo_url)
     with Repo(checkout) as repo:
-        return _materialize_snapshot(repo_url, repo.commit(commit_sha or "HEAD"))
+        return _materialize_snapshot(repo_url, repo.commit(commit_sha or "HEAD"), storage_dir)
 
 
-def _materialize_snapshot(repo_url, commit):
+def _materialize_snapshot(repo_url, commit, storage_dir=None):
     identity = hashlib.sha256(repo_url.encode()).hexdigest()[:24]
-    parent = Path(CLONE_DIR).resolve() / ".snapshots" / identity
+    parent = Path(storage_dir if storage_dir is not None else CLONE_DIR).resolve() / ".snapshots" / identity
     destination = parent / commit.hexsha
     if destination.exists():
         snapshot = load_snapshot(str(destination / "source"), verify=True)

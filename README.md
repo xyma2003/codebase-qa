@@ -4,7 +4,7 @@
 
 [产品方案](docs/PRODUCT_PLAN.md) · [技术方案](docs/TECHNICAL_PLAN.md) · [实施进度](docs/IMPLEMENTATION_STATUS.md) · [阶段零记录](docs/baseline/README.md)
 
-[固定开发评测集与判分规则](evals/codebase-qa-v1/README.md)：16 题、19 轮，覆盖项目理解、实现定位、修改规划和无答案问题。参考依据绑定固定 Git 版本，问题与参考标注分开；当前只完成数据和规则检查，模型评测未运行。
+[固定开发评测集与判分规则](evals/codebase-qa-v1/README.md)：16 题、19 轮，覆盖项目理解、实现定位、修改规划和无答案问题。参考依据绑定固定 Git 版本，问题与参考标注分开。[本地评测运行器与归档](evaluation/README.md)已跑通并独立回读，真实模型评测和人工评分尚未进行。
 
 ## 当前功能
 

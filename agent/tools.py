@@ -17,6 +17,7 @@ class RepoDeps:
     repo_root: str
     collection_name: str | None = None
     commit_sha: str | None = None
+    source_only: bool = False
     evidence: EvidenceStore | None = field(default=None, init=False, repr=False)
 
     def __post_init__(self):
@@ -103,6 +104,8 @@ def make_tools(agent):
         Returns the top matching code snippets with file paths and line numbers.
         Automatically uses accumulated knowledge from past Q&A when available.
         """
+        if ctx.deps.source_only:
+            return "This source-only run has no vector index or answer cache. Use find_code and read_file."
         # 先查 memory（沉淀的问答知识），命中则直接返回
         memory_hit = search_memory(query, ctx.deps.repo_url, commit_sha=ctx.deps.commit_sha)
         if memory_hit:
@@ -143,6 +146,8 @@ def make_tools(agent):
         Optionally filter by a substring pattern (e.g. 'test', '.py', 'auth').
         Use this to explore the repo structure before diving into code.
         """
+        if ctx.deps.source_only:
+            return "This source-only run has no indexed file list. Use find_code with mode='path'."
         files = list_files(ctx.deps.repo_url, pattern or None, collection_name=ctx.deps.collection_name)
         if not files:
             return "No files found matching that pattern."

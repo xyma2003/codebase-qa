@@ -59,8 +59,8 @@ def _session_id(value):
 
 
 @contextmanager
-def _connect():
-    path = Path(CHROMA_DIR) / "conversations.sqlite3"
+def _connect(storage_dir=None):
+    path = Path(storage_dir if storage_dir is not None else CHROMA_DIR) / "conversations.sqlite3"
     path.parent.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect(path)
     try:
@@ -85,18 +85,18 @@ def _connect():
         db.close()
 
 
-def create_conversation(repo_url: str, commit_sha: str, collection_name: str) -> str:
+def create_conversation(repo_url: str, commit_sha: str, collection_name: str, *, storage_dir=None) -> str:
     scope = _scope(repo_url, commit_sha, collection_name)
     conversation_id = str(uuid4())
-    with _connect() as db:
+    with _connect(storage_dir) as db:
         db.execute("INSERT INTO conversations (id, repo_url, commit_sha, collection_name) VALUES (?, ?, ?, ?)",
                    (conversation_id, *scope))
     return conversation_id
 
 
-def load_conversation(conversation_id: str, repo_url: str, commit_sha: str, collection_name: str) -> Conversation:
+def load_conversation(conversation_id: str, repo_url: str, commit_sha: str, collection_name: str, *, storage_dir=None) -> Conversation:
     scope = _scope(repo_url, commit_sha, collection_name)
-    with _connect() as db:
+    with _connect(storage_dir) as db:
         # One read transaction keeps metadata and turns at the same revision.
         db.execute("BEGIN")
         row = db.execute("SELECT repo_url, commit_sha, collection_name, revision, reference_count, format_version "
@@ -117,7 +117,7 @@ def load_conversation(conversation_id: str, repo_url: str, commit_sha: str, coll
 
 
 def append_turn(conversation: Conversation, question: str, messages: list[ModelMessage],
-                answer: CheckedAnswer, reference_count: int) -> None:
+                answer: CheckedAnswer, reference_count: int, *, storage_dir=None) -> None:
     """Commit one complete turn, or leave the previous conversation unchanged."""
     if not isinstance(question, str) or not question.strip() or not messages:
         raise ValueError("不能保存空的对话轮次。")
@@ -127,7 +127,7 @@ def append_turn(conversation: Conversation, question: str, messages: list[ModelM
     # Validate before opening the write transaction; never use pickle or eval.
     ModelMessagesTypeAdapter.validate_json(messages_json)
     answer_json = answer.model_dump_json()
-    with _connect() as db:
+    with _connect(storage_dir) as db:
         changed = db.execute("UPDATE conversations SET revision=revision+1, reference_count=? "
                              "WHERE id=? AND repo_url=? AND commit_sha=? AND collection_name=? AND revision=?",
                              (reference_count, conversation.conversation_id, conversation.repo_url,

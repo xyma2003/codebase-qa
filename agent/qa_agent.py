@@ -31,7 +31,13 @@ def _get_agent() -> Agent:
         # Anthropic — model string shortcut works fine
         model = LLM_MODEL_STRING
 
-    _agent = Agent(
+    _agent = build_agent(model)
+    return _agent
+
+
+def build_agent(model) -> Agent:
+    """Build the same prompt and tools with an explicitly supplied model."""
+    agent = Agent(
         model,
         deps_type=RepoDeps,
         system_prompt=(
@@ -52,18 +58,19 @@ def _get_agent() -> Agent:
             "6. Use get_file_dependencies for cross-file import clues; distinguish static candidates from runtime behavior"
         ),
     )
-    make_tools(_agent)
-    return _agent
+    make_tools(agent)
+    return agent
 
 
-async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "qa"):
+async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "qa", *, agent=None, conversation_dir=None, on_run=None):
     if mode not in ("qa", "plan"):
         raise ValueError("回答模式无效。")
     if mode == "plan" and deps.evidence is None:
         raise ValueError("修改规划需要已选定的仓库代码版本。")
     history = None
+    storage = {"storage_dir": conversation_dir} if conversation_dir is not None else {}
     if conversation_id is not None:
-        history = load_conversation(conversation_id, deps.repo_url, deps.commit_sha, deps.collection_name)
+        history = load_conversation(conversation_id, deps.repo_url, deps.commit_sha, deps.collection_name, **storage)
         deps.evidence = EvidenceStore(deps.repo_url, deps.repo_root, deps.commit_sha,
                                       reference_offset=history.reference_count)
     options = {"instructions": CITATION_INSTRUCTIONS} if deps.evidence else {}
@@ -72,17 +79,19 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
                        output_type=ToolOutput(ChangePlan, name="submit_change_plan", max_retries=0))
     if history is not None:
         options.update(message_history=history.messages, conversation_id=history.conversation_id)
-    result = await _get_agent().run(question, deps=deps, **options)
+    result = await (agent or _get_agent()).run(question, deps=deps, **options)
+    if on_run is not None:
+        on_run(result)
     if mode == "plan":
         checked = check_plan(result.output, deps.evidence)
     else:
         checked = deps.evidence.check_answer(result.output) if deps.evidence else CheckedAnswer(text=result.output)
     if history is not None:
-        append_turn(history, question, result.new_messages(), checked, deps.evidence.reference_count)
+        append_turn(history, question, result.new_messages(), checked, deps.evidence.reference_count, **storage)
     # Keep the existing score and threshold; pinned answers additionally need checked references.
     # Follow-ups depend on conversation context and must not become standalone cached answers.
     score = evaluate(question, result.output) if mode == "qa" else 0
-    if mode == "qa" and (history is None or history.revision == 0) and score >= QUALITY_THRESHOLD and (deps.evidence is None or checked.can_save):
+    if not deps.source_only and mode == "qa" and (history is None or history.revision == 0) and score >= QUALITY_THRESHOLD and (deps.evidence is None or checked.can_save):
         try:
             save_qa(question, checked.text, deps.repo_url, commit_sha=deps.commit_sha)
         except Exception:
