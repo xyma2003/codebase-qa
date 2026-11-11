@@ -1,0 +1,53 @@
+{
+  "status": "review_import_checks_passed",
+  "source_archive_unchanged": true,
+  "new_model_requests": 0,
+  "real_model_quality_evaluated": false,
+  "ratings_provenance": "synthetic_fixture",
+  "source_archive_sha256": "1fc251ed09716d2558d987027b1bfa1e77c3b70d62381871b0970bca174b619b",
+  "partial_report": {
+    "status": "review_report_verified",
+    "report_kind": "synthetic_review_demo",
+    "source_archive_sha256": "1fc251ed09716d2558d987027b1bfa1e77c3b70d62381871b0970bca174b619b",
+    "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
+    "required_cases": 16,
+    "required_turns": 19,
+    "reviewed_turns": 1,
+    "finalized": false,
+    "known_badcase_count": 1,
+    "real_model_quality_evaluated": false,
+    "report_sha256": "50bfb3b23be3d9161493bbb55727dcef653965f3fd70985a4ad13b0cc722e523"
+  },
+  "full_demo_report": {
+    "status": "review_report_verified",
+    "report_kind": "synthetic_review_demo",
+    "source_archive_sha256": "1fc251ed09716d2558d987027b1bfa1e77c3b70d62381871b0970bca174b619b",
+    "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
+    "required_cases": 16,
+    "required_turns": 19,
+    "reviewed_turns": 19,
+    "finalized": true,
+    "known_badcase_count": 16,
+    "real_model_quality_evaluated": false,
+    "report_sha256": "1994ca23c5618392241f6f05df4871745a38b010f1b91f4bb48822775b701487"
+  },
+  "fresh_process_verification": true,
+  "report_package": {
+    "file": "20261111-review-import-local.zip",
+    "sha256": "d451d188a76a7a8f49db058e1578926adee559aa327d92b8d00b3e44eba55f87",
+    "bytes": 48960
+  },
+  "sample_markdown": {
+    "file": "20261111-review-import-sample.md",
+    "sha256": "b9f797f9dfd78a5743aeb2084e74f4faba0603ca35d5cf0f8fabf8d047473abc"
+  },
+  "implementation_sha256": {
+    "evaluation/scoring.py": "f7ed59a8d888be4278ca082a5327c048e672065e9627a9535c2c35d1eb6274ef",
+    "evaluation/reviews.py": "835755b6a03c347ad396d513a699f38be5b0cd92d94dcb34d8769b645336c5f0",
+    "evaluation/reporting.py": "0c04d25c4fb81fc25dea5c136153f161f2ee9bc83d0839402f81d1010866c6b3"
+  },
+  "scripts_sha256": {
+    "scripts/review_evaluation.py": "533ea866781411568e3c6f4d19e847a498b4d47bb23562bcd8a68eaeefb32e9e",
+    "scripts/check_evaluation_reviews.py": "c6bba33ad8929046e3ae0371d460fde539f45f384742978e8d361db5f235e9ce"
+  }
+}

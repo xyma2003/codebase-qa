@@ -3,26 +3,29 @@
 from evaluation.dataset import DIMENSIONS, Review
 
 
+def score_turn(rubric, record):
+    """Apply the frozen rubric to one declared review, without semantic judging."""
+    row = Review.model_validate(record.model_dump() if isinstance(record, Review) else record)
+    if any(error not in rubric.fatal_errors for error in row.fatal_errors):
+        raise ValueError("Unknown fatal error code")
+    if row.status in {"not_run", "pending_review"}:
+        return {"score": None, "passed": None}
+    if row.status == "execution_failed":
+        return {"score": 0, "passed": False}
+    ratings = row.ratings.model_dump()
+    weights = {item.dimension: item.weight for item in rubric.dimensions}
+    score = sum(weights[key] * ratings[key] / 2 for key in DIMENSIONS)
+    passed = all(ratings[key] >= threshold for key, threshold in rubric.minimum_passing_ratings.items())
+    return {"score": 0 if row.fatal_errors else score, "passed": passed and not row.fatal_errors}
+
+
 def summarize_reviews(bundle, records):
     reviews = [Review.model_validate(row) if isinstance(row, dict) else row for row in records]
     expected = {(case.case_id, turn.turn_id) for case in bundle.cases for turn in case.turns}
     indexed = {(row.case_id, row.turn_id): row for row in reviews}
     if len(indexed) != len(reviews) or set(indexed) != expected:
         raise ValueError("Reviews must cover the fixed case/turn denominator exactly once")
-    weights = {item.dimension: item.weight for item in bundle.rubric.dimensions}
-    results = {}
-    for key, row in indexed.items():
-        if any(error not in bundle.rubric.fatal_errors for error in row.fatal_errors):
-            raise ValueError("Unknown fatal error code")
-        if row.status in {"not_run", "pending_review"}:
-            results[key] = {"score": None, "passed": None}
-        elif row.status == "execution_failed":
-            results[key] = {"score": 0, "passed": False}
-        else:
-            ratings = row.ratings.model_dump()
-            score = sum(weights[key] * ratings[key] / 2 for key in DIMENSIONS)
-            passed = all(ratings[key] >= threshold for key, threshold in bundle.rubric.minimum_passing_ratings.items())
-            results[key] = {"score": 0 if row.fatal_errors else score, "passed": passed and not row.fatal_errors}
+    results = {key: score_turn(bundle.rubric, row) for key, row in indexed.items()}
     cases = []
     for case in bundle.cases:
         turns = [results[(case.case_id, turn.turn_id)] for turn in case.turns]
