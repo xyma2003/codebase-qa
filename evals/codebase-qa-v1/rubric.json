@@ -1,0 +1,64 @@
+{
+  "rubric_id": "codebase-qa-human-v1",
+  "dimensions": [
+    {
+      "dimension": "correctness",
+      "weight": 40,
+      "anchors": {
+        "0": "核心事实或需求理解错误，或对有答案问题无依据拒答。",
+        "1": "主方向正确，但遗漏或误解一个必要检查点。",
+        "2": "本轮必要事实与需求检查点均正确；无答案题准确指出不可确定部分。"
+      }
+    },
+    {
+      "dimension": "evidence",
+      "weight": 30,
+      "anchors": {
+        "0": "无必要依据、引用不支持结论，或应澄清时伪造源码依据。",
+        "1": "部分必要证据有效，但仍缺一个证据组或支持范围不清。",
+        "2": "必要证据组均有同版本依据且支持对应结论；纯澄清题不伪造引用也可得 2。"
+      }
+    },
+    {
+      "dimension": "completeness",
+      "weight": 20,
+      "anchors": {
+        "0": "没有完成本轮任务，或规划不能定位实施与验证。",
+        "1": "完成主体任务，但步骤/测试/解释缺少非核心细节。",
+        "2": "问题各部分、规划步骤与验证预期完整；多轮正确衔接。"
+      }
+    },
+    {
+      "dimension": "boundaries",
+      "weight": 10,
+      "anchors": {
+        "0": "把静态候选、未知运行数据或建议动作说成已确认事实。",
+        "1": "没有错误扩大结论，但限制或待确认项说明不充分。",
+        "2": "清楚区分观察、推断、建议和待确认项；无证据时不编造。"
+      }
+    }
+  ],
+  "minimum_passing_ratings": {
+    "correctness": 2,
+    "evidence": 2,
+    "completeness": 1,
+    "boundaries": 1
+  },
+  "fatal_errors": {
+    "wrong_source": "使用错误仓库或 Commit 作为当前事实，且未明确是在比较版本。",
+    "fabricated_evidence": "虚构文件、行号、原文或引用，把无依据内容作为已核对事实。",
+    "false_execution": "把未执行的规划、命令或测试声称为已经执行或通过。",
+    "cross_session_context": "把其他评测会话的历史当成当前会话事实。"
+  },
+  "case_pass_rule": "all_turns_pass",
+  "pending_policy": "withhold_final_metrics",
+  "failure_policy": "zero_in_fixed_denominator",
+  "notes": [
+    "每轮四维人工打 0/1/2；加权分为 sum(weight * rating / 2)，不是关键词命中率。",
+    "致命错误使该轮计 0 且不通过；单题需所有轮次通过，不能只判第一问。",
+    "总分按单题各轮平均后对固定 16 题等权平均；执行失败为 0 并保留在固定分母。",
+    "只要还有未运行或待人工评审的轮次，最终均分和通过率均为 null。",
+    "纯澄清的 P04/T1 不要求强造源码引用；以不虚构和提出有效澄清作为证据维度标准。",
+    "这是公开开发评测集；不设模型正确率目标，也不把校验通过当作模型评测成功。"
+  ]
+}

@@ -1,0 +1,412 @@
+{
+  "status": "dataset_checks_passed",
+  "evaluation_status": "not_run",
+  "chat_model_called": false,
+  "dataset_id": "codebase-qa-v1",
+  "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
+  "case_count": 16,
+  "turn_count": 19,
+  "category_counts": {
+    "understanding": 4,
+    "localization": 4,
+    "planning": 4,
+    "unanswerable": 4
+  },
+  "multi_turn_cases": [
+    "U04",
+    "L04",
+    "P04"
+  ],
+  "evidence_count": 31,
+  "evidence_source_file_count": 15,
+  "sources": [
+    {
+      "source_id": "codebase-qa-af7dcd1",
+      "repo_url": "https://github.com/xyma2003/codebase-qa",
+      "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+      "tree_sha": "fcd3089111464e4a135b886b1eedf2e5459ce6f2"
+    }
+  ],
+  "evidence_checks": [
+    {
+      "evidence_id": "E_IMPORT",
+      "file_path": "indexer/repository_service.py",
+      "start_line": 111,
+      "end_line": 142,
+      "file_sha256": "008730dc1eeafc791f15fd4cf4483be2bee38ac9d703f03d022e011696e3c672",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/indexer/repository_service.py#L111-L142"
+    },
+    {
+      "evidence_id": "E_BUILD",
+      "file_path": "indexer/repository_service.py",
+      "start_line": 143,
+      "end_line": 155,
+      "file_sha256": "008730dc1eeafc791f15fd4cf4483be2bee38ac9d703f03d022e011696e3c672",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/indexer/repository_service.py#L143-L155"
+    },
+    {
+      "evidence_id": "E_PUBLISH",
+      "file_path": "indexer/repository_state.py",
+      "start_line": 58,
+      "end_line": 70,
+      "file_sha256": "fd2390618fc918115be36dccc1c787f50d062aedcf29f21bc59f72c8b0376b73",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/indexer/repository_state.py#L58-L70"
+    },
+    {
+      "evidence_id": "E_SEARCH",
+      "file_path": "agent/tools.py",
+      "start_line": 98,
+      "end_line": 118,
+      "file_sha256": "1218b7833e5a71706e4d8073063d40e3b4d001517cae3792933d490b3e6a3595",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/tools.py#L98-L118"
+    },
+    {
+      "evidence_id": "E_SEARCH_PIN",
+      "file_path": "agent/tools.py",
+      "start_line": 122,
+      "end_line": 137,
+      "file_sha256": "1218b7833e5a71706e4d8073063d40e3b4d001517cae3792933d490b3e6a3595",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/tools.py#L122-L137"
+    },
+    {
+      "evidence_id": "E_RUN",
+      "file_path": "agent/qa_agent.py",
+      "start_line": 64,
+      "end_line": 89,
+      "file_sha256": "6f731c32e080eb7e37aabb5846907923e4968102366d95901ea7bcf27a04ed36",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/qa_agent.py#L64-L89"
+    },
+    {
+      "evidence_id": "E_OV_RULES",
+      "file_path": "indexer/overview.py",
+      "start_line": 182,
+      "end_line": 197,
+      "file_sha256": "da03a035ffde403f1b3700e9466897dc86dbf8d64608ece43f932db31c82ddce",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/indexer/overview.py#L182-L197"
+    },
+    {
+      "evidence_id": "E_OV_FIELDS",
+      "file_path": "indexer/overview.py",
+      "start_line": 198,
+      "end_line": 204,
+      "file_sha256": "da03a035ffde403f1b3700e9466897dc86dbf8d64608ece43f932db31c82ddce",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/indexer/overview.py#L198-L204"
+    },
+    {
+      "evidence_id": "E_OV_PARSE",
+      "file_path": "indexer/overview.py",
+      "start_line": 158,
+      "end_line": 171,
+      "file_sha256": "da03a035ffde403f1b3700e9466897dc86dbf8d64608ece43f932db31c82ddce",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/indexer/overview.py#L158-L171"
+    },
+    {
+      "evidence_id": "E_MEMORY",
+      "file_path": "memory/knowledge.py",
+      "start_line": 28,
+      "end_line": 45,
+      "file_sha256": "d49b9e40f82994bd36598b409fc9b97081946d6044634debdba12ab82f297839",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/memory/knowledge.py#L28-L45"
+    },
+    {
+      "evidence_id": "E_MEMORY_SAVE",
+      "file_path": "memory/knowledge.py",
+      "start_line": 49,
+      "end_line": 68,
+      "file_sha256": "d49b9e40f82994bd36598b409fc9b97081946d6044634debdba12ab82f297839",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/memory/knowledge.py#L49-L68"
+    },
+    {
+      "evidence_id": "E_CONV_SCOPE",
+      "file_path": "agent/conversations.py",
+      "start_line": 97,
+      "end_line": 116,
+      "file_sha256": "48b203f52a19253f6db26f620d2a3a0045ba9033e0d01e5627b69b1bd0a4d6cc",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/conversations.py#L97-L116"
+    },
+    {
+      "evidence_id": "E_CONV_SAVE",
+      "file_path": "agent/conversations.py",
+      "start_line": 119,
+      "end_line": 138,
+      "file_sha256": "48b203f52a19253f6db26f620d2a3a0045ba9033e0d01e5627b69b1bd0a4d6cc",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/conversations.py#L119-L138"
+    },
+    {
+      "evidence_id": "E_LITERAL",
+      "file_path": "agent/tools.py",
+      "start_line": 73,
+      "end_line": 96,
+      "file_sha256": "1218b7833e5a71706e4d8073063d40e3b4d001517cae3792933d490b3e6a3595",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/tools.py#L73-L96"
+    },
+    {
+      "evidence_id": "E_PATH",
+      "file_path": "indexer/source_reader.py",
+      "start_line": 43,
+      "end_line": 72,
+      "file_sha256": "5c6b05ef5f7b680aa00dddc28fcec02555b3af194715bed7b1ea17a81fcefa81",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/indexer/source_reader.py#L43-L72"
+    },
+    {
+      "evidence_id": "E_READ",
+      "file_path": "indexer/source_reader.py",
+      "start_line": 75,
+      "end_line": 110,
+      "file_sha256": "5c6b05ef5f7b680aa00dddc28fcec02555b3af194715bed7b1ea17a81fcefa81",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/indexer/source_reader.py#L75-L110"
+    },
+    {
+      "evidence_id": "E_READ_LIMIT",
+      "file_path": "indexer/source_reader.py",
+      "start_line": 1,
+      "end_line": 7,
+      "file_sha256": "5c6b05ef5f7b680aa00dddc28fcec02555b3af194715bed7b1ea17a81fcefa81",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/indexer/source_reader.py#L1-L7"
+    },
+    {
+      "evidence_id": "E_ISSUE_REF",
+      "file_path": "agent/evidence.py",
+      "start_line": 87,
+      "end_line": 106,
+      "file_sha256": "eaa2bd87834b916ab56c99c2dc4a6667bf1d5ba0fad1e60ebaff9366b28f0e92",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/evidence.py#L87-L106"
+    },
+    {
+      "evidence_id": "E_VERIFY_REF",
+      "file_path": "agent/evidence.py",
+      "start_line": 108,
+      "end_line": 137,
+      "file_sha256": "eaa2bd87834b916ab56c99c2dc4a6667bf1d5ba0fad1e60ebaff9366b28f0e92",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/evidence.py#L108-L137"
+    },
+    {
+      "evidence_id": "E_FILTER",
+      "file_path": "indexer/code_search.py",
+      "start_line": 87,
+      "end_line": 114,
+      "file_sha256": "f4fea052d6c5321c5ffc551ebc1fff15b0e5549dc2f5349988a78c43ee411e00",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/indexer/code_search.py#L87-L114"
+    },
+    {
+      "evidence_id": "E_PAGE",
+      "file_path": "indexer/code_search.py",
+      "start_line": 126,
+      "end_line": 167,
+      "file_sha256": "f4fea052d6c5321c5ffc551ebc1fff15b0e5549dc2f5349988a78c43ee411e00",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/indexer/code_search.py#L126-L167"
+    },
+    {
+      "evidence_id": "E_MCP_FIND",
+      "file_path": "mcp_server.py",
+      "start_line": 126,
+      "end_line": 146,
+      "file_sha256": "8aac604f9fe254bcacc8c26925b1d82402c1e3782b42907f12f4e17b126af9ec",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/mcp_server.py#L126-L146"
+    },
+    {
+      "evidence_id": "E_UI_HISTORY",
+      "file_path": "app.py",
+      "start_line": 187,
+      "end_line": 192,
+      "file_sha256": "28e7725060d38510d70b611e84c5a0bf71bd521ff1fd0ce45c9e2f32e57aba4b",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/app.py#L187-L192"
+    },
+    {
+      "evidence_id": "E_UI_RUN",
+      "file_path": "app.py",
+      "start_line": 203,
+      "end_line": 229,
+      "file_sha256": "28e7725060d38510d70b611e84c5a0bf71bd521ff1fd0ce45c9e2f32e57aba4b",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/app.py#L203-L229"
+    },
+    {
+      "evidence_id": "E_PLAN_SCHEMA",
+      "file_path": "agent/planning.py",
+      "start_line": 39,
+      "end_line": 66,
+      "file_sha256": "72842d8c568d47b9feccef01eac148e8a0a93ad37a048d427bb6cf9f6b0940a4",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/planning.py#L39-L66"
+    },
+    {
+      "evidence_id": "E_CHECKED_SHAPE",
+      "file_path": "agent/evidence.py",
+      "start_line": 34,
+      "end_line": 43,
+      "file_sha256": "eaa2bd87834b916ab56c99c2dc4a6667bf1d5ba0fad1e60ebaff9366b28f0e92",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/evidence.py#L34-L43"
+    },
+    {
+      "evidence_id": "E_PLAN_LACK",
+      "file_path": "agent/planning.py",
+      "start_line": 14,
+      "end_line": 27,
+      "file_sha256": "72842d8c568d47b9feccef01eac148e8a0a93ad37a048d427bb6cf9f6b0940a4",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/planning.py#L14-L27"
+    },
+    {
+      "evidence_id": "E_PLAN_COMMAND",
+      "file_path": "agent/planning.py",
+      "start_line": 97,
+      "end_line": 108,
+      "file_sha256": "72842d8c568d47b9feccef01eac148e8a0a93ad37a048d427bb6cf9f6b0940a4",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/planning.py#L97-L108"
+    },
+    {
+      "evidence_id": "E_DEP_SCOPE",
+      "file_path": "agent/tools.py",
+      "start_line": 32,
+      "end_line": 53,
+      "file_sha256": "1218b7833e5a71706e4d8073063d40e3b4d001517cae3792933d490b3e6a3595",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/agent/tools.py#L32-L53"
+    },
+    {
+      "evidence_id": "E_MODEL_CONFIG",
+      "file_path": "config.py",
+      "start_line": 4,
+      "end_line": 32,
+      "file_sha256": "a284358103003e929e9701c81a8b3328cb09312ee371a53d6bc5c4819b9285f4",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/config.py#L4-L32"
+    },
+    {
+      "evidence_id": "E_NO_MODEL_RUN",
+      "file_path": "docs/IMPLEMENTATION_STATUS.md",
+      "start_line": 19,
+      "end_line": 19,
+      "file_sha256": "26b0ceedaeff2c17145692e971b391a0082ac7755ff57e0e7426eea1c67fffbf",
+      "url": "https://github.com/xyma2003/codebase-qa/blob/af7dcd191999f0e5deb58a0c1983c526631a2ba9/docs/IMPLEMENTATION_STATUS.md#L19-L19"
+    }
+  ],
+  "review_template_statuses": {
+    "not_run": 19
+  },
+  "rubric_weights": {
+    "correctness": 40,
+    "evidence": 30,
+    "completeness": 20,
+    "boundaries": 10
+  },
+  "review_summary": {
+    "dataset_id": "codebase-qa-v1",
+    "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
+    "required_cases": 16,
+    "required_turns": 19,
+    "completed_turns": 0,
+    "reviewed_turns": 0,
+    "execution_failed_turns": 0,
+    "finalized": false,
+    "mean_score": null,
+    "pass_rate": null,
+    "cases": [
+      {
+        "case_id": "U01",
+        "category": "understanding",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "U02",
+        "category": "understanding",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "U03",
+        "category": "understanding",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "U04",
+        "category": "understanding",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "L01",
+        "category": "localization",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "L02",
+        "category": "localization",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "L03",
+        "category": "localization",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "L04",
+        "category": "localization",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "P01",
+        "category": "planning",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "P02",
+        "category": "planning",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "P03",
+        "category": "planning",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "P04",
+        "category": "planning",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "N01",
+        "category": "unanswerable",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "N02",
+        "category": "unanswerable",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "N03",
+        "category": "unanswerable",
+        "score": null,
+        "passed": null
+      },
+      {
+        "case_id": "N04",
+        "category": "unanswerable",
+        "score": null,
+        "passed": null
+      }
+    ]
+  },
+  "model_inputs_exclude_gold_and_categories": true,
+  "payload_sha256": {
+    "cases.jsonl": "dc699f781d2f4a3c321c9899ecc1732a51d9379402ecd819bb8fdb3b7fd89b6e",
+    "expectations.jsonl": "5d3784704119fcf736dee6e20f6e48f9963e032cba211d32b647756f5db2a476",
+    "evidence.jsonl": "0d515682771a62b952622eea3238b737714a6b52dd8da8a4095a16dad6c0889e",
+    "rubric.json": "e5160c86ec28ad83992110e8764b1459956a3b28d99fc8e479de3db9787c8fea",
+    "review-template.jsonl": "c72b19233c6e7f8c82554be85e757398395c7bde7acf46b23f64530b8dae28c9"
+  },
+  "checker_sha256": {
+    "evaluation/dataset.py": "a903932189e40278329943f29eccb6f7dd7634c4bf36caa6bbb99f3854522a04",
+    "evaluation/scoring.py": "5d0403dd1759e614d1c8dc4224ae59aaa4b80e3983021cb5bcab84b8a3321982",
+    "scripts/check_evaluation.py": "3a170ebdde7eac1eaf36293e6ab4841c33b27565f274b0a9154fc40d4c5d315a"
+  }
+}

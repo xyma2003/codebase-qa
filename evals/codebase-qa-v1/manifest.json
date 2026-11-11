@@ -1,0 +1,28 @@
+{
+  "dataset_id": "codebase-qa-v1",
+  "version": 1,
+  "split": "development",
+  "sources": [
+    {
+      "source_id": "codebase-qa-af7dcd1",
+      "repo_url": "https://github.com/xyma2003/codebase-qa",
+      "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+      "tree_sha": "fcd3089111464e4a135b886b1eedf2e5459ce6f2"
+    }
+  ],
+  "case_count": 16,
+  "turn_count": 19,
+  "category_counts": {
+    "understanding": 4,
+    "localization": 4,
+    "planning": 4,
+    "unanswerable": 4
+  },
+  "payload_sha256": {
+    "cases.jsonl": "dc699f781d2f4a3c321c9899ecc1732a51d9379402ecd819bb8fdb3b7fd89b6e",
+    "expectations.jsonl": "5d3784704119fcf736dee6e20f6e48f9963e032cba211d32b647756f5db2a476",
+    "evidence.jsonl": "0d515682771a62b952622eea3238b737714a6b52dd8da8a4095a16dad6c0889e",
+    "rubric.json": "e5160c86ec28ad83992110e8764b1459956a3b28d99fc8e479de3db9787c8fea",
+    "review-template.jsonl": "c72b19233c6e7f8c82554be85e757398395c7bde7acf46b23f64530b8dae28c9"
+  }
+}
