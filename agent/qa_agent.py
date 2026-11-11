@@ -1,10 +1,15 @@
-from pydantic_ai import Agent
+from typing import Literal
+
+from pydantic_ai import Agent, ToolOutput
 from agent.tools import RepoDeps, make_tools
 from config import LLM_PROVIDER, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL, LLM_MODEL_STRING, QUALITY_THRESHOLD
 from memory.quality import evaluate
 from memory.knowledge import save_qa
 from agent.evidence import CITATION_INSTRUCTIONS, CheckedAnswer, EvidenceStore
 from agent.conversations import load_conversation, append_turn
+from agent.planning import ChangePlan, PLANNING_INSTRUCTIONS, check_plan
+
+AnswerMode = Literal["qa", "plan"]
 
 _agent: Agent | None = None
 
@@ -51,23 +56,33 @@ def _get_agent() -> Agent:
     return _agent
 
 
-async def _run_answer(question, deps, conversation_id=None):
+async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "qa"):
+    if mode not in ("qa", "plan"):
+        raise ValueError("回答模式无效。")
+    if mode == "plan" and deps.evidence is None:
+        raise ValueError("修改规划需要已选定的仓库代码版本。")
     history = None
     if conversation_id is not None:
         history = load_conversation(conversation_id, deps.repo_url, deps.commit_sha, deps.collection_name)
         deps.evidence = EvidenceStore(deps.repo_url, deps.repo_root, deps.commit_sha,
                                       reference_offset=history.reference_count)
     options = {"instructions": CITATION_INSTRUCTIONS} if deps.evidence else {}
+    if mode == "plan":
+        options.update(instructions=CITATION_INSTRUCTIONS + "\n" + PLANNING_INSTRUCTIONS,
+                       output_type=ToolOutput(ChangePlan, name="submit_change_plan", max_retries=0))
     if history is not None:
         options.update(message_history=history.messages, conversation_id=history.conversation_id)
     result = await _get_agent().run(question, deps=deps, **options)
-    checked = deps.evidence.check_answer(result.output) if deps.evidence else CheckedAnswer(text=result.output)
+    if mode == "plan":
+        checked = check_plan(result.output, deps.evidence)
+    else:
+        checked = deps.evidence.check_answer(result.output) if deps.evidence else CheckedAnswer(text=result.output)
     if history is not None:
         append_turn(history, question, result.new_messages(), checked, deps.evidence.reference_count)
     # Keep the existing score and threshold; pinned answers additionally need checked references.
     # Follow-ups depend on conversation context and must not become standalone cached answers.
-    score = evaluate(question, result.output)
-    if (history is None or history.revision == 0) and score >= QUALITY_THRESHOLD and (deps.evidence is None or checked.can_save):
+    score = evaluate(question, result.output) if mode == "qa" else 0
+    if mode == "qa" and (history is None or history.revision == 0) and score >= QUALITY_THRESHOLD and (deps.evidence is None or checked.can_save):
         try:
             save_qa(question, checked.text, deps.repo_url, commit_sha=deps.commit_sha)
         except Exception:
@@ -75,13 +90,13 @@ async def _run_answer(question, deps, conversation_id=None):
     return checked
 
 
-async def ask(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None) -> str:
+async def ask(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa") -> str:
     """Run a question and resolve source references against the selected version."""
     deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha)
-    return (await _run_answer(question, deps, conversation_id)).text
+    return (await _run_answer(question, deps, conversation_id, mode)).text
 
 
-async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, on_result=None):
+async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa", on_result=None):
     """Stream a response token by token，流结束后触发知识沉淀。
 
     NOTE: Pydantic AI's run_stream() doesn't work with SiliconFlow's OpenAI-compatible
@@ -90,7 +105,7 @@ async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection
     """
     deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha)
 
-    checked = await _run_answer(question, deps, conversation_id)
+    checked = await _run_answer(question, deps, conversation_id, mode)
     if on_result is not None:
         on_result(checked)
     full_response = checked.text

@@ -178,6 +178,9 @@ if "repository_index" in st.session_state:
         show_overview(st.session_state["repo_overview"])
 
 # --- 对话区 ---
+if "repository_index" in st.session_state:
+    answer_mode = st.radio("任务", ["问答", "修改规划"], horizontal=True, key="answer_mode")
+
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
 
@@ -212,6 +215,7 @@ if question := st.chat_input("问一个关于代码的问题..."):
                     collection_name=repository.collection_name,
                     commit_sha=repository.commit_sha,
                     conversation_id=st.session_state["conversation_id"],
+                    mode="plan" if answer_mode == "修改规划" else "qa",
                     on_result=checked_results.append,
                 ))
                 checked = checked_results[0] if checked_results else None

@@ -74,6 +74,24 @@ class RepositoryUITests(unittest.TestCase):
         self.assertNotEqual(sessions[0], sessions[2])
         self.assertEqual(len(self.app.exception), 0)
 
+    def test_planning_mode_is_explicit_and_keeps_conversation_when_switching_modes(self):
+        calls = []
+        async def response(*args, mode=None, conversation_id=None, on_result=None, **kwargs):
+            calls.append((mode, conversation_id))
+            checked = CheckedAnswer(text="### 修改顺序\n\n1. 本地测试步骤" if mode == "plan" else "本地测试问答")
+            on_result(checked)
+            yield checked.text
+        self.assertEqual(self.app.radio[0].value, "问答")
+        with patch("agent.qa_agent.ask_stream", side_effect=response):
+            self.app.chat_input[0].set_value("first").run(timeout=60)
+            self.app.radio[0].set_value("修改规划").run(timeout=60)
+            self.assertEqual(len(self.app.session_state["messages"]), 2)
+            self.app.chat_input[0].set_value("make a plan").run(timeout=60)
+        self.assertEqual([call[0] for call in calls], ["qa", "plan"])
+        self.assertEqual(calls[0][1], calls[1][1])
+        self.assertEqual(len(self.app.session_state["messages"]), 4)
+        self.assertEqual(len(self.app.exception), 0)
+
     def test_failed_answer_preserves_previous_messages_and_allows_next_question(self):
         self.app.session_state["messages"] = [{"role": "assistant", "content": "previous answer"}]
         async def failure(*args, **kwargs):

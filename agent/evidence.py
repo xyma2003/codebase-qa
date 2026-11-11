@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict
 from indexer.citations import SourceCitation, check_source_citation
 from indexer.snapshots import load_snapshot
 from indexer.source_reader import SourceReadError
+from agent.planning import ChangePlan
 
 
 CITATION_INSTRUCTIONS = (
@@ -35,6 +36,7 @@ class CheckedAnswer(BaseModel):
     text: str
     citations: tuple[CitedSource, ...] = ()
     issues: tuple[CitationIssue, ...] = ()
+    plan: ChangePlan | None = None
 
     @property
     def can_save(self):
