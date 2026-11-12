@@ -1,0 +1,2925 @@
+{
+  "format_version": 1,
+  "experiment": "hybrid_retrieval_v1",
+  "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
+  "source_versions": [
+    {
+      "source_id": "codebase-qa-af7dcd1",
+      "repo_url": "https://github.com/xyma2003/codebase-qa",
+      "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+      "tree_sha": "fcd3089111464e4a135b886b1eedf2e5459ce6f2"
+    }
+  ],
+  "baseline_index_sha256": "882ab6f4c2a20c1704fe375fbcff8f00a8b0e7ad1c74facf5e7a49a0b4f777a4",
+  "variants": {
+    "semantic": {
+      "summary": {
+        "required_turns": 18,
+        "required_groups": 47,
+        "overlap_groups": 1,
+        "fully_covered_groups": 1,
+        "group_overlap_recall": 0.02127659574468085,
+        "group_full_coverage_recall": 0.02127659574468085
+      },
+      "turns": [
+        {
+          "case_id": "U01",
+          "turn_id": "T1",
+          "question": "这个项目从 GitHub 地址导入代码，到回答问题并给出源码依据，主要经过哪些模块？请解释顺序和各自职责。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/mcp-results.json",
+              "start_line": 53,
+              "end_line": 58,
+              "chunk_type": "other",
+              "name": "mcp-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "d187199e3b56cee5c0bc5189ad72a61cfcf48c5efdac2270c9858b151721124a"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 1,
+              "end_line": 67,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "08a879247fcc5f361ba44c663856992b8c027473acb1a2819f8858c54ee1a8b3"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/retrieval-results.json",
+              "start_line": 1,
+              "end_line": 3,
+              "chunk_type": "other",
+              "name": "retrieval-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "fdac1cb2093c3274839508f495cd351e64c5a84bd52b5a6ba36efda08c9e7fd8"
+            }
+          ],
+          "elapsed_ms": 6253,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G4",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "U02",
+          "turn_id": "T1",
+          "question": "更新仓库索引时，旧索引会先被删除吗？如果新构建失败，或者旧任务比新任务晚完成，代码怎样处理？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/checks/20261110-repository-versions.md",
+              "start_line": 1,
+              "end_line": 46,
+              "chunk_type": "other",
+              "name": "20261110-repository-versions.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "601b9cd4136a769f32512aba269aa986e314cfa3657186e9c98b2d317e4fca1c"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/mcp-results.json",
+              "start_line": 53,
+              "end_line": 58,
+              "chunk_type": "other",
+              "name": "mcp-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "d187199e3b56cee5c0bc5189ad72a61cfcf48c5efdac2270c9858b151721124a"
+            }
+          ],
+          "elapsed_ms": 12,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "U03",
+          "turn_id": "T1",
+          "question": "“项目概览”能提供哪些信息？它找到入口线索后，能证明这个入口已经运行成功吗？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/PRODUCT_PLAN.md",
+              "start_line": 1,
+              "end_line": 76,
+              "chunk_type": "other",
+              "name": "PRODUCT_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "06c30febf74d5c25f64eb78d70ad9f5e4662439bf163429745e47af96907b7ef"
+            },
+            {
+              "file_path": "tests/test_repository_ui.py",
+              "start_line": 161,
+              "end_line": 162,
+              "chunk_type": "function",
+              "name": "click_overview",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "344eb6dc0ae28d92e620cb5424f36473a109ca10a989847b73624aeeaa83335e"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/retrieval-results.json",
+              "start_line": 1,
+              "end_line": 3,
+              "chunk_type": "other",
+              "name": "retrieval-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "fdac1cb2093c3274839508f495cd351e64c5a84bd52b5a6ba36efda08c9e7fd8"
+            }
+          ],
+          "elapsed_ms": 12,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "U04",
+          "turn_id": "T1",
+          "question": "项目里的“历史问答知识库”和“多轮会话”是一回事吗？每次追问都会写入知识库吗？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/checks/20261111-conversations.md",
+              "start_line": 1,
+              "end_line": 42,
+              "chunk_type": "other",
+              "name": "20261111-conversations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "e9ea77fffe33f59a4163c26055dad00d7c1ac5a114848933d15628540f4f5da5"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.json",
+              "start_line": 167,
+              "end_line": 209,
+              "chunk_type": "other",
+              "name": "20261111-planning.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "2345bf95ab2fbec76ac2d267ad74c665d760d6800c8a3f67054797cd111e4b6f"
+            }
+          ],
+          "elapsed_ms": 10,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "U04",
+          "turn_id": "T2",
+          "question": "刚才说的这两类历史各自怎样隔离仓库和代码版本？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/TECHNICAL_PLAN.md",
+              "start_line": 1,
+              "end_line": 47,
+              "chunk_type": "other",
+              "name": "TECHNICAL_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "99468f630a033d31f2d9a7a2b1104763e8e1fefa33a7f9144345abe007c57eff"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 1,
+              "end_line": 67,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "08a879247fcc5f361ba44c663856992b8c027473acb1a2819f8858c54ee1a8b3"
+            },
+            {
+              "file_path": "docs/baseline/README.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "eb6867877ed456a5a79fb698d1201ee447e9c853ce5a9e62c8e210b00e86adb9"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "L01",
+          "turn_id": "T1",
+          "question": "已知函数名或原文关键词时用哪个工具定位？按概念搜索又走哪里？概念搜索是否总会查询向量索引？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            },
+            {
+              "file_path": "docs/checks/20261111-conversations.md",
+              "start_line": 1,
+              "end_line": 42,
+              "chunk_type": "other",
+              "name": "20261111-conversations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "e9ea77fffe33f59a4163c26055dad00d7c1ac5a114848933d15628540f4f5da5"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            }
+          ],
+          "elapsed_ms": 10,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "L02",
+          "turn_id": "T1",
+          "question": "定位 read_file 共用的底层读取实现：行号怎样计算、单次上限是多少，如何防止读取仓库外文件或符号链接？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "23fbf20c9461d55dfa418208994652b751d660c57542d28b8379701c205401e9"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 120,
+              "end_line": 156,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "3912ba0c547d695c60bb72ce928efb4a8e4674ee57b15b0bc68c7e2621d2a9ab"
+            },
+            {
+              "file_path": "docs/checks/20261110-source-reader.md",
+              "start_line": 1,
+              "end_line": 18,
+              "chunk_type": "other",
+              "name": "20261110-source-reader.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "539ee239b59171999e7a327f70f0f745995ad68e481c60731f1d4284a8cf2e58"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/retrieval-results.json",
+              "start_line": 20,
+              "end_line": 35,
+              "chunk_type": "other",
+              "name": "retrieval-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "9525a7ad0ede592795c64880a50c296dca8dca89cf633a332a060745b958c31d"
+            },
+            {
+              "file_path": "docs/checks/20261110-dependencies.md",
+              "start_line": 1,
+              "end_line": 38,
+              "chunk_type": "other",
+              "name": "20261110-dependencies.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "4e608749bbe570ec554d386e97719d38995f964da1cfa09620675c65c4a3f675"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "L03",
+          "turn_id": "T1",
+          "question": "回答中的 [S1] 在哪里生成、返回后又怎样核对？下一轮能直接复制旧编号作证据吗？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/PRODUCT_PLAN.md",
+              "start_line": 1,
+              "end_line": 76,
+              "chunk_type": "other",
+              "name": "PRODUCT_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "06c30febf74d5c25f64eb78d70ad9f5e4662439bf163429745e47af96907b7ef"
+            },
+            {
+              "file_path": "docs/checks/20261110-citations.md",
+              "start_line": 1,
+              "end_line": 49,
+              "chunk_type": "other",
+              "name": "20261110-citations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "568262ff4b301664c9a320e42e1f5d1397a332e704f3b5b40977bd2aa1c7e191"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "L04",
+          "turn_id": "T1",
+          "question": "真正的多轮消息是在哪个函数传给模型的？页面只是显示历史，还是确实传了会话？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/mcp-results.json",
+              "start_line": 53,
+              "end_line": 58,
+              "chunk_type": "other",
+              "name": "mcp-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "d187199e3b56cee5c0bc5189ad72a61cfcf48c5efdac2270c9858b151721124a"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "L04",
+          "turn_id": "T2",
+          "question": "如果它在读工具之后、完成回答之前报错，会不会留下半轮消息？请沿刚才的调用链说明。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/PRODUCT_PLAN.md",
+              "start_line": 1,
+              "end_line": 76,
+              "chunk_type": "other",
+              "name": "PRODUCT_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "06c30febf74d5c25f64eb78d70ad9f5e4662439bf163429745e47af96907b7ef"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "P01",
+          "turn_id": "T1",
+          "question": "给 find_code 增加精确文件后缀过滤参数 suffix，例如 .py；保留现有 path_filter 的子串含义，并让 Agent 和 MCP 都能传这个参数。请给出修改方案和验证方法。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "23fbf20c9461d55dfa418208994652b751d660c57542d28b8379701c205401e9"
+            },
+            {
+              "file_path": "docs/TECHNICAL_PLAN.md",
+              "start_line": 48,
+              "end_line": 83,
+              "chunk_type": "other",
+              "name": "TECHNICAL_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "5d0fc5bdfe9412a0a3f9205659cc943403a87d47426f5044dc2b1d565d8355df"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 120,
+              "end_line": 156,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "3912ba0c547d695c60bb72ce928efb4a8e4674ee57b15b0bc68c7e2621d2a9ab"
+            },
+            {
+              "file_path": "docs/checks/20261110-dependencies.md",
+              "start_line": 1,
+              "end_line": 38,
+              "chunk_type": "other",
+              "name": "20261110-dependencies.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "4e608749bbe570ec554d386e97719d38995f964da1cfa09620675c65c4a3f675"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 1,
+              "end_line": 67,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "08a879247fcc5f361ba44c663856992b8c027473acb1a2819f8858c54ee1a8b3"
+            }
+          ],
+          "elapsed_ms": 13,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "P02",
+          "turn_id": "T1",
+          "question": "希望在页面选择同一个仓库和 Commit 下以前保存的会话，并恢复可展开的源码引用。请规划实现，不改变模型或索引配置。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/checks/20261110-repository-versions.md",
+              "start_line": 1,
+              "end_line": 46,
+              "chunk_type": "other",
+              "name": "20261110-repository-versions.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "601b9cd4136a769f32512aba269aa986e314cfa3657186e9c98b2d317e4fca1c"
+            }
+          ],
+          "elapsed_ms": 10,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G4",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G5",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "P03",
+          "turn_id": "T1",
+          "question": "给已有修改规划增加下载 JSON 的按钮，下载当前已经生成并检查过的方案，不重新请求模型。请给修改位置、兼容处理和测试方案。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.json",
+              "start_line": 82,
+              "end_line": 166,
+              "chunk_type": "other",
+              "name": "20261111-planning.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "28a453f4e172ac99a36be433a02443700ccc7db74f8e3472e3cd199b77f82cc4"
+            },
+            {
+              "file_path": "docs/checks/20261111-conversations.md",
+              "start_line": 1,
+              "end_line": 42,
+              "chunk_type": "other",
+              "name": "20261111-conversations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "e9ea77fffe33f59a4163c26055dad00d7c1ac5a114848933d15628540f4f5da5"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.json",
+              "start_line": 167,
+              "end_line": 209,
+              "chunk_type": "other",
+              "name": "20261111-planning.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "2345bf95ab2fbec76ac2d267ad74c665d760d6800c8a3f67054797cd111e4b6f"
+            },
+            {
+              "file_path": "docs/baseline/questions.json",
+              "start_line": 1,
+              "end_line": 50,
+              "chunk_type": "other",
+              "name": "questions.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "7d0b052b58744edf6d351d84677520dd9443e0684123335ca248c95ccfee5eb7"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G4",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "P04",
+          "turn_id": "T1",
+          "question": "我想改一下默认排序，先给我修改规划。",
+          "evidence_required": false,
+          "hits": [],
+          "elapsed_ms": 0,
+          "groups": []
+        },
+        {
+          "case_id": "P04",
+          "turn_id": "T2",
+          "question": "具体是 find_code 文本模式的结果，按文件路径和行号降序；路径模式保持原顺序，分页不能重复或漏项。现在给方案。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "23fbf20c9461d55dfa418208994652b751d660c57542d28b8379701c205401e9"
+            },
+            {
+              "file_path": "docs/TECHNICAL_PLAN.md",
+              "start_line": 48,
+              "end_line": 83,
+              "chunk_type": "other",
+              "name": "TECHNICAL_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "5d0fc5bdfe9412a0a3f9205659cc943403a87d47426f5044dc2b1d565d8355df"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-dependencies.md",
+              "start_line": 1,
+              "end_line": 38,
+              "chunk_type": "other",
+              "name": "20261110-dependencies.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "4e608749bbe570ec554d386e97719d38995f964da1cfa09620675c65c4a3f675"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/mcp-results.json",
+              "start_line": 53,
+              "end_line": 58,
+              "chunk_type": "other",
+              "name": "mcp-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "d187199e3b56cee5c0bc5189ad72a61cfcf48c5efdac2270c9858b151721124a"
+            }
+          ],
+          "elapsed_ms": 10,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "N01",
+          "turn_id": "T1",
+          "question": "这个版本用 SiliconFlow Qwen/Qwen3-32B 在真实用户问题上的实测正确率到底是多少？给出具体百分比。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/IMPLEMENTATION_STATUS.md",
+              "start_line": 1,
+              "end_line": 39,
+              "chunk_type": "other",
+              "name": "IMPLEMENTATION_STATUS.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "bb2f7d4e246861d292ddde670e65cf93b97c078e6fb05bb5b0723ffbecdd76dd"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/baseline/README.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "eb6867877ed456a5a79fb698d1201ee447e9c853ce5a9e62c8e210b00e86adb9"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/retrieval-results.json",
+              "start_line": 12,
+              "end_line": 19,
+              "chunk_type": "other",
+              "name": "retrieval-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ab112e253f930c8792be9b8a1de35171c4c16f80360dc53f3ef87dc9cc8f5e5f"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/REPORT.md",
+              "start_line": 48,
+              "end_line": 60,
+              "chunk_type": "other",
+              "name": "REPORT.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "dd869ea26a5f264f4b23a484043c633854711ca2ea5f8d86b9da3bf3d61cf9ab"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": true,
+              "full_coverage": true
+            }
+          ]
+        },
+        {
+          "case_id": "N02",
+          "turn_id": "T1",
+          "question": "get_file_dependencies 能给我完整运行时调用图，并告诉我线上每个函数实际被调用了多少次吗？请直接给次数。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-dependencies.md",
+              "start_line": 1,
+              "end_line": 38,
+              "chunk_type": "other",
+              "name": "20261110-dependencies.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "4e608749bbe570ec554d386e97719d38995f964da1cfa09620675c65c4a3f675"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "23fbf20c9461d55dfa418208994652b751d660c57542d28b8379701c205401e9"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 120,
+              "end_line": 156,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "3912ba0c547d695c60bb72ce928efb4a8e4674ee57b15b0bc68c7e2621d2a9ab"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/retrieval-results.json",
+              "start_line": 36,
+              "end_line": 42,
+              "chunk_type": "other",
+              "name": "retrieval-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "1a45b21034aa7891c4e28a2b6d518c340500c7e2405a690302fbe6d284da58a6"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.json",
+              "start_line": 167,
+              "end_line": 209,
+              "chunk_type": "other",
+              "name": "20261111-planning.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "2345bf95ab2fbec76ac2d267ad74c665d760d6800c8a3f67054797cd111e4b6f"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "N03",
+          "turn_id": "T1",
+          "question": "当前修改规划里的 command 会由哪个函数自动执行？请指出执行器，并给出这些命令已经通过的测试结果。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "23fbf20c9461d55dfa418208994652b751d660c57542d28b8379701c205401e9"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 44,
+              "end_line": 50,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "c2d5a9a9013ae44cea1aaa171c7ca02b29e8b34ae78df68b66a3c7e51c9b4a18"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            },
+            {
+              "file_path": "docs/checks/20261111-conversations.md",
+              "start_line": 43,
+              "end_line": 49,
+              "chunk_type": "other",
+              "name": "20261111-conversations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "7df3048026b4c4eeae8639f0ece60d684b1474778938cd292467a7df9bc971a1"
+            }
+          ],
+          "elapsed_ms": 12,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "N04",
+          "turn_id": "T1",
+          "question": "只看这个 Git 版本，就告诉我线上实例现在实际用了哪个 provider 和模型，以及本周已经花了多少钱。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/PRODUCT_PLAN.md",
+              "start_line": 1,
+              "end_line": 76,
+              "chunk_type": "other",
+              "name": "PRODUCT_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "06c30febf74d5c25f64eb78d70ad9f5e4662439bf163429745e47af96907b7ef"
+            },
+            {
+              "file_path": "docs/checks/20261110-citations.md",
+              "start_line": 1,
+              "end_line": 49,
+              "chunk_type": "other",
+              "name": "20261110-citations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "568262ff4b301664c9a320e42e1f5d1397a332e704f3b5b40977bd2aa1c7e191"
+            },
+            {
+              "file_path": "docs/checks/20261110-repository-versions.md",
+              "start_line": 1,
+              "end_line": 46,
+              "chunk_type": "other",
+              "name": "20261110-repository-versions.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "content_sha256": "601b9cd4136a769f32512aba269aa986e314cfa3657186e9c98b2d317e4fca1c"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        }
+      ]
+    },
+    "hybrid": {
+      "summary": {
+        "required_turns": 18,
+        "required_groups": 47,
+        "overlap_groups": 4,
+        "fully_covered_groups": 1,
+        "group_overlap_recall": 0.0851063829787234,
+        "group_full_coverage_recall": 0.02127659574468085
+      },
+      "turns": [
+        {
+          "case_id": "U01",
+          "turn_id": "T1",
+          "question": "这个项目从 GitHub 地址导入代码，到回答问题并给出源码依据，主要经过哪些模块？请解释顺序和各自职责。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/mcp-results.json",
+              "start_line": 53,
+              "end_line": 58,
+              "chunk_type": "other",
+              "name": "mcp-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "d187199e3b56cee5c0bc5189ad72a61cfcf48c5efdac2270c9858b151721124a"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 1,
+              "end_line": 67,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "08a879247fcc5f361ba44c663856992b8c027473acb1a2819f8858c54ee1a8b3"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/retrieval-results.json",
+              "start_line": 1,
+              "end_line": 3,
+              "chunk_type": "other",
+              "name": "retrieval-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "fdac1cb2093c3274839508f495cd351e64c5a84bd52b5a6ba36efda08c9e7fd8"
+            }
+          ],
+          "elapsed_ms": 85,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G4",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "U02",
+          "turn_id": "T1",
+          "question": "更新仓库索引时，旧索引会先被删除吗？如果新构建失败，或者旧任务比新任务晚完成，代码怎样处理？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/checks/20261110-repository-versions.md",
+              "start_line": 1,
+              "end_line": 46,
+              "chunk_type": "other",
+              "name": "20261110-repository-versions.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "601b9cd4136a769f32512aba269aa986e314cfa3657186e9c98b2d317e4fca1c"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/mcp-results.json",
+              "start_line": 53,
+              "end_line": 58,
+              "chunk_type": "other",
+              "name": "mcp-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "d187199e3b56cee5c0bc5189ad72a61cfcf48c5efdac2270c9858b151721124a"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "U03",
+          "turn_id": "T1",
+          "question": "“项目概览”能提供哪些信息？它找到入口线索后，能证明这个入口已经运行成功吗？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/PRODUCT_PLAN.md",
+              "start_line": 1,
+              "end_line": 76,
+              "chunk_type": "other",
+              "name": "PRODUCT_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "06c30febf74d5c25f64eb78d70ad9f5e4662439bf163429745e47af96907b7ef"
+            },
+            {
+              "file_path": "tests/test_repository_ui.py",
+              "start_line": 161,
+              "end_line": 162,
+              "chunk_type": "function",
+              "name": "click_overview",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "344eb6dc0ae28d92e620cb5424f36473a109ca10a989847b73624aeeaa83335e"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/retrieval-results.json",
+              "start_line": 1,
+              "end_line": 3,
+              "chunk_type": "other",
+              "name": "retrieval-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "fdac1cb2093c3274839508f495cd351e64c5a84bd52b5a6ba36efda08c9e7fd8"
+            }
+          ],
+          "elapsed_ms": 12,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "U04",
+          "turn_id": "T1",
+          "question": "项目里的“历史问答知识库”和“多轮会话”是一回事吗？每次追问都会写入知识库吗？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/checks/20261111-conversations.md",
+              "start_line": 1,
+              "end_line": 42,
+              "chunk_type": "other",
+              "name": "20261111-conversations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "e9ea77fffe33f59a4163c26055dad00d7c1ac5a114848933d15628540f4f5da5"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.json",
+              "start_line": 167,
+              "end_line": 209,
+              "chunk_type": "other",
+              "name": "20261111-planning.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "2345bf95ab2fbec76ac2d267ad74c665d760d6800c8a3f67054797cd111e4b6f"
+            }
+          ],
+          "elapsed_ms": 14,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "U04",
+          "turn_id": "T2",
+          "question": "刚才说的这两类历史各自怎样隔离仓库和代码版本？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/TECHNICAL_PLAN.md",
+              "start_line": 1,
+              "end_line": 47,
+              "chunk_type": "other",
+              "name": "TECHNICAL_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "99468f630a033d31f2d9a7a2b1104763e8e1fefa33a7f9144345abe007c57eff"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 1,
+              "end_line": 67,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "08a879247fcc5f361ba44c663856992b8c027473acb1a2819f8858c54ee1a8b3"
+            },
+            {
+              "file_path": "docs/baseline/README.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "eb6867877ed456a5a79fb698d1201ee447e9c853ce5a9e62c8e210b00e86adb9"
+            }
+          ],
+          "elapsed_ms": 12,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "L01",
+          "turn_id": "T1",
+          "question": "已知函数名或原文关键词时用哪个工具定位？按概念搜索又走哪里？概念搜索是否总会查询向量索引？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            },
+            {
+              "file_path": "docs/checks/20261111-conversations.md",
+              "start_line": 1,
+              "end_line": 42,
+              "chunk_type": "other",
+              "name": "20261111-conversations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "e9ea77fffe33f59a4163c26055dad00d7c1ac5a114848933d15628540f4f5da5"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "L02",
+          "turn_id": "T1",
+          "question": "定位 read_file 共用的底层读取实现：行号怎样计算、单次上限是多少，如何防止读取仓库外文件或符号链接？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "agent/tools.py",
+              "start_line": 152,
+              "end_line": 167,
+              "chunk_type": "function",
+              "name": "make_tools.read_file",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "lexical"
+              ],
+              "content_sha256": "cac1d4b17b2e8c4b3d0159e5075e7f756aa6d2751ff55e90e24582fb43249c20"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "23fbf20c9461d55dfa418208994652b751d660c57542d28b8379701c205401e9"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 120,
+              "end_line": 156,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "3912ba0c547d695c60bb72ce928efb4a8e4674ee57b15b0bc68c7e2621d2a9ab"
+            },
+            {
+              "file_path": "mcp_server.py",
+              "start_line": 217,
+              "end_line": 240,
+              "chunk_type": "function",
+              "name": "read_file",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "lexical"
+              ],
+              "content_sha256": "9823de8106416ba3c2117357672126a15f5f1c8c009332f9c3fc28199c09f89b"
+            },
+            {
+              "file_path": "docs/checks/20261110-source-reader.md",
+              "start_line": 1,
+              "end_line": 18,
+              "chunk_type": "other",
+              "name": "20261110-source-reader.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "539ee239b59171999e7a327f70f0f745995ad68e481c60731f1d4284a8cf2e58"
+            }
+          ],
+          "elapsed_ms": 180,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "L03",
+          "turn_id": "T1",
+          "question": "回答中的 [S1] 在哪里生成、返回后又怎样核对？下一轮能直接复制旧编号作证据吗？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/PRODUCT_PLAN.md",
+              "start_line": 1,
+              "end_line": 76,
+              "chunk_type": "other",
+              "name": "PRODUCT_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "06c30febf74d5c25f64eb78d70ad9f5e4662439bf163429745e47af96907b7ef"
+            },
+            {
+              "file_path": "docs/checks/20261110-citations.md",
+              "start_line": 1,
+              "end_line": 49,
+              "chunk_type": "other",
+              "name": "20261110-citations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "568262ff4b301664c9a320e42e1f5d1397a332e704f3b5b40977bd2aa1c7e191"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            }
+          ],
+          "elapsed_ms": 12,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "L04",
+          "turn_id": "T1",
+          "question": "真正的多轮消息是在哪个函数传给模型的？页面只是显示历史，还是确实传了会话？",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/mcp-results.json",
+              "start_line": 53,
+              "end_line": 58,
+              "chunk_type": "other",
+              "name": "mcp-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "d187199e3b56cee5c0bc5189ad72a61cfcf48c5efdac2270c9858b151721124a"
+            }
+          ],
+          "elapsed_ms": 12,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "L04",
+          "turn_id": "T2",
+          "question": "如果它在读工具之后、完成回答之前报错，会不会留下半轮消息？请沿刚才的调用链说明。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/PRODUCT_PLAN.md",
+              "start_line": 1,
+              "end_line": 76,
+              "chunk_type": "other",
+              "name": "PRODUCT_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "06c30febf74d5c25f64eb78d70ad9f5e4662439bf163429745e47af96907b7ef"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "P01",
+          "turn_id": "T1",
+          "question": "给 find_code 增加精确文件后缀过滤参数 suffix，例如 .py；保留现有 path_filter 的子串含义，并让 Agent 和 MCP 都能传这个参数。请给出修改方案和验证方法。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "agent/tools.py",
+              "start_line": 74,
+              "end_line": 96,
+              "chunk_type": "function",
+              "name": "make_tools.find_code",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "lexical"
+              ],
+              "content_sha256": "8e17d3723af419bbb44b7b5dcc7ce8eee07702bc44e393241201cc521fe32a06"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "23fbf20c9461d55dfa418208994652b751d660c57542d28b8379701c205401e9"
+            },
+            {
+              "file_path": "docs/TECHNICAL_PLAN.md",
+              "start_line": 48,
+              "end_line": 83,
+              "chunk_type": "other",
+              "name": "TECHNICAL_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "5d0fc5bdfe9412a0a3f9205659cc943403a87d47426f5044dc2b1d565d8355df"
+            },
+            {
+              "file_path": "mcp_server.py",
+              "start_line": 127,
+              "end_line": 146,
+              "chunk_type": "function",
+              "name": "find_code",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "lexical"
+              ],
+              "content_sha256": "c49f1ec8e30dcf2131d3bbecb99e1e742e709971b895b1df37107b5d6558fcee"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 120,
+              "end_line": 156,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "3912ba0c547d695c60bb72ce928efb4a8e4674ee57b15b0bc68c7e2621d2a9ab"
+            }
+          ],
+          "elapsed_ms": 155,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": true,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": true,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "P02",
+          "turn_id": "T1",
+          "question": "希望在页面选择同一个仓库和 Commit 下以前保存的会话，并恢复可展开的源码引用。请规划实现，不改变模型或索引配置。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 68,
+              "end_line": 119,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ebd2533c0b9717a78e729b6dac1eb03e0cdb7c6a0d467427d598927518f6735a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/checks/20261110-repository-versions.md",
+              "start_line": 1,
+              "end_line": 46,
+              "chunk_type": "other",
+              "name": "20261110-repository-versions.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "601b9cd4136a769f32512aba269aa986e314cfa3657186e9c98b2d317e4fca1c"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G4",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G5",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "P03",
+          "turn_id": "T1",
+          "question": "给已有修改规划增加下载 JSON 的按钮，下载当前已经生成并检查过的方案，不重新请求模型。请给修改位置、兼容处理和测试方案。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.json",
+              "start_line": 82,
+              "end_line": 166,
+              "chunk_type": "other",
+              "name": "20261111-planning.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "28a453f4e172ac99a36be433a02443700ccc7db74f8e3472e3cd199b77f82cc4"
+            },
+            {
+              "file_path": "docs/checks/20261111-conversations.md",
+              "start_line": 1,
+              "end_line": 42,
+              "chunk_type": "other",
+              "name": "20261111-conversations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "e9ea77fffe33f59a4163c26055dad00d7c1ac5a114848933d15628540f4f5da5"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.json",
+              "start_line": 167,
+              "end_line": 209,
+              "chunk_type": "other",
+              "name": "20261111-planning.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "2345bf95ab2fbec76ac2d267ad74c665d760d6800c8a3f67054797cd111e4b6f"
+            },
+            {
+              "file_path": "docs/baseline/questions.json",
+              "start_line": 1,
+              "end_line": 50,
+              "chunk_type": "other",
+              "name": "questions.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "7d0b052b58744edf6d351d84677520dd9443e0684123335ca248c95ccfee5eb7"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G3",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G4",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "P04",
+          "turn_id": "T1",
+          "question": "我想改一下默认排序，先给我修改规划。",
+          "evidence_required": false,
+          "hits": [],
+          "elapsed_ms": 0,
+          "groups": []
+        },
+        {
+          "case_id": "P04",
+          "turn_id": "T2",
+          "question": "具体是 find_code 文本模式的结果，按文件路径和行号降序；路径模式保持原顺序，分页不能重复或漏项。现在给方案。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "agent/tools.py",
+              "start_line": 74,
+              "end_line": 96,
+              "chunk_type": "function",
+              "name": "make_tools.find_code",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "lexical"
+              ],
+              "content_sha256": "8e17d3723af419bbb44b7b5dcc7ce8eee07702bc44e393241201cc521fe32a06"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "23fbf20c9461d55dfa418208994652b751d660c57542d28b8379701c205401e9"
+            },
+            {
+              "file_path": "docs/TECHNICAL_PLAN.md",
+              "start_line": 48,
+              "end_line": 83,
+              "chunk_type": "other",
+              "name": "TECHNICAL_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "5d0fc5bdfe9412a0a3f9205659cc943403a87d47426f5044dc2b1d565d8355df"
+            },
+            {
+              "file_path": "mcp_server.py",
+              "start_line": 127,
+              "end_line": 146,
+              "chunk_type": "function",
+              "name": "find_code",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "lexical"
+              ],
+              "content_sha256": "c49f1ec8e30dcf2131d3bbecb99e1e742e709971b895b1df37107b5d6558fcee"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            }
+          ],
+          "elapsed_ms": 85,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "N01",
+          "turn_id": "T1",
+          "question": "这个版本用 SiliconFlow Qwen/Qwen3-32B 在真实用户问题上的实测正确率到底是多少？给出具体百分比。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/IMPLEMENTATION_STATUS.md",
+              "start_line": 1,
+              "end_line": 39,
+              "chunk_type": "other",
+              "name": "IMPLEMENTATION_STATUS.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "bb2f7d4e246861d292ddde670e65cf93b97c078e6fb05bb5b0723ffbecdd76dd"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/baseline/README.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "eb6867877ed456a5a79fb698d1201ee447e9c853ce5a9e62c8e210b00e86adb9"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/retrieval-results.json",
+              "start_line": 12,
+              "end_line": 19,
+              "chunk_type": "other",
+              "name": "retrieval-results.json",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ab112e253f930c8792be9b8a1de35171c4c16f80360dc53f3ef87dc9cc8f5e5f"
+            },
+            {
+              "file_path": "docs/baseline/runs/20261110-stage0/REPORT.md",
+              "start_line": 48,
+              "end_line": 60,
+              "chunk_type": "other",
+              "name": "REPORT.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "dd869ea26a5f264f4b23a484043c633854711ca2ea5f8d86b9da3bf3d61cf9ab"
+            }
+          ],
+          "elapsed_ms": 78,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": true,
+              "full_coverage": true
+            }
+          ]
+        },
+        {
+          "case_id": "N02",
+          "turn_id": "T1",
+          "question": "get_file_dependencies 能给我完整运行时调用图，并告诉我线上每个函数实际被调用了多少次吗？请直接给次数。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "agent/tools.py",
+              "start_line": 33,
+              "end_line": 53,
+              "chunk_type": "function",
+              "name": "make_tools.get_file_dependencies",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "lexical"
+              ],
+              "content_sha256": "33e59a0bb9a4f8a6aa600b576b27c5de6588b1b5bfaab08c1347ce0561528a6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-dependencies.md",
+              "start_line": 1,
+              "end_line": 38,
+              "chunk_type": "other",
+              "name": "20261110-dependencies.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "4e608749bbe570ec554d386e97719d38995f964da1cfa09620675c65c4a3f675"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "23fbf20c9461d55dfa418208994652b751d660c57542d28b8379701c205401e9"
+            },
+            {
+              "file_path": "indexer/dependencies.py",
+              "start_line": 116,
+              "end_line": 235,
+              "chunk_type": "function",
+              "name": "get_file_dependencies",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "lexical"
+              ],
+              "content_sha256": "906d968d272844301ed8486570c863f63bdafa82bd799188ba292a7a60435611"
+            },
+            {
+              "file_path": "README.md",
+              "start_line": 120,
+              "end_line": 156,
+              "chunk_type": "other",
+              "name": "README.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "3912ba0c547d695c60bb72ce928efb4a8e4674ee57b15b0bc68c7e2621d2a9ab"
+            }
+          ],
+          "elapsed_ms": 80,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": true,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "N03",
+          "turn_id": "T1",
+          "question": "当前修改规划里的 command 会由哪个函数自动执行？请指出执行器，并给出这些命令已经通过的测试结果。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 1,
+              "end_line": 51,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "23fbf20c9461d55dfa418208994652b751d660c57542d28b8379701c205401e9"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 44,
+              "end_line": 50,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "c2d5a9a9013ae44cea1aaa171c7ca02b29e8b34ae78df68b66a3c7e51c9b4a18"
+            },
+            {
+              "file_path": "docs/checks/20261111-planning.md",
+              "start_line": 1,
+              "end_line": 43,
+              "chunk_type": "other",
+              "name": "20261111-planning.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "31f7b2398846dea0730545897800237cacf8659ac27dd8bc37e9ea9f4333d144"
+            },
+            {
+              "file_path": "docs/checks/20261111-conversations.md",
+              "start_line": 43,
+              "end_line": 49,
+              "chunk_type": "other",
+              "name": "20261111-conversations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "7df3048026b4c4eeae8639f0ece60d684b1474778938cd292467a7df9bc971a1"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            },
+            {
+              "group_id": "G2",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        },
+        {
+          "case_id": "N04",
+          "turn_id": "T1",
+          "question": "只看这个 Git 版本，就告诉我线上实例现在实际用了哪个 provider 和模型，以及本周已经花了多少钱。",
+          "evidence_required": true,
+          "hits": [
+            {
+              "file_path": "docs/checks/20261110-code-search.md",
+              "start_line": 52,
+              "end_line": 53,
+              "chunk_type": "other",
+              "name": "20261110-code-search.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.01639344262295082,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "a47f341b2ecadcccb426cacd9efcdc039bf28218dc948702d2093715a35f0d6a"
+            },
+            {
+              "file_path": "docs/checks/20261110-overview.md",
+              "start_line": 1,
+              "end_line": 44,
+              "chunk_type": "other",
+              "name": "20261110-overview.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.016129032258064516,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "ec4e8860925f5be11d22e83cc17f80c4655f3789235c872ae282ca6f5b96c123"
+            },
+            {
+              "file_path": "docs/PRODUCT_PLAN.md",
+              "start_line": 1,
+              "end_line": 76,
+              "chunk_type": "other",
+              "name": "PRODUCT_PLAN.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015873015873015872,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "06c30febf74d5c25f64eb78d70ad9f5e4662439bf163429745e47af96907b7ef"
+            },
+            {
+              "file_path": "docs/checks/20261110-citations.md",
+              "start_line": 1,
+              "end_line": 49,
+              "chunk_type": "other",
+              "name": "20261110-citations.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015625,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "568262ff4b301664c9a320e42e1f5d1397a332e704f3b5b40977bd2aa1c7e191"
+            },
+            {
+              "file_path": "docs/checks/20261110-repository-versions.md",
+              "start_line": 1,
+              "end_line": 46,
+              "chunk_type": "other",
+              "name": "20261110-repository-versions.md",
+              "commit_sha": "af7dcd191999f0e5deb58a0c1983c526631a2ba9",
+              "fusion_score": 0.015384615384615385,
+              "retrieval_channels": [
+                "semantic"
+              ],
+              "content_sha256": "601b9cd4136a769f32512aba269aa986e314cfa3657186e9c98b2d317e4fca1c"
+            }
+          ],
+          "elapsed_ms": 11,
+          "groups": [
+            {
+              "group_id": "G1",
+              "overlap": false,
+              "full_coverage": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "changed_variable": "semantic_vs_fixed_lexical_rrf",
+  "top_k": 5,
+  "rrf_constant": 60,
+  "max_query_tokens": 8,
+  "lexical_limit": 20,
+  "new_embeddings": 0,
+  "real_model_requests": 0,
+  "production_default_changed": false,
+  "answer_quality_evaluated": false,
+  "implementation_sha256": {
+    "indexer/hybrid.py": "995817258a0c80075098444794bc037f4b9ab30a4d2aedcfdf6153df581031d9",
+    "agent/tools.py": "dc33fe144558bedff32cd6e4d0894eead0e108a6d37da159ffeee3c4f8877669",
+    "agent/qa_agent.py": "6c3c4a60016cbbf2dc802791c6989ab558efe80c9d096d3a215720300671b635",
+    "scripts/compare_hybrid_retrieval.py": "82f952838b81d9094b60ed96ffa3f3393641f92f53e367e53da58f9ed88b0afd"
+  },
+  "verification": {
+    "source_hits_checked": 180,
+    "all_hit_ranges_checked_against_git": true,
+    "group_coverage_recomputed": true,
+    "published_source_content": "sha256_only"
+  }
+}

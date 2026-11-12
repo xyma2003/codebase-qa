@@ -128,6 +128,8 @@ Agent 提供六个工具：
 
 `query` 和 `path_filter` 都是字面子串，不解释正则或通配符。默认忽略大小写；`limit` 为 1–50，`offset` 从 0 开始，按 `next_offset` 继续分页。结果绑定 Commit，文本和符号查找会核对文件 SHA256；路径模式读取快照文件清单。查找预览是定位线索，仍需 `read_file` 获取可核对的引用编号。
 
+Python 的 `ask` / `ask_stream` 可显式传入 `retrieval_strategy="hybrid"`，MCP 的 `search_code` 也支持该参数及 `use_answer_cache=False`。默认仍为原向量方式 `semantic`。实验融合按代码名称补充字面定位后采用固定 RRF 排序，不引入新模型。固定开发集的部分证据命中从 1/47 到 4/47，完整覆盖均为 1/47；没有测得回答质量提升，见[固定检索对照](docs/checks/20261112-retrieval-hybrid.md)。
+
 查找仅处理支持的扩展名，跳过依赖、构建等目录。单个文件超过 1 MiB、含二进制内容，或 Python 定义无法解析时会计入 `skipped_count`；`skipped_examples` 最多列出 10 个例子。单次最多检查 2000 个候选文件、读取 10 MiB 源码，触及上限会返回 `scan_limited=True`，可缩小 `path_filter` 后查找。预览最多 240 字符，截短时返回 `preview_truncated=True`。
 
 `get_file_dependencies` 的 `outgoing` 返回文件中的导入引用，`incoming` 返回可能指向该文件的引用。`file_path` 始终是仓库相对路径；`source_root` 默认仓库根目录，`src` 布局需要明确传入 `source_root="src"`。查找不会读取当前解释器的 `sys.path` 或执行目标模块。

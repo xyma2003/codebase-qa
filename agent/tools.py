@@ -10,6 +10,7 @@ from pydantic import StrictBool, StrictInt
 from indexer.overview import build_repository_overview, overview_payload
 from indexer.dependencies import DependencyDirection, get_file_dependencies as lookup_dependencies, dependency_payload
 from agent.tracing import traced_tool, ToolEvent
+from indexer.hybrid import RetrievalStrategy, hybrid_search
 
 
 @dataclass
@@ -20,11 +21,16 @@ class RepoDeps:
     commit_sha: str | None = None
     source_only: bool = False
     use_answer_cache: bool = True
+    retrieval_strategy: RetrievalStrategy = "semantic"
     tool_observer: object | None = field(default=None, repr=False)
     tool_events: list[ToolEvent] = field(default_factory=list, init=False, repr=False)
     evidence: EvidenceStore | None = field(default=None, init=False, repr=False)
 
     def __post_init__(self):
+        if self.retrieval_strategy not in {"semantic", "hybrid"}:
+            raise ValueError("Unknown retrieval strategy")
+        if self.retrieval_strategy == "hybrid" and not self.commit_sha:
+            raise ValueError("Hybrid retrieval requires a pinned repository version")
         if bool(self.collection_name) != bool(self.commit_sha):
             raise ValueError("A pinned repository requires both collection_name and commit_sha.")
         if self.commit_sha:
@@ -126,7 +132,9 @@ def make_tools(agent):
             )
 
         # 未命中，走原有代码搜索
-        results = search(query, ctx.deps.repo_url, n_results=5, collection_name=ctx.deps.collection_name)
+        results = (hybrid_search(ctx.deps.repo_root, ctx.deps.repo_url, ctx.deps.commit_sha, query, ctx.deps.collection_name)
+                   if ctx.deps.retrieval_strategy == "hybrid" else
+                   search(query, ctx.deps.repo_url, n_results=5, collection_name=ctx.deps.collection_name))
         if not results:
             return "No relevant code found for that query."
 

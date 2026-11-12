@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_FILES = (
     "agent/qa_agent.py", "agent/tools.py", "agent/evidence.py", "agent/planning.py", "agent/conversations.py", "agent/tracing.py",
     "indexer/snapshots.py", "indexer/source_reader.py", "indexer/code_search.py", "indexer/dependencies.py",
-    "indexer/overview.py", "indexer/vector_store.py", "memory/quality.py", "memory/knowledge.py", "config.py", "requirements.txt",
+    "indexer/overview.py", "indexer/vector_store.py", "indexer/hybrid.py", "memory/quality.py", "memory/knowledge.py", "config.py", "requirements.txt",
     "evaluation/dataset.py", "evaluation/scoring.py", "evaluation/runner.py", "evaluation/archive.py", "evaluation/local_model.py",
 )
 
@@ -128,7 +128,8 @@ async def _run(dataset, repository, output, *, backend, turn_timeout, indexed=No
                     started = time.perf_counter()
                     with capture_run_messages() as messages:
                         try:
-                            deps = RepoDeps(source["repo_url"], snapshot.root, scope_token, source["commit_sha"], source_only=not bool(indexed), use_answer_cache=not bool(indexed))
+                            deps = RepoDeps(source["repo_url"], snapshot.root, scope_token, source["commit_sha"], source_only=not bool(indexed), use_answer_cache=not bool(indexed),
+                                            retrieval_strategy=indexed["profile"].get("retrieval_strategy", "semantic") if indexed else "semantic")
                             checked = await asyncio.wait_for(qa_agent._run_answer(
                                 turn["question"], deps, session, turn["mode"], agent=agent,
                                 conversation_dir=root / "_state/conversations", on_run=result.append), turn_timeout)

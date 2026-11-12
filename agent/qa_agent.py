@@ -8,6 +8,7 @@ from memory.knowledge import save_qa
 from agent.evidence import CITATION_INSTRUCTIONS, CheckedAnswer, EvidenceStore
 from agent.conversations import load_conversation, append_turn
 from agent.planning import ChangePlan, PLANNING_INSTRUCTIONS, check_plan
+from indexer.hybrid import RetrievalStrategy
 
 AnswerMode = Literal["qa", "plan"]
 
@@ -102,20 +103,20 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
     return checked
 
 
-async def ask(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa") -> str:
+async def ask(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa", retrieval_strategy: RetrievalStrategy = "semantic") -> str:
     """Run a question and resolve source references against the selected version."""
-    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha)
+    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha, retrieval_strategy=retrieval_strategy)
     return (await _run_answer(question, deps, conversation_id, mode)).text
 
 
-async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa", on_result=None, on_event=None):
+async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa", on_result=None, on_event=None, retrieval_strategy: RetrievalStrategy = "semantic"):
     """Stream a response token by token，流结束后触发知识沉淀。
 
     NOTE: Pydantic AI's run_stream() doesn't work with SiliconFlow's OpenAI-compatible
     API (returns empty chunks). We use run() for tool use + answer generation, then
     simulate streaming by yielding the answer in small chunks for better UX.
     """
-    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha)
+    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha, retrieval_strategy=retrieval_strategy)
 
     checked = await _run_answer(question, deps, conversation_id, mode, on_event=on_event)
     if on_result is not None:

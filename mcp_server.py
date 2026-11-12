@@ -33,6 +33,7 @@ from pydantic import StrictBool, StrictInt
 from indexer.code_search import SearchMode, find_in_snapshot
 from indexer.overview import build_repository_overview, overview_payload
 from indexer.dependencies import DependencyDirection, get_file_dependencies as lookup_dependencies, dependency_payload
+from indexer.hybrid import RetrievalStrategy, hybrid_search
 
 mcp = FastMCP("codebase-qa")
 
@@ -147,7 +148,7 @@ def find_code(
 
 
 @mcp.tool()
-def search_code(query: str) -> str:
+def search_code(query: str, retrieval_strategy: RetrievalStrategy = "semantic", use_answer_cache: StrictBool = True) -> str:
     """Semantically search the codebase for code relevant to a query.
 
     Finds functions, classes, or logic related to a concept.
@@ -166,7 +167,9 @@ def search_code(query: str) -> str:
     # Check memory (accumulated Q&A knowledge) first
     revision = _current_repository.commit_sha if _current_repository else None
     collection = _current_repository.collection_name if _current_repository else None
-    memory_hit = search_memory(query, _current_repo_url, commit_sha=revision)
+    if retrieval_strategy not in {"semantic", "hybrid"}:
+        return "Unknown retrieval strategy."
+    memory_hit = search_memory(query, _current_repo_url, commit_sha=revision) if use_answer_cache else None
     if memory_hit:
         return (
             (f"Commit: {revision}\n" if revision else "") +
@@ -176,7 +179,8 @@ def search_code(query: str) -> str:
         )
 
     # Semantic code search
-    results = search(query, _current_repo_url, n_results=5, collection_name=collection)
+    results = (hybrid_search(_current_repo_root, _current_repo_url, revision, query, collection)
+               if retrieval_strategy == "hybrid" else search(query, _current_repo_url, n_results=5, collection_name=collection))
     if not results:
         return "No relevant code found for that query."
 

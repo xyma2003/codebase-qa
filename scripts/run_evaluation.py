@@ -21,6 +21,7 @@ if __name__ == "__main__":
     parser.add_argument("--backend", choices=["local", "siliconflow"], default="local")
     parser.add_argument("--baseline", type=Path)
     parser.add_argument("--indexes", type=Path)
+    parser.add_argument("--retrieval-strategy", choices=["semantic", "hybrid"], default="semantic")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + f"-{args.backend}-" + uuid4().hex[:8]
@@ -30,9 +31,9 @@ if __name__ == "__main__":
             parser.error("真实评测必须提供 --baseline 成功基线和 --indexes 固定索引；不自动创建或修改配置")
         from evaluation.real_runner import run_real
         result = asyncio.run(run_real(args.dataset, args.repository, destination,
-                                      baseline_directory=args.baseline, index_directory=args.indexes))
+                                      baseline_directory=args.baseline, index_directory=args.indexes, retrieval_strategy=args.retrieval_strategy))
     else:
-        if args.baseline is not None or args.indexes is not None:
+        if args.baseline is not None or args.indexes is not None or args.retrieval_strategy != "semantic":
             parser.error("本地源码模拟不接受真实评测参数")
         result = asyncio.run(run_local(args.dataset, args.repository, destination))
     print(json.dumps({"output": str(destination.resolve()), **result}, ensure_ascii=False))
