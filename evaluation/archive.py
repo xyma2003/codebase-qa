@@ -66,11 +66,35 @@ def verify_archive(root, repository):
     if inventory.get("format_version") != 1 or inventory.get("sha256") != _files(root):
         raise ValueError("Archive inventory or artifact checksum mismatch")
     run = read_json((root / "run.json").read_bytes())
-    if run["status"] not in {"completed", "failed"} or run["backend"] != "local_fixture" or run["real_model_called"]:
+    if type(run.get("format_version")) is not int or run["format_version"] not in {1, 2}:
+        raise ValueError("Unknown evaluation archive format")
+    indexed_run = run.get("format_version") == 2
+    if run["status"] not in {"completed", "failed"} or (not indexed_run and (run["backend"] != "local_fixture" or run["real_model_called"])):
         raise ValueError("Not a sealed local evaluation run")
     bundle = validate_bundle(root / "dataset", repository)
     if run["dataset_fingerprint"] != bundle.fingerprint:
         raise ValueError("Archived dataset fingerprint mismatch")
+    index_sources = {}
+    if indexed_run:
+        from evaluation.indexes import check_index_manifest
+        from evaluation.real_preflight import check_baseline
+        if run["backend"] not in {"siliconflow", "provider_fixture"} or type(run["real_model_called"]) is not bool or (run["backend"] == "provider_fixture" and run["real_model_called"]):
+            raise ValueError("Indexed evaluation backend/provenance mismatch")
+        basis = "provider_reported_tokens_cost_unknown" if run["backend"] == "siliconflow" else "fixture_provider_response"
+        baseline = check_baseline(root / "baseline")
+        indexes = read_json((root / "index-manifest.json").read_bytes())
+        check_index_manifest(indexes, bundle, repository)
+        if (read_json((root / "baseline-receipt.json").read_bytes()) != baseline
+                or run["baseline_fingerprint"] != baseline["fingerprint"]
+                or run["index"] != {"status": "ready", "source_only": False, "manifest_sha256": digest((root / "index-manifest.json").read_bytes())}
+                or run["model_name"] != baseline["configuration"]["OPENAI_MODEL"]
+                or run["provider_base_url"] != baseline["configuration"]["OPENAI_API_BASE"] or run["usage_basis"] != basis
+                or run["model_settings"] != {} or run["answer_cache"] != "disabled_for_fixed_evaluation"
+                or type(run["sdk_max_retries"]) is not int or run["sdk_max_retries"] < 0):
+            raise ValueError("Indexed configuration differs from baseline or source-bound index")
+        if read_json((root / "started.json").read_bytes()) != dict({key: value for key, value in run.items() if key not in {"finished_at", "status"}}, real_model_called=False):
+            raise ValueError("Started and finished evaluation profiles differ")
+        index_sources = {row["source_id"]: row for row in indexes["sources"]}
     inputs = read_json((root / "inputs.json").read_bytes())
     if inputs != bundle.model_inputs():
         raise ValueError("Archived model inputs differ from frozen inputs")
@@ -79,7 +103,7 @@ def verify_archive(root, repository):
     if len(indexed) != len(reviews):
         raise ValueError("Duplicate review records")
     sessions, attempted, completed, failed, blocked, pending = set(), 0, 0, 0, 0, 0
-    outcomes, stopped = [], False
+    outcomes, stopped, model_attempts = [], False, 0
     with Repo(repository) as repo:
         for case_index, case in enumerate(inputs, 1):
             session, case_blocked = None, False
@@ -105,7 +129,8 @@ def verify_archive(root, repository):
                     stopped, case_blocked = True, True
                 if outcome["attempts"] != (1 if status in {"completed", "failed"} else 0):
                     raise ValueError("Unexpected retry or attempt count")
-                if request["scope_token"] != f"fixture-source-only-{case['source']['commit_sha']}":
+                expected_scope = index_sources[case["source"]["source_id"]]["collection_name"] if indexed_run else f"fixture-source-only-{case['source']['commit_sha']}"
+                if request["scope_token"] != expected_scope:
                     raise ValueError("Source-only placeholder was misidentified")
                 outcomes.append(status)
                 if status in {"completed", "failed"}:
@@ -114,7 +139,8 @@ def verify_archive(root, repository):
                     if read_json((folder / "trace.json").read_bytes()) != tool_trace(messages):
                         raise ValueError("Tool trace does not match native messages")
                     requests = read_json((folder / "requests.json").read_bytes())
-                    if not requests:
+                    model_attempts += len(requests)
+                    if not requests and (not indexed_run or status == "completed"):
                         raise ValueError("An attempted local turn has no model request record")
                     expected_prompts = [item["question"] for item in case["turns"][:turn_index]]
                     for model_request in requests:
@@ -125,6 +151,21 @@ def verify_archive(root, repository):
                     metrics = read_json((folder / "metrics.json").read_bytes())
                     if metrics["model_requests"] != len(requests) or metrics["cost"] is not None:
                         raise ValueError("Local request metrics mismatch")
+                    if indexed_run:
+                        responses = read_json((folder / "responses.json").read_bytes())
+                        numbers = [item["request_number"] for item in responses]
+                        if numbers != [number for number, item in enumerate(requests, 1) if item["status"] == "completed"]:
+                            raise ValueError("Provider response/request sequence mismatch")
+                        if metrics["provider_usage"] != [item["message"]["usage"] for item in responses]:
+                            raise ValueError("Provider usage differs from recorded responses")
+                        native_responses = [message for message in messages if isinstance(message, ModelResponse)][-len(responses):] if responses else []
+                        native_data = json.loads(ModelMessagesTypeAdapter.dump_json(native_responses))
+                        def comparable(item):
+                            return {key: value for key, value in item.items() if key not in {"run_id", "conversation_id"}}
+                        if [comparable(item["message"]) for item in responses] != [comparable(item) for item in native_data]:
+                            raise ValueError("Provider responses differ from actual native messages")
+                        if status == "completed" and (not responses or any(item["status"] != "completed" for item in requests)):
+                            raise ValueError("Completed output includes an unsuccessful model request")
                 if status == "completed":
                     completed += 1
                     if review.status != "pending_review":
@@ -176,6 +217,8 @@ def verify_archive(root, repository):
                 else:
                     raise ValueError("Unknown execution status")
     expected_status = "failed" if failed else "completed"
+    if indexed_run and run["real_model_called"] is not (run["backend"] == "siliconflow" and model_attempts > 0):
+        raise ValueError("Real-provider request marker differs from archived requests")
     if run["status"] != expected_status or (not failed and (blocked or pending)):
         raise ValueError("Run status does not match its turns")
     progress = [read_json(line) for line in (root / "progress.jsonl").read_text().splitlines()]
@@ -188,7 +231,7 @@ def verify_archive(root, repository):
     summary = summarize_reviews(bundle, reviews)
     if read_json((root / "summary.json").read_bytes()) != summary or summary["finalized"]:
         raise ValueError("Local fixture run cannot publish a quality score")
-    return {"status": "archive_verified", "backend": "local_fixture", "real_model_called": False,
+    return {"status": "archive_verified", "backend": run["backend"], "real_model_called": run["real_model_called"],
             "required_turns": bundle.manifest.turn_count, "attempted_turns": attempted,
             "completed_turns": completed, "failed_turns": failed, "blocked_turns": blocked,
             "not_run_turns": pending, "reviewed_turns": 0, "quality_score": None,

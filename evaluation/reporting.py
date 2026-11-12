@@ -71,7 +71,16 @@ def _calculate(source, header, rows, metadata):
         "summary": summary, "categories": categories, "cases": cases,
         "known_badcase_count": len(badcases),
     }
+    if run["backend"] != "local_fixture":
+        report["report_kind"] = ("synthetic_review_demo" if header.purpose == "simulation" else
+                                 "human_review_of_provider_fixture" if run["backend"] == "provider_fixture" else "human_review_of_real_model")
+        report["real_model_quality_evaluated"] = (run["backend"] == "siliconflow" and header.purpose == "human"
+                                                   and summary["finalized"] and summary["reviewed_turns"] > 0)
     return report, badcases
+
+
+def source_label(backend):
+    return {"local_fixture": "本地模拟输出", "provider_fixture": "接口模拟输出", "siliconflow": "真实模型输出"}[backend]
 
 
 def _text(value):
@@ -81,12 +90,13 @@ def _text(value):
 
 def render_report(report):
     simulated = report["report_kind"] == "synthetic_review_demo"
-    title = "合成评分流程样例" if simulated else "本地模拟输出的人工评审报告"
+    label = source_label(report["source_backend"])
+    title = "合成评分流程样例" if simulated else f"{label}的人工评审报告"
     origin = "本地构造评分记录" if simulated else "评审者填写的记录"
     summary = report["summary"]
     score = lambda value: "待评审" if value is None else f"{value:.2f}"
     rate = lambda value: "待评审" if value is None else f"{value:.1%}"
-    lines = [f"# {title}", "", f"评分来源：{origin}。对象：本地模拟输出。", "",
+    lines = [f"# {title}", "", f"评分来源：{origin}。对象：{label}。", "",
              f"源运行：{_text(report['submission']['source_run_id'])}", "",
              f"归档 SHA256：{report['submission']['source_archive_sha256']}", "",
              f"评分记录：{summary['reviewed_turns']}/{summary['required_turns']} 轮；题目分母：{summary['required_cases']}。", "",
@@ -123,7 +133,8 @@ def render_report(report):
                               f"（{citation['commit_sha']}）", ""]
     if report["known_badcase_count"] == 0:
         lines += ["暂无已标记的问题。"]
-    return "\n".join(lines).strip() + "\n"
+    rendered = "\n".join(lines).strip() + "\n"
+    return rendered.replace("样例均分", "评测均分").replace("样例通过率", "评测通过率") if report["source_backend"] == "siliconflow" and not simulated else rendered
 
 
 def _inventory(root):
@@ -191,5 +202,5 @@ def verify_report(report_directory, archive, repository):
             "source_archive_sha256": header.source_archive_sha256, "dataset_fingerprint": header.dataset_fingerprint,
             "required_cases": summary["required_cases"], "required_turns": summary["required_turns"],
             "reviewed_turns": summary["reviewed_turns"], "finalized": summary["finalized"],
-            "known_badcase_count": len(badcases), "real_model_quality_evaluated": False,
+            "known_badcase_count": len(badcases), "real_model_quality_evaluated": report["real_model_quality_evaluated"],
             "report_sha256": digest((root / "report-seal.json").read_bytes())}

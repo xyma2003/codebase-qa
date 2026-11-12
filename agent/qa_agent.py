@@ -91,7 +91,7 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
     # Keep the existing score and threshold; pinned answers additionally need checked references.
     # Follow-ups depend on conversation context and must not become standalone cached answers.
     score = evaluate(question, result.output) if mode == "qa" else 0
-    if not deps.source_only and mode == "qa" and (history is None or history.revision == 0) and score >= QUALITY_THRESHOLD and (deps.evidence is None or checked.can_save):
+    if not deps.source_only and deps.use_answer_cache and mode == "qa" and (history is None or history.revision == 0) and score >= QUALITY_THRESHOLD and (deps.evidence is None or checked.can_save):
         try:
             save_qa(question, checked.text, deps.repo_url, commit_sha=deps.commit_sha)
         except Exception:

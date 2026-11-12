@@ -18,6 +18,7 @@ class RepoDeps:
     collection_name: str | None = None
     commit_sha: str | None = None
     source_only: bool = False
+    use_answer_cache: bool = True
     evidence: EvidenceStore | None = field(default=None, init=False, repr=False)
 
     def __post_init__(self):
@@ -107,7 +108,7 @@ def make_tools(agent):
         if ctx.deps.source_only:
             return "This source-only run has no vector index or answer cache. Use find_code and read_file."
         # 先查 memory（沉淀的问答知识），命中则直接返回
-        memory_hit = search_memory(query, ctx.deps.repo_url, commit_sha=ctx.deps.commit_sha)
+        memory_hit = search_memory(query, ctx.deps.repo_url, commit_sha=ctx.deps.commit_sha) if ctx.deps.use_answer_cache else None
         if memory_hit:
             return (
                 (f"Commit: {ctx.deps.commit_sha}\n" if ctx.deps.commit_sha else "") +

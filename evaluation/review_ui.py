@@ -8,6 +8,7 @@ import streamlit as st
 from evaluation.dataset import read_json
 from evaluation.review_workspace import create_report, new_workspace, open_workspace, report_package, save_grade
 from evaluation.scoring import summarize_reviews
+from evaluation.reporting import source_label
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE = ROOT / ".baseline_runtime/reviews/ui"
@@ -146,7 +147,8 @@ def render_review_page(*, repository=ROOT, directory=WORKSPACE):
         st.success(notice)
     summary = summarize_reviews(workspace.bundle, workspace.rows)
     origin = "合成评分记录" if workspace.header.purpose == "simulation" else "人工填写评分"
-    st.caption(f"本地模拟输出 · {origin} · 已评审 {summary['reviewed_turns']}/{summary['required_turns']} 轮 · {summary['required_cases']} 题")
+    label = source_label(workspace.source[3]["backend"])
+    st.caption(f"{label} · {origin} · 已评审 {summary['reviewed_turns']}/{summary['required_turns']} 轮 · {summary['required_cases']} 题")
     with st.expander("归档信息"):
         st.text(f"运行：{workspace.header.source_run_id}")
         st.text(f"归档 SHA256：{workspace.header.source_archive_sha256}")
@@ -201,7 +203,7 @@ def render_review_page(*, repository=ROOT, directory=WORKSPACE):
             package = report_package(report, workspace.archive, repository)
             data = read_json((report / "report.json").read_bytes())
             result = data["summary"]
-            st.subheader("合成评分流程样例" if workspace.header.purpose == "simulation" else "本地模拟输出的人工评审报告")
+            st.subheader("合成评分流程样例" if workspace.header.purpose == "simulation" else f"{label}的人工评审报告")
             st.text(f"已评审 {result['reviewed_turns']}/{result['required_turns']} 轮 · 已标记问题 {data['known_badcase_count']} 题")
             st.text("样例均分：待评审 · 样例通过率：待评审" if not result["finalized"] else
                     f"样例均分：{result['mean_score']:.2f} · 样例通过率：{result['pass_rate']:.1%}")

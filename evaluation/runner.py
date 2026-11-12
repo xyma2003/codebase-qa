@@ -48,6 +48,10 @@ async def run_local(dataset, repository, output, *, backend=None, turn_timeout=3
     backend = LocalModel() if backend is None else backend
     if type(backend) is not LocalModel:
         raise ValueError("Only the explicit local simulation backend is enabled")
+    return await _run(dataset, repository, output, backend=backend, turn_timeout=turn_timeout)
+
+
+async def _run(dataset, repository, output, *, backend, turn_timeout, indexed=None):
     bundle = validate_bundle(dataset, repository)
     inputs = bundle.model_inputs()
     root = Path(output).resolve()
@@ -72,18 +76,31 @@ async def run_local(dataset, repository, output, *, backend=None, turn_timeout=3
         "answer_cache": "disabled_by_source_only_context", "conversation_store": "isolated_in_this_run",
         "execution_policy": "sequential_stop_on_first_error_no_retry_no_resume", "turn_timeout_seconds": turn_timeout,
         "usage_basis": "local_framework_estimate_not_provider_billing", "cost": None,
-        "injected_fault_question_sha256": digest(backend.fail_question.encode()) if backend.fail_question else None,
+        "injected_fault_question_sha256": digest(backend.fail_question.encode()) if isinstance(backend, LocalModel) and backend.fail_question else None,
     }
+    if indexed:
+        profile.update(indexed["profile"])
+        profile["real_model_called"] = False
+        profile["runtime_file_sha256"].update({name: digest((ROOT / name).read_bytes()) for name in
+            ("evaluation/real_preflight.py", "evaluation/indexes.py", "evaluation/provider_model.py", "evaluation/real_runner.py")})
+        (root / "baseline").mkdir()
+        from evaluation.real_preflight import BASE_FILES
+        for name in BASE_FILES:
+            shutil.copyfile(Path(indexed["baseline_directory"]) / name, root / "baseline" / name)
+        write_json(root / "baseline-receipt.json", indexed["baseline"])
+        write_json(root / "index-manifest.json", indexed["indexes"])
     write_json(root / "started.json", profile)
     # Each run exports exactly the selected committed source, never the dirty checkout.
     contexts = {}
     for source in bundle.manifest.sources:
         snapshot = create_snapshot(source.repo_url, str(repository), source.commit_sha, storage_dir=root / "_state/sources")
-        contexts[source.source_id] = (snapshot, f"fixture-source-only-{source.commit_sha}")
+        token = next(row["collection_name"] for row in indexed["indexes"]["sources"] if row["source_id"] == source.source_id) if indexed else f"fixture-source-only-{source.commit_sha}"
+        contexts[source.source_id] = (snapshot, token)
     agent = qa_agent.build_agent(backend.model())
-    reviews, stopped = [], False
+    reviews, stopped, model_attempts = [], False, 0
     previous_allow = models.ALLOW_MODEL_REQUESTS
-    models.ALLOW_MODEL_REQUESTS = False
+    if not indexed:
+        models.ALLOW_MODEL_REQUESTS = False
     try:
         for case_number, case in enumerate(inputs, 1):
             source = case["source"]
@@ -111,7 +128,7 @@ async def run_local(dataset, repository, output, *, backend=None, turn_timeout=3
                     started = time.perf_counter()
                     with capture_run_messages() as messages:
                         try:
-                            deps = RepoDeps(source["repo_url"], snapshot.root, scope_token, source["commit_sha"], source_only=True)
+                            deps = RepoDeps(source["repo_url"], snapshot.root, scope_token, source["commit_sha"], source_only=not bool(indexed), use_answer_cache=not bool(indexed))
                             checked = await asyncio.wait_for(qa_agent._run_answer(
                                 turn["question"], deps, session, turn["mode"], agent=agent,
                                 conversation_dir=root / "_state/conversations", on_run=result.append), turn_timeout)
@@ -119,23 +136,41 @@ async def run_local(dataset, repository, output, *, backend=None, turn_timeout=3
                             error = {"kind": type(exc).__name__, "message": f"{type(exc).__name__}: {exc}",
                                      "raw_message": str(exc), "traceback": traceback.format_exc()}
                     elapsed = time.perf_counter() - started
-                    write_json(folder / "messages.json", _native(messages))
-                    write_json(folder / "requests.json", backend.requests)
-                    write_json(folder / "trace.json", tool_trace(messages))
+                    model_attempts += len(backend.requests)
+                    if indexed:
+                        # Preserve SDK errors while removing configured credentials from every artifact.
+                        from config import OPENAI_API_KEY, ANTHROPIC_API_KEY
+                        secret_values = [value for value in (OPENAI_API_KEY, ANTHROPIC_API_KEY, indexed["secret"]) if value]
+                        def safe(value):
+                            data = json.dumps(value, ensure_ascii=False, default=str)
+                            for secret in secret_values:
+                                data = data.replace(secret, "<redacted>")
+                            return json.loads(data)
+                        messages_data = safe(_native(messages))
+                        write_json(folder / "responses.json", safe(backend.responses))
+                    else:
+                        safe = lambda value: value
+                        messages_data = _native(messages)
+                    write_json(folder / "messages.json", messages_data)
+                    write_json(folder / "requests.json", safe(backend.requests))
+                    write_json(folder / "trace.json", safe(tool_trace(messages)))
                     usage = asdict(result[0].usage()) if result else None
-                    write_json(folder / "metrics.json", {"elapsed_seconds": elapsed, "model_requests": len(backend.requests),
-                               "framework_usage_estimate": usage, "provider_usage": None, "cost": None})
+                    metrics = {"elapsed_seconds": elapsed, "model_requests": len(backend.requests),
+                               "framework_usage_estimate": usage, "provider_usage": None, "cost": None}
+                    if indexed:
+                        metrics["provider_usage"] = [item["message"]["usage"] for item in safe(backend.responses)]
+                    write_json(folder / "metrics.json", metrics)
                     if result:
-                        write_json(folder / "native_output.json", result[0].output.model_dump(mode="json")
-                                   if hasattr(result[0].output, "model_dump") else result[0].output)
-                        write_json(folder / "new_messages.json", _native(result[0].new_messages()))
+                        write_json(folder / "native_output.json", safe(result[0].output.model_dump(mode="json")
+                                   if hasattr(result[0].output, "model_dump") else result[0].output))
+                        write_json(folder / "new_messages.json", safe(_native(result[0].new_messages())))
                     if error:
-                        write_json(folder / "error.json", error)
+                        write_json(folder / "error.json", safe(error))
                         write_json(folder / "outcome.json", {"status": "failed", "attempts": 1})
-                        review.update(status="execution_failed", error=error["message"])
+                        review.update(status="execution_failed", error=safe(error)["message"])
                         stopped, blocked = True, True
                     else:
-                        write_json(folder / "output.json", checked.model_dump(mode="json"))
+                        write_json(folder / "output.json", safe(checked.model_dump(mode="json")))
                         write_json(folder / "outcome.json", {"status": "completed", "attempts": 1})
                         review.update(status="pending_review", output_sha256=digest((folder / "output.json").read_bytes()))
                 reviews.append(review)
@@ -147,7 +182,8 @@ async def run_local(dataset, repository, output, *, backend=None, turn_timeout=3
         models.ALLOW_MODEL_REQUESTS = previous_allow
     write_rows(root / "reviews.jsonl", reviews)
     write_json(root / "summary.json", summarize_reviews(bundle, reviews))
-    write_json(root / "run.json", dict(profile, finished_at=_now(), status="failed" if stopped else "completed"))
+    write_json(root / "run.json", dict(profile, real_model_called=profile["backend"] == "siliconflow" and model_attempts > 0,
+                                      finished_at=_now(), status="failed" if stopped else "completed"))
     seal(root)
     return verify_archive(root, repository)
 
