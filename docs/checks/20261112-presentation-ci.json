@@ -24,5 +24,19 @@
   },
   "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
   "remote_ci_status": "see_actions_for_pushed_commit",
-  "workflow_sha256": "6b263215e2880d47c870f6f8716c9fd293e9dcc70bfb50c4d94fd5ac2e3c9228"
+  "workflow_sha256": "1cc567fe54b765349ed0a5e1fc883881480de5ffc08496270eb02c0a10aed78f",
+  "workflow_lint": {
+    "name": "actionlint",
+    "version": "1.7.12",
+    "release_sha256": "aba9ced2dee8d27fecca3dc7feb1a7f9a52caefa1eb46f3271ea66b6e0e6953f",
+    "command": "actionlint -shellcheck= .github/workflows/ci.yml",
+    "exit_code": 0
+  },
+  "first_remote_failure": {
+    "id": 43153385471,
+    "commit": "d55930ca84172d43937891af0f52e0eb1788be0e",
+    "url": "https://github.com/xyma2003/codebase-qa/actions/runs/43153385471",
+    "jobs_started": 0,
+    "annotation": "(Line: 25, Col: 16): Unrecognized named-value: 'runner'. Located at position 1 within expression: runner.temp"
+  }
 }

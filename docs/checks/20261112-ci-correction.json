@@ -1,0 +1,25 @@
+{
+  "status": "workflow_context_correction_checked",
+  "original_run": {
+    "id": 43153385471,
+    "commit": "d55930ca84172d43937891af0f52e0eb1788be0e",
+    "url": "https://github.com/xyma2003/codebase-qa/actions/runs/43153385471",
+    "jobs_started": 0,
+    "annotation": "(Line: 25, Col: 16): Unrecognized named-value: 'runner'. Located at position 1 within expression: runner.temp"
+  },
+  "change": {
+    "field": "HF_HOME",
+    "from": "jobs.offline-checks.env",
+    "to": "jobs.offline-checks.steps[Run offline tests].env"
+  },
+  "validator": {
+    "name": "actionlint",
+    "version": "1.7.12",
+    "release_sha256": "aba9ced2dee8d27fecca3dc7feb1a7f9a52caefa1eb46f3271ea66b6e0e6953f",
+    "command": "actionlint -shellcheck= .github/workflows/ci.yml",
+    "exit_code": 0
+  },
+  "workflow_sha256": "1cc567fe54b765349ed0a5e1fc883881480de5ffc08496270eb02c0a10aed78f",
+  "application_code_changed": false,
+  "real_model_requests": 0
+}

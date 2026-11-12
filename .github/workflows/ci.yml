@@ -22,7 +22,6 @@ jobs:
       OPENAI_API_BASE: https://api.siliconflow.cn/v1
       OPENAI_MODEL: Qwen/Qwen3-32B
       HF_HUB_OFFLINE: "1"
-      HF_HOME: ${{ runner.temp }}/huggingface-offline
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -43,6 +42,8 @@ jobs:
       - name: Verify frozen development data
         run: python scripts/check_evaluation.py --output "$RUNNER_TEMP/check-records/dataset.json"
       - name: Run offline tests
+        env:
+          HF_HOME: ${{ runner.temp }}/huggingface-offline
         run: python -m unittest discover -s tests -v 2>&1 | tee "$RUNNER_TEMP/check-records/unittest.log"
       - name: Read back published provider fixture
         run: |

@@ -19,3 +19,7 @@
 Actions 的版本和 Node 24 配置已从官方仓库核对：[checkout v7.0.1](https://github.com/actions/checkout/releases/tag/v7.0.1)、[setup-python v7.1.0](https://github.com/actions/setup-python/releases/tag/v7.1.0)、[upload-artifact v7.0.2](https://github.com/actions/upload-artifact/releases/tag/v7.0.2)。[官方 runner 清单](https://github.com/actions/runner-images#available-images)中的 `macos-15` 为 arm64，工作流固定 Python 3.12.13，与本机平台一致。完整 Git 历史用于原版与固定集源码核对。
 
 本记录描述本地验收和已配置流程。每次推送的真实远端状态、失败步骤与日志以 [GitHub Actions](https://github.com/xyma2003/codebase-qa/actions/workflows/ci.yml) 对应 Commit 为准，不把本地通过写成远端已通过。真实模型质量仍待成功基线、密钥与内容评审。
+
+## 首次远端校验与修正
+
+首次运行 [43153385471](https://github.com/xyma2003/codebase-qa/actions/runs/43153385471) 未创建作业。GitHub 原始错误为 `(Line: 25, Col: 16): Unrecognized named-value: runner`，指向作业级环境中的 `runner.temp`。现将唯一相关字段 `HF_HOME` 移到支持该上下文的测试步骤环境，未改应用或模型配置。下载并核对官方发布摘要后，使用 actionlint 1.7.12 检查通过，退出码 0；原始错误、修正范围和校验摘要保存在[记录](20261112-ci-correction.json)。这补齐了此前通用 YAML 检查没有覆盖的 Actions 上下文规则。
