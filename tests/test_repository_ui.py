@@ -55,6 +55,20 @@ class RepositoryUITests(unittest.TestCase):
         self.assertNotIn("repo_url", self.app.session_state)
         self.assertNotIn("conversation_id", self.app.session_state)
 
+    def test_return_from_another_page_restores_repository_input_and_preserves_chat(self):
+        # Streamlit removes page-specific widget state after navigating away.
+        self.app.session_state["messages"] = [{"role": "assistant", "content": "previous answer"}]
+        self.app.session_state["conversation_id"] = "previous-session"
+        restored = AppTest.from_file(str(ROOT / "app.py"))
+        for key in ("repository_index", "repo_url", "repo_root", "messages", "conversation_id"):
+            restored.session_state[key] = self.app.session_state[key]
+        self.app = restored.run(timeout=60)
+        self.assertEqual(len(self.app.exception), 0)
+        self.assertEqual(self.app.text_input[0].value, URL)
+        self.assertEqual(self.app.session_state["repository_index"], self.new)
+        self.assertEqual(self.app.session_state["conversation_id"], "previous-session")
+        self.assertEqual(self.app.session_state["messages"], [{"role": "assistant", "content": "previous answer"}])
+
     def test_chat_passes_same_session_on_follow_up_and_new_chat_resets_it(self):
         sessions = []
         async def response(*args, conversation_id=None, on_result=None, **kwargs):

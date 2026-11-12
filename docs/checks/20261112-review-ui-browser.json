@@ -1,0 +1,35 @@
+{
+  "status": "browser_review_report_verified",
+  "ratings_provenance": "synthetic_fixture",
+  "new_model_requests": 0,
+  "source_archive_sha256": "1fc251ed09716d2558d987027b1bfa1e77c3b70d62381871b0970bca174b619b",
+  "receipt": {
+    "status": "review_report_verified",
+    "report_kind": "synthetic_review_demo",
+    "source_archive_sha256": "1fc251ed09716d2558d987027b1bfa1e77c3b70d62381871b0970bca174b619b",
+    "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
+    "required_cases": 16,
+    "required_turns": 19,
+    "reviewed_turns": 1,
+    "finalized": false,
+    "known_badcase_count": 1,
+    "real_model_quality_evaluated": false,
+    "report_sha256": "0ed302446ff9c5ec7e76048e12232a181f22c75d30da09a0b8ce0bfbecaa8737"
+  },
+  "fresh_process_verification": true,
+  "page_switch_checks": "Verified in browser before the final directory-alias normalization; final normalization and state restoration are covered by regression tests.",
+  "download": {
+    "file": "review-report (2).zip",
+    "sha256": "b84c6160bd87e2b3e86c8d934beda2de3e54bad9762a081e996f6242aaef85e4",
+    "bytes": 39824
+  },
+  "screenshot": {
+    "file": "20261112-review-ui-browser.png",
+    "sha256": "18a4e06a2edc255ec8ebcd74fc3b1ab559a40c37d69397ff33eb265f5052cdf0"
+  },
+  "implementation_sha256": {
+    "app.py": "e1699cfc88466aaa765fc87e04e9fe234a17fd7451332ae3259ade82a60a53b6",
+    "evaluation/review_ui.py": "2210520fe24ddc18b55db029681c4eb17b9152a9dc2b71441af5f23ac1f6bd16",
+    "evaluation/review_workspace.py": "dda920e99c4ea596763b690b76818e036f5272d1bd78e206477170edf11b5685"
+  }
+}

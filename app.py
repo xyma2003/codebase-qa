@@ -71,6 +71,7 @@ with st.sidebar:
     st.subheader("📦 仓库索引")
     repo_url = st.text_input(
         "GitHub 仓库地址",
+        value=st.session_state.get("repo_url", ""),
         placeholder="https://github.com/owner/repo",
         key="repo_input",
     )

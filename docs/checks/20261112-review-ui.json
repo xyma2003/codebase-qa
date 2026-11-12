@@ -1,0 +1,41 @@
+{
+  "status": "review_ui_checks_passed",
+  "source_archive_sha256": "1fc251ed09716d2558d987027b1bfa1e77c3b70d62381871b0970bca174b619b",
+  "source_archive_unchanged": true,
+  "new_model_requests": 0,
+  "real_model_quality_evaluated": false,
+  "ratings_provenance": "synthetic_fixture",
+  "reviewed_case": "U04",
+  "reviewed_turn": "T2",
+  "report": {
+    "status": "review_report_verified",
+    "report_kind": "synthetic_review_demo",
+    "source_archive_sha256": "1fc251ed09716d2558d987027b1bfa1e77c3b70d62381871b0970bca174b619b",
+    "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
+    "required_cases": 16,
+    "required_turns": 19,
+    "reviewed_turns": 1,
+    "finalized": false,
+    "known_badcase_count": 1,
+    "real_model_quality_evaluated": false,
+    "report_sha256": "4a5564bfe390fae0a811a760c691138a4318a841cd969d645eb5e6a2f7e3081b"
+  },
+  "fresh_process_verification": true,
+  "package": {
+    "file": "20261112-review-ui-local.zip",
+    "sha256": "8b81a54bc0c2aee9cf7eeb2cb9aafff1dd33fdba4defa1ba3f7dfbc1139be969",
+    "bytes": 39794
+  },
+  "implementation_sha256": {
+    "app.py": "e1699cfc88466aaa765fc87e04e9fe234a17fd7451332ae3259ade82a60a53b6",
+    "evaluation/review_workspace.py": "dda920e99c4ea596763b690b76818e036f5272d1bd78e206477170edf11b5685",
+    "evaluation/review_ui.py": "2210520fe24ddc18b55db029681c4eb17b9152a9dc2b71441af5f23ac1f6bd16",
+    "pages/1_评测评审.py": "35b3cf2ca925a74a5cfb894328ca3d56a0ed1da7468315d9c0eb236f0a0f7465",
+    "scripts/check_review_ui.py": "19f2ab5107a8338f3a5725ce9938158b6cd74647e0e266355e8dd9bc82285b39"
+  },
+  "local_paths": {
+    "archive": ".baseline_runtime/reviews/20261112-ui-release-check/source",
+    "packet": "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.baseline_runtime/reviews/20261112-ui-release-check/packets/fa261c1f-7ec1-4c84-90fb-050003dc70d5",
+    "report": "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.baseline_runtime/reviews/20261112-ui-release-check/reports/e69780ec-5c53-48e3-a3b8-e579feb53da9"
+  }
+}
