@@ -172,6 +172,15 @@ def verify_archive(root, repository):
                         raise ValueError("Local fixture outputs must remain unreviewed")
                     output_bytes = (folder / "output.json").read_bytes()
                     checked = CheckedAnswer.model_validate_json(output_bytes)
+                    if checked.runtime is not None:
+                        usage = metrics["framework_usage_estimate"]
+                        record = checked.runtime
+                        expected_strategy = run.get("retrieval_strategy", "semantic") if indexed_run else "semantic"
+                        if (usage is None or any(getattr(record, key) != usage[key] for key in
+                                                ("requests", "tool_calls", "input_tokens", "output_tokens"))
+                                or record.requests != len(requests) or record.policy is not None
+                                or record.retrieval_strategy != expected_strategy or record.use_answer_cache != (not indexed_run)):
+                            raise ValueError("Archived runtime record differs from actual run settings/usage")
                     if review.output_sha256 != digest(output_bytes):
                         raise ValueError("Review is bound to the wrong output artifact")
                     if (turn["mode"] == "plan") != (checked.plan is not None):

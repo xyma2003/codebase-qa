@@ -1,0 +1,28 @@
+{
+  "status": "presentation_and_ci_local_checks_passed",
+  "real_model_requests": 0,
+  "unittest": {
+    "tests": 252,
+    "seconds": 83.574,
+    "status": "passed"
+  },
+  "published_archive_readback": {
+    "status": "archive_verified",
+    "backend": "provider_fixture",
+    "real_model_called": false,
+    "required_turns": 19,
+    "attempted_turns": 19,
+    "completed_turns": 19,
+    "failed_turns": 0,
+    "blocked_turns": 0,
+    "not_run_turns": 0,
+    "reviewed_turns": 0,
+    "quality_score": null,
+    "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
+    "archive_sha256": "cd67b59e8ca4f632d8d7b817b91354a96bb14323aef37be9ab2b549456dce2f8",
+    "artifact_count": 210
+  },
+  "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
+  "remote_ci_status": "see_actions_for_pushed_commit",
+  "workflow_sha256": "6b263215e2880d47c870f6f8716c9fd293e9dcc70bfb50c4d94fd5ac2e3c9228"
+}

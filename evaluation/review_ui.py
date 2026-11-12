@@ -203,10 +203,11 @@ def render_review_page(*, repository=ROOT, directory=WORKSPACE):
             package = report_package(report, workspace.archive, repository)
             data = read_json((report / "report.json").read_bytes())
             result = data["summary"]
+            metric_label = "评测" if workspace.source[3]["backend"] == "siliconflow" and workspace.header.purpose != "simulation" else "样例"
             st.subheader("合成评分流程样例" if workspace.header.purpose == "simulation" else f"{label}的人工评审报告")
             st.text(f"已评审 {result['reviewed_turns']}/{result['required_turns']} 轮 · 已标记问题 {data['known_badcase_count']} 题")
-            st.text("样例均分：待评审 · 样例通过率：待评审" if not result["finalized"] else
-                    f"样例均分：{result['mean_score']:.2f} · 样例通过率：{result['pass_rate']:.1%}")
+            st.text(f"{metric_label}均分：待评审 · {metric_label}通过率：待评审" if not result["finalized"] else
+                    f"{metric_label}均分：{result['mean_score']:.2f} · {metric_label}通过率：{result['pass_rate']:.1%}")
             st.dataframe([{"类别": CATEGORIES[item["category"]], "题数": item["required_cases"],
                            "已评审轮次": item["reviewed_turns"], "已标记问题": item["known_failed_cases"]}
                           for item in data["categories"]], hide_index=True)

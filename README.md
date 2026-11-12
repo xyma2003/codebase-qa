@@ -4,6 +4,19 @@
 
 [产品方案](docs/PRODUCT_PLAN.md) · [技术方案](docs/TECHNICAL_PLAN.md) · [实施进度](docs/IMPLEMENTATION_STATUS.md) · [阶段零记录](docs/baseline/README.md)
 
+[演示步骤](docs/DEMO.md) · [架构与技术取舍](docs/ARCHITECTURE.md) · [自动检查](https://github.com/xyma2003/codebase-qa/actions/workflows/ci.yml)
+
+| 能力 | 实现与可检查结果 |
+| --- | --- |
+| Agent 工具调用 | Pydantic AI，六个源码工具，结构化修改规划，实际调用事件 |
+| 代码检索 | ChromaDB、Sentence Transformers、Python AST，显式可选固定 RRF 融合及对照记录 |
+| 来源核对 | Git 固定快照、文件 SHA256、真实行范围、回答引用回查 |
+| 多轮与运行控制 | 原生模型历史、SQLite 事务保存、历史恢复、逐轮限制及用量 |
+| 评测闭环 | 固定 16 题 / 19 轮、JSONL 判分、SDK 输入输出归档、独立人工评审与报告 |
+| 接入 | Streamlit 问答与评审页面、九个 MCP 工具、无密钥自动测试 |
+
+![历史恢复与实际源码工具展示，本地模拟回答](docs/checks/20261112-history-tools-browser.png)
+
 [固定开发评测集与判分规则](evals/codebase-qa-v1/README.md)：16 题、19 轮，覆盖项目理解、实现定位、修改规划和无答案问题。[本地运行归档](evaluation/README.md)、[独立评审导入与报告](evaluation/REVIEWING.md)均已跑通，参考标注与模型输入分开。本次评分样例为合成记录，真实模型评测和实际人工语义评审尚未进行。
 
 ## 当前功能
@@ -178,6 +191,8 @@ MCP 客户端配置示例：
 ```bash
 .venv/bin/python -m unittest discover -s tests -v
 ```
+
+GitHub Actions 在推送 main 和 PR 时执行[离线检查](.github/workflows/ci.yml)：使用原已记录依赖及 SHA256 安装、核对固定标注、运行全量测试、独立回读已发布接口模拟归档，并保留检查文件。运行器使用 macOS 15 arm64 / Python 3.12.13，与本机平台一致；不配置聊天模型密钥，测试使用本地模型或内存传输及临时向量库，关闭 Hugging Face 在线下载。工作流中的 Actions 以完整 Commit 固定。安装依赖仍需网络，测试成功也不等于真实回答质量通过。
 
 [按行读取验收](docs/checks/20261110-source-reader.md)与[版本管理验收](docs/checks/20261110-repository-versions.md)分别保存记录。真实存储检查脚本为 `scripts/check_repository_versions.py`，新运行使用新的 `--output` 文件，避免覆盖已保存的证据。
 

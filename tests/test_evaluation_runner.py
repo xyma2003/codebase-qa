@@ -138,6 +138,21 @@ class RunnerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "wrong output"):
             verify_archive(self.run_dir, self.fixture.work)
 
+    def test_resealed_runtime_usage_is_checked_beyond_output_binding(self):
+        self.run_fixture()
+        relative = "turns/001-01/output.json"
+        data = self.read(relative)
+        data["runtime"]["requests"] += 1
+        output = self.run_dir / relative
+        output.write_text(json.dumps(data))
+        path = self.run_dir / "reviews.jsonl"
+        rows = [json.loads(line) for line in path.read_text().splitlines()]
+        rows[0]["output_sha256"] = archive.digest(output.read_bytes())
+        path.write_text("\n".join(json.dumps(row) for row in rows)+"\n")
+        self.reseal()
+        with self.assertRaisesRegex(ValueError, "runtime record"):
+            verify_archive(self.run_dir, self.fixture.work)
+
     def test_resealed_input_context_and_source_tampering_are_rejected(self):
         self.run_fixture()
         self.edit("turns/001-01/input.json", lambda data: data["turn"].update(question="changed"))
