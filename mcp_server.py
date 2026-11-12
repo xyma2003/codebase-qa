@@ -172,7 +172,7 @@ def search_code(query: str, retrieval_strategy: RetrievalStrategy = "semantic", 
     collection = _current_repository.collection_name if _current_repository else None
     if retrieval_strategy not in {"semantic", "hybrid"}:
         return "Unknown retrieval strategy."
-    memory_hit = search_memory(query, _current_repo_url, commit_sha=revision) if use_answer_cache else None
+    memory_hit = search_memory(query, _current_repo_url, commit_sha=revision, repo_root=_current_repo_root) if use_answer_cache else None
     if memory_hit:
         return (
             (f"Commit: {revision}\n" if revision else "") +

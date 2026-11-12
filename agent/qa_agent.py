@@ -2,6 +2,7 @@ from typing import Literal
 import time
 from pydantic_ai.messages import ModelMessagesTypeAdapter
 from security.sources import ensure_safe_text
+from security.output import install_log_redaction
 
 from pydantic_ai import Agent, ToolOutput
 from agent.tools import RepoDeps, make_tools
@@ -42,6 +43,7 @@ def _get_agent() -> Agent:
 
 def build_agent(model) -> Agent:
     """Build the same prompt and tools with an explicitly supplied model."""
+    install_log_redaction()
     agent = Agent(
         model,
         deps_type=RepoDeps,
@@ -116,7 +118,7 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
     score = evaluate(question, result.output) if mode == "qa" else 0
     if not deps.source_only and deps.use_answer_cache and mode == "qa" and (history is None or history.revision == 0) and score >= QUALITY_THRESHOLD and (deps.evidence is None or checked.can_save):
         try:
-            save_qa(question, checked.text, deps.repo_url, commit_sha=deps.commit_sha)
+            save_qa(question, checked.text, deps.repo_url, commit_sha=deps.commit_sha, citations=checked.citations)
         except Exception:
             pass  # 沉淀失败不影响主流程
     return checked

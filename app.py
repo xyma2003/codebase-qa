@@ -179,10 +179,7 @@ with st.sidebar:
             st.session_state["repo_url"],
             commit_sha=st.session_state["repository_index"].commit_sha,
         )
-        if stats["count"] > 0:
-            st.success(f"💡 知识库：{stats['count']} 条")
-        else:
-            st.info("💡 知识库：空（问答后自动积累）")
+        st.caption(f"历史答案：已批准 {stats['count']} · 待审核 {stats.get('pending_count', 0)}")
 
 def show_overview(overview):
     st.subheader("项目概览")

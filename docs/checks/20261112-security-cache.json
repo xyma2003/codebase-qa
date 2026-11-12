@@ -1,0 +1,19 @@
+{
+  "status": "cache_review_boundaries_passed",
+  "tests": 277,
+  "test_seconds": 99.219,
+  "new_security_tests": 8,
+  "real_model_requests": 0,
+  "legacy_cache_automatically_trusted": false,
+  "agent_can_approve_cache": false,
+  "cache_delete_or_migration": false,
+  "embedding_model_changed": false,
+  "implementation_sha256": {
+    "memory/knowledge.py": "eb1b70be828d0041c27a93b5fba0fc7cc0caa8c6a88859d6e406da57e826b11f",
+    "memory/review_ui.py": "9905d198d36a421b9028377bf228c87d0a18a0515da79fc0fec7f72205a6c861",
+    "agent/qa_agent.py": "5bbdea2aadf3ead8cb2f972378ff0fe64a3b7d751bc7d2344bff9a4aa142a2ef",
+    "agent/tools.py": "fdea87440e2285779ec9153f1feaacf2774b18ccf9e41b6651fd6aa10dc61800",
+    "mcp_server.py": "a851cfad12922d3d96bdb2a985a39d48fbc7247efebb26de0e16cd89515e335b",
+    "app.py": "f2516114937c1666ac2690f868dfdf14a3e1b2a00b010749e37f7cfbe7734019"
+  }
+}
