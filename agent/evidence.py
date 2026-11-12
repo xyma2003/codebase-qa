@@ -9,6 +9,7 @@ from indexer.citations import SourceCitation, check_source_citation
 from indexer.snapshots import load_snapshot
 from indexer.source_reader import SourceReadError
 from agent.planning import ChangePlan
+from agent.tracing import ToolEvent
 
 
 CITATION_INSTRUCTIONS = (
@@ -37,6 +38,7 @@ class CheckedAnswer(BaseModel):
     citations: tuple[CitedSource, ...] = ()
     issues: tuple[CitationIssue, ...] = ()
     plan: ChangePlan | None = None
+    tool_events: tuple[ToolEvent, ...] = ()
 
     @property
     def can_save(self):

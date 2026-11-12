@@ -9,6 +9,7 @@ from indexer.code_search import SearchMode, find_in_snapshot
 from pydantic import StrictBool, StrictInt
 from indexer.overview import build_repository_overview, overview_payload
 from indexer.dependencies import DependencyDirection, get_file_dependencies as lookup_dependencies, dependency_payload
+from agent.tracing import traced_tool, ToolEvent
 
 
 @dataclass
@@ -19,6 +20,8 @@ class RepoDeps:
     commit_sha: str | None = None
     source_only: bool = False
     use_answer_cache: bool = True
+    tool_observer: object | None = field(default=None, repr=False)
+    tool_events: list[ToolEvent] = field(default_factory=list, init=False, repr=False)
     evidence: EvidenceStore | None = field(default=None, init=False, repr=False)
 
     def __post_init__(self):
@@ -32,6 +35,7 @@ def make_tools(agent):
     """Register all tools onto a Pydantic AI agent."""
 
     @agent.tool
+    @traced_tool
     async def get_file_dependencies(
         ctx: RunContext[RepoDeps], file_path: str, direction: DependencyDirection = "outgoing",
         source_root: str = "", limit: StrictInt = 20, offset: StrictInt = 0,
@@ -55,6 +59,7 @@ def make_tools(agent):
             return f"Dependency lookup failed: {exc}"
 
     @agent.tool
+    @traced_tool
     async def get_repo_overview(ctx: RunContext[RepoDeps]) -> str:
         """Inspect snapshot directories, Python modules, README and static entry clues.
 
@@ -73,6 +78,7 @@ def make_tools(agent):
             return f"Overview failed: {exc}"
 
     @agent.tool
+    @traced_tool
     async def find_code(
         ctx: RunContext[RepoDeps], query: str, mode: SearchMode = "text",
         path_filter: str = "", case_sensitive: StrictBool = False,
@@ -98,6 +104,7 @@ def make_tools(agent):
             return f"Source lookup failed: {exc}"
 
     @agent.tool
+    @traced_tool
     async def search_code(ctx: RunContext[RepoDeps], query: str) -> str:
         """
         Semantically search the codebase for code relevant to a query.
@@ -141,6 +148,7 @@ def make_tools(agent):
         return prefix + "\n\n---\n\n".join(output)
 
     @agent.tool
+    @traced_tool
     async def list_repo_files(ctx: RunContext[RepoDeps], pattern: str = "") -> str:
         """
         List all files in the indexed repository.
@@ -155,6 +163,7 @@ def make_tools(agent):
         return "\n".join(files)
 
     @agent.tool
+    @traced_tool
     async def read_file(
         ctx: RunContext[RepoDeps], file_path: str,
         start_line: int = 1, end_line: int | None = None,

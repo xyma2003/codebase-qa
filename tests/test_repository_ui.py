@@ -10,6 +10,8 @@ from indexer.citations import SourceCitation
 from indexer.overview import RepositoryOverview, DirectoryInfo, EntryClue
 from indexer.source_reader import SourceReadError
 from agent import conversations
+from pydantic_ai.messages import ModelRequest, ModelResponse, TextPart, UserPromptPart
+from agent.tracing import ToolEvent
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = "https://github.com/example/fixture"
@@ -68,6 +70,45 @@ class RepositoryUITests(unittest.TestCase):
         self.assertEqual(self.app.session_state["repository_index"], self.new)
         self.assertEqual(self.app.session_state["conversation_id"], "previous-session")
         self.assertEqual(self.app.session_state["messages"], [{"role": "assistant", "content": "previous answer"}])
+
+    def save_history(self, question="本地界面恢复样例"):
+        session = conversations.create_conversation(URL, self.new.commit_sha, self.new.collection_name)
+        state = conversations.load_conversation(session, URL, self.new.commit_sha, self.new.collection_name)
+        source = CitedSource(reference_id="S1", repo_url=URL, commit_sha=self.new.commit_sha,
+                             file_path="sample.py", start_line=1, end_line=1, source_text="VALUE = 1", file_sha256="c"*64)
+        checked = CheckedAnswer(text="本地保存的回答", citations=(source,), tool_events=(ToolEvent(
+            call_id="ui-fixture-call", tool_name="read_file", arguments={"file_path": "sample.py"},
+            status="returned", elapsed_ms=1, output_chars=10),))
+        conversations.append_turn(state, question,
+            [ModelRequest(parts=[UserPromptPart(question)]), ModelResponse(parts=[TextPart(checked.text)])], checked, 1)
+        return session
+
+    def test_fresh_page_restores_saved_chat_sources_tools_and_new_chat_starts_empty(self):
+        session = self.save_history()
+        self.app = AppTest.from_file(str(ROOT / "app.py")).run(timeout=60)
+        self.app.text_input[0].set_value(URL).run(timeout=60)
+        next(item for item in self.app.selectbox if item.label == "历史对话").select(session).run(timeout=60)
+        self.assertEqual(len(self.app.exception), 0)
+        self.assertEqual(self.app.session_state["conversation_id"], session)
+        self.assertEqual([message["content"] for message in self.app.session_state["messages"]], ["本地界面恢复样例", "本地保存的回答"])
+        self.assertTrue(any(item.label == "工具调用" for item in self.app.expander))
+        self.assertTrue(any("read_file · 已返回 · 1 ms" in item.value for item in self.app.text))
+        self.assertTrue(any("VALUE = 1" in item.value for item in self.app.code))
+        next(button for button in self.app.button if button.label == "新建对话").click().run(timeout=60)
+        self.assertEqual(self.app.session_state["messages"], [])
+        self.assertNotIn("conversation_id", self.app.session_state)
+        self.assertEqual(next(item for item in self.app.selectbox if item.label == "历史对话").value, None)
+
+    def test_corrupt_selected_history_preserves_current_chat_and_repository(self):
+        session = self.save_history()
+        self.app.session_state["messages"] = [{"role": "assistant", "content": "current answer"}]
+        self.app.run(timeout=60)
+        with patch("agent.conversations.load_conversation", side_effect=ValueError("CORRUPT_HISTORY")):
+            next(item for item in self.app.selectbox if item.label == "历史对话").select(session).run(timeout=60)
+        self.assertEqual(len(self.app.exception), 0)
+        self.assertEqual(self.app.session_state["messages"], [{"role": "assistant", "content": "current answer"}])
+        self.assertEqual(self.app.session_state["repository_index"], self.new)
+        self.assertTrue(any("CORRUPT_HISTORY" in item.value for item in self.app.error))
 
     def test_chat_passes_same_session_on_follow_up_and_new_chat_resets_it(self):
         sessions = []

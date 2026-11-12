@@ -1,0 +1,20 @@
+{
+  "status": "history_tools_checks_passed",
+  "conversation_id": "1784fd87-64bc-46c8-bec1-ba00d02c0283",
+  "repo_url": "https://github.com/xyma2003/codebase-qa",
+  "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+  "collection_name": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+  "completed_turns": 2,
+  "tool_calls": 2,
+  "real_model_requests": 0,
+  "demo_storage": "app_conversation_store_explicit_local_fixture",
+  "real_model_quality_evaluated": false,
+  "implementation_sha256": {
+    "app.py": "1f21bbbc5e68cdfcd5868b4f356def69fccd39665cff12ed3d9342e59c3b61ac",
+    "agent/conversations.py": "9e792cbba1edabd7e4c8d3bc2ff54f4409ae61add3024aed677eb616a8fa3403",
+    "agent/tools.py": "29ca44397defe2c8135bd578d0d1158abda26c920827bc5a3ea40299e940e74a",
+    "agent/tracing.py": "54391cbd1dbb418df5a3afb2f9c610f3af5c90ca532fdecfa1ee120075629b35",
+    "agent/evidence.py": "2746dcb700702d64c5c8777984bde9342cdc1b61f8280cc12fc9c19af8fa16d7",
+    "agent/qa_agent.py": "1dc80ccd3634fe92254b89472a535c251ed15e237d82b6493109e06f9646fd41"
+  }
+}

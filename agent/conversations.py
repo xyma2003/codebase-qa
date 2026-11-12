@@ -94,6 +94,25 @@ def create_conversation(repo_url: str, commit_sha: str, collection_name: str, *,
     return conversation_id
 
 
+def list_conversations(repo_url: str, commit_sha: str, collection_name: str, *, storage_dir=None):
+    scope = _scope(repo_url, commit_sha, collection_name)
+    with _connect(storage_dir) as db:
+        rows = db.execute("SELECT id, revision, (SELECT question FROM conversation_turns t WHERE t.conversation_id=c.id "
+                          "ORDER BY revision LIMIT 1) FROM conversations c WHERE repo_url=? AND commit_sha=? "
+                          "AND collection_name=? AND revision>0 ORDER BY rowid DESC", scope).fetchall()
+    if any(not title for _, _, title in rows):
+        raise ValueError("历史对话记录不完整。")
+    return [{"conversation_id": identity, "turn_count": count, "title": title} for identity, count, title in rows]
+
+
+def display_messages(conversation):
+    result = []
+    for turn in conversation.turns:
+        result.extend([{"role": "user", "content": turn.question},
+                       {"role": "assistant", "content": turn.answer.text, "sources": turn.answer.model_dump(mode="json")}])
+    return result
+
+
 def load_conversation(conversation_id: str, repo_url: str, commit_sha: str, collection_name: str, *, storage_dir=None) -> Conversation:
     scope = _scope(repo_url, commit_sha, collection_name)
     with _connect(storage_dir) as db:

@@ -16,7 +16,7 @@ from indexer.snapshots import normalize_repo_url
 from agent.qa_agent import ask_stream
 from memory.knowledge import get_memory_stats
 from agent.evidence import CheckedAnswer
-from agent.conversations import create_conversation
+from agent.conversations import create_conversation, list_conversations, load_conversation, display_messages
 from indexer.overview import build_repository_overview
 
 st.set_page_config(page_title="Codebase QA", page_icon="🔍", layout="wide")
@@ -35,6 +35,18 @@ def show_sources(result):
             st.code(citation.numbered_source, language=None)
         for issue in result.issues:
             st.write(f"{issue.reference_id}：{issue.message}" if issue.reference_id else issue.message)
+
+
+def show_tool_events(events, *, expanded=False):
+    if not events:
+        return
+    states = {"running": "正在执行", "returned": "已返回", "failed": "执行失败"}
+    with st.expander("工具调用", expanded=expanded):
+        for event in events:
+            duration = f" · {event.elapsed_ms} ms" if event.elapsed_ms is not None else ""
+            size = f" · 返回 {event.output_chars} 字符" if event.output_chars is not None else ""
+            st.text(f"{event.tool_name} · {states[event.status]}{duration}{size}")
+            st.json(event.arguments, expanded=False)
 
 
 def clear_repository():
@@ -101,7 +113,31 @@ with st.sidebar:
                 if st.button("新建对话"):
                     st.session_state.pop("conversation_id", None)
                     st.session_state["messages"] = []
+                    st.session_state["history_selector_epoch"] = st.session_state.get("history_selector_epoch", 0) + 1
                     st.rerun()
+                repository = st.session_state["repository_index"]
+                try:
+                    histories = list_conversations(repository.repo_url, repository.commit_sha, repository.collection_name)
+                except (ValueError, OSError) as exc:
+                    histories = []
+                    st.error(f"读取历史失败：{exc}")
+                if histories:
+                    labels = {item["conversation_id"]: f"{item['turn_count']} 轮 · {item['title'][:60]}" for item in histories}
+                    choices = [None, *labels]
+                    active = st.session_state.get("conversation_id")
+                    selected_history = st.selectbox("历史对话", choices, index=choices.index(active) if active in choices else 0,
+                        format_func=lambda value: labels[value] if value else "选择对话",
+                        key=f"history_{repository.collection_name}_{st.session_state.get('history_selector_epoch', 0)}")
+                    if selected_history and selected_history != active:
+                        try:
+                            conversation = load_conversation(selected_history, repository.repo_url, repository.commit_sha, repository.collection_name)
+                            restored = display_messages(conversation)
+                        except (ValueError, OSError) as exc:
+                            st.error(f"读取历史失败：{exc}")
+                        else:
+                            st.session_state["messages"] = restored
+                            st.session_state["conversation_id"] = selected_history
+                            st.session_state["answer_mode"] = "修改规划" if conversation.turns[-1].answer.plan else "问答"
         except (ValueError, OSError) as exc:
             clear_repository()
             st.error(str(exc))
@@ -190,7 +226,9 @@ for msg in st.session_state["messages"]:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
         if msg.get("sources"):
-            show_sources(CheckedAnswer.model_validate(msg["sources"]))
+            saved = CheckedAnswer.model_validate(msg["sources"])
+            show_tool_events(saved.tool_events)
+            show_sources(saved)
 
 # 输入框
 if question := st.chat_input("问一个关于代码的问题..."):
@@ -209,6 +247,12 @@ if question := st.chat_input("问一个关于代码的问题..."):
                 )
             with st.chat_message("assistant"):
                 checked_results = []
+                running_events = {}
+                event_view = st.empty()
+                def on_event(event):
+                    running_events[event.call_id] = event
+                    with event_view.container():
+                        show_tool_events(list(running_events.values()), expanded=True)
                 response = st.write_stream(ask_stream(
                     question,
                     repository.repo_url,
@@ -218,8 +262,12 @@ if question := st.chat_input("问一个关于代码的问题..."):
                     conversation_id=st.session_state["conversation_id"],
                     mode="plan" if answer_mode == "修改规划" else "qa",
                     on_result=checked_results.append,
+                    on_event=on_event,
                 ))
                 checked = checked_results[0] if checked_results else None
+                event_view.empty()
+                if checked:
+                    show_tool_events(checked.tool_events)
                 show_sources(checked)
             st.session_state["messages"].extend([
                 {"role": "user", "content": question},

@@ -62,11 +62,13 @@ def build_agent(model) -> Agent:
     return agent
 
 
-async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "qa", *, agent=None, conversation_dir=None, on_run=None):
+async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "qa", *, agent=None, conversation_dir=None, on_run=None, on_event=None):
     if mode not in ("qa", "plan"):
         raise ValueError("回答模式无效。")
     if mode == "plan" and deps.evidence is None:
         raise ValueError("修改规划需要已选定的仓库代码版本。")
+    deps.tool_events.clear()
+    deps.tool_observer = on_event
     history = None
     storage = {"storage_dir": conversation_dir} if conversation_dir is not None else {}
     if conversation_id is not None:
@@ -86,6 +88,7 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
         checked = check_plan(result.output, deps.evidence)
     else:
         checked = deps.evidence.check_answer(result.output) if deps.evidence else CheckedAnswer(text=result.output)
+    checked = checked.model_copy(update={"tool_events": tuple(deps.tool_events)})
     if history is not None:
         append_turn(history, question, result.new_messages(), checked, deps.evidence.reference_count, **storage)
     # Keep the existing score and threshold; pinned answers additionally need checked references.
@@ -105,7 +108,7 @@ async def ask(question: str, repo_url: str, repo_root: str, *, collection_name: 
     return (await _run_answer(question, deps, conversation_id, mode)).text
 
 
-async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa", on_result=None):
+async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa", on_result=None, on_event=None):
     """Stream a response token by token，流结束后触发知识沉淀。
 
     NOTE: Pydantic AI's run_stream() doesn't work with SiliconFlow's OpenAI-compatible
@@ -114,7 +117,7 @@ async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection
     """
     deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha)
 
-    checked = await _run_answer(question, deps, conversation_id, mode)
+    checked = await _run_answer(question, deps, conversation_id, mode, on_event=on_event)
     if on_result is not None:
         on_result(checked)
     full_response = checked.text
