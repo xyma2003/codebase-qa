@@ -192,7 +192,7 @@ MCP 客户端配置示例：
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-GitHub Actions 在推送 main 和 PR 时执行[离线检查](.github/workflows/ci.yml)：使用原已记录依赖及 SHA256 安装、核对固定标注、运行全量测试、独立回读已发布接口模拟归档，并保留检查文件。运行器使用 macOS 15 arm64 / Python 3.12.13，与本机平台一致；不配置聊天模型密钥，测试使用本地模型或内存传输及临时向量库，关闭 Hugging Face 在线下载。工作流中的 Actions 以完整 Commit 固定。安装依赖仍需网络，测试成功也不等于真实回答质量通过。
+GitHub Actions 在推送 main 和 PR 时执行[离线检查](.github/workflows/ci.yml)：uv 0.12.3 使用原已记录依赖及 SHA256 安装、核对固定标注、运行全量测试、独立回读已发布接口模拟归档，并保留检查文件。运行器为 macOS 15 arm64，Python 版本保留为 3.12.13；不配置聊天模型密钥，测试使用本地模型或内存传输及临时向量库，关闭 Hugging Face 在线下载。工作流中的 Actions 以完整 Commit 固定。安装依赖仍需网络，测试成功也不等于真实回答质量通过。
 
 [按行读取验收](docs/checks/20261110-source-reader.md)与[版本管理验收](docs/checks/20261110-repository-versions.md)分别保存记录。真实存储检查脚本为 `scripts/check_repository_versions.py`，新运行使用新的 `--output` 文件，避免覆盖已保存的证据。
 

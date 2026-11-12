@@ -1,0 +1,22 @@
+{
+  "status": "exact_python_installer_source_checked",
+  "original_run": {
+    "id": 43153743544,
+    "job_id": 130968751175,
+    "commit": "1f2802ef7aaf69f767e5f46e1627296e0f80f975",
+    "url": "https://github.com/xyma2003/codebase-qa/actions/runs/43153743544",
+    "failed_step": "actions/setup-python",
+    "error": "The version '3.12.13' with architecture 'arm64' was not found for macOS 15.8.2."
+  },
+  "source_manifest": "https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json",
+  "requested_python_version": "3.12.13",
+  "github_distribution_available": false,
+  "uv_version": "0.12.3",
+  "verified_uv_download": "https://releases.astral.sh/github/python-build-standalone/releases/download/20260807/cpython-3.12.13%2B20260807-aarch64-apple-darwin-install_only_stripped.tar.gz",
+  "setup_uv_commit": "68559e99cc807c1eb7e9238fd43a15bba460eec2",
+  "locked_requirements_changed": false,
+  "application_code_changed": false,
+  "actionlint_exit_code": 0,
+  "workflow_sha256": "6dbdbc6d4e58f4cbcc1a7e7cc40e58a77f56a4fdb677d33a25c4315b9cd68544",
+  "real_model_requests": 0
+}
