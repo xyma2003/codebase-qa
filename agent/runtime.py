@@ -1,4 +1,4 @@
-"""Explicit per-turn limits; omitted settings preserve the SDK defaults."""
+"""Per-turn limits bounded by server safety caps."""
 
 import asyncio
 from typing import Annotated, Literal
@@ -6,6 +6,7 @@ from typing import Annotated, Literal
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic_ai.messages import ModelMessagesTypeAdapter
 from pydantic_ai.usage import UsageLimits
+from security import resources as limits
 
 PositiveInt = Annotated[int, Field(gt=0)]
 NonNegativeInt = Annotated[int, Field(ge=0)]
@@ -40,6 +41,19 @@ class RunRecord(BaseModel):
     tool_calls: NonNegativeInt
     input_tokens: NonNegativeInt
     output_tokens: NonNegativeInt
+    enforced_limits: dict[str, int | float] = Field(default_factory=dict)
+
+
+def effective_limits(policy):
+    if policy is not None:
+        for name, cap in (("request_limit", limits.MAX_REQUESTS), ("tool_calls_limit", limits.MAX_TOOL_CALLS),
+                          ("timeout_seconds", limits.MAX_RUN_SECONDS)):
+            value = getattr(policy, name)
+            if value is not None and value > cap:
+                raise ValueError(f"{name} 超过安全上限 {cap}。")
+    return UsageLimits(request_limit=policy.request_limit if policy and policy.request_limit is not None else limits.MAX_REQUESTS,
+                       tool_calls_limit=policy.tool_calls_limit if policy and policy.tool_calls_limit is not None else limits.MAX_TOOL_CALLS,
+                       total_tokens_limit=policy.total_tokens_limit if policy else None)
 
 
 async def run_with_timeout(awaitable, seconds):

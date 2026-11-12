@@ -14,7 +14,8 @@ from indexer.chunker import chunk_repo
 from indexer import repository_state as state
 from indexer import vector_store
 from indexer.snapshots import create_snapshot, load_snapshot, normalize_repo_url
-from security.sources import safe_chunks
+from security.sources import secure_chunk_repo
+from security.git_transport import require_public_repository, run_git
 
 
 @dataclass(frozen=True)
@@ -77,7 +78,9 @@ def get_repository_version(repo_url, commit_sha):
 
 def _fetch_default_commit(checkout):
     with Repo(checkout) as repo:
-        repo.git.fetch("--depth=1", "origin", "HEAD")
+        url = normalize_repo_url(repo.remotes.origin.url)
+        require_public_repository(url)
+        run_git(["fetch", "--depth=1", "--no-tags", url, "HEAD"], cwd=checkout, size_path=checkout)
         return repo.commit("FETCH_HEAD").hexsha
 
 
@@ -127,7 +130,7 @@ def import_repository(repo_url, refresh=False, commit_sha=None, progress_callbac
         if version.commit_sha == snapshot.commit_sha:
             state.activate(vars(version), previous["collection_name"] if previous else None)
             return version
-    chunks = safe_chunks(chunk_repo(snapshot.root), snapshot)
+    chunks = list(secure_chunk_repo(snapshot))
     if not chunks:
         raise ValueError("仓库中没有支持索引的代码或文档。")
     client = vector_store._get_client()

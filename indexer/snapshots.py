@@ -14,6 +14,7 @@ from git import Repo
 from config import CLONE_DIR
 from indexer.source_reader import SourceReadError, read_source_file
 from security.sources import MAX_SOURCE_BYTES, SourcePolicyError, ensure_safe_source, ensure_safe_text, sensitive_path
+from security.resources import snapshot_budget
 
 
 def normalize_repo_url(value: str) -> str:
@@ -41,6 +42,8 @@ class RepositorySnapshot:
     skipped: tuple
 
     def read(self, file_path: str, start_line: int = 1, end_line: int | None = None):
+        if self.files.get(file_path, {}).get("materialized") is False:
+            raise SourceReadError("文件超过源码读取安全上限。")
         excerpt = read_source_file(self.root, file_path, start_line, end_line)
         expected = self.files.get(excerpt.file_path)
         if expected is None or excerpt.file_sha256 != expected["sha256"]:
@@ -50,7 +53,17 @@ class RepositorySnapshot:
 
 def load_snapshot(root: str, verify: bool = False) -> RepositorySnapshot:
     path = Path(root).resolve()
-    data = json.loads((path.parent / "manifest.json").read_text())
+    with (path.parent / "manifest.json").open("rb") as file:
+        raw = file.read(MAX_SOURCE_BYTES + 1)
+    if len(raw) > MAX_SOURCE_BYTES:
+        raise ValueError("快照清单超过安全上限。")
+    data = json.loads(raw)
+    snapshot_budget(data["files"])
+    for name in data["files"]:
+        relative = PurePosixPath(name)
+        if (relative.is_absolute() or PureWindowsPath(name).drive or "\\" in name or ".." in relative.parts
+                or ".git" in (part.lower() for part in relative.parts)):
+            raise ValueError("快照包含不合法路径。")
     snapshot = RepositorySnapshot(
         data["repo_url"], data["commit_sha"], str(path), data["created_at"],
         {name: meta for name, meta in data["files"].items() if not sensitive_path(name)},
@@ -60,8 +73,14 @@ def load_snapshot(root: str, verify: bool = False) -> RepositorySnapshot:
         raise ValueError("代码快照目录不存在。")
     if verify:
         for name, metadata in snapshot.files.items():
+            if not metadata.get("materialized", True) or metadata["bytes"] > MAX_SOURCE_BYTES:
+                continue
             file = path / name
-            if file.is_symlink() or not file.is_file() or hashlib.sha256(file.read_bytes()).hexdigest() != metadata["sha256"]:
+            if file.is_symlink() or not file.is_file():
+                raise ValueError(f"代码快照内容不匹配：{name}")
+            with file.open("rb") as source:
+                content = source.read(MAX_SOURCE_BYTES + 1)
+            if len(content) != metadata["bytes"] or hashlib.sha256(content).hexdigest() != metadata["sha256"]:
                 raise ValueError(f"代码快照内容不匹配：{name}")
     return snapshot
 
@@ -87,7 +106,12 @@ def _materialize_snapshot(repo_url, commit, storage_dir=None):
         source = staging / "source"
         source.mkdir()
         files, skipped = {}, []
+        seen = 0
         for item in commit.tree.traverse():
+            seen += 1
+            from security.resources import MAX_SNAPSHOT_FILES
+            if seen > MAX_SNAPSHOT_FILES * 2:
+                raise ValueError("Git 目录项数量超过安全上限。")
             if item.type == "tree":
                 continue
             relative = PurePosixPath(item.path)
@@ -99,39 +123,41 @@ def _materialize_snapshot(repo_url, commit, storage_dir=None):
             if sensitive_path(item.path):
                 skipped.append(item.path)
                 continue
+            if item.size > MAX_SOURCE_BYTES:
+                files[item.path] = {"sha256": None, "bytes": item.size, "materialized": False, "git_blob_sha": item.hexsha}
+                snapshot_budget(files)
+                continue
             # Inspect bounded source before materializing it. Large blobs are
             # separately denied by every source/embedding entry point.
-            bounded = None
-            if item.size <= MAX_SOURCE_BYTES:
-                bounded = item.data_stream.read(MAX_SOURCE_BYTES + 1)
-                try:
-                    ensure_safe_source(item.path, bounded)
-                except SourcePolicyError:
-                    skipped.append(item.path)
-                    continue
+            bounded = item.data_stream.read(MAX_SOURCE_BYTES + 1)
+            if len(bounded) != item.size:
+                raise ValueError("Git 源文件长度校验失败。")
+            try:
+                ensure_safe_source(item.path, bounded)
+            except SourcePolicyError:
+                skipped.append(item.path)
+                continue
+            snapshot_budget({**files, item.path: {"bytes": len(bounded)}})
             target = source.joinpath(*relative.parts)
             target.parent.mkdir(parents=True, exist_ok=True)
             digest = hashlib.sha256()
             size = 0
             with target.open("xb") as output:
-                if bounded is not None:
-                    output.write(bounded)
-                    digest.update(bounded)
-                    size = len(bounded)
-                else:
-                    stream = item.data_stream
-                    while block := stream.read(1024 * 1024):
-                        output.write(block)
-                        digest.update(block)
-                        size += len(block)
+                output.write(bounded)
+                digest.update(bounded)
+                size = len(bounded)
             target.chmod(0o444)
             files[item.path] = {"sha256": digest.hexdigest(), "bytes": size}
+            snapshot_budget(files)
         manifest = {
             "repo_url": repo_url, "commit_sha": commit.hexsha,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "files": files, "skipped": sorted(skipped),
         }
-        (staging / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+        manifest_text = json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
+        if len(manifest_text.encode()) > MAX_SOURCE_BYTES:
+            raise ValueError("快照清单超过安全上限。")
+        (staging / "manifest.json").write_text(manifest_text)
         try:
             staging.rename(destination)
         except OSError:

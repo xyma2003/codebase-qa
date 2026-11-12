@@ -66,6 +66,10 @@ def verify_archive(root, repository):
     if inventory.get("format_version") != 1 or inventory.get("sha256") != _files(root):
         raise ValueError("Archive inventory or artifact checksum mismatch")
     run = read_json((root / "run.json").read_bytes())
+    if "server_safety_limits" in run:
+        from security.resources import default_run_limits
+        if run["server_safety_limits"] != default_run_limits():
+            raise ValueError("Unknown server safety limits")
     if type(run.get("format_version")) is not int or run["format_version"] not in {1, 2}:
         raise ValueError("Unknown evaluation archive format")
     indexed_run = run.get("format_version") == 2
@@ -181,6 +185,8 @@ def verify_archive(root, repository):
                                 or record.requests != len(requests) or record.policy is not None
                                 or record.retrieval_strategy != expected_strategy or record.use_answer_cache != (not indexed_run)):
                             raise ValueError("Archived runtime record differs from actual run settings/usage")
+                        if "server_safety_limits" in run and record.enforced_limits != run["server_safety_limits"]:
+                            raise ValueError("Archived runtime record differs from server safety limits")
                     if review.output_sha256 != digest(output_bytes):
                         raise ValueError("Review is bound to the wrong output artifact")
                     if (turn["mode"] == "plan") != (checked.plan is not None):

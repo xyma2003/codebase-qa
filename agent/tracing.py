@@ -9,6 +9,7 @@ from uuid import uuid4
 
 from pydantic import BaseModel, ConfigDict, Field
 from security.sources import ensure_safe_text
+from security.resources import check_bytes
 
 
 class ToolEvent(BaseModel):
@@ -36,12 +37,14 @@ def traced_tool(function):
         values = inspect.signature(function).bind(ctx, *args, **kwargs)
         values.apply_defaults()
         arguments = {name: value for name, value in values.arguments.items() if name != "ctx"}
+        check_bytes(json.dumps(arguments, ensure_ascii=False), "工具参数")
         ensure_safe_text(json.dumps(arguments, ensure_ascii=False))
         event = ToolEvent(call_id=str(uuid4()), tool_name=function.__name__, arguments=arguments, status="running")
         _emit(ctx.deps, event)
         started = time.perf_counter()
         try:
             result = await function(ctx, *args, **kwargs)
+            check_bytes(result if isinstance(result, str) else json.dumps(result, ensure_ascii=False), "工具返回")
         except BaseException:
             completed = event.model_copy(update={"status": "failed", "elapsed_ms": round((time.perf_counter()-started)*1000)})
             getattr(ctx.deps, "tool_events", []).append(completed)

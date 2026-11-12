@@ -71,6 +71,15 @@ class RunnerTests(unittest.TestCase):
         self.assertTrue(self.read("turns/003-01/output.json")["plan"])
         self.assertFalse((self.fixture.root / "executed").exists())
 
+    def test_safety_caps_are_archived_and_cannot_be_relabelled(self):
+        from security.resources import default_run_limits
+        self.run_fixture()
+        self.assertEqual(self.read("run.json")["server_safety_limits"], default_run_limits())
+        self.assertEqual(self.read("turns/001-01/output.json")["runtime"]["enforced_limits"], default_run_limits())
+        self.edit("run.json", lambda data: data["server_safety_limits"].update(request_limit=999))
+        with self.assertRaisesRegex(ValueError, "safety limits"):
+            verify_archive(self.run_dir, self.fixture.work)
+
     def test_inputs_and_captured_requests_exclude_gold_and_other_cases(self):
         self.run_fixture()
         for folder in (self.run_dir / "turns").iterdir():

@@ -2,9 +2,9 @@
 
 from pathlib import PurePosixPath
 import re
+from security.resources import MAX_SOURCE_BYTES, MAX_SNAPSHOT_BYTES, MAX_INDEX_CHUNKS
 
 # Match the existing whole-source scanning limit; output remains capped at 8000 chars.
-MAX_SOURCE_BYTES = 1024 * 1024
 
 
 class SourcePolicyError(ValueError):
@@ -94,5 +94,41 @@ def safe_chunks(chunks, snapshot):
 
 
 def check_chunks(chunks):
+    if len(chunks) > MAX_INDEX_CHUNKS or sum(len(chunk.content.encode()) for chunk in chunks) > MAX_SNAPSHOT_BYTES:
+        raise SourcePolicyError("索引内容超过安全上限。")
     for chunk in chunks:
         ensure_safe_source(chunk.file_path, chunk.content.encode())
+
+
+def secure_chunk_repo(snapshot):
+    """Check size and content before parsing; preserve the original parsing functions."""
+    import hashlib
+    from pathlib import PurePosixPath
+    from config import CODE_EXTENSIONS
+    from indexer.chunker import _parse_python, _sliding_window
+    from indexer.code_search import SKIP_DIRECTORIES
+    from indexer.source_reader import read_source_bytes, SourceReadError
+    total, count = 0, 0
+    for path, meta in snapshot.files.items():
+        suffix = PurePosixPath(path).suffix.lower()
+        if (suffix not in CODE_EXTENSIONS or SKIP_DIRECTORIES.intersection(PurePosixPath(path).parts[:-1])
+                or not meta.get("materialized", True) or meta["bytes"] > MAX_SOURCE_BYTES):
+            continue
+        try:
+            _, data = read_source_bytes(snapshot.root, path)
+        except SourceReadError:
+            # A blocked legacy file never reaches the parser or embedding model.
+            continue
+        if hashlib.sha256(data).hexdigest() != meta["sha256"]:
+            raise SourcePolicyError("索引前源码校验失败。")
+        if b"\x00" in data:
+            continue
+        text = data.decode("utf-8", errors="ignore")
+        if not text.strip():
+            continue
+        for chunk in (_parse_python(text, path) if suffix == ".py" else _sliding_window(text, path)):
+            count += 1
+            total += len(chunk.content.encode())
+            if count > MAX_INDEX_CHUNKS or total > MAX_SNAPSHOT_BYTES:
+                raise SourcePolicyError("索引内容超过安全上限。")
+            yield chunk

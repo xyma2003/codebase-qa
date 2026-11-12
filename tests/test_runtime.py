@@ -117,7 +117,8 @@ class RuntimeTurnTests(unittest.TestCase):
         original = agent.run
         with patch.object(agent, "run", wraps=original) as run:
             asyncio.run(qa_agent._run_answer("默认选项", self.deps(source_only=True), agent=agent))
-        self.assertNotIn("usage_limits", run.call_args.kwargs)
+        self.assertEqual(run.call_args.kwargs["usage_limits"].request_limit, 50)
+        self.assertEqual(run.call_args.kwargs["usage_limits"].tool_calls_limit, 50)
         self.assertNotIn("model_settings", run.call_args.kwargs)
 
 

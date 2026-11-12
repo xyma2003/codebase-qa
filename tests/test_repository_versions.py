@@ -282,7 +282,14 @@ class FetchVersionTests(unittest.TestCase):
                 work.index.add(["value.py"])
                 second = work.index.commit("second", author=ACTOR, committer=ACTOR).hexsha
                 work.git.push("origin", "HEAD:refs/heads/main")
-                self.assertEqual(service._fetch_default_commit(str(root / "clone")), second)
+                with self.assertRaises(ValueError):
+                    service._fetch_default_commit(str(root / "clone"))  # Local protocols are no longer product inputs.
+                clone.remotes.origin.set_url(URL)
+                def local_transport(arguments, **kwargs):
+                    self.assertEqual(arguments, ["fetch", "--depth=1", "--no-tags", URL, "HEAD"])
+                    clone.git.fetch("--depth=1", remote.working_dir, "HEAD")
+                with patch.object(service, "require_public_repository"), patch.object(service, "run_git", side_effect=local_transport):
+                    self.assertEqual(service._fetch_default_commit(str(root / "clone")), second)
                 self.assertEqual(clone.head.commit.hexsha, first)
             finally:
                 if clone:

@@ -72,7 +72,8 @@ def show_runtime(record):
         st.text(f"{record.requests} 次模型请求 · {record.tool_calls} 次工具调用 · {record.elapsed_ms} ms")
         st.text(f"输入 {record.input_tokens} Token · 输出 {record.output_tokens} Token")
         st.json({"retrieval_strategy": record.retrieval_strategy, "use_answer_cache": record.use_answer_cache,
-                 "limits": record.policy.model_dump() if record.policy else None}, expanded=False)
+                 "limits": record.policy.model_dump() if record.policy else None,
+                 "enforced_limits": record.enforced_limits}, expanded=False)
 
 
 def clear_repository():
@@ -246,11 +247,11 @@ if "repository_index" in st.session_state:
         retrieval_strategy = "hybrid" if retrieval_label == "融合检索（实验）" else "semantic"
         policy = None
         if st.checkbox("设置运行限制", key="use_run_limits"):
-            request_limit = st.number_input("每轮模型请求上限", min_value=1, value=50, step=1, key="request_limit")
-            tool_limit = st.number_input("每轮工具调用上限", min_value=0, value=0, step=1, help="0 表示不设限", key="tool_limit")
+            request_limit = st.number_input("每轮模型请求上限", min_value=1, max_value=50, value=50, step=1, key="request_limit")
+            tool_limit = st.number_input("每轮工具调用上限", min_value=0, max_value=50, value=0, step=1, help="0 表示采用安全上限", key="tool_limit")
             token_limit = st.number_input("每轮总 Token 上限", min_value=0, value=0, step=100, help="按模型返回用量检查；0 表示不设限", key="token_limit")
-            timeout = st.number_input("每轮超时秒数", min_value=0, value=0, step=1, help="0 表示不设限", key="timeout_seconds")
-            input_limit = st.number_input("问题与历史字符上限", min_value=0, value=0, step=1000, help="不含系统指令、工具定义和本轮新工具结果；0 表示不设限", key="input_limit")
+            timeout = st.number_input("每轮超时秒数", min_value=0, max_value=300, value=0, step=1, help="0 表示采用安全上限", key="timeout_seconds")
+            input_limit = st.number_input("问题与历史字符上限", min_value=0, value=0, step=1000, help="不含系统指令、工具定义和本轮新工具结果；0 表示只采用安全字节上限", key="input_limit")
             policy = RunPolicy(request_limit=request_limit, tool_calls_limit=tool_limit or None,
                                total_tokens_limit=token_limit or None, timeout_seconds=float(timeout) if timeout else None,
                                input_characters_limit=input_limit or None)

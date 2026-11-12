@@ -4,3 +4,7 @@
 # harmless noise since this project uses text embeddings (all-MiniLM-L6-v2).
 [server]
 fileWatcherType = "none"
+address = "127.0.0.1"
+enableXsrfProtection = true
+enableCORS = true
+maxMessageSize = 2

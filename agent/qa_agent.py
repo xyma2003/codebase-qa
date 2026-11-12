@@ -13,7 +13,8 @@ from agent.evidence import CITATION_INSTRUCTIONS, CheckedAnswer, EvidenceStore
 from agent.conversations import load_conversation, append_turn
 from agent.planning import ChangePlan, PLANNING_INSTRUCTIONS, check_plan
 from indexer.hybrid import RetrievalStrategy
-from agent.runtime import RunPolicy, RunRecord, run_with_timeout
+from agent.runtime import RunPolicy, RunRecord, run_with_timeout, effective_limits
+from security import resources as safety_limits
 
 AnswerMode = Literal["qa", "plan"]
 
@@ -70,9 +71,11 @@ def build_agent(model) -> Agent:
 
 
 async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "qa", *, agent=None, conversation_dir=None, on_run=None, on_event=None, policy: RunPolicy | None = None):
+    safety_limits.check_bytes(question, "问题")
     ensure_safe_text(question)
     if policy is not None and not isinstance(policy, RunPolicy):
         raise TypeError("运行限制必须使用 RunPolicy。")
+    enforced = effective_limits(policy)
     if mode not in ("qa", "plan"):
         raise ValueError("回答模式无效。")
     if mode == "plan" and deps.evidence is None:
@@ -90,18 +93,24 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
         options.update(instructions=CITATION_INSTRUCTIONS + "\n" + PLANNING_INSTRUCTIONS,
                        output_type=ToolOutput(ChangePlan, name="submit_change_plan", max_retries=0))
     if history is not None:
-        ensure_safe_text(ModelMessagesTypeAdapter.dump_json(history.messages).decode())
+        native_history = ModelMessagesTypeAdapter.dump_json(history.messages).decode()
+        safety_limits.check_bytes(native_history+question, "问题与历史")
+        ensure_safe_text(native_history)
         options.update(message_history=history.messages, conversation_id=history.conversation_id)
     if policy is not None:
         policy.check_input(question, history.messages if history is not None else None)
-        options["usage_limits"] = policy.usage_limits()
+    options["usage_limits"] = enforced
     started = time.perf_counter()
     result = await run_with_timeout((agent or _get_agent()).run(question, deps=deps, **options),
-                                    policy.timeout_seconds if policy is not None else None)
+                                    policy.timeout_seconds if policy and policy.timeout_seconds else safety_limits.MAX_RUN_SECONDS)
     if on_run is not None:
         on_run(result)
-    ensure_safe_text(result.output.model_dump_json() if hasattr(result.output, "model_dump_json") else str(result.output))
-    ensure_safe_text(ModelMessagesTypeAdapter.dump_json(result.new_messages()).decode())
+    output_text = result.output.model_dump_json() if hasattr(result.output, "model_dump_json") else str(result.output)
+    safety_limits.check_bytes(output_text, "模型输出")
+    ensure_safe_text(output_text)
+    new_native = ModelMessagesTypeAdapter.dump_json(result.new_messages()).decode()
+    safety_limits.check_bytes(new_native, "本轮消息")
+    ensure_safe_text(new_native)
     if mode == "plan":
         checked = check_plan(result.output, deps.evidence)
     else:
@@ -110,6 +119,9 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
     record = RunRecord(policy=policy, retrieval_strategy=deps.retrieval_strategy, use_answer_cache=deps.use_answer_cache,
                        elapsed_ms=max(0, round((time.perf_counter()-started)*1000)), requests=usage.requests,
                        tool_calls=usage.tool_calls, input_tokens=usage.input_tokens, output_tokens=usage.output_tokens)
+    record = record.model_copy(update={"enforced_limits": {"request_limit": enforced.request_limit,
+        "tool_calls_limit": enforced.tool_calls_limit, "timeout_seconds": policy.timeout_seconds if policy and policy.timeout_seconds else safety_limits.MAX_RUN_SECONDS,
+        "input_bytes": safety_limits.MAX_SOURCE_BYTES, "output_bytes": safety_limits.MAX_SOURCE_BYTES}})
     checked = checked.model_copy(update={"tool_events": tuple(deps.tool_events), "runtime": record})
     if history is not None:
         append_turn(history, question, result.new_messages(), checked, deps.evidence.reference_count, **storage)

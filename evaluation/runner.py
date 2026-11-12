@@ -25,11 +25,13 @@ from evaluation.scoring import summarize_reviews
 from indexer.snapshots import create_snapshot
 from security.output import redact_data
 from security.sources import ensure_safe_text
+from security.resources import default_run_limits
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_FILES = (
     "security/sources.py",
     "security/output.py",
+    "security/resources.py", "security/git_transport.py",
     "agent/qa_agent.py", "agent/tools.py", "agent/evidence.py", "agent/planning.py", "agent/conversations.py", "agent/tracing.py", "agent/runtime.py",
     "indexer/snapshots.py", "indexer/source_reader.py", "indexer/code_search.py", "indexer/dependencies.py",
     "indexer/overview.py", "indexer/vector_store.py", "indexer/hybrid.py", "memory/quality.py", "memory/knowledge.py", "config.py", "requirements.txt",
@@ -71,6 +73,7 @@ async def _run(dataset, repository, output, *, backend, turn_timeout, indexed=No
     profile = {
         "format_version": 1, "run_id": root.name, "started_at": _now(), "backend": "local_fixture",
         "real_model_called": False, "model_name": backend.name, "model_settings": {},
+        "server_safety_limits": default_run_limits(),
         "dataset_fingerprint": bundle.fingerprint, "dataset_id": bundle.manifest.dataset_id,
         "runtime_commit": runtime_commit, "runtime_dirty": dirty,
         "runtime_file_sha256": {name: digest((ROOT / name).read_bytes()) for name in RUNTIME_FILES},

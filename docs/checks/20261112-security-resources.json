@@ -1,0 +1,24 @@
+{
+  "status": "resource_boundaries_passed",
+  "tests": 287,
+  "test_seconds": 102.545,
+  "new_security_tests": 10,
+  "real_model_requests": 0,
+  "real_network_clone": false,
+  "git_disk_is_hard_os_quota": false,
+  "model_or_embedding_changed": false,
+  "implementation_sha256": {
+    "security/resources.py": "b3bfa9eb354bcf32c18dd637db4dd0069a20ad2b8701e0c699d9db3684259a7d",
+    "security/git_transport.py": "5b48b93c46431beecd7ee2f6594b088d8fb916d6ff6ad76e529c53499befbac8",
+    "security/sources.py": "d5326d9a16b4a913619101428ccab6ab9c943ada28c4bc1d0b6968aad170dc69",
+    "indexer/cloner.py": "ba7826baf97e939d421bb58c6076b64e370f0de1b1837da9025c5f5f0241e966",
+    "indexer/snapshots.py": "395ddc82cb4f422829b3124668aba5cb1ec76b8ce15330e0b93666b5539d015c",
+    "indexer/repository_service.py": "8f90dce2f97f81e054fc1a2b115d289d136b844fbc9f4996b04f9835b0aa7a47",
+    "agent/qa_agent.py": "402c27fbf2a52d8c3fa8249e2ae089e166cb6717cb91d911a9aa148684bc39e7",
+    "agent/runtime.py": "07ccf46bc81de56b37551dbd9d891977c889a89dc720f02cff7c97457a01fe6f",
+    "agent/tracing.py": "01559f1ee23fb2af95464f46c319cddc0e34a263338801bb7b152daadf5b502a",
+    "evaluation/runner.py": "571b7c171ff5bdc5648d499c9f7e4fe310e6a115edc3ee3a9d37652ecbb46c31",
+    "evaluation/archive.py": "9906d89d2033aa5c0bc3d5fe463b65a2dad93fe85705a93e633d790cebb9e92b",
+    ".streamlit/config.toml": "3d266470d28730910c6f8aa6f9b20d18d5776a42b048e431fb745ed6a093e4e6"
+  }
+}
