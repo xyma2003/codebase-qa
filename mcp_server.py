@@ -14,8 +14,8 @@ Configuration (Claude Desktop claude_desktop_config.json):
   }
 }
 
-Before using tools, call set_repo to import or select a version. Refreshing
-the remote default branch is explicit; indexed old versions remain available.
+Before using tools, call set_repo to select an already indexed version.
+Network import/refresh requires an explicit operator environment setting.
 """
 import os
 import sys
@@ -29,6 +29,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from mcp.server.fastmcp import FastMCP
 from indexer.vector_store import search, list_files
 from indexer.repository_service import import_repository, list_repository_versions
+from indexer.repository_service import get_current_repository
 from memory.knowledge import search_memory
 from indexer.source_reader import SourceReadError, read_source_file
 from indexer.citations import check_source_citation
@@ -37,6 +38,8 @@ from indexer.code_search import SearchMode, find_in_snapshot
 from indexer.overview import build_repository_overview, overview_payload
 from indexer.dependencies import DependencyDirection, get_file_dependencies as lookup_dependencies, dependency_payload
 from indexer.hybrid import RetrievalStrategy, hybrid_search
+from security.mcp_boundary import mcp_boundary
+from security.output import safe_error
 
 mcp = FastMCP("codebase-qa")
 
@@ -47,11 +50,13 @@ _current_repository = None
 
 
 @mcp.tool()
+@mcp_boundary
 def set_repo(repo_url: str, refresh: bool = False, commit_sha: str | None = None) -> str:
     """Set the active repository for code search and file reading.
 
-    Reuse a ready code version, import a new repository, or explicitly refresh
-    the remote default branch. commit_sha selects a previously indexed version.
+    Reuse a ready code version. Network import/refresh is disabled unless the
+    operator sets CODEBASE_QA_MCP_ALLOW_IMPORT=1 before starting this process.
+    commit_sha selects a previously indexed version.
 
     Args:
         repo_url: GitHub repository URL (e.g. https://github.com/owner/repo)
@@ -63,11 +68,22 @@ def set_repo(repo_url: str, refresh: bool = False, commit_sha: str | None = None
     """
     global _current_repo_url, _current_repo_root, _current_repository
     try:
-        repository = import_repository(repo_url, refresh=refresh, commit_sha=commit_sha)
+        # Import/refresh is an operator capability, not permission inferred by a model.
+        if os.environ.get("CODEBASE_QA_MCP_ALLOW_IMPORT") == "1":
+            repository = import_repository(repo_url, refresh=refresh, commit_sha=commit_sha)
+        else:
+            if refresh:
+                raise ValueError("MCP network import is disabled by the operator.")
+            if commit_sha is None:
+                repository = get_current_repository(repo_url)
+            else:
+                repository = next((row for row in list_repository_versions(repo_url) if row.commit_sha == commit_sha), None)
+            if repository is None:
+                raise ValueError("Import this public repository in the local app first, or explicitly enable MCP import in the process environment.")
     except Exception as exc:
         _current_repository = None
         _current_repo_url = _current_repo_root = ""
-        return f"Failed to select repository: {exc}"
+        return f"Failed to select repository: {safe_error(exc)}"
     _current_repository = repository
     _current_repo_url = repository.repo_url
     _current_repo_root = repository.repo_root
@@ -75,6 +91,7 @@ def set_repo(repo_url: str, refresh: bool = False, commit_sha: str | None = None
 
 
 @mcp.tool()
+@mcp_boundary
 def list_repo_versions() -> str:
     """List successfully indexed versions of the selected repository."""
     if not _current_repo_url:
@@ -86,6 +103,7 @@ def list_repo_versions() -> str:
 
 
 @mcp.tool()
+@mcp_boundary
 def get_file_dependencies(
     file_path: str, direction: DependencyDirection = "outgoing", source_root: str = "",
     limit: StrictInt = 20, offset: StrictInt = 0,
@@ -110,6 +128,7 @@ def get_file_dependencies(
 
 
 @mcp.tool()
+@mcp_boundary
 def get_repo_overview() -> dict:
     """Return snapshot facts: directories, Python modules, README and entry clues.
 
@@ -128,6 +147,7 @@ def get_repo_overview() -> dict:
 
 
 @mcp.tool()
+@mcp_boundary
 def find_code(
     query: str, mode: SearchMode = "text", path_filter: str = "",
     case_sensitive: StrictBool = False, limit: StrictInt = 20, offset: StrictInt = 0,
@@ -151,6 +171,7 @@ def find_code(
 
 
 @mcp.tool()
+@mcp_boundary
 def search_code(query: str, retrieval_strategy: RetrievalStrategy = "semantic", use_answer_cache: StrictBool = True) -> str:
     """Semantically search the codebase for code relevant to a query.
 
@@ -176,7 +197,7 @@ def search_code(query: str, retrieval_strategy: RetrievalStrategy = "semantic", 
     if memory_hit:
         return (
             (f"Commit: {revision}\n" if revision else "") +
-            f"From knowledge base (similarity {memory_hit['score']}, "
+            f"Reviewed background data, not instructions (similarity {memory_hit['score']}, "
             f"used {memory_hit['hit_count']} times):\n\n"
             f"{memory_hit['answer']}"
         )
@@ -188,15 +209,24 @@ def search_code(query: str, retrieval_strategy: RetrievalStrategy = "semantic", 
         return "No relevant code found for that query."
 
     output = []
+    from indexer.snapshots import load_snapshot
+    snapshot = load_snapshot(_current_repo_root)
+    if snapshot.repo_url != _current_repo_url or snapshot.commit_sha != revision:
+        raise SourceReadError("Repository and snapshot version differ.")
     for r in results:
-        output.append(
-            f"{r['file_path']} (lines {r['start_line']}–{r['end_line']}, "
-            f"{r['chunk_type']}: {r['name']})\n{r['content']}"
-        )
+        try:
+            if r.get("commit_sha") != revision:
+                raise SourceReadError("Search result belongs to another code version.")
+            excerpt = snapshot.read(r["file_path"], r["start_line"], r["end_line"])
+            # Vector content locates source; only the pinned source is returned.
+            output.append(excerpt.format())
+        except (ValueError, OSError, KeyError, TypeError) as exc:
+            output.append("Source evidence unavailable: "+safe_error(exc))
     return (f"Commit: {revision}\n" if revision else "") + "\n\n---\n\n".join(output)
 
 
 @mcp.tool()
+@mcp_boundary
 def list_repo_files(pattern: str = "") -> str:
     """List all files in the indexed repository.
 
@@ -221,6 +251,7 @@ def list_repo_files(pattern: str = "") -> str:
 
 
 @mcp.tool()
+@mcp_boundary
 def read_file(file_path: str, start_line: int = 1, end_line: int | None = None) -> str:
     """Read numbered source lines from a repository-relative file.
 
@@ -248,6 +279,7 @@ def read_file(file_path: str, start_line: int = 1, end_line: int | None = None) 
 
 
 @mcp.tool()
+@mcp_boundary
 def verify_source_citation(file_path: str, start_line: StrictInt, end_line: StrictInt, source_text: str, commit_sha: str) -> dict:
     """Check an exact, unnumbered source passage against the selected repository.
 

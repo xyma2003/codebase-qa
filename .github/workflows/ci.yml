@@ -42,6 +42,8 @@ jobs:
           uv pip freeze > "$RUNNER_TEMP/check-records/requirements.txt"
       - name: Verify frozen development data
         run: python scripts/check_evaluation.py --output "$RUNNER_TEMP/check-records/dataset.json"
+      - name: Check forced prompt attack boundaries
+        run: python scripts/check_prompt_attacks.py --output "$RUNNER_TEMP/check-records/prompt-attacks.json"
       - name: Run offline tests
         env:
           HF_HOME: ${{ runner.temp }}/huggingface-offline

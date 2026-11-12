@@ -1,0 +1,59 @@
+{
+  "status": "local_security_integration_passed",
+  "tests": 300,
+  "test_seconds": 107.421,
+  "fixed_attack_cases": 13,
+  "real_model_requests": 0,
+  "model_attack_resistance_rate": null,
+  "browser": {
+    "cache_page_opened": true,
+    "history_restored": true,
+    "canary_image_nodes": 0,
+    "canary_link_nodes": 0,
+    "request_max": 50,
+    "tool_max": 50,
+    "timeout_max": 300,
+    "network_capture": false
+  },
+  "existing_index": {
+    "source_commit": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+    "chunks": 58,
+    "rebuilt": false
+  },
+  "old_archive_readback": {
+    "status": "archive_verified",
+    "backend": "provider_fixture",
+    "real_model_called": false,
+    "required_turns": 19,
+    "attempted_turns": 19,
+    "completed_turns": 19,
+    "failed_turns": 0,
+    "blocked_turns": 0,
+    "not_run_turns": 0,
+    "reviewed_turns": 0,
+    "quality_score": null,
+    "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
+    "archive_sha256": "cd67b59e8ca4f632d8d7b817b91354a96bb14323aef37be9ab2b549456dce2f8",
+    "artifact_count": 210
+  },
+  "completed_ci_runs": {
+    "a646baa": 43171547907,
+    "4a91bee": 43173649916,
+    "f35ae68": 43175737908,
+    "654502b": 43178772499
+  },
+  "implementation_sha256": {
+    "security/mcp_boundary.py": "0e86d03c27bb6c7ff7ea73e8848f88064c3de387671587ed936d761b6d61ad67",
+    "agent/qa_agent.py": "f24e829810d6b1749e9667bebd58c328398bac2480d8c8307bea670a628086b3",
+    "agent/tools.py": "2a192a5dcccc781c13ea33233d4d164ae4665ef4d198ae5493c5f3ca42ebfff0",
+    "agent/planning.py": "ab998c56dedc89b0ef9d45e3f2c23775161808bb44fd44541058722252be45f1",
+    "mcp_server.py": "8fa6bbbbb4c4238796d5d63774c9349a76d73ab445fbbd34a5a1a12f3ec8737a",
+    ".streamlit/config.toml": "ef5eea805b3a3f6fe749662a4e9ae6a7a789757461ac6213994e490e9015ef3f",
+    ".github/workflows/ci.yml": "bdb70c478e4faa9747b5a96bfb3aab6b1f8710d1b70bfb333a30b8be4c1ca285",
+    "tests/test_prompt_attacks.py": "42804ab2bbe204a44d08da86a91dfdcfc8feff199967873ae961d9d90e40e33b",
+    "evals/prompt-attacks-v1/cases.json": "bdbea32d7043d790b1c5667e240452fb52ff04a473def7e2dff38a5f4a5d6a9b",
+    "scripts/check_prompt_attacks.py": "3e92ffd0fa9637f2d0870188252db2868033aa839d7168d5b20109fad39110e6",
+    "scripts/check_security_integration.py": "52ae8afbc186f2b0f31e8b8584e94370577e8e83b0d6ef5871fd8d4c14303e6e"
+  },
+  "current_commit_ci_at_record": "pending_push"
+}

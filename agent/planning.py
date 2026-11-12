@@ -8,6 +8,7 @@ from typing import Annotated, Literal
 from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 from indexer.snapshots import load_snapshot
+from security.sources import sensitive_path
 
 Text = Annotated[str, StringConstraints(strict=True, strip_whitespace=True, min_length=1, max_length=4000)]
 Reference = Annotated[str, StringConstraints(strict=True, pattern=r"^S[1-9][0-9]{0,8}$")]
@@ -140,6 +141,9 @@ def check_plan(plan: ChangePlan, evidence):
         path = change.file_path
         if not _valid_path(path):
             issue(f"修改路径无效：{path}")
+            continue
+        if sensitive_path(path):
+            issue(f"安全策略禁止规划敏感路径：{path}")
             continue
         if path in targets:
             issue(f"修改文件重复：{path}")
