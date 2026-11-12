@@ -11,6 +11,7 @@ from indexer import vector_store
 from indexer.chunker import chunk_repo
 from indexer.repository_service import _fingerprint
 from indexer.snapshots import create_snapshot, load_snapshot
+from security.sources import safe_chunks
 
 
 def _contents(collection):
@@ -31,7 +32,7 @@ def build_indexes(dataset, repository, output):
     records = []
     for source in bundle.manifest.sources:
         snapshot = create_snapshot(source.repo_url, str(repository), source.commit_sha, storage_dir=destination / "sources")
-        chunks = list(chunk_repo(snapshot.root))
+        chunks = safe_chunks(chunk_repo(snapshot.root), snapshot)
         if not chunks:
             raise ValueError("固定版本没有可索引内容")
         name = "evaluation-" + uuid4().hex

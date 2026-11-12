@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 import hashlib
 from pathlib import Path, PureWindowsPath
+from security.sources import MAX_SOURCE_BYTES, SourcePolicyError, ensure_safe_source, sensitive_path
 
 MAX_READ_CHARS = 8000
 
@@ -51,6 +52,8 @@ def read_source_bytes(repo_root: str, file_path: str, max_bytes: int | None = No
         raise SourceReadError("Only repository-relative paths without '..' are allowed.")
     if any(part.lower() == ".git" for part in relative.parts):
         raise SourceReadError("Git metadata cannot be read through this tool.")
+    if sensitive_path(file_path):
+        raise SourceReadError("安全策略禁止读取敏感文件。")
     try:
         root = Path(repo_root).resolve(strict=True)
         if not root.is_dir():
@@ -64,11 +67,16 @@ def read_source_bytes(repo_root: str, file_path: str, max_bytes: int | None = No
         if not path.is_relative_to(root) or not path.is_file():
             raise SourceReadError("Path must point to a regular file inside the repository.")
         with path.open("rb") as source:
-            data = source.read() if max_bytes is None else source.read(max_bytes + 1)
+            limit = min(max_bytes, MAX_SOURCE_BYTES) if max_bytes is not None else MAX_SOURCE_BYTES
+            data = source.read(limit + 1)
     except (OSError, RuntimeError) as exc:
         raise SourceReadError("File is missing or cannot be read.") from exc
-    if max_bytes is not None and len(data) > max_bytes:
+    if len(data) > limit:
         raise SourceReadError("File exceeds the source scanning byte limit.")
+    try:
+        ensure_safe_source(file_path, data)
+    except SourcePolicyError as exc:
+        raise SourceReadError(str(exc)) from None
     return path.relative_to(root).as_posix(), data
 
 

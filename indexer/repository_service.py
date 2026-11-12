@@ -14,6 +14,7 @@ from indexer.chunker import chunk_repo
 from indexer import repository_state as state
 from indexer import vector_store
 from indexer.snapshots import create_snapshot, load_snapshot, normalize_repo_url
+from security.sources import safe_chunks
 
 
 @dataclass(frozen=True)
@@ -126,7 +127,7 @@ def import_repository(repo_url, refresh=False, commit_sha=None, progress_callbac
         if version.commit_sha == snapshot.commit_sha:
             state.activate(vars(version), previous["collection_name"] if previous else None)
             return version
-    chunks = list(chunk_repo(snapshot.root))
+    chunks = safe_chunks(chunk_repo(snapshot.root), snapshot)
     if not chunks:
         raise ValueError("仓库中没有支持索引的代码或文档。")
     client = vector_store._get_client()

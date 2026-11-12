@@ -13,6 +13,7 @@ from urllib.parse import urlsplit
 from git import Repo
 from config import CLONE_DIR
 from indexer.source_reader import SourceReadError, read_source_file
+from security.sources import MAX_SOURCE_BYTES, SourcePolicyError, ensure_safe_source, sensitive_path
 
 
 def normalize_repo_url(value: str) -> str:
@@ -51,7 +52,8 @@ def load_snapshot(root: str, verify: bool = False) -> RepositorySnapshot:
     data = json.loads((path.parent / "manifest.json").read_text())
     snapshot = RepositorySnapshot(
         data["repo_url"], data["commit_sha"], str(path), data["created_at"],
-        data["files"], tuple(data["skipped"]),
+        {name: meta for name, meta in data["files"].items() if not sensitive_path(name)},
+        tuple(sorted(set(data["skipped"]) | {name for name in data["files"] if sensitive_path(name)})),
     )
     if not path.is_dir():
         raise ValueError("代码快照目录不存在。")
@@ -93,16 +95,34 @@ def _materialize_snapshot(repo_url, commit, storage_dir=None):
             if item.type != "blob" or item.mode not in (0o100644, 0o100755):
                 skipped.append(item.path)
                 continue
+            if sensitive_path(item.path):
+                skipped.append(item.path)
+                continue
+            # Inspect bounded source before materializing it. Large blobs are
+            # separately denied by every source/embedding entry point.
+            bounded = None
+            if item.size <= MAX_SOURCE_BYTES:
+                bounded = item.data_stream.read(MAX_SOURCE_BYTES + 1)
+                try:
+                    ensure_safe_source(item.path, bounded)
+                except SourcePolicyError:
+                    skipped.append(item.path)
+                    continue
             target = source.joinpath(*relative.parts)
             target.parent.mkdir(parents=True, exist_ok=True)
             digest = hashlib.sha256()
             size = 0
             with target.open("xb") as output:
-                stream = item.data_stream
-                while block := stream.read(1024 * 1024):
-                    output.write(block)
-                    digest.update(block)
-                    size += len(block)
+                if bounded is not None:
+                    output.write(bounded)
+                    digest.update(bounded)
+                    size = len(bounded)
+                else:
+                    stream = item.data_stream
+                    while block := stream.read(1024 * 1024):
+                        output.write(block)
+                        digest.update(block)
+                        size += len(block)
             target.chmod(0o444)
             files[item.path] = {"sha256": digest.hexdigest(), "bytes": size}
         manifest = {

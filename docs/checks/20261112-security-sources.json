@@ -1,0 +1,22 @@
+{
+  "status": "source_security_local_checks_passed",
+  "real_model_requests": 0,
+  "tests": 260,
+  "test_seconds": 97.62,
+  "new_security_tests": 8,
+  "fixed_existing_chunks_checked": 533,
+  "blocked_fixed_chunks_after_placeholder_fix": 0,
+  "embedding_vectors_recomputed": 0,
+  "active_source_unchanged": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+  "active_chunks_unchanged": 58,
+  "implementation_sha256": {
+    "security/sources.py": "9eb3eeb9f1e0730c2e9120c6f6eea583dfd92467bf003b8044adbdf644c0ee2f",
+    "indexer/source_reader.py": "18df7046d86bfe32d0c7920fbeaa992d5f508e15d83fe50e095eba4b13a713a7",
+    "indexer/snapshots.py": "40cee54f80ebf9903f5c7a667307b96deb0c5cac2524493b8f72ead9195a6c46",
+    "indexer/vector_store.py": "904287cbe1a96cbf2a8bba5b7e0c63b006e8d5d809fcb35105a5e94ae1b6465e",
+    "indexer/repository_service.py": "43d0433ea2adcc56ad67f0581ffa9d3ea5e891604a69c01c487d0e48830f97a2",
+    "evaluation/indexes.py": "9c7e70e976ff818d6a041f5f5e43bbfc81b221af6075606886bcc905fba73f74",
+    "evaluation/runner.py": "99600e671ba591836542b848250a34b48ee019d576fe320119cfa4fbdb74db3d"
+  },
+  "scope": "source_and_vector_data_boundaries_not_complete_prompt_injection_defense"
+}

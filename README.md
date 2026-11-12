@@ -6,6 +6,8 @@
 
 [演示步骤](docs/DEMO.md) · [架构与技术取舍](docs/ARCHITECTURE.md) · [自动检查](https://github.com/xyma2003/codebase-qa/actions/workflows/ci.yml)
 
+[安全边界](SECURITY.md)与[安全计划](docs/SECURITY_PLAN.md)单独列明已实现和待验证项。源码与向量入口会拒绝敏感文件和检测到的凭据，旧数据也重新检查；当前为本地单人产品，功能测试不代表 Prompt 攻击防御效果已经通过。
+
 | 能力 | 实现与可检查结果 |
 | --- | --- |
 | Agent 工具调用 | Pydantic AI，六个源码工具，结构化修改规划，实际调用事件 |

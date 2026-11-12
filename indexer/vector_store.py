@@ -4,6 +4,7 @@ import chromadb
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from indexer.chunker import CodeChunk
 from config import CHROMA_DIR, EMBED_MODEL
+from security.sources import check_chunks, ensure_safe_source, ensure_safe_text, sensitive_path
 
 
 def _get_collection_name(repo_url: str) -> str:
@@ -42,6 +43,7 @@ def index_chunks(
     Overwrites any existing collection for this repo.
     Optional progress_callback(done, total) called after each batch.
     """
+    check_chunks(chunks)
     client = _get_client()
     name = _get_collection_name(repo_url)
 
@@ -83,6 +85,7 @@ def search(query: str, repo_url: str, n_results: int = 5, *, collection_name: st
     Semantic search over indexed repo chunks.
     Returns list of dicts with keys: content, file_path, start_line, end_line, chunk_type, name.
     """
+    ensure_safe_text(query)
     client = _get_client()
     name = collection_name or _get_collection_name(repo_url)
     collection = client.get_collection(name=name, embedding_function=_get_embed_fn())
@@ -91,6 +94,7 @@ def search(query: str, repo_url: str, n_results: int = 5, *, collection_name: st
 
     output = []
     for doc, meta in zip(results["documents"][0], results["metadatas"][0]):
+        ensure_safe_source(meta["file_path"], doc.encode())
         output.append({
             "content": doc,
             "file_path": meta["file_path"],
@@ -111,7 +115,7 @@ def list_files(repo_url: str, pattern: Optional[str] = None, *, collection_name:
 
     # Get all unique file paths from metadata
     all_meta = collection.get(include=["metadatas"])["metadatas"]
-    paths = sorted({m["file_path"] for m in all_meta})
+    paths = sorted({m["file_path"] for m in all_meta if not sensitive_path(m["file_path"])})
 
     if pattern:
         paths = [p for p in paths if pattern.lower() in p.lower()]
@@ -121,6 +125,7 @@ def list_files(repo_url: str, pattern: Optional[str] = None, *, collection_name:
 
 def build_collection(chunks, repo_url, name, commit_sha, embeddings=None, progress_callback=None):
     """Build and read back a new collection; never delete a published index."""
+    check_chunks(chunks)
     client = _get_client()
     collection = client.create_collection(
         name=name, embedding_function=_get_embed_fn(),

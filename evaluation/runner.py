@@ -26,6 +26,7 @@ from indexer.snapshots import create_snapshot
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_FILES = (
+    "security/sources.py",
     "agent/qa_agent.py", "agent/tools.py", "agent/evidence.py", "agent/planning.py", "agent/conversations.py", "agent/tracing.py", "agent/runtime.py",
     "indexer/snapshots.py", "indexer/source_reader.py", "indexer/code_search.py", "indexer/dependencies.py",
     "indexer/overview.py", "indexer/vector_store.py", "indexer/hybrid.py", "memory/quality.py", "memory/knowledge.py", "config.py", "requirements.txt",
