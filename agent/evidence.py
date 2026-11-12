@@ -10,6 +10,7 @@ from indexer.snapshots import load_snapshot
 from indexer.source_reader import SourceReadError
 from agent.planning import ChangePlan
 from agent.tracing import ToolEvent
+from agent.runtime import RunRecord
 
 
 CITATION_INSTRUCTIONS = (
@@ -39,6 +40,7 @@ class CheckedAnswer(BaseModel):
     issues: tuple[CitationIssue, ...] = ()
     plan: ChangePlan | None = None
     tool_events: tuple[ToolEvent, ...] = ()
+    runtime: RunRecord | None = None
 
     @property
     def can_save(self):

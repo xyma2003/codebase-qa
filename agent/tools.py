@@ -27,6 +27,8 @@ class RepoDeps:
     evidence: EvidenceStore | None = field(default=None, init=False, repr=False)
 
     def __post_init__(self):
+        if type(self.use_answer_cache) is not bool:
+            raise ValueError("use_answer_cache must be a boolean")
         if self.retrieval_strategy not in {"semantic", "hybrid"}:
             raise ValueError("Unknown retrieval strategy")
         if self.retrieval_strategy == "hybrid" and not self.commit_sha:

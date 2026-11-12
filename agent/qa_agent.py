@@ -1,4 +1,5 @@
 from typing import Literal
+import time
 
 from pydantic_ai import Agent, ToolOutput
 from agent.tools import RepoDeps, make_tools
@@ -9,6 +10,7 @@ from agent.evidence import CITATION_INSTRUCTIONS, CheckedAnswer, EvidenceStore
 from agent.conversations import load_conversation, append_turn
 from agent.planning import ChangePlan, PLANNING_INSTRUCTIONS, check_plan
 from indexer.hybrid import RetrievalStrategy
+from agent.runtime import RunPolicy, RunRecord, run_with_timeout
 
 AnswerMode = Literal["qa", "plan"]
 
@@ -63,7 +65,9 @@ def build_agent(model) -> Agent:
     return agent
 
 
-async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "qa", *, agent=None, conversation_dir=None, on_run=None, on_event=None):
+async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "qa", *, agent=None, conversation_dir=None, on_run=None, on_event=None, policy: RunPolicy | None = None):
+    if policy is not None and not isinstance(policy, RunPolicy):
+        raise TypeError("运行限制必须使用 RunPolicy。")
     if mode not in ("qa", "plan"):
         raise ValueError("回答模式无效。")
     if mode == "plan" and deps.evidence is None:
@@ -82,14 +86,23 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
                        output_type=ToolOutput(ChangePlan, name="submit_change_plan", max_retries=0))
     if history is not None:
         options.update(message_history=history.messages, conversation_id=history.conversation_id)
-    result = await (agent or _get_agent()).run(question, deps=deps, **options)
+    if policy is not None:
+        policy.check_input(question, history.messages if history is not None else None)
+        options["usage_limits"] = policy.usage_limits()
+    started = time.perf_counter()
+    result = await run_with_timeout((agent or _get_agent()).run(question, deps=deps, **options),
+                                    policy.timeout_seconds if policy is not None else None)
     if on_run is not None:
         on_run(result)
     if mode == "plan":
         checked = check_plan(result.output, deps.evidence)
     else:
         checked = deps.evidence.check_answer(result.output) if deps.evidence else CheckedAnswer(text=result.output)
-    checked = checked.model_copy(update={"tool_events": tuple(deps.tool_events)})
+    usage = result.usage()
+    record = RunRecord(policy=policy, retrieval_strategy=deps.retrieval_strategy, use_answer_cache=deps.use_answer_cache,
+                       elapsed_ms=max(0, round((time.perf_counter()-started)*1000)), requests=usage.requests,
+                       tool_calls=usage.tool_calls, input_tokens=usage.input_tokens, output_tokens=usage.output_tokens)
+    checked = checked.model_copy(update={"tool_events": tuple(deps.tool_events), "runtime": record})
     if history is not None:
         append_turn(history, question, result.new_messages(), checked, deps.evidence.reference_count, **storage)
     # Keep the existing score and threshold; pinned answers additionally need checked references.
@@ -103,22 +116,22 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
     return checked
 
 
-async def ask(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa", retrieval_strategy: RetrievalStrategy = "semantic") -> str:
+async def ask(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa", retrieval_strategy: RetrievalStrategy = "semantic", use_answer_cache: bool = True, policy: RunPolicy | None = None) -> str:
     """Run a question and resolve source references against the selected version."""
-    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha, retrieval_strategy=retrieval_strategy)
-    return (await _run_answer(question, deps, conversation_id, mode)).text
+    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha, retrieval_strategy=retrieval_strategy, use_answer_cache=use_answer_cache)
+    return (await _run_answer(question, deps, conversation_id, mode, policy=policy)).text
 
 
-async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa", on_result=None, on_event=None, retrieval_strategy: RetrievalStrategy = "semantic"):
+async def ask_stream(question: str, repo_url: str, repo_root: str, *, collection_name: str | None = None, commit_sha: str | None = None, conversation_id: str | None = None, mode: AnswerMode = "qa", on_result=None, on_event=None, retrieval_strategy: RetrievalStrategy = "semantic", use_answer_cache: bool = True, policy: RunPolicy | None = None):
     """Stream a response token by token，流结束后触发知识沉淀。
 
     NOTE: Pydantic AI's run_stream() doesn't work with SiliconFlow's OpenAI-compatible
     API (returns empty chunks). We use run() for tool use + answer generation, then
     simulate streaming by yielding the answer in small chunks for better UX.
     """
-    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha, retrieval_strategy=retrieval_strategy)
+    deps = RepoDeps(repo_url=repo_url, repo_root=repo_root, collection_name=collection_name, commit_sha=commit_sha, retrieval_strategy=retrieval_strategy, use_answer_cache=use_answer_cache)
 
-    checked = await _run_answer(question, deps, conversation_id, mode, on_event=on_event)
+    checked = await _run_answer(question, deps, conversation_id, mode, on_event=on_event, policy=policy)
     if on_result is not None:
         on_result(checked)
     full_response = checked.text

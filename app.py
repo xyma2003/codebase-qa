@@ -18,6 +18,7 @@ from memory.knowledge import get_memory_stats
 from agent.evidence import CheckedAnswer
 from agent.conversations import create_conversation, list_conversations, load_conversation, display_messages
 from indexer.overview import build_repository_overview
+from agent.runtime import RunPolicy
 
 st.set_page_config(page_title="Codebase QA", page_icon="🔍", layout="wide")
 st.title("🔍 Codebase Q&A")
@@ -47,6 +48,16 @@ def show_tool_events(events, *, expanded=False):
             size = f" · 返回 {event.output_chars} 字符" if event.output_chars is not None else ""
             st.text(f"{event.tool_name} · {states[event.status]}{duration}{size}")
             st.json(event.arguments, expanded=False)
+
+
+def show_runtime(record):
+    if record is None:
+        return
+    with st.expander("运行记录"):
+        st.text(f"{record.requests} 次模型请求 · {record.tool_calls} 次工具调用 · {record.elapsed_ms} ms")
+        st.text(f"输入 {record.input_tokens} Token · 输出 {record.output_tokens} Token")
+        st.json({"retrieval_strategy": record.retrieval_strategy, "use_answer_cache": record.use_answer_cache,
+                 "limits": record.policy.model_dump() if record.policy else None}, expanded=False)
 
 
 def clear_repository():
@@ -217,6 +228,20 @@ if "repository_index" in st.session_state:
 # --- 对话区 ---
 if "repository_index" in st.session_state:
     answer_mode = st.radio("任务", ["问答", "修改规划"], horizontal=True, key="answer_mode")
+    with st.expander("运行设置"):
+        use_answer_cache = st.checkbox("使用历史答案缓存", value=True, key="use_answer_cache")
+        retrieval_label = st.selectbox("检索方式", ["向量检索", "融合检索（实验）"], key="retrieval_strategy")
+        retrieval_strategy = "hybrid" if retrieval_label == "融合检索（实验）" else "semantic"
+        policy = None
+        if st.checkbox("设置运行限制", key="use_run_limits"):
+            request_limit = st.number_input("每轮模型请求上限", min_value=1, value=50, step=1, key="request_limit")
+            tool_limit = st.number_input("每轮工具调用上限", min_value=0, value=0, step=1, help="0 表示不设限", key="tool_limit")
+            token_limit = st.number_input("每轮总 Token 上限", min_value=0, value=0, step=100, help="按模型返回用量检查；0 表示不设限", key="token_limit")
+            timeout = st.number_input("每轮超时秒数", min_value=0, value=0, step=1, help="0 表示不设限", key="timeout_seconds")
+            input_limit = st.number_input("问题与历史字符上限", min_value=0, value=0, step=1000, help="不含系统指令、工具定义和本轮新工具结果；0 表示不设限", key="input_limit")
+            policy = RunPolicy(request_limit=request_limit, tool_calls_limit=tool_limit or None,
+                               total_tokens_limit=token_limit or None, timeout_seconds=float(timeout) if timeout else None,
+                               input_characters_limit=input_limit or None)
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
@@ -228,6 +253,7 @@ for msg in st.session_state["messages"]:
         if msg.get("sources"):
             saved = CheckedAnswer.model_validate(msg["sources"])
             show_tool_events(saved.tool_events)
+            show_runtime(saved.runtime)
             show_sources(saved)
 
 # 输入框
@@ -263,11 +289,15 @@ if question := st.chat_input("问一个关于代码的问题..."):
                     mode="plan" if answer_mode == "修改规划" else "qa",
                     on_result=checked_results.append,
                     on_event=on_event,
+                    retrieval_strategy=retrieval_strategy,
+                    use_answer_cache=use_answer_cache,
+                    policy=policy,
                 ))
                 checked = checked_results[0] if checked_results else None
                 event_view.empty()
                 if checked:
                     show_tool_events(checked.tool_events)
+                    show_runtime(checked.runtime)
                 show_sources(checked)
             st.session_state["messages"].extend([
                 {"role": "user", "content": question},

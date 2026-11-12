@@ -42,7 +42,7 @@ class RepositoryUITests(unittest.TestCase):
     def test_version_selection_binds_the_matching_collection_and_clears_chat(self):
         self.app.session_state["messages"] = [{"role": "assistant", "content": "previous version"}]
         self.app.session_state["conversation_id"] = "previous-session"
-        self.app.selectbox[0].select(self.old.commit_sha).run(timeout=60)
+        next(item for item in self.app.selectbox if item.label == "代码版本").select(self.old.commit_sha).run(timeout=60)
         self.assertEqual(len(self.app.exception), 0)
         selected = self.app.session_state["repository_index"]
         self.assertEqual((selected.commit_sha, selected.collection_name), (self.old.commit_sha, "old-collection"))
@@ -159,6 +159,39 @@ class RepositoryUITests(unittest.TestCase):
         self.assertEqual(self.app.session_state["messages"], [{"role": "assistant", "content": "previous answer"}])
         self.assertIn("FIXTURE_MODEL_FAILURE", self.app.error[0].value)
 
+    def test_runtime_defaults_and_explicit_limits_are_passed_to_one_turn(self):
+        calls = []
+        async def response(*args, on_result=None, **kwargs):
+            calls.append(kwargs)
+            on_result(CheckedAnswer(text="本地运行设置样例"))
+            yield "本地运行设置样例"
+        with patch("agent.qa_agent.ask_stream", side_effect=response):
+            self.app.chat_input[0].set_value("默认设置").run(timeout=60)
+            self.assertEqual((calls[0]["retrieval_strategy"], calls[0]["use_answer_cache"], calls[0]["policy"]),
+                             ("semantic", True, None))
+            next(item for item in self.app.checkbox if item.label == "使用历史答案缓存").uncheck().run(timeout=60)
+            next(item for item in self.app.selectbox if item.label == "检索方式").select("融合检索（实验）").run(timeout=60)
+            next(item for item in self.app.checkbox if item.label == "设置运行限制").check().run(timeout=60)
+            self.app.number_input(key="request_limit").set_value(3).run(timeout=60)
+            self.app.number_input(key="timeout_seconds").set_value(10).run(timeout=60)
+            self.app.chat_input[0].set_value("显式设置").run(timeout=60)
+        self.assertEqual(len(self.app.exception), 0)
+        self.assertEqual((calls[1]["retrieval_strategy"], calls[1]["use_answer_cache"]), ("hybrid", False))
+        self.assertEqual(calls[1]["policy"].request_limit, 3)
+        self.assertEqual(calls[1]["policy"].timeout_seconds, 10)
+        self.assertIsNone(calls[1]["policy"].tool_calls_limit)
+
+    def test_runtime_record_renders_without_changing_old_answer_compatibility(self):
+        from agent.runtime import RunRecord, RunPolicy
+        record = RunRecord(policy=RunPolicy(request_limit=3), use_answer_cache=False, retrieval_strategy="hybrid",
+                           requests=2, tool_calls=1, input_tokens=100, output_tokens=20, elapsed_ms=10)
+        checked = CheckedAnswer(text="本地记录样例", runtime=record)
+        self.app.session_state["messages"] = [{"role": "assistant", "content": checked.text, "sources": checked.model_dump(mode="json")}]
+        self.app.run(timeout=60)
+        self.assertEqual(len(self.app.exception), 0)
+        self.assertTrue(any(item.label == "运行记录" for item in self.app.expander))
+        self.assertTrue(any("2 次模型请求 · 1 次工具调用 · 10 ms" in item.value for item in self.app.text))
+
     def test_failed_refresh_keeps_the_displayed_version(self):
         with patch("indexer.repository_service.import_repository", side_effect=RuntimeError("FIXTURE_REFRESH_ERROR")):
             next(button for button in self.app.button if button.label == "更新索引").click().run(timeout=60)
@@ -167,12 +200,12 @@ class RepositoryUITests(unittest.TestCase):
         self.assertIn("FIXTURE_REFRESH_ERROR", self.app.error[0].value)
 
     def test_refresh_can_return_from_an_old_selection_to_the_current_version(self):
-        self.app.selectbox[0].select(self.old.commit_sha).run(timeout=60)
+        next(item for item in self.app.selectbox if item.label == "代码版本").select(self.old.commit_sha).run(timeout=60)
         with patch("indexer.repository_service.import_repository", return_value=self.new):
             next(button for button in self.app.button if button.label == "更新索引").click().run(timeout=60)
         self.assertEqual(len(self.app.exception), 0)
         self.assertEqual(self.app.session_state["repository_index"].commit_sha, self.new.commit_sha)
-        self.assertEqual(self.app.selectbox[0].value, self.new.commit_sha)
+        self.assertEqual(next(item for item in self.app.selectbox if item.label == "代码版本").value, self.new.commit_sha)
 
     def test_answer_sources_are_rendered_and_retained_on_rerun(self):
         source = CitedSource(
@@ -233,7 +266,7 @@ class RepositoryUITests(unittest.TestCase):
     def test_switching_version_clears_the_old_overview(self):
         with patch("indexer.overview.build_repository_overview", return_value=self.fixture_overview()):
             self.click_overview()
-        self.app.selectbox[0].select(self.old.commit_sha).run(timeout=60)
+        next(item for item in self.app.selectbox if item.label == "代码版本").select(self.old.commit_sha).run(timeout=60)
         self.assertNotIn("repo_overview", self.app.session_state)
         self.assertEqual(len(self.app.code), 0)
 

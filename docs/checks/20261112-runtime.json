@@ -1,0 +1,33 @@
+{
+  "status": "runtime_controls_checked_locally",
+  "real_model_requests": 0,
+  "model_settings_changed": false,
+  "custom_limits_enabled_by_default": false,
+  "default_retrieval_strategy": "semantic",
+  "default_answer_cache": true,
+  "original_sdk_request_limit": 50,
+  "answer_quality_evaluated": false,
+  "cache_quality_rules_changed": false,
+  "active_repository_commit_unchanged": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+  "active_collection_unchanged": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+  "browser_check": {
+    "url": "http://127.0.0.1:18524/",
+    "controls_seen": true,
+    "default_settings_restored": true,
+    "model_question_submitted": false,
+    "screenshot": "20261112-runtime-browser.png"
+  },
+  "implementation_sha256": {
+    "agent/runtime.py": "7eec4e764e752896f66428ef133a375794ef79f8f9c1ed3670eb254ffdfd0460",
+    "agent/evidence.py": "447d31abb63c144137298992c3b6fdbd9b44e93dea062ad2b2bb810b929d1b18",
+    "agent/qa_agent.py": "236b29ced187e43252fa2f5e82b3639c3f21ad4d88f8897d62ebd018a187ca70",
+    "agent/tools.py": "78a8b64e85dc841d3e931e1c114a2b3c3380524cda337f3d60ac27b9c716829f",
+    "app.py": "38ab708c792bd92873d73885b3272192d46e353397e41ce728e5a8e6fb968831",
+    "evaluation/runner.py": "fe8b12e20571ef40a9829fb0601783fdc3ae57bb5ec80de8d70624da8bf89534"
+  },
+  "unittest": {
+    "tests": 251,
+    "seconds": 81.706,
+    "status": "passed"
+  }
+}

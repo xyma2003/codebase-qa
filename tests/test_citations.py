@@ -1,3 +1,4 @@
+from pydantic_ai.usage import RunUsage
 import asyncio
 from pathlib import Path
 import tempfile
@@ -156,14 +157,14 @@ class CitationTests(unittest.TestCase):
     def test_invalid_or_missing_citations_are_not_saved_even_with_high_score(self):
         from agent import qa_agent
         for answer in ("Made-up source [S99]", "No source"):
-            run = AsyncMock(return_value=SimpleNamespace(output=answer))
+            run = AsyncMock(return_value=SimpleNamespace(output=answer, usage=RunUsage))
             with self.subTest(answer=answer), patch.object(qa_agent, "_get_agent", return_value=SimpleNamespace(run=run)), patch.object(qa_agent, "evaluate", return_value=1), patch.object(qa_agent, "save_qa") as save:
                 asyncio.run(qa_agent.ask("question", URL, self.old.root, collection_name="fixture", commit_sha=self.old.commit_sha))
                 save.assert_not_called()
 
     def test_legacy_unpinned_answer_behavior_is_preserved(self):
         from agent import qa_agent
-        run = AsyncMock(return_value=SimpleNamespace(output="original answer"))
+        run = AsyncMock(return_value=SimpleNamespace(output="original answer", usage=RunUsage))
         with patch.object(qa_agent, "_get_agent", return_value=SimpleNamespace(run=run)), patch.object(qa_agent, "evaluate", return_value=1), patch.object(qa_agent, "save_qa") as save:
             self.assertEqual(asyncio.run(qa_agent.ask("question", URL, self.old.root)), "original answer")
             self.assertNotIn("instructions", run.call_args.kwargs)
