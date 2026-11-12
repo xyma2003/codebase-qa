@@ -9,6 +9,7 @@ from evaluation.dataset import read_json
 from evaluation.review_workspace import create_report, new_workspace, open_workspace, report_package, save_grade
 from evaluation.scoring import summarize_reviews
 from evaluation.reporting import source_label
+from security.output import redact_text, safe_error
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE = ROOT / ".baseline_runtime/reviews/ui"
@@ -32,7 +33,7 @@ def _answer(turn):
     answer = turn["checked_answer"]
     if answer:
         # Archive/model text is material, never executable HTML or image markup.
-        st.text(answer["text"])
+        st.text(redact_text(answer["text"]))
         if answer["citations"] or answer["issues"]:
             with st.expander("回答引用与检查结果"):
                 for citation in answer["citations"]:
@@ -93,7 +94,7 @@ def _grade_form(workspace, row, prefix):
             updated = save_grade(workspace, row.case_id, row.turn_id, ratings=ratings, fatal_errors=fatal,
                                  reviewer=reviewer, rationale=rationale, clear=clear)
         except (ValueError, OSError) as exc:
-            st.error(f"保存失败：{exc}")
+            st.error(f"保存失败：{safe_error(exc)}")
             return
         if save:
             st.session_state["review_last_reviewer"] = reviewer.strip()
@@ -128,7 +129,7 @@ def render_review_page(*, repository=ROOT, directory=WORKSPACE):
             except (ValueError, OSError) as exc:
                 st.session_state.pop("review_active", None)
                 st.session_state.pop("review_report", None)
-                st.error(f"打开失败：{exc}")
+                st.error(f"打开失败：{safe_error(exc)}")
         active = st.session_state.get("review_active")
         if active:
             st.caption("评审包")
@@ -138,7 +139,7 @@ def render_review_page(*, repository=ROOT, directory=WORKSPACE):
     try:
         workspace = open_workspace(active[0], repository, active[1])
     except (ValueError, OSError) as exc:
-        st.error(f"评审包校验失败：{exc}")
+        st.error(f"评审包校验失败：{safe_error(exc)}")
         return
     if workspace.revision != active[2]:
         st.error("评审记录已被更新，请重新打开后再继续")
@@ -196,7 +197,7 @@ def render_review_page(*, repository=ROOT, directory=WORKSPACE):
             report, _ = create_report(workspace, directory)
             st.session_state["review_report"] = str(report)
         except (ValueError, OSError) as exc:
-            st.error(f"报告生成失败：{exc}")
+            st.error(f"报告生成失败：{safe_error(exc)}")
     if report_path := st.session_state.get("review_report"):
         try:
             report = Path(report_path)
@@ -215,4 +216,4 @@ def render_review_page(*, repository=ROOT, directory=WORKSPACE):
             st.download_button("下载报告包（ZIP）", package, "review-report.zip", mime="application/zip")
             st.code(str(report), language=None)
         except (ValueError, OSError) as exc:
-            st.error(f"报告校验失败：{exc}")
+            st.error(f"报告校验失败：{safe_error(exc)}")

@@ -3,10 +3,12 @@
 from functools import wraps
 import inspect
 import time
+import json
 from typing import Literal
 from uuid import uuid4
 
 from pydantic import BaseModel, ConfigDict, Field
+from security.sources import ensure_safe_text
 
 
 class ToolEvent(BaseModel):
@@ -34,6 +36,7 @@ def traced_tool(function):
         values = inspect.signature(function).bind(ctx, *args, **kwargs)
         values.apply_defaults()
         arguments = {name: value for name, value in values.arguments.items() if name != "ctx"}
+        ensure_safe_text(json.dumps(arguments, ensure_ascii=False))
         event = ToolEvent(call_id=str(uuid4()), tool_name=function.__name__, arguments=arguments, status="running")
         _emit(ctx.deps, event)
         started = time.perf_counter()

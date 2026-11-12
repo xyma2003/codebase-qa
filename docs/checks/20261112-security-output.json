@@ -1,0 +1,25 @@
+{
+  "status": "local_security_display_fixture_passed",
+  "conversation_id": "c055090b-82ee-4df7-808a-9fb47a788400",
+  "source_commit": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+  "active_index_unchanged": true,
+  "real_model_requests": 0,
+  "external_image_requests_by_script": 0,
+  "semantic_attack_resistance_evaluated": false,
+  "tests": 269,
+  "test_seconds": 100.097,
+  "browser_canary_image_nodes": 0,
+  "browser_canary_link_nodes": 0,
+  "browser_source_link_nodes": 2,
+  "screenshot": "20261112-security-output-browser.png",
+  "dependency_upgrade": false,
+  "markdown_it_existing_version": "4.2.0",
+  "implementation_sha256": {
+    "security/output.py": "1bcf5fdaff6f4b2d43017164ee3b46e73b26e84940e3742986970f8b8434c320",
+    "security/sources.py": "db16c6ddc02a1fce26391b2bfc3bfad62de3d6cfb73fd5cc981358d1d7a1e2ca",
+    "agent/qa_agent.py": "d6dd761a097653cd7363c4ef3dec6002084ad872d767eee7ff63121c4cbff0d4",
+    "agent/tracing.py": "c004ef4f3a05ff1bdb8899d297a14d485c6ff1442cbac128c45cd07990424dd8",
+    "app.py": "73bf3e42a8ce3bf2dad6acfb13c4bb1116ac6c9af57588b348851abfb3378527",
+    "evaluation/runner.py": "e23c9c1001eb2dc3e135770d28511225e5d7e740030d7dafe976bfd48a096ee7"
+  }
+}

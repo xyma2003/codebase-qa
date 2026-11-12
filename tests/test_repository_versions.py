@@ -1,3 +1,4 @@
+from pydantic_ai.messages import ModelRequest, ModelResponse, TextPart, UserPromptPart
 from pydantic_ai.usage import RunUsage
 import asyncio
 from dataclasses import asdict
@@ -229,7 +230,7 @@ class RepositoryVersionTests(unittest.TestCase):
         snapshot = snapshots.create_snapshot(URL, str(self.work))
         async def respond(question, *, deps, **kwargs):
             deps.evidence.read("example.py")
-            return SimpleNamespace(output="fixture answer [S1]", usage=RunUsage)
+            return SimpleNamespace(output="fixture answer [S1]", usage=RunUsage, new_messages=lambda: [ModelRequest(parts=[UserPromptPart(question)]), ModelResponse(parts=[TextPart("fixture answer [S1]")])])
         run = AsyncMock(side_effect=respond)
         with patch.object(qa_agent, "_get_agent", return_value=SimpleNamespace(run=run)), patch.object(qa_agent, "evaluate", return_value=1), patch.object(qa_agent, "save_qa") as save:
             asyncio.run(qa_agent.ask("question", URL, snapshot.root, collection_name="fixed-collection", commit_sha=self.first))
@@ -249,7 +250,7 @@ class RepositoryVersionTests(unittest.TestCase):
         snapshot = snapshots.create_snapshot(URL, str(self.work))
         async def respond(question, *, deps, **kwargs):
             deps.evidence.read("example.py")
-            return SimpleNamespace(output="fixture streamed answer [S1]", usage=RunUsage)
+            return SimpleNamespace(output="fixture streamed answer [S1]", usage=RunUsage, new_messages=lambda: [ModelRequest(parts=[UserPromptPart(question)]), ModelResponse(parts=[TextPart("fixture streamed answer [S1]")])])
         run = AsyncMock(side_effect=respond)
         async def collect():
             return "".join([part async for part in qa_agent.ask_stream(

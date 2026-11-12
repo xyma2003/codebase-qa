@@ -1,5 +1,7 @@
 from typing import Literal
 import time
+from pydantic_ai.messages import ModelMessagesTypeAdapter
+from security.sources import ensure_safe_text
 
 from pydantic_ai import Agent, ToolOutput
 from agent.tools import RepoDeps, make_tools
@@ -66,6 +68,7 @@ def build_agent(model) -> Agent:
 
 
 async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "qa", *, agent=None, conversation_dir=None, on_run=None, on_event=None, policy: RunPolicy | None = None):
+    ensure_safe_text(question)
     if policy is not None and not isinstance(policy, RunPolicy):
         raise TypeError("运行限制必须使用 RunPolicy。")
     if mode not in ("qa", "plan"):
@@ -85,6 +88,7 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
         options.update(instructions=CITATION_INSTRUCTIONS + "\n" + PLANNING_INSTRUCTIONS,
                        output_type=ToolOutput(ChangePlan, name="submit_change_plan", max_retries=0))
     if history is not None:
+        ensure_safe_text(ModelMessagesTypeAdapter.dump_json(history.messages).decode())
         options.update(message_history=history.messages, conversation_id=history.conversation_id)
     if policy is not None:
         policy.check_input(question, history.messages if history is not None else None)
@@ -94,6 +98,8 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
                                     policy.timeout_seconds if policy is not None else None)
     if on_run is not None:
         on_run(result)
+    ensure_safe_text(result.output.model_dump_json() if hasattr(result.output, "model_dump_json") else str(result.output))
+    ensure_safe_text(ModelMessagesTypeAdapter.dump_json(result.new_messages()).decode())
     if mode == "plan":
         checked = check_plan(result.output, deps.evidence)
     else:

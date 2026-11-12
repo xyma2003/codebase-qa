@@ -302,7 +302,7 @@ class PlanningTests(unittest.TestCase):
             self.assertEqual(len(app.error), 0)
             session = app.session_state["conversation_id"]
             self.assertEqual(app.session_state["messages"][-1]["sources"]["plan"]["goal"], proposal()["goal"])
-            self.assertTrue(any("### 修改顺序" in item.value for item in app.markdown))
+            self.assertIn("修改顺序", app.session_state["messages"][-1]["content"])
             app.run(timeout=60)
             self.assertEqual(app.session_state["conversation_id"], session)
             app.radio[0].set_value("问答").run(timeout=60)

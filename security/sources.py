@@ -18,9 +18,10 @@ def sensitive_path(path):
     if any(ord(char) < 32 or char in "\u202a\u202b\u202c\u202d\u202e\u2066\u2067\u2068\u2069" for char in str(path)):
         return True
     template = name.endswith((".example", ".sample", ".template", ".dist"))
-    return (any(part in {".ssh", ".aws", ".azure", ".kube", ".gnupg"} for part in names)
+    return (bool(secret_spans(str(path)))
+            or any(part in {".ssh", ".aws", ".azure", ".kube", ".gnupg", ".docker"} for part in names)
             or (name.startswith(".env") and not template)
-            or name in {".netrc", "_netrc", ".npmrc", ".pypirc", "id_rsa", "id_dsa", "id_ecdsa", "id_ed25519", "credentials", "secrets"}
+            or name in {".netrc", "_netrc", ".npmrc", ".pypirc", ".git-credentials", "id_rsa", "id_dsa", "id_ecdsa", "id_ed25519", "credentials", "secrets"}
             or (not template and (name.startswith(("credentials.", "secrets.")) or name.endswith((".pem", ".key", ".p12", ".pfx", ".jks")))))
 
 

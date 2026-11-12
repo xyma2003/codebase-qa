@@ -19,6 +19,9 @@ the remote default branch is explicit; indexed old versions remain available.
 """
 import os
 import sys
+from security.output import install_log_redaction
+
+install_log_redaction()
 
 # Ensure local imports work when run from any directory
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

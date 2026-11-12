@@ -6,3 +6,4 @@ gitpython
 python-dotenv
 nest-asyncio
 mcp>=1.0.0
+markdown-it-py==4.2.0

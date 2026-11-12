@@ -2,6 +2,9 @@ import asyncio
 import re
 import streamlit as st
 import nest_asyncio
+from security.output import safe_answer_html, redact_text, redact_data, safe_error, valid_source_url, install_log_redaction
+
+install_log_redaction()
 
 # uvloop (installed as a dep by chromadb/pydantic-ai) is incompatible with
 # nest_asyncio — reset to the standard asyncio policy before patching.
@@ -31,11 +34,23 @@ def show_sources(result):
     with st.expander("源码引用"):
         for citation in result.citations:
             label = re.sub(r"([\\\[\]])", r"\\\1", citation.label).replace("\n", " ").replace("\r", " ")
-            st.markdown(f"[{citation.reference_id} · {label}]({citation.url})")
+            if valid_source_url(citation.url):
+                st.markdown(f"[{citation.reference_id} · {label}]({citation.url})")
+            else:
+                st.text(redact_text(citation.label))
             st.caption(f"Commit {citation.commit_sha}")
-            st.code(citation.numbered_source, language=None)
+            st.code(redact_text(citation.numbered_source), language=None)
         for issue in result.issues:
-            st.write(f"{issue.reference_id}：{issue.message}" if issue.reference_id else issue.message)
+            st.text(redact_text(f"{issue.reference_id}：{issue.message}" if issue.reference_id else issue.message))
+
+
+def show_answer(text, checked=None):
+    urls = [citation.url for citation in checked.citations] if checked else []
+    st.html(safe_answer_html(text, source_urls=urls), unsafe_allow_javascript=False)
+
+
+async def collect_answer(stream):
+    return "".join([part async for part in stream])
 
 
 def show_tool_events(events, *, expanded=False):
@@ -47,7 +62,7 @@ def show_tool_events(events, *, expanded=False):
             duration = f" · {event.elapsed_ms} ms" if event.elapsed_ms is not None else ""
             size = f" · 返回 {event.output_chars} 字符" if event.output_chars is not None else ""
             st.text(f"{event.tool_name} · {states[event.status]}{duration}{size}")
-            st.json(event.arguments, expanded=False)
+            st.json(redact_data(event.arguments), expanded=False)
 
 
 def show_runtime(record):
@@ -85,7 +100,7 @@ def import_selected_repository(repo_url, refresh=False):
         st.session_state["version_selector_epoch"] = st.session_state.get("version_selector_epoch", 0) + 1
         st.rerun()
     except Exception as exc:
-        st.error(f"导入失败：{exc}")
+        st.error(f"导入失败：{safe_error(exc)}")
     finally:
         progress.empty()
 
@@ -131,9 +146,9 @@ with st.sidebar:
                     histories = list_conversations(repository.repo_url, repository.commit_sha, repository.collection_name)
                 except (ValueError, OSError) as exc:
                     histories = []
-                    st.error(f"读取历史失败：{exc}")
+                    st.error(f"读取历史失败：{safe_error(exc)}")
                 if histories:
-                    labels = {item["conversation_id"]: f"{item['turn_count']} 轮 · {item['title'][:60]}" for item in histories}
+                    labels = {item["conversation_id"]: f"{item['turn_count']} 轮 · {redact_text(item['title'])[:60]}" for item in histories}
                     choices = [None, *labels]
                     active = st.session_state.get("conversation_id")
                     selected_history = st.selectbox("历史对话", choices, index=choices.index(active) if active in choices else 0,
@@ -144,14 +159,14 @@ with st.sidebar:
                             conversation = load_conversation(selected_history, repository.repo_url, repository.commit_sha, repository.collection_name)
                             restored = display_messages(conversation)
                         except (ValueError, OSError) as exc:
-                            st.error(f"读取历史失败：{exc}")
+                            st.error(f"读取历史失败：{safe_error(exc)}")
                         else:
                             st.session_state["messages"] = restored
                             st.session_state["conversation_id"] = selected_history
                             st.session_state["answer_mode"] = "修改规划" if conversation.turns[-1].answer.plan else "问答"
         except (ValueError, OSError) as exc:
             clear_repository()
-            st.error(str(exc))
+            st.error(safe_error(exc))
     else:
         clear_repository()
 
@@ -183,7 +198,7 @@ def show_overview(overview):
         label = re.sub(r"([\\\[\]])", r"\\\1", source.label).replace("\n", " ").replace("\r", " ")
         st.markdown(f"[{label}]({source.url}) · {labels[clue.kind]}")
         with st.expander(label):
-            st.code(source.numbered_source, language=None)
+            st.code(redact_text(source.numbered_source), language=None)
     if not overview.entry_clues:
         st.write("未找到已支持规则的入口线索")
     if overview.entry_clues_truncated:
@@ -201,7 +216,7 @@ def show_overview(overview):
                 st.caption("文件仅列出前 30 项")
     if overview.readme:
         with st.expander("README 摘录"):
-            st.code(overview.readme.numbered_source, language=None)
+            st.code(redact_text(overview.readme.numbered_source), language=None)
     if overview.scan_limited or overview.skipped_count:
         st.caption(f"扫描受限：{'是' if overview.scan_limited else '否'} · 跳过 {overview.skipped_count} 个文件")
         reasons = {"file_too_large": "文件超过读取上限", "binary_file": "非文本内容",
@@ -221,7 +236,7 @@ if "repository_index" in st.session_state:
             st.session_state["repo_overview"] = result
         except (ValueError, OSError) as exc:
             st.session_state.pop("repo_overview", None)
-            st.error(f"概览生成失败：{exc}")
+            st.error(f"概览生成失败：{safe_error(exc)}")
     if "repo_overview" in st.session_state:
         show_overview(st.session_state["repo_overview"])
 
@@ -249,7 +264,11 @@ if "messages" not in st.session_state:
 # 显示历史消息
 for msg in st.session_state["messages"]:
     with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
+        checked = CheckedAnswer.model_validate(msg["sources"]) if msg.get("sources") else None
+        if msg["role"] == "assistant":
+            show_answer(msg["content"], checked)
+        else:
+            st.text(redact_text(msg["content"]))
         if msg.get("sources"):
             saved = CheckedAnswer.model_validate(msg["sources"])
             show_tool_events(saved.tool_events)
@@ -263,7 +282,7 @@ if question := st.chat_input("问一个关于代码的问题..."):
     else:
         # 显示用户消息
         with st.chat_message("user"):
-            st.markdown(question)
+            st.text(redact_text(question))
 
         try:
             repository = st.session_state["repository_index"]
@@ -279,7 +298,7 @@ if question := st.chat_input("问一个关于代码的问题..."):
                     running_events[event.call_id] = event
                     with event_view.container():
                         show_tool_events(list(running_events.values()), expanded=True)
-                response = st.write_stream(ask_stream(
+                response = asyncio.run(collect_answer(ask_stream(
                     question,
                     repository.repo_url,
                     repository.repo_root,
@@ -292,9 +311,10 @@ if question := st.chat_input("问一个关于代码的问题..."):
                     retrieval_strategy=retrieval_strategy,
                     use_answer_cache=use_answer_cache,
                     policy=policy,
-                ))
+                )))
                 checked = checked_results[0] if checked_results else None
                 event_view.empty()
+                show_answer(response, checked)
                 if checked:
                     show_tool_events(checked.tool_events)
                     show_runtime(checked.runtime)
@@ -305,4 +325,4 @@ if question := st.chat_input("问一个关于代码的问题..."):
                  "sources": checked.model_dump(mode="json") if checked else None},
             ])
         except Exception as exc:
-            st.error(f"回答失败：{exc}")
+            st.error(f"回答失败：{safe_error(exc)}")

@@ -13,10 +13,11 @@ from urllib.parse import urlsplit
 from git import Repo
 from config import CLONE_DIR
 from indexer.source_reader import SourceReadError, read_source_file
-from security.sources import MAX_SOURCE_BYTES, SourcePolicyError, ensure_safe_source, sensitive_path
+from security.sources import MAX_SOURCE_BYTES, SourcePolicyError, ensure_safe_source, ensure_safe_text, sensitive_path
 
 
 def normalize_repo_url(value: str) -> str:
+    ensure_safe_text(value)
     parsed = urlsplit(value.strip())
     parts = parsed.path.strip("/").split("/")
     if (parsed.scheme != "https" or parsed.netloc.lower() != "github.com"

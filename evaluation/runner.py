@@ -23,10 +23,13 @@ from evaluation.dataset import PAYLOADS, digest, validate_bundle
 from evaluation.local_model import LocalModel
 from evaluation.scoring import summarize_reviews
 from indexer.snapshots import create_snapshot
+from security.output import redact_data
+from security.sources import ensure_safe_text
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_FILES = (
     "security/sources.py",
+    "security/output.py",
     "agent/qa_agent.py", "agent/tools.py", "agent/evidence.py", "agent/planning.py", "agent/conversations.py", "agent/tracing.py", "agent/runtime.py",
     "indexer/snapshots.py", "indexer/source_reader.py", "indexer/code_search.py", "indexer/dependencies.py",
     "indexer/overview.py", "indexer/vector_store.py", "indexer/hybrid.py", "memory/quality.py", "memory/knowledge.py", "config.py", "requirements.txt",
@@ -55,6 +58,7 @@ async def run_local(dataset, repository, output, *, backend=None, turn_timeout=3
 async def _run(dataset, repository, output, *, backend, turn_timeout, indexed=None):
     bundle = validate_bundle(dataset, repository)
     inputs = bundle.model_inputs()
+    ensure_safe_text(json.dumps(inputs, ensure_ascii=False))
     root = Path(output).resolve()
     root.mkdir(parents=True, exist_ok=False)
     (root / "dataset").mkdir()
@@ -144,14 +148,13 @@ async def _run(dataset, repository, output, *, backend, turn_timeout, indexed=No
                         from config import OPENAI_API_KEY, ANTHROPIC_API_KEY
                         secret_values = [value for value in (OPENAI_API_KEY, ANTHROPIC_API_KEY, indexed["secret"]) if value]
                         def safe(value):
-                            data = json.dumps(value, ensure_ascii=False, default=str)
-                            for secret in secret_values:
-                                data = data.replace(secret, "<redacted>")
-                            return json.loads(data)
+                            # Keep the legacy configured-key marker for archived error compatibility.
+                            data = redact_data(value, extra_secrets=secret_values)
+                            return json.loads(json.dumps(data, ensure_ascii=False, default=str).replace("[REDACTED]", "<redacted>"))
                         messages_data = safe(_native(messages))
                         write_json(folder / "responses.json", safe(backend.responses))
                     else:
-                        safe = lambda value: value
+                        safe = redact_data
                         messages_data = _native(messages)
                     write_json(folder / "messages.json", messages_data)
                     write_json(folder / "requests.json", safe(backend.requests))
