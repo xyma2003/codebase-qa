@@ -1,15 +1,8 @@
-import asyncio
 import re
 import streamlit as st
-import nest_asyncio
 from security.output import safe_answer_html, redact_text, redact_data, safe_error, valid_source_url, install_log_redaction
 
 install_log_redaction()
-
-# uvloop (installed as a dep by chromadb/pydantic-ai) is incompatible with
-# nest_asyncio — reset to the standard asyncio policy before patching.
-asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
-nest_asyncio.apply()
 
 from indexer.repository_service import (
     get_current_repository, get_repository_version, import_repository,
@@ -17,6 +10,7 @@ from indexer.repository_service import (
 )
 from indexer.snapshots import normalize_repo_url
 from agent.qa_agent import ask_stream
+from agent.ui_runtime import run_ui_stream
 from memory.knowledge import get_memory_stats
 from agent.evidence import CheckedAnswer
 from agent.conversations import create_conversation, list_conversations, load_conversation, display_messages
@@ -50,10 +44,6 @@ def show_sources(result):
 def show_answer(text, checked=None):
     urls = [citation.url for citation in checked.citations] if checked else []
     st.html(safe_answer_html(text, source_urls=urls), unsafe_allow_javascript=False)
-
-
-async def collect_answer(stream):
-    return "".join([part async for part in stream])
 
 
 def show_tool_events(events, *, expanded=False):
@@ -299,20 +289,21 @@ if question := st.chat_input("问一个关于代码的问题..."):
                     running_events[event.call_id] = event
                     with event_view.container():
                         show_tool_events(list(running_events.values()), expanded=True)
-                response = asyncio.run(collect_answer(ask_stream(
+                conversation_id = st.session_state["conversation_id"]
+                response = run_ui_stream(lambda observe: ask_stream(
                     question,
                     repository.repo_url,
                     repository.repo_root,
                     collection_name=repository.collection_name,
                     commit_sha=repository.commit_sha,
-                    conversation_id=st.session_state["conversation_id"],
+                    conversation_id=conversation_id,
                     mode="plan" if answer_mode == "修改规划" else "qa",
                     on_result=checked_results.append,
-                    on_event=on_event,
+                    on_event=observe,
                     retrieval_strategy=retrieval_strategy,
                     use_answer_cache=use_answer_cache,
                     policy=policy,
-                )))
+                ), on_event=on_event)
                 checked = checked_results[0] if checked_results else None
                 event_view.empty()
                 show_answer(response, checked)

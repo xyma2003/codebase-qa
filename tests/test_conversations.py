@@ -258,7 +258,7 @@ class ConversationTests(unittest.TestCase):
         self.assertEqual(results[0], self.load().turns[-1].answer)
 
     def test_streamlit_follow_up_uses_real_history_and_new_chat_starts_empty(self):
-        # Streamlit/nest_asyncio patch asyncio globally. Isolate the integrated UI
+        # Exercise the integrated UI in its own process, including clean exit.
         # check so later SDK tests retain normal event-loop/executor cleanup.
         if os.environ.get("CODEBASE_QA_UI_TEST_CHILD") != "1":
             completed = subprocess.run(

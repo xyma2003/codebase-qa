@@ -1,0 +1,27 @@
+{
+  "status": "ui_event_loop_and_process_exit_passed",
+  "tests": 328,
+  "test_seconds": 123.569,
+  "process_exit_code": 0,
+  "new_runtime_tests": 4,
+  "auth_tests_included": 24,
+  "real_model_requests": 0,
+  "real_oidc_callback_verified": false,
+  "original_ci": {
+    "run_id": 43386816823,
+    "assertions": 324,
+    "test_seconds": 109.652,
+    "conclusion": "cancelled",
+    "reason": "process_did_not_exit_after_all_tests_passed"
+  },
+  "local_original_stack": {
+    "main_thread": "threading._shutdown",
+    "idle_worker": "anyio queue.get"
+  },
+  "current_commit_ci_at_record": "pending_push",
+  "implementation_sha256": {
+    "app.py": "c3273102a50cf61c81b09d365e5f76f792ffbc0d19341813743b1883c801e4a0",
+    "agent/ui_runtime.py": "511fe3513dffa919623b9cc4b894e5422261ece6d212fdfe54664f117b5ceac0",
+    "tests/test_ui_runtime.py": "2832851c73c356afb0f16ebd70432699c9f08b9def0222a2989ebf568b969f2b"
+  }
+}

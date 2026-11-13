@@ -270,7 +270,7 @@ class PlanningTests(unittest.TestCase):
         self.assertEqual(results[0].plan, self.load().turns[0].answer.plan)
 
     def test_streamlit_real_plan_renders_and_follow_up_retains_structured_history(self):
-        # Keep Streamlit's global nest_asyncio patch out of later SDK tests.
+        # Keep the integrated UI process/lifecycle independent of later SDK tests.
         if os.environ.get("CODEBASE_QA_PLANNING_UI_CHILD") != "1":
             completed = subprocess.run(
                 [sys.executable, "-m", "unittest", "tests.test_planning.PlanningTests."
