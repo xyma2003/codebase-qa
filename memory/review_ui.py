@@ -9,6 +9,8 @@ from security.output import redact_text, safe_error, valid_source_url
 
 def _review(repository, identity, token, approve):
     try:
+        from security.web_auth import callback_principal
+        callback_principal()
         review_qa(repository.repo_url, repository.commit_sha, repository.repo_root, identity, token, approve=approve)
         st.session_state["cache_review_notice"] = (True, "已批准使用" if approve else "已撤销批准")
     except (ValueError, OSError, KeyError) as exc:
@@ -16,6 +18,8 @@ def _review(repository, identity, token, approve):
 
 
 def render_cache_review():
+    from security.web_auth import require_web_user
+    require_web_user()
     st.title("历史答案审核")
     repository = st.session_state.get("repository_index")
     if repository is None:

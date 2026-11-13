@@ -15,6 +15,7 @@ from agent.planning import ChangePlan, PLANNING_INSTRUCTIONS, check_plan
 from indexer.hybrid import RetrievalStrategy
 from agent.runtime import RunPolicy, RunRecord, run_with_timeout, effective_limits
 from security import resources as safety_limits
+from security.identity import current_principal
 
 AnswerMode = Literal["qa", "plan"]
 
@@ -76,6 +77,7 @@ def build_agent(model) -> Agent:
 
 
 async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "qa", *, agent=None, conversation_dir=None, on_run=None, on_event=None, policy: RunPolicy | None = None):
+    current_principal()
     safety_limits.check_bytes(question, "问题")
     ensure_safe_text(question)
     if policy is not None and not isinstance(policy, RunPolicy):
@@ -108,6 +110,7 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
     started = time.perf_counter()
     result = await run_with_timeout((agent or _get_agent()).run(question, deps=deps, **options),
                                     policy.timeout_seconds if policy and policy.timeout_seconds else safety_limits.MAX_RUN_SECONDS)
+    current_principal()
     if on_run is not None:
         on_run(result)
     output_text = result.output.model_dump_json() if hasattr(result.output, "model_dump_json") else str(result.output)

@@ -10,6 +10,8 @@ from evaluation.review_workspace import create_report, new_workspace, open_works
 from evaluation.scoring import summarize_reviews
 from evaluation.reporting import source_label
 from security.output import redact_text, safe_error
+from security.web_auth import require_web_user
+from security.review_access import list_review_runs, resolve_review_run, review_directory
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE = ROOT / ".baseline_runtime/reviews/ui"
@@ -106,15 +108,22 @@ def _grade_form(workspace, row, prefix):
 
 def render_review_page(*, repository=ROOT, directory=WORKSPACE):
     st.set_page_config(page_title="评测评审 · Codebase QA", layout="wide")
+    actor = require_web_user(admin=True)
     st.title("评测评审")
-    directory = Path(directory).resolve()
+    local = actor.owner_id == "local"
+    directory = Path(directory).resolve() if local else review_directory()
     packets = sorted(path.parent for path in (directory / "packets").glob("*/review.json"))
     active = st.session_state.get("review_active")
     options = [None, *map(str, packets)]
     selection = active[1] if active and active[1] in options else None
     with st.sidebar:
         with st.form("open_review"):
-            archive = st.text_input("运行归档目录", value=active[0] if active else "", key="review_archive_input")
+            if local:
+                archive = st.text_input("运行归档目录", value=active[0] if active else "", key="review_archive_input")
+            else:
+                runs = {row["id"]:row for row in list_review_runs()}
+                run_id = st.selectbox("运行记录", [None,*runs], format_func=lambda key:runs[key]["name"] if key else "选择运行记录", key="review_run_choice")
+                archive = str(resolve_review_run(run_id)) if run_id else ""
             packet = st.selectbox("评审记录", options, index=options.index(selection),
                 format_func=lambda path: Path(path).name[:12] if path else "新建评审", key="review_packet_choice")
             opened = st.form_submit_button("打开评审", type="primary")
@@ -133,7 +142,7 @@ def render_review_page(*, repository=ROOT, directory=WORKSPACE):
         active = st.session_state.get("review_active")
         if active:
             st.caption("评审包")
-            st.code(active[1], language=None)
+            st.code(active[1] if local else Path(active[1]).name, language=None)
     if not active:
         return
     try:
@@ -155,7 +164,8 @@ def render_review_page(*, repository=ROOT, directory=WORKSPACE):
         st.text(f"归档 SHA256：{workspace.header.source_archive_sha256}")
         st.text(f"数据集：{workspace.header.dataset_fingerprint}")
         st.text(f"评审记录：{workspace.header.review_id}")
-        st.text(f"归档目录：{workspace.archive}")
+        if local:
+            st.text(f"归档目录：{workspace.archive}")
     cases = {case["case_id"]: case for case in workspace.context["cases"]}
     scope = workspace.header.review_id
     case_id = st.selectbox("题目", list(cases), key=f"review_case:{scope}",
@@ -214,6 +224,6 @@ def render_review_page(*, repository=ROOT, directory=WORKSPACE):
                           for item in data["categories"]], hide_index=True)
             st.download_button("下载报告（Markdown）", (report / "report.md").read_bytes(), "review-report.md", mime="text/markdown")
             st.download_button("下载报告包（ZIP）", package, "review-report.zip", mime="application/zip")
-            st.code(str(report), language=None)
+            st.code(str(report) if local else report.name, language=None)
         except (ValueError, OSError) as exc:
             st.error(f"报告校验失败：{safe_error(exc)}")

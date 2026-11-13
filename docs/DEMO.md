@@ -17,10 +17,12 @@
 ### 2. 展示仓库、源码及会话
 
 ```bash
-.venv/bin/streamlit run app.py --server.address 127.0.0.1 --server.port 18524
+.venv/bin/python scripts/run_local.py --port 18524
 ```
 
 打开页面，输入本项目 GitHub 地址。首次需要点击“克隆并索引”，会下载原嵌入模型，之后相同提交复用索引。点击“查看项目概览”，核对 Commit、目录、Python 模块和入口原文；这部分不需要聊天密钥。
+
+该命令只演示本地操作员。默认网页已接入 OIDC，缺少登录配置时拒绝访问；真实身份服务商回调与密钥相关验收统一后置。双用户、角色及页面权限的无密钥测试见 `tests/test_user_access.py`。
 
 本项目已有可用索引后，可以主动保存一个明确标记的两轮本地演示：
 

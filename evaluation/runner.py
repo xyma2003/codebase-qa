@@ -32,6 +32,7 @@ RUNTIME_FILES = (
     "security/sources.py",
     "security/output.py",
     "security/resources.py", "security/git_transport.py", "security/mcp_boundary.py",
+    "security/identity.py", "security/web_auth.py", "security/review_access.py",
     "agent/qa_agent.py", "agent/tools.py", "agent/evidence.py", "agent/planning.py", "agent/conversations.py", "agent/tracing.py", "agent/runtime.py",
     "indexer/snapshots.py", "indexer/source_reader.py", "indexer/code_search.py", "indexer/dependencies.py",
     "indexer/overview.py", "indexer/vector_store.py", "indexer/hybrid.py", "memory/quality.py", "memory/knowledge.py", "config.py", "requirements.txt",

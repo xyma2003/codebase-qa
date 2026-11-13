@@ -2,10 +2,12 @@
 
 import argparse
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
 import zipfile
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -96,7 +98,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if any(path.exists() for path in (args.work_root, args.output, args.package)):
         raise RuntimeError("Choose new output paths; saved records are not overwritten")
-    result = check(args.work_root, args.package)
+    with patch.dict(os.environ,{"CODEBASE_QA_LOCAL_MODE":"1"}):
+        result = check(args.work_root, args.package)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("x", encoding="utf-8") as file:
         file.write(json.dumps(result, ensure_ascii=False, indent=2) + "\n")

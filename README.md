@@ -6,7 +6,7 @@
 
 [演示步骤](docs/DEMO.md) · [架构与技术取舍](docs/ARCHITECTURE.md) · [自动检查](https://github.com/xyma2003/codebase-qa/actions/workflows/ci.yml)
 
-[安全边界](SECURITY.md)与[安全计划](docs/SECURITY_PLAN.md)单独列明已实现和待验证项。源码与向量入口会拒绝敏感文件和检测到的凭据，旧数据也重新检查；当前为本地单人产品，功能测试不代表 Prompt 攻击防御效果已经通过。
+[安全边界](SECURITY.md)、[安全计划](docs/SECURITY_PLAN.md)及[登录与用户隔离](docs/AUTHENTICATION.md)单独列明已实现和待验证项。已接入受邀用户登录与数据权限，真实登录回调、模型效果和公网部署仍待验收。
 
 | 能力 | 实现与可检查结果 |
 | --- | --- |
@@ -51,7 +51,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-复现本机原始环境时，使用[阶段零依赖锁](docs/baseline/runs/20261110-stage0/requirements-hashed.txt)和[运行说明](docs/baseline/README.md)。安全展示用的 `markdown-it-py` 补为直接依赖，版本仍与原环境一致，没有升级现有环境。
+复现本机原始环境时，使用[阶段零依赖锁](docs/baseline/runs/20261110-stage0/requirements-hashed.txt)和[运行说明](docs/baseline/README.md)。`markdown-it-py` 和登录用的 Authlib 补为直接依赖，版本仍与原环境一致，没有升级现有环境。
 
 项目 `.env` 使用用户已选择的接口：
 
@@ -64,10 +64,12 @@ OPENAI_MODEL=Qwen/Qwen3-32B
 `.env` 被 Git 忽略。原有 Anthropic 接口也保留在 `config.py`。模型和检索、记忆阈值保持原值；版本化问答新增引用格式指令，要求使用工具提供的编号。
 
 ```bash
-streamlit run app.py
+.venv/bin/python scripts/run_local.py --port 18524
 ```
 
 首次索引会下载原有的本地嵌入模型。
+
+上面的命令显式使用本地操作员，保留原历史。普通 `streamlit run app.py` 默认要求 OIDC 登录；缺少配置时拒绝访问，不自动变成匿名服务。受邀用户配置和管理员运行登记见[登录说明](docs/AUTHENTICATION.md)，实际配置文件不进 Git。本地模式不可置于公网代理后，公网部署仍待下一阶段。
 
 ## 使用
 

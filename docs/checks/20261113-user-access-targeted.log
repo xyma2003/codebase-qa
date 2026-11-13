@@ -1,0 +1,53 @@
+test_legacy_local_cache_is_not_implicitly_shared (tests.test_user_access.CacheOwnerTests.test_legacy_local_cache_is_not_implicitly_shared) ... ok
+test_private_candidates_approval_retrieval_and_revocation (tests.test_user_access.CacheOwnerTests.test_private_candidates_approval_retrieval_and_revocation) ... ok
+test_replayed_foreign_metadata_is_hidden_and_not_reviewable (tests.test_user_access.CacheOwnerTests.test_replayed_foreign_metadata_is_hidden_and_not_reviewable) ... ok
+test_async_model_runs_do_not_mix_private_histories (tests.test_user_access.ConversationOwnerTests.test_async_model_runs_do_not_mix_private_histories) ... ok
+test_old_sqlite_schema_is_preserved_for_local_operator_only (tests.test_user_access.ConversationOwnerTests.test_old_sqlite_schema_is_preserved_for_local_operator_only) ... ok
+test_revoked_identity_during_model_run_cannot_publish_a_turn (tests.test_user_access.ConversationOwnerTests.test_revoked_identity_during_model_run_cannot_publish_a_turn) ... ok
+test_user_list_read_write_and_forged_state_are_owner_checked (tests.test_user_access.ConversationOwnerTests.test_user_list_read_write_and_forged_state_are_owner_checked) ... ok
+test_live_revocation_role_change_and_expiry_stop_existing_context (tests.test_user_access.IdentityTests.test_live_revocation_role_change_and_expiry_stop_existing_context) ... ok
+test_missing_invalid_and_duplicate_access_configuration_fail_closed (tests.test_user_access.IdentityTests.test_missing_invalid_and_duplicate_access_configuration_fail_closed) ... ok
+test_missing_unknown_expired_future_and_wrong_issuer_are_denied (tests.test_user_access.IdentityTests.test_missing_unknown_expired_future_and_wrong_issuer_are_denied) ... ok
+test_unbound_web_service_denies_before_private_storage (tests.test_user_access.IdentityTests.test_unbound_web_service_denies_before_private_storage) ... ok
+test_verified_subject_and_server_role_ignore_claimed_email_and_role (tests.test_user_access.IdentityTests.test_verified_subject_and_server_role_ignore_claimed_email_and_role) ... ok
+test_admin_reviews_and_downloads_stay_inside_owned_registered_runs (tests.test_user_access.ReviewOwnerTests.test_admin_reviews_and_downloads_stay_inside_owned_registered_runs) ... ok
+test_nonadmin_service_calls_fail_before_reading_or_writing_paths (tests.test_user_access.ReviewOwnerTests.test_nonadmin_service_calls_fail_before_reading_or_writing_paths) ... ok
+test_account_switch_and_logout_clear_private_session_state (tests.test_user_access.WebAuthenticationTests.test_account_switch_and_logout_clear_private_session_state) ... 2026-11-13 15:12:28.879 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-13 15:12:29.283 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-13 15:12:29.284 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-13 15:12:29.286 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_anonymous_login_uses_native_oidc_and_never_opens_business_pages (tests.test_user_access.WebAuthenticationTests.test_anonymous_login_uses_native_oidc_and_never_opens_business_pages) ... 2026-11-13 15:12:29.289 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+/opt/miniconda3/envs/llm-data-pipeline/lib/python3.12/asyncio/base_events.py:730: ResourceWarning: unclosed event loop <_UnixSelectorEventLoop running=False closed=False debug=False>
+  _warn(f"unclosed event loop {self!r}", ResourceWarning, source=self)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_callback_rechecks_expiry_before_cache_approval (tests.test_user_access.WebAuthenticationTests.test_callback_rechecks_expiry_before_cache_approval) ... /opt/miniconda3/envs/llm-data-pipeline/lib/python3.12/asyncio/base_events.py:730: ResourceWarning: unclosed event loop <_UnixSelectorEventLoop running=False closed=False debug=False>
+  _warn(f"unclosed event loop {self!r}", ResourceWarning, source=self)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+2026-11-13 15:12:29.775 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-13 15:12:29.978 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_full_chat_page_only_restores_the_logged_in_users_history (tests.test_user_access.WebAuthenticationTests.test_full_chat_page_only_restores_the_logged_in_users_history) ... 2026-11-13 15:12:30.119 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+/opt/miniconda3/envs/llm-data-pipeline/lib/python3.12/asyncio/base_events.py:730: ResourceWarning: unclosed event loop <_UnixSelectorEventLoop running=False closed=False debug=False>
+  _warn(f"unclosed event loop {self!r}", ResourceWarning, source=self)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_local_mode_refuses_a_nonloopback_listener (tests.test_user_access.WebAuthenticationTests.test_local_mode_refuses_a_nonloopback_listener) ... 2026-11-13 15:12:30.453 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_missing_configuration_denies_every_page_before_private_data (tests.test_user_access.WebAuthenticationTests.test_missing_configuration_denies_every_page_before_private_data) ... 2026-11-13 15:12:30.679 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-13 15:12:30.884 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-13 15:12:31.069 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_nonadmin_direct_management_url_is_denied_before_catalog_reads (tests.test_user_access.WebAuthenticationTests.test_nonadmin_direct_management_url_is_denied_before_catalog_reads) ... 2026-11-13 15:12:31.259 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_unknown_and_expired_users_cannot_enter_even_with_claimed_admin_role (tests.test_user_access.WebAuthenticationTests.test_unknown_and_expired_users_cannot_enter_even_with_claimed_admin_role) ... 2026-11-13 15:12:31.447 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-13 15:12:31.653 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_web_admin_selects_registered_runs_without_server_path_inputs (tests.test_user_access.WebAuthenticationTests.test_web_admin_selects_registered_runs_without_server_path_inputs) ... 2026-11-13 15:12:31.906 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 6.117s
+
+OK

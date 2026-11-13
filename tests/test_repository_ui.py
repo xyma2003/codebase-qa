@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -19,6 +20,7 @@ URL = "https://github.com/example/fixture"
 
 class RepositoryUITests(unittest.TestCase):
     def setUp(self):
+        self.enterContext(patch.dict(os.environ, {"CODEBASE_QA_LOCAL_MODE":"1"}))
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         def version(sha, collection):

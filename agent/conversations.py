@@ -12,6 +12,7 @@ from pydantic_ai.messages import ModelMessage, ModelMessagesTypeAdapter
 from agent.evidence import CheckedAnswer
 from config import CHROMA_DIR
 from indexer.snapshots import normalize_repo_url
+from security.identity import current_principal, AccessDenied
 
 
 class ConversationConflict(ValueError):
@@ -34,6 +35,7 @@ class Conversation:
     revision: int
     reference_count: int
     turns: tuple[ConversationTurn, ...]
+    owner_id: str = "local"
 
     @property
     def messages(self):
@@ -80,26 +82,31 @@ def _connect(storage_dir=None):
             );
         """)
         with db:
+            db.execute("BEGIN IMMEDIATE")
+            if "owner_id" not in {row[1] for row in db.execute("PRAGMA table_info(conversations)")}:
+                db.execute("ALTER TABLE conversations ADD COLUMN owner_id TEXT NOT NULL DEFAULT 'local'")
             yield db
     finally:
         db.close()
 
 
 def create_conversation(repo_url: str, commit_sha: str, collection_name: str, *, storage_dir=None) -> str:
+    owner_id = current_principal().owner_id
     scope = _scope(repo_url, commit_sha, collection_name)
     conversation_id = str(uuid4())
     with _connect(storage_dir) as db:
-        db.execute("INSERT INTO conversations (id, repo_url, commit_sha, collection_name) VALUES (?, ?, ?, ?)",
-                   (conversation_id, *scope))
+        db.execute("INSERT INTO conversations (id, repo_url, commit_sha, collection_name, owner_id) VALUES (?, ?, ?, ?, ?)",
+                   (conversation_id, *scope, owner_id))
     return conversation_id
 
 
 def list_conversations(repo_url: str, commit_sha: str, collection_name: str, *, storage_dir=None):
+    owner_id = current_principal().owner_id
     scope = _scope(repo_url, commit_sha, collection_name)
     with _connect(storage_dir) as db:
         rows = db.execute("SELECT id, revision, (SELECT question FROM conversation_turns t WHERE t.conversation_id=c.id "
                           "ORDER BY revision LIMIT 1) FROM conversations c WHERE repo_url=? AND commit_sha=? "
-                          "AND collection_name=? AND revision>0 ORDER BY rowid DESC", scope).fetchall()
+                          "AND collection_name=? AND owner_id=? AND revision>0 ORDER BY rowid DESC", (*scope,owner_id)).fetchall()
     if any(not title for _, _, title in rows):
         raise ValueError("历史对话记录不完整。")
     return [{"conversation_id": identity, "turn_count": count, "title": title} for identity, count, title in rows]
@@ -114,12 +121,12 @@ def display_messages(conversation):
 
 
 def load_conversation(conversation_id: str, repo_url: str, commit_sha: str, collection_name: str, *, storage_dir=None) -> Conversation:
+    owner_id = current_principal().owner_id
     scope = _scope(repo_url, commit_sha, collection_name)
     with _connect(storage_dir) as db:
         # One read transaction keeps metadata and turns at the same revision.
-        db.execute("BEGIN")
         row = db.execute("SELECT repo_url, commit_sha, collection_name, revision, reference_count, format_version "
-                         "FROM conversations WHERE id=?", (_session_id(conversation_id),)).fetchone()
+                         "FROM conversations WHERE id=? AND owner_id=?", (_session_id(conversation_id),owner_id)).fetchone()
         if row is None:
             raise ValueError("对话不存在。")
         if row[:3] != scope:
@@ -132,12 +139,15 @@ def load_conversation(conversation_id: str, repo_url: str, commit_sha: str, coll
         raise ValueError("对话记录不完整。")
     turns = tuple(ConversationTurn(record[1], tuple(ModelMessagesTypeAdapter.validate_json(record[2])),
                                    CheckedAnswer.model_validate_json(record[3])) for record in records)
-    return Conversation(conversation_id, *scope, row[3], row[4], turns)
+    return Conversation(conversation_id, *scope, row[3], row[4], turns, owner_id)
 
 
 def append_turn(conversation: Conversation, question: str, messages: list[ModelMessage],
                 answer: CheckedAnswer, reference_count: int, *, storage_dir=None) -> None:
     """Commit one complete turn, or leave the previous conversation unchanged."""
+    owner_id = current_principal().owner_id
+    if conversation.owner_id != owner_id:
+        raise AccessDenied("对话不存在或没有访问权限。")
     if not isinstance(question, str) or not question.strip() or not messages:
         raise ValueError("不能保存空的对话轮次。")
     if type(reference_count) is not int or reference_count < conversation.reference_count:
@@ -148,9 +158,9 @@ def append_turn(conversation: Conversation, question: str, messages: list[ModelM
     answer_json = answer.model_dump_json()
     with _connect(storage_dir) as db:
         changed = db.execute("UPDATE conversations SET revision=revision+1, reference_count=? "
-                             "WHERE id=? AND repo_url=? AND commit_sha=? AND collection_name=? AND revision=?",
+                             "WHERE id=? AND repo_url=? AND commit_sha=? AND collection_name=? AND revision=? AND owner_id=?",
                              (reference_count, conversation.conversation_id, conversation.repo_url,
-                              conversation.commit_sha, conversation.collection_name, conversation.revision)).rowcount
+                              conversation.commit_sha, conversation.collection_name, conversation.revision,owner_id)).rowcount
         if changed != 1:
             raise ConversationConflict("对话已被其他请求更新，请重新提问。")
         db.execute("INSERT INTO conversation_turns VALUES (?, ?, ?, ?, ?)",

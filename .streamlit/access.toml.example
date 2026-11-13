@@ -1,0 +1,9 @@
+issuer = "https://identity.example.invalid"
+
+[[users]]
+subject = "your-admin-subject"
+role = "admin"
+
+[[users]]
+subject = "your-user-subject"
+role = "user"

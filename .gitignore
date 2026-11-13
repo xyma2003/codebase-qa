@@ -2,6 +2,8 @@
 .env
 *.env
 .env.local
+.streamlit/secrets.toml
+.streamlit/access.toml
 
 # Python
 __pycache__/

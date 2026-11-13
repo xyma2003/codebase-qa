@@ -28,6 +28,7 @@ COLLECTION = "fixture-collection"
 
 class ConversationTests(unittest.TestCase):
     def setUp(self):
+        self.enterContext(patch.dict(os.environ, {"CODEBASE_QA_LOCAL_MODE":"1"}))
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         self.root = Path(directory.name)

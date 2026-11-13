@@ -15,6 +15,7 @@ from config import CHROMA_DIR, EMBED_MODEL, MEMORY_SIMILARITY_THRESHOLD
 from indexer.snapshots import load_snapshot, normalize_repo_url
 from indexer.citations import SourceCitation, check_source_citation
 from security.sources import ensure_safe_text, MAX_SOURCE_BYTES
+from security.identity import current_principal, AccessDenied
 
 MAX_CACHE_ENTRIES = 2000
 
@@ -30,6 +31,10 @@ def _get_embed_fn():
 
 def _memory_collection_name(repo_url, commit_sha=None):
     url = normalize_repo_url(repo_url)
+    owner_id = current_principal().owner_id
+    if owner_id != "local":
+        identity = hashlib.sha256(f"{owner_id}\0{url}\0{commit_sha or ''}".encode()).hexdigest()
+        return f"private-memory-{identity[:48]}"
     owner, name = url.rsplit("/", 2)[-2:]
     base = f"{owner}-{name}".lower().replace("_", "-")[:55]
     if commit_sha:
@@ -39,21 +44,27 @@ def _memory_collection_name(repo_url, commit_sha=None):
 
 
 def _collection(repo_url, commit_sha, *, create=False):
-    client = _get_client()
     name = _memory_collection_name(repo_url, commit_sha)
+    client = _get_client()
     if create:
-        return client.get_or_create_collection(name=name, embedding_function=_get_embed_fn(),
-            metadata={"repo_url": normalize_repo_url(repo_url), "type": "memory", "commit_sha": commit_sha})
-    if name not in {item.name for item in client.list_collections()}:
-        return None
-    return client.get_collection(name=name, embedding_function=None)
+        collection = client.get_or_create_collection(name=name, embedding_function=_get_embed_fn(),
+            metadata={"repo_url": normalize_repo_url(repo_url), "type": "memory", "commit_sha": commit_sha,
+                      "owner_id":current_principal().owner_id})
+    else:
+        if name not in {item.name for item in client.list_collections()}:
+            return None
+        collection = client.get_collection(name=name, embedding_function=None)
+    if (collection.metadata or {}).get("owner_id", "local") != current_principal().owner_id:
+        raise AccessDenied("历史答案不存在或没有访问权限。")
+    return collection
 
 
 @contextmanager
 def _lock(repo_url, commit_sha):
+    name = _memory_collection_name(repo_url, commit_sha)
     directory = Path(CHROMA_DIR)
     directory.mkdir(parents=True, exist_ok=True)
-    fd = os.open(directory/(_memory_collection_name(repo_url, commit_sha)+".review.lock"),
+    fd = os.open(directory/(name+".review.lock"),
                  os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
     try:
         fcntl.flock(fd, fcntl.LOCK_EX)
@@ -72,7 +83,8 @@ def _document(meta):
 
 
 def _binding(meta):
-    return _digest({key: meta[key] for key in ("question", "answer", "repo_url", "commit_sha", "citations_json", "cache_format")})
+    keys = ("question", "answer", "repo_url", "commit_sha", "citations_json", "cache_format")
+    return _digest({key:meta[key] for key in (*keys, "owner_id") if key in meta})
 
 
 def _review_token(document, meta):
@@ -80,6 +92,8 @@ def _review_token(document, meta):
 
 
 def _validate(meta, document, repo_url, commit_sha, repo_root):
+    if meta.get("owner_id", "local") != current_principal().owner_id:
+        raise AccessDenied("历史答案不存在或没有访问权限。")
     if (meta.get("cache_format") != 1 or meta.get("repo_url") != normalize_repo_url(repo_url)
             or meta.get("commit_sha") != commit_sha or meta.get("content_sha256") != _binding(meta)
             or document != _document(meta)):
@@ -114,6 +128,7 @@ def save_qa(question, answer, repo_url, *, commit_sha=None, citations=()):
         ensure_safe_text(source.source_text)
         sources.append(source.model_dump())
     meta = {"question": question, "answer": answer, "repo_url": normalize_repo_url(repo_url), "commit_sha": commit_sha,
+            "owner_id": current_principal().owner_id,
             "cache_format": 1, "citations_json": json.dumps(sources, ensure_ascii=False, sort_keys=True),
             "saved_at": datetime.datetime.now(datetime.timezone.utc).isoformat(), "hit_count": 0,
             "source": "qa_pair", "approval_status": "pending"}
@@ -165,7 +180,8 @@ def list_cache(repo_url, commit_sha, *, limit=20, offset=0):
         return []
     data = collection.get(limit=limit, offset=offset, include=["documents", "metadatas"])
     return [{"id": identity, "document": document, "metadata": meta, "review_token": _review_token(document, meta)}
-            for identity, document, meta in zip(data["ids"], data["documents"], data["metadatas"])]
+            for identity, document, meta in zip(data["ids"], data["documents"], data["metadatas"])
+            if meta.get("owner_id", "local") == current_principal().owner_id]
 
 
 def review_qa(repo_url, commit_sha, repo_root, identity, expected_token, *, approve):
@@ -179,6 +195,8 @@ def review_qa(repo_url, commit_sha, repo_root, identity, expected_token, *, appr
         if len(data["ids"]) != 1:
             raise ValueError("历史答案不存在。")
         meta, document = data["metadatas"][0], data["documents"][0]
+        if meta.get("owner_id", "local") != current_principal().owner_id:
+            raise AccessDenied("历史答案不存在或没有访问权限。")
         if _review_token(document, meta) != expected_token:
             raise ValueError("历史答案已被修改，请重新打开后审核。")
         if approve:
@@ -192,8 +210,9 @@ def get_memory_stats(repo_url, *, commit_sha=None):
     collection = _collection(repo_url, commit_sha)
     if collection is None:
         return {"count": 0, "latest": None, "total_count": 0, "pending_count": 0}
-    data = collection.get(limit=MAX_CACHE_ENTRIES, include=["metadatas"])["metadatas"]
+    data = [meta for meta in collection.get(limit=MAX_CACHE_ENTRIES, include=["metadatas"])["metadatas"]
+            if meta.get("owner_id", "local") == current_principal().owner_id]
     approved = sum(meta.get("approval_status") == "approved" for meta in data)
     pending = sum(meta.get("approval_status", "pending") == "pending" for meta in data)
     return {"count": approved, "latest": max((meta.get("saved_at", "") for meta in data), default=None),
-            "total_count": collection.count(), "pending_count": pending}
+            "total_count": len(data), "pending_count": pending}

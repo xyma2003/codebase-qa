@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 from copy import deepcopy
 from dataclasses import replace
 import tempfile
@@ -28,6 +29,7 @@ class ReviewUITests(unittest.TestCase):
         cls.source_directory.cleanup()
 
     def setUp(self):
+        self.enterContext(patch.dict(os.environ, {"CODEBASE_QA_LOCAL_MODE":"1"}))
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         self.directory = Path(directory.name)

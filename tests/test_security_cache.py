@@ -1,4 +1,5 @@
 import asyncio
+import os
 from pathlib import Path
 import unittest
 from unittest.mock import patch
@@ -121,6 +122,7 @@ class CachePolicyTests(unittest.TestCase):
 
 class CacheReviewUITests(unittest.TestCase):
     def setUp(self):
+        self.enterContext(patch.dict(os.environ, {"CODEBASE_QA_LOCAL_MODE":"1"}))
         self.helper = CachePolicyTests()
         self.helper.setUp()
         self.addCleanup(self.helper.doCleanups)

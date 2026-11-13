@@ -2,6 +2,7 @@
 
 from pathlib import PurePosixPath
 import re
+from threading import Lock
 from security.resources import MAX_SOURCE_BYTES, MAX_SNAPSHOT_BYTES, MAX_INDEX_CHUNKS
 
 # Match the existing whole-source scanning limit; output remains capped at 8000 chars.
@@ -9,6 +10,20 @@ from security.resources import MAX_SOURCE_BYTES, MAX_SNAPSHOT_BYTES, MAX_INDEX_C
 
 class SourcePolicyError(ValueError):
     pass
+
+
+_runtime_credentials = ()
+_credential_lock = Lock()
+
+
+def register_credentials(values):
+    """Trusted server config only; shared redaction values never grant access."""
+    global _runtime_credentials
+    with _credential_lock:
+        combined = tuple(dict.fromkeys((*_runtime_credentials,*(value for value in values if isinstance(value,str) and len(value)>=8))))
+        if len(combined)>64:
+            raise SourcePolicyError("凭据配置变更次数达到上限，请重启服务。")
+        _runtime_credentials = combined
 
 
 def sensitive_path(path):
@@ -19,6 +34,7 @@ def sensitive_path(path):
         return True
     template = name.endswith((".example", ".sample", ".template", ".dist"))
     return (bool(secret_spans(str(path)))
+            or "/".join(names[-2:]) == ".streamlit/access.toml"
             or any(part in {".ssh", ".aws", ".azure", ".kube", ".gnupg", ".docker"} for part in names)
             or (name.startswith(".env") and not template)
             or name in {".netrc", "_netrc", ".npmrc", ".pypirc", ".git-credentials", "id_rsa", "id_dsa", "id_ecdsa", "id_ed25519", "credentials", "secrets"}
@@ -42,7 +58,7 @@ def _placeholder(value, *, reference=False):
 def configured_secrets():
     # Values are compared locally and are never included in exceptions or policy results.
     from config import OPENAI_API_KEY, ANTHROPIC_API_KEY
-    return tuple(value for value in (OPENAI_API_KEY, ANTHROPIC_API_KEY) if len(value) >= 8)
+    return tuple(value for value in (OPENAI_API_KEY, ANTHROPIC_API_KEY,*_runtime_credentials) if len(value) >= 8)
 
 
 def secret_spans(text, *, allow_references=True):

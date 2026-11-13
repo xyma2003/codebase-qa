@@ -14,6 +14,7 @@ import zipfile
 from evaluation.dataset import Review, digest
 from evaluation.reporting import import_review, verify_report
 from evaluation.reviews import load_packet, load_source, prepare_review, review_context
+from security.review_access import authorize_review
 
 PACKET_FILES = ("review.json", "reviews.jsonl", "context.json", "rubric.json")
 
@@ -71,12 +72,14 @@ def _load(archive, repository, packet):
 
 
 def open_workspace(archive, repository, packet):
+    authorize_review(archive, packet=packet)
     packet = _editable_packet(packet, archive)
     with _lock(packet):
         return _load(archive, repository, packet)
 
 
 def new_workspace(archive, repository, directory, *, purpose="human"):
+    authorize_review(archive, directory=directory)
     packet = Path(directory) / "packets" / str(uuid4())
     prepare_review(archive, repository, packet, purpose=purpose)
     return open_workspace(archive, repository, packet)
@@ -85,6 +88,7 @@ def new_workspace(archive, repository, directory, *, purpose="human"):
 def save_grade(workspace, case_id, turn_id, *, ratings=None, fatal_errors=(), reviewer=None,
                rationale="", clear=False):
     """Write only the selected turn, refusing stale forms or incomplete scores."""
+    authorize_review(workspace.archive, packet=workspace.packet)
     packet = _editable_packet(workspace.packet, workspace.archive)
     with _lock(packet):
         current = _load(workspace.archive, workspace.repository, packet)
@@ -122,6 +126,7 @@ def save_grade(workspace, case_id, turn_id, *, ratings=None, fatal_errors=(), re
 
 
 def create_report(workspace, directory):
+    authorize_review(workspace.archive, packet=workspace.packet, directory=directory)
     packet = _editable_packet(workspace.packet, workspace.archive)
     with _lock(packet):
         current = _load(workspace.archive, workspace.repository, packet)
@@ -134,6 +139,7 @@ def create_report(workspace, directory):
 
 def report_package(report, archive, repository):
     """Download the sealed report; the separate source archive is still required."""
+    authorize_review(archive, report=report)
     verify_report(report, archive, repository)
     buffer = BytesIO()
     with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED) as package:

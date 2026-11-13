@@ -1,0 +1,53 @@
+{
+  "status": "login_and_private_data_boundaries_passed",
+  "tests": 324,
+  "new_tests": 24,
+  "test_seconds": 121.015,
+  "real_oidc_requests": 0,
+  "real_oidc_callback_verified": false,
+  "real_model_requests": 0,
+  "browser_default_denies_business_access": true,
+  "browser_direct_review_page_denied": true,
+  "browser_explicit_local_history_restored": true,
+  "legacy_data": {
+    "conversation_count": 2,
+    "turn_count": 3,
+    "turn_rows_sha256": "9fd14008178680c699d441cd6e83dd0056b35b1f4c0faf206df92afec7de647f",
+    "original_turns_unchanged": true,
+    "owners": [
+      [
+        "local",
+        2
+      ]
+    ]
+  },
+  "mcp": {
+    "tools": 9,
+    "calls": 14,
+    "active_chunks": 58,
+    "index_rebuilt": false
+  },
+  "dependencies": {
+    "python": "3.12.13",
+    "count": 194,
+    "upgraded": false,
+    "Authlib": "1.9.5"
+  },
+  "current_commit_ci_at_record": "pending_push",
+  "implementation_sha256": {
+    "security/identity.py": "25a0884dde332bf82303b40f9c4fa6ad9de3cb523415262b35020944a5c22191",
+    "security/web_auth.py": "6d4a676493c6d7013a4d740ff58746731efef74d2dd949c5c4934279a337d926",
+    "security/review_access.py": "761d9454ab80b21558cb7224675d6b243a7695ce36f450b64bf206e06cfbacdf",
+    "security/sources.py": "ef755a2a810e40ba9582b4d4d2d423d6ae859dbbea09a63f24f93d2696675148",
+    "agent/conversations.py": "a7a785aea3031edc9096c44a70bc48a738943154e0947ce7b80968e6d47357fc",
+    "agent/qa_agent.py": "3e141d97b038a9f2e772bcd3df1db92308f19c069234c902268e27b8808885d0",
+    "memory/knowledge.py": "1669cdd0dbe918a524d11036ac0614e040ae37811483f3d9f80ed89bf133aae1",
+    "memory/review_ui.py": "973635d241e43e8dd861dcc03b092a7ba28089e96529b853e88a32d7a8e77f56",
+    "evaluation/review_workspace.py": "0a0cd964019384a0a130f9cf707fb4cdfc763ee99c6e29ec0c606dcd7759d851",
+    "evaluation/review_ui.py": "b8ae3105d8dc575a8fa9b290192b5069729ddae642fbfceac6be72d554ccb1ae",
+    "scripts/run_local.py": "52afdc05176a4f013ebe2684cdbe2ce7a53b24eb9188c564b7c789d5be588889",
+    "scripts/register_review_run.py": "70927147b1a830edc7e6931777e5d628df1435ef2b02885ba55a8c904ffd61aa",
+    "tests/test_user_access.py": "3126ebecfcc60eb2385f2aa676a0b8b6a8a2cc0988a201af607cbe4b6b2b2cc9",
+    "requirements.txt": "0d76140d38a6f266df7841cfc35f1218517c01545f80301dc236219badb2c811"
+  }
+}

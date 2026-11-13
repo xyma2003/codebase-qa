@@ -24,6 +24,9 @@ from indexer.overview import build_repository_overview
 from agent.runtime import RunPolicy
 
 st.set_page_config(page_title="Codebase QA", page_icon="🔍", layout="wide")
+from security.web_auth import require_web_user
+
+require_web_user()
 st.title("🔍 Codebase Q&A")
 st.caption("输入 GitHub 仓库地址，用自然语言提问代码相关问题")
 
