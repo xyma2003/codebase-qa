@@ -1,0 +1,15 @@
+# Server-only limits. Copy to tasks.toml and restart the service to change.
+running_answers = 2
+running_imports = 1
+running_per_user = 1
+queued_total = 20
+queued_per_user = 2
+daily_answers_per_user = 20
+daily_imports_per_user = 5
+daily_answers_total = 100
+daily_imports_total = 20
+import_timeout_seconds = 600
+retained_days = 7
+max_records = 1000
+storage_bytes = 134217728
+result_bytes = 4194304

@@ -1,6 +1,7 @@
 """One UI model loop; identities cross by ContextVar, UI events by queue."""
 
 import asyncio
+from contextlib import suppress
 from queue import Empty, Queue
 from threading import Event, Lock, Thread
 
@@ -54,3 +55,21 @@ def run_ui_stream(factory, *, on_event=None):
     finally:
         if not future.done():
             future.cancel()
+
+
+def run_background(factory, check_cancelled):
+    """Keep a worker slot until async cancellation and cleanup have finished."""
+    async def supervise():
+        work = asyncio.create_task(factory())
+        try:
+            while not work.done():
+                check_cancelled()
+                await asyncio.sleep(.05)
+            check_cancelled()
+            return await work
+        finally:
+            if not work.done():
+                work.cancel()
+            with suppress(asyncio.CancelledError):
+                await work
+    return asyncio.run_coroutine_threadsafe(supervise(), _ui_loop()).result()

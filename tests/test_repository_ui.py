@@ -23,6 +23,10 @@ class RepositoryUITests(unittest.TestCase):
         self.enterContext(patch.dict(os.environ, {"CODEBASE_QA_LOCAL_MODE":"1"}))
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)
+        from tasks.service import TaskService
+        self.tasks = TaskService(Path(directory.name) / "tasks")
+        self.addCleanup(self.tasks.close)
+        self.enterContext(patch("tasks.service._singleton", self.tasks))
         def version(sha, collection):
             return RepositoryIndex(URL, sha, "fixture-root", collection, 1, 1, "2026-11-10", "fixture")
         self.old = version("a" * 40, "old-collection")

@@ -1,0 +1,138 @@
+test_anonymous_repository_check_refuses_private_redirected_or_wrong_identity (tests.test_security_resources.TransportBoundaryTests.test_anonymous_repository_check_refuses_private_redirected_or_wrong_identity) ... ok
+test_cleanup_permission_error_for_live_process_is_not_suppressed (tests.test_security_resources.TransportBoundaryTests.test_cleanup_permission_error_for_live_process_is_not_suppressed) ... ok
+test_cleanup_signal_error_is_accepted_only_after_confirmed_process_exit (tests.test_security_resources.TransportBoundaryTests.test_cleanup_signal_error_is_accepted_only_after_confirmed_process_exit) ... ok
+test_clone_is_atomic_without_checkout_and_failed_attempt_leaves_other_data (tests.test_security_resources.TransportBoundaryTests.test_clone_is_atomic_without_checkout_and_failed_attempt_leaves_other_data) ... ok
+test_clone_removal_rejects_noncanonical_input_and_symlinks (tests.test_security_resources.TransportBoundaryTests.test_clone_removal_rejects_noncanonical_input_and_symlinks) ... ok
+test_completed_git_process_is_still_checked_against_disk_budget (tests.test_security_resources.TransportBoundaryTests.test_completed_git_process_is_still_checked_against_disk_budget) ... ok
+test_git_timeout_kills_only_the_spawned_group_and_does_not_inherit_model_keys (tests.test_security_resources.TransportBoundaryTests.test_git_timeout_kills_only_the_spawned_group_and_does_not_inherit_model_keys) ... ok
+test_server_limits_validate_types_unknown_keys_and_symlinks (tests.test_tasks.TaskConfigTests.test_server_limits_validate_types_unknown_keys_and_symlinks) ... ok
+test_actual_git_snapshot_and_index_publication_through_import_handler (tests.test_tasks.TaskImportTests.test_actual_git_snapshot_and_index_publication_through_import_handler) ... ok
+test_cancel_between_index_build_and_publication_keeps_previous_ready_index (tests.test_tasks.TaskImportTests.test_cancel_between_index_build_and_publication_keeps_previous_ready_index) ... ok
+test_cancel_real_sdk_prevents_native_conversation_append (tests.test_tasks.TaskSDKTests.test_cancel_real_sdk_prevents_native_conversation_append) ... ok
+test_real_sdk_model_and_native_history_work_through_durable_queue (tests.test_tasks.TaskSDKTests.test_real_sdk_model_and_native_history_work_through_durable_queue) ... ok
+test_background_async_cancellation_waits_for_cleanup_and_prevents_publication (tests.test_tasks.TaskTests.test_background_async_cancellation_waits_for_cleanup_and_prevents_publication) ... ok
+test_completed_idempotent_submission_survives_conversation_revision_change (tests.test_tasks.TaskTests.test_completed_idempotent_submission_survives_conversation_revision_change) ... ok
+test_concurrent_admission_does_not_overspend_daily_quota (tests.test_tasks.TaskTests.test_concurrent_admission_does_not_overspend_daily_quota) ... ok
+test_conversation_authorization_is_checked_before_queue_write (tests.test_tasks.TaskTests.test_conversation_authorization_is_checked_before_queue_write) ... ok
+test_daily_quotas_include_failed_and_cancelled_tasks_and_roll_at_utc_midnight (tests.test_tasks.TaskTests.test_daily_quotas_include_failed_and_cancelled_tasks_and_roll_at_utc_midnight) ... ok
+test_global_kind_and_user_concurrency_and_queued_cancel (tests.test_tasks.TaskTests.test_global_kind_and_user_concurrency_and_queued_cancel) ... ok
+test_idempotency_is_atomic_and_different_input_is_not_reused (tests.test_tasks.TaskTests.test_idempotency_is_atomic_and_different_input_is_not_reused) ... ok
+test_import_deadline_does_not_free_slot_before_sync_operation_returns (tests.test_tasks.TaskTests.test_import_deadline_does_not_free_slot_before_sync_operation_returns) ... ok
+test_midrun_revocation_stops_background_await_before_private_write (tests.test_tasks.TaskTests.test_midrun_revocation_stops_background_await_before_private_write) ... ok
+test_owner_checks_cover_results_lists_cancellation_and_admin (tests.test_tasks.TaskTests.test_owner_checks_cover_results_lists_cancellation_and_admin) ... ok
+test_pending_limits_and_same_conversation_are_enforced (tests.test_tasks.TaskTests.test_pending_limits_and_same_conversation_are_enforced) ... ok
+test_queued_expired_and_revoked_identities_fail_before_handler (tests.test_tasks.TaskTests.test_queued_expired_and_revoked_identities_fail_before_handler) ... ok
+test_restart_interrupts_unfinished_jobs_and_never_replays_them (tests.test_tasks.TaskTests.test_restart_interrupts_unfinished_jobs_and_never_replays_them) ... ok
+test_running_import_remains_in_cancelling_until_sync_work_returns (tests.test_tasks.TaskTests.test_running_import_remains_in_cancelling_until_sync_work_returns) ... ok
+test_saved_results_are_not_cancelled_after_publication (tests.test_tasks.TaskTests.test_saved_results_are_not_cancelled_after_publication) ... ok
+test_second_process_lease_is_rejected_before_recovery (tests.test_tasks.TaskTests.test_second_process_lease_is_rejected_before_recovery) ... ok
+test_storage_records_and_result_limits_reject_without_retry (tests.test_tasks.TaskTests.test_storage_records_and_result_limits_reject_without_retry) ... ok
+test_unknown_operations_extra_owner_and_paths_are_rejected_before_admission (tests.test_tasks.TaskTests.test_unknown_operations_extra_owner_and_paths_are_rejected_before_admission) ... ok
+test_cancel_button_stops_pending_model_and_keeps_previous_chat (tests.test_tasks.TaskUITests.test_cancel_button_stops_pending_model_and_keeps_previous_chat) ... 2026-11-16 11:22:05.234 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:05.644 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_delayed_answer_survives_page_rerun_without_duplicate_submission (tests.test_tasks.TaskUITests.test_delayed_answer_survives_page_rerun_without_duplicate_submission) ... 2026-11-16 11:22:05.996 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:06.600 The widget with key "repo_input" was created with a default value but also had its value set via the Session State API.
+Stack (most recent call last):
+  File "/opt/miniconda3/envs/llm-data-pipeline/lib/python3.12/threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/miniconda3/envs/llm-data-pipeline/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/opt/miniconda3/envs/llm-data-pipeline/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/testing/v1/local_script_runner.py", line 157, in _run_script_thread
+    super()._run_script_thread()
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 443, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 961, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 136, in exec_func_with_error_handling
+    result = func()
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 934, in code_to_exec
+    _mpa_v1(self._main_script_path)
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 181, in _mpa_v1
+    page.run()
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/navigation/page.py", line 574, in run
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/app.py", line 150, in <module>
+    repo_url = st.text_input(
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/runtime/metrics_util.py", line 732, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/elements/widgets/text_widgets.py", line 728, in text_input
+    return self._text_input(
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/elements/widgets/text_widgets.py", line 791, in _text_input
+    check_widget_policies(
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/elements/lib/policies.py", line 146, in check_widget_policies
+    check_session_state_rules(
+  File "/Users/xyma2003/Documents/ChatGPT/GitHub/codebase-qa/.venv/lib/python3.12/site-packages/streamlit/elements/lib/policies.py", line 90, in check_session_state_rules
+    _LOGGER.warning(
+ok
+test_expired_fragment_rejects_before_task_storage_even_without_page_gate (tests.test_tasks.TaskUITests.test_expired_fragment_rejects_before_task_storage_even_without_page_gate) ... 2026-11-16 11:22:06.608 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:06.903 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_result_can_be_reopened_after_session_state_is_lost (tests.test_tasks.TaskUITests.test_result_can_be_reopened_after_session_state_is_lost) ... 2026-11-16 11:22:07.101 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:07.411 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_answer_sources_are_rendered_and_retained_on_rerun (tests.test_repository_ui.RepositoryUITests.test_answer_sources_are_rendered_and_retained_on_rerun) ... 2026-11-16 11:22:07.637 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_changing_repository_clears_the_old_context (tests.test_repository_ui.RepositoryUITests.test_changing_repository_clears_the_old_context) ... 2026-11-16 11:22:07.975 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:08.190 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_chat_passes_same_session_on_follow_up_and_new_chat_resets_it (tests.test_repository_ui.RepositoryUITests.test_chat_passes_same_session_on_follow_up_and_new_chat_resets_it) ... 2026-11-16 11:22:08.213 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_corrupt_selected_history_preserves_current_chat_and_repository (tests.test_repository_ui.RepositoryUITests.test_corrupt_selected_history_preserves_current_chat_and_repository) ... 2026-11-16 11:22:08.762 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:09.066 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_failed_answer_preserves_previous_messages_and_allows_next_question (tests.test_repository_ui.RepositoryUITests.test_failed_answer_preserves_previous_messages_and_allows_next_question) ... 2026-11-16 11:22:09.113 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:09.336 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_failed_overview_clears_previous_result_and_keeps_repository (tests.test_repository_ui.RepositoryUITests.test_failed_overview_clears_previous_result_and_keeps_repository) ... 2026-11-16 11:22:09.432 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:09.661 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_failed_refresh_keeps_the_displayed_version (tests.test_repository_ui.RepositoryUITests.test_failed_refresh_keeps_the_displayed_version) ... 2026-11-16 11:22:09.687 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_fresh_page_restores_saved_chat_sources_tools_and_new_chat_starts_empty (tests.test_repository_ui.RepositoryUITests.test_fresh_page_restores_saved_chat_sources_tools_and_new_chat_starts_empty) ... 2026-11-16 11:22:09.949 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:10.165 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_invalid_reference_is_visible_without_a_fake_source_link (tests.test_repository_ui.RepositoryUITests.test_invalid_reference_is_visible_without_a_fake_source_link) ... 2026-11-16 11:22:10.441 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_mismatched_overview_is_rejected_before_display (tests.test_repository_ui.RepositoryUITests.test_mismatched_overview_is_rejected_before_display) ... 2026-11-16 11:22:10.805 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_overview_is_on_demand_and_persists_with_same_version (tests.test_repository_ui.RepositoryUITests.test_overview_is_on_demand_and_persists_with_same_version) ... 2026-11-16 11:22:11.052 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_planning_mode_is_explicit_and_keeps_conversation_when_switching_modes (tests.test_repository_ui.RepositoryUITests.test_planning_mode_is_explicit_and_keeps_conversation_when_switching_modes) ... 2026-11-16 11:22:11.824 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_refresh_can_return_from_an_old_selection_to_the_current_version (tests.test_repository_ui.RepositoryUITests.test_refresh_can_return_from_an_old_selection_to_the_current_version) ... 2026-11-16 11:22:12.243 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_return_from_another_page_restores_repository_input_and_preserves_chat (tests.test_repository_ui.RepositoryUITests.test_return_from_another_page_restores_repository_input_and_preserves_chat) ... 2026-11-16 11:22:12.521 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:12.744 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:12.744 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:12.744 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:12.744 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:12.744 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:12.744 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:12.744 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:12.744 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_runtime_defaults_and_explicit_limits_are_passed_to_one_turn (tests.test_repository_ui.RepositoryUITests.test_runtime_defaults_and_explicit_limits_are_passed_to_one_turn) ... 2026-11-16 11:22:12.942 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_runtime_record_renders_without_changing_old_answer_compatibility (tests.test_repository_ui.RepositoryUITests.test_runtime_record_renders_without_changing_old_answer_compatibility) ... 2026-11-16 11:22:13.490 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:13.801 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_switching_version_clears_the_old_overview (tests.test_repository_ui.RepositoryUITests.test_switching_version_clears_the_old_overview) ... 2026-11-16 11:22:13.826 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_untrusted_answer_and_user_input_do_not_render_external_images (tests.test_repository_ui.RepositoryUITests.test_untrusted_answer_and_user_input_do_not_render_external_images) ... 2026-11-16 11:22:14.117 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_version_selection_binds_the_matching_collection_and_clears_chat (tests.test_repository_ui.RepositoryUITests.test_version_selection_binds_the_matching_collection_and_clears_chat) ... 2026-11-16 11:22:14.443 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:14.716 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-11-16 11:22:14.716 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+ok
+test_concurrent_users_keep_identity_and_events_on_their_caller_thread (tests.test_ui_runtime.UIRuntimeTests.test_concurrent_users_keep_identity_and_events_on_their_caller_thread) ... ok
+test_interrupted_ui_cancels_its_pending_model_task (tests.test_ui_runtime.UIRuntimeTests.test_interrupted_ui_cancels_its_pending_model_task) ... ok
+test_loop_is_stable_across_calls_without_reusing_user_identity (tests.test_ui_runtime.UIRuntimeTests.test_loop_is_stable_across_calls_without_reusing_user_identity) ... ok
+test_subprocess_exits_after_real_sdk_threads_and_app_import (tests.test_ui_runtime.UIRuntimeTests.test_subprocess_exits_after_real_sdk_threads_and_app_import) ... ok
+
+----------------------------------------------------------------------
+Ran 57 tests in 13.358s
+
+OK

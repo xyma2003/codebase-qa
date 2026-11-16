@@ -16,6 +16,7 @@ from indexer import vector_store
 from indexer.snapshots import create_snapshot, load_snapshot, normalize_repo_url
 from security.sources import secure_chunk_repo
 from security.git_transport import require_public_repository, run_git
+from tasks.context import check_task, publication
 
 
 @dataclass(frozen=True)
@@ -113,6 +114,7 @@ def _legacy_embeddings(client, repo_url, chunks):
 
 
 def import_repository(repo_url, refresh=False, commit_sha=None, progress_callback=None):
+    check_task()
     repo_url = normalize_repo_url(repo_url)
     if commit_sha:
         if refresh:
@@ -123,14 +125,18 @@ def import_repository(repo_url, refresh=False, commit_sha=None, progress_callbac
         return current
     previous = state.get_active(repo_url)
     checkout = clone_repo(repo_url)
+    check_task()
     with Repo(checkout) as repo:
         revision = _fetch_default_commit(checkout) if refresh else (previous["commit_sha"] if previous else repo.head.commit.hexsha)
     snapshot = create_snapshot(repo_url, checkout, revision)
+    check_task()
     for version in list_repository_versions(repo_url):
         if version.commit_sha == snapshot.commit_sha:
-            state.activate(vars(version), previous["collection_name"] if previous else None)
+            with publication():
+                state.activate(vars(version), previous["collection_name"] if previous else None)
             return version
     chunks = list(secure_chunk_repo(snapshot))
+    check_task()
     if not chunks:
         raise ValueError("仓库中没有支持索引的代码或文档。")
     client = vector_store._get_client()
@@ -147,7 +153,8 @@ def import_repository(repo_url, refresh=False, commit_sha=None, progress_callbac
     try:
         vector_store.build_collection(chunks, repo_url, name, snapshot.commit_sha, embeddings, progress_callback)
         result = RepositoryIndex.from_record(record)
-        state.publish(record, previous["collection_name"] if previous else None)
+        with publication():
+            state.publish(record, previous["collection_name"] if previous else None)
     except Exception:
         # Only this attempt's unpublished, uniquely named collection is disposable.
         try:

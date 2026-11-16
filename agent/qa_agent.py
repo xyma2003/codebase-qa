@@ -15,7 +15,7 @@ from agent.planning import ChangePlan, PLANNING_INSTRUCTIONS, check_plan
 from indexer.hybrid import RetrievalStrategy
 from agent.runtime import RunPolicy, RunRecord, run_with_timeout, effective_limits
 from security import resources as safety_limits
-from security.identity import current_principal
+from tasks.context import check_task, publication
 
 AnswerMode = Literal["qa", "plan"]
 
@@ -77,7 +77,7 @@ def build_agent(model) -> Agent:
 
 
 async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "qa", *, agent=None, conversation_dir=None, on_run=None, on_event=None, policy: RunPolicy | None = None):
-    current_principal()
+    check_task()
     safety_limits.check_bytes(question, "问题")
     ensure_safe_text(question)
     if policy is not None and not isinstance(policy, RunPolicy):
@@ -110,7 +110,7 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
     started = time.perf_counter()
     result = await run_with_timeout((agent or _get_agent()).run(question, deps=deps, **options),
                                     policy.timeout_seconds if policy and policy.timeout_seconds else safety_limits.MAX_RUN_SECONDS)
-    current_principal()
+    check_task()
     if on_run is not None:
         on_run(result)
     output_text = result.output.model_dump_json() if hasattr(result.output, "model_dump_json") else str(result.output)
@@ -131,16 +131,16 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
         "tool_calls_limit": enforced.tool_calls_limit, "timeout_seconds": policy.timeout_seconds if policy and policy.timeout_seconds else safety_limits.MAX_RUN_SECONDS,
         "input_bytes": safety_limits.MAX_SOURCE_BYTES, "output_bytes": safety_limits.MAX_SOURCE_BYTES}})
     checked = checked.model_copy(update={"tool_events": tuple(deps.tool_events), "runtime": record})
-    if history is not None:
-        append_turn(history, question, result.new_messages(), checked, deps.evidence.reference_count, **storage)
-    # Keep the existing score and threshold; pinned answers additionally need checked references.
-    # Follow-ups depend on conversation context and must not become standalone cached answers.
-    score = evaluate(question, result.output) if mode == "qa" else 0
-    if not deps.source_only and deps.use_answer_cache and mode == "qa" and (history is None or history.revision == 0) and score >= QUALITY_THRESHOLD and (deps.evidence is None or checked.can_save):
-        try:
-            save_qa(question, checked.text, deps.repo_url, commit_sha=deps.commit_sha, citations=checked.citations)
-        except Exception:
-            pass  # 沉淀失败不影响主流程
+    with publication():
+        if history is not None:
+            append_turn(history, question, result.new_messages(), checked, deps.evidence.reference_count, **storage)
+        # Follow-ups must not become standalone cached answers. Score unchanged.
+        score = evaluate(question, result.output) if mode == "qa" else 0
+        if not deps.source_only and deps.use_answer_cache and mode == "qa" and (history is None or history.revision == 0) and score >= QUALITY_THRESHOLD and (deps.evidence is None or checked.can_save):
+            try:
+                save_qa(question, checked.text, deps.repo_url, commit_sha=deps.commit_sha, citations=checked.citations)
+            except Exception:
+                pass  # 沉淀失败不影响主流程
     return checked
 
 

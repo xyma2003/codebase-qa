@@ -1,16 +1,18 @@
 import re
+from uuid import uuid4
 import streamlit as st
 from security.output import safe_answer_html, redact_text, redact_data, safe_error, valid_source_url, install_log_redaction
 
 install_log_redaction()
 
 from indexer.repository_service import (
-    get_current_repository, get_repository_version, import_repository,
+    get_current_repository, get_repository_version,
     list_repository_versions,
 )
 from indexer.snapshots import normalize_repo_url
-from agent.qa_agent import ask_stream
-from agent.ui_runtime import run_ui_stream
+from tasks.service import task_service
+from tasks.store import LIVE
+from tasks.ui import task_panel
 from memory.knowledge import get_memory_stats
 from agent.evidence import CheckedAnswer
 from agent.conversations import create_conversation, list_conversations, load_conversation, display_messages
@@ -85,18 +87,62 @@ def bind_repository(repository):
 
 
 def import_selected_repository(repo_url, refresh=False):
-    progress = st.progress(0, text="正在准备代码版本...")
     try:
-        def update_progress(done, total):
-            progress.progress(done / total, text=f"已索引 {done}/{total} 个代码块")
-        repository = import_repository(repo_url, refresh=refresh, progress_callback=update_progress)
-        bind_repository(repository)
-        st.session_state["version_selector_epoch"] = st.session_state.get("version_selector_epoch", 0) + 1
+        service = task_service()
+        task_id = service.submit("import", {"repo_url": repo_url, "refresh": refresh}, str(uuid4()))
+        st.session_state["active_task"] = task_id
+        service.wait(task_id)
         st.rerun()
     except Exception as exc:
         st.error(f"导入失败：{safe_error(exc)}")
-    finally:
-        progress.empty()
+
+
+def apply_task(task):
+    payload, result = task["payload"], task["result"]
+    if task["kind"] == "import":
+        repository = get_repository_version(result["repo_url"], result["commit_sha"])
+        bind_repository(repository)
+        st.session_state["version_selector_epoch"] = st.session_state.get("version_selector_epoch", 0) + 1
+    else:
+        repository = get_repository_version(payload["repo_url"], payload["commit_sha"])
+        bind_repository(repository)
+        conversation = load_conversation(payload["conversation_id"], repository.repo_url, repository.commit_sha, repository.collection_name)
+        # Existing messages also cover test transports and a saved task whose
+        # conversation was not advanced. Never duplicate a committed round.
+        if conversation.revision > payload["revision"]:
+            st.session_state["messages"] = display_messages(conversation)
+        else:
+            st.session_state["messages"].extend([
+                {"role": "user", "content": payload["question"]},
+                {"role": "assistant", "content": result["text"], "sources": result["checked"]},
+            ])
+        st.session_state["conversation_id"] = conversation.conversation_id
+        st.session_state["answer_mode"] = "修改规划" if payload["mode"] == "plan" else "问答"
+    st.session_state["repo_input"] = repository.repo_url
+
+
+open_task = st.session_state.pop("open_task", None)
+active_task = st.session_state.get("active_task")
+if open_task or active_task:
+    try:
+        task = task_service().get(open_task or active_task)
+        if task["state"] not in LIVE:
+            st.session_state.pop("active_task", None)
+            if task["state"] == "succeeded":
+                # A task finishing in the background must not replace a newly
+                # selected repository/conversation unless explicitly opened.
+                payload = task["payload"]
+                same_scope = (task["kind"] == "import" and st.session_state.get("repo_input") == payload["repo_url"]) or (
+                    st.session_state.get("conversation_id") == payload.get("conversation_id"))
+                if open_task or same_scope:
+                    apply_task(task)
+            elif task["error"]:
+                st.error(task["error"])
+    except Exception as exc:
+        st.session_state.pop("active_task", None)
+        st.error(safe_error(exc))
+
+task_panel()
 
 # --- 仓库索引区 ---
 with st.sidebar:
@@ -267,6 +313,12 @@ for msg in st.session_state["messages"]:
             show_sources(saved)
 
 # 输入框
+if st.session_state.get("active_task"):
+    pending = task_service().get(st.session_state["active_task"])
+    if pending["kind"] == "answer" and pending["payload"].get("conversation_id") == st.session_state.get("conversation_id"):
+        with st.chat_message("user"):
+            st.text(redact_text(pending["payload"]["question"]))
+
 if question := st.chat_input("问一个关于代码的问题..."):
     if "repo_url" not in st.session_state:
         st.warning("请先在左侧索引一个仓库")
@@ -281,40 +333,17 @@ if question := st.chat_input("问一个关于代码的问题..."):
                 st.session_state["conversation_id"] = create_conversation(
                     repository.repo_url, repository.commit_sha, repository.collection_name,
                 )
-            with st.chat_message("assistant"):
-                checked_results = []
-                running_events = {}
-                event_view = st.empty()
-                def on_event(event):
-                    running_events[event.call_id] = event
-                    with event_view.container():
-                        show_tool_events(list(running_events.values()), expanded=True)
-                conversation_id = st.session_state["conversation_id"]
-                response = run_ui_stream(lambda observe: ask_stream(
-                    question,
-                    repository.repo_url,
-                    repository.repo_root,
-                    collection_name=repository.collection_name,
-                    commit_sha=repository.commit_sha,
-                    conversation_id=conversation_id,
-                    mode="plan" if answer_mode == "修改规划" else "qa",
-                    on_result=checked_results.append,
-                    on_event=observe,
-                    retrieval_strategy=retrieval_strategy,
-                    use_answer_cache=use_answer_cache,
-                    policy=policy,
-                ), on_event=on_event)
-                checked = checked_results[0] if checked_results else None
-                event_view.empty()
-                show_answer(response, checked)
-                if checked:
-                    show_tool_events(checked.tool_events)
-                    show_runtime(checked.runtime)
-                show_sources(checked)
-            st.session_state["messages"].extend([
-                {"role": "user", "content": question},
-                {"role": "assistant", "content": response,
-                 "sources": checked.model_dump(mode="json") if checked else None},
-            ])
+            service = task_service()
+            task_id = service.submit("answer", {
+                "question": question, "repo_url": repository.repo_url,
+                "commit_sha": repository.commit_sha, "collection_name": repository.collection_name,
+                "conversation_id": st.session_state["conversation_id"],
+                "mode": "plan" if answer_mode == "修改规划" else "qa",
+                "retrieval_strategy": retrieval_strategy, "use_answer_cache": use_answer_cache,
+                "policy": policy.model_dump(mode="json") if policy else None,
+            }, str(uuid4()))
+            st.session_state["active_task"] = task_id
+            service.wait(task_id)
+            st.rerun()
         except Exception as exc:
             st.error(f"回答失败：{safe_error(exc)}")

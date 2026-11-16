@@ -279,6 +279,10 @@ class ConversationTests(unittest.TestCase):
             reference = "S2" if len(prompts) == 2 else "S1"
             return ModelResponse(parts=[TextPart(f"本地测试样例：alpha [{reference}]")])
         repository = RepositoryIndex(URL, self.sha, self.snapshot.root, COLLECTION, 2, 2, "2026-11-11", "fixture")
+        from tasks.service import TaskService
+        task_queue = TaskService(self.root / "ui-tasks")
+        self.addCleanup(task_queue.close)
+        self.enterContext(patch("tasks.service._singleton", task_queue))
         with patch("indexer.repository_service.get_current_repository", return_value=repository), \
              patch("indexer.repository_service.list_repository_versions", return_value=[repository]), \
              patch("indexer.repository_service.get_repository_version", return_value=repository), \

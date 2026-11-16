@@ -6,7 +6,10 @@ Codebase Q&A 帮助开发者理解固定版本的代码，并获得可核对依�
 flowchart TD
   Git[Git 提交] --> Snapshot[固定快照与文件摘要]
   Snapshot --> Index[AST / 文本分块与 Chroma 向量]
-  UI[Streamlit 问答] --> Agent[Pydantic AI 主 Agent]
+  UI[Streamlit 与 OIDC] --> Queue[用户任务与配额 / SQLite]
+  Queue --> Worker[单进程后台调度]
+  Worker --> Agent[Pydantic AI 主 Agent]
+  Worker --> Snapshot
   Model[已配置模型] <--> Agent
   MCP[MCP 客户端] --> Tools[共用源码工具]
   Agent <--> Tools
@@ -30,6 +33,7 @@ flowchart TD
 | 原生历史与 SQLite 事务 | 保留真正的工具上下文，完整轮次一次保存；失败不覆盖旧轮次 | 不自动总结长对话，可设置输入字符限制并拒绝超限 |
 | 独立归档与评审包 | 输出封存后按摘要绑定评分，部分评审不冒充完整成绩 | 公开单仓库开发集不是隐藏集或跨仓库验证 |
 | 显式运行策略 | 请求、工具、报告用量、异步超时可控制，保留原默认值 | Token 在响应后检查；不承诺严格费用封顶 |
+| 持久任务与服务端配额 | 页面断开后继续执行，限制排队、并发和每日接单；按用户读取、取消与恢复结果 | 仅单服务进程；重启标记中断，不自动重放；同步导入协作停止 |
 
 工具允许读取的快照范围、文件类型及大小有应用层检查。这不等同于操作系统沙箱；没有加入自动补丁执行或隔离运行目标程序的能力。
 

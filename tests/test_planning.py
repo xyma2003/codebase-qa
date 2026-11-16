@@ -290,6 +290,10 @@ class PlanningTests(unittest.TestCase):
                 return ModelResponse(parts=[ToolCallPart("read_file", {"file_path": "alpha.py"})])
             return ModelResponse(parts=[ToolCallPart(info.output_tools[0].name, proposal())])
         repository = RepositoryIndex(URL, self.snapshot.commit_sha, self.snapshot.root, COLLECTION, 3, 3, "2026-11-11", "fixture")
+        from tasks.service import TaskService
+        task_queue = TaskService(self.root / "ui-tasks")
+        self.addCleanup(task_queue.close)
+        self.enterContext(patch("tasks.service._singleton", task_queue))
         with patch("indexer.repository_service.get_current_repository", return_value=repository), \
              patch("indexer.repository_service.list_repository_versions", return_value=[repository]), \
              patch("indexer.repository_service.get_repository_version", return_value=repository), \

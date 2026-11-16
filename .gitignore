@@ -4,6 +4,7 @@
 .env.local
 .streamlit/secrets.toml
 .streamlit/access.toml
+.streamlit/tasks.toml
 
 # Python
 __pycache__/

@@ -1,0 +1,98 @@
+{
+  "status": "offline_background_tasks_passed",
+  "date": "2026-11-16",
+  "base_commit": "2543c2c97808d60db5066c868a2b41596a2deab3",
+  "tests": 358,
+  "seconds": 125.779,
+  "process_exit_code": 0,
+  "task_tests": 28,
+  "cleanup_tests": 2,
+  "real_model_requests": 0,
+  "real_oidc_callback_verified": false,
+  "multi_process_workers_supported": false,
+  "auto_replay_after_restart": false,
+  "limits": {
+    "running_answers": 2,
+    "running_imports": 1,
+    "running_per_user": 1,
+    "queued_total": 20,
+    "queued_per_user": 2,
+    "daily_answers_per_user": 20,
+    "daily_imports_per_user": 5,
+    "daily_answers_total": 100,
+    "daily_imports_total": 20,
+    "import_timeout_seconds": 600,
+    "retained_days": 7,
+    "max_records": 1000,
+    "storage_bytes": 134217728,
+    "result_bytes": 4194304
+  },
+  "preserved": {
+    "repository": {
+      "commit_sha": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+      "collection_name": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "chunks": 58
+    },
+    "conversations": 2,
+    "turns": 3,
+    "owners": [
+      [
+        "local"
+      ]
+    ],
+    "turns_sha256": "9fd14008178680c699d441cd6e83dd0056b35b1f4c0faf206df92afec7de647f"
+  },
+  "browser_cancellation": {
+    "task_states": [
+      [
+        "cancelled",
+        1
+      ]
+    ],
+    "native_turns": 0,
+    "real_model_requests": 0,
+    "source": "local_function_model_browser_fixture"
+  },
+  "browser_completion": {
+    "task_states": [
+      [
+        "succeeded",
+        1
+      ]
+    ],
+    "native_turns": 1,
+    "real_model_requests": 0,
+    "source": "local_function_model_browser_fixture"
+  },
+  "default_task_store_absent_after_tests": true,
+  "original_failure_logs_sha256": {
+    "20261116-tasks-unittest-first.log": "020899ba99dde979b3adfd1f456761b417d4f30fe46f26b03058bfc476a75e24",
+    "20261116-tasks-unittest-final.log": "3303ce961de65b917baff74cccc7005d753df7e424c98e74ddb7c9617abbc0c6",
+    "20261116-tasks-cleanup-diagnostic.log": "68142332f1dc8cfbd2c9792219ec0e95b7cf713d50b98c9d4f4634aca3136984"
+  },
+  "source_sha256": {
+    "app.py": "508fd989aceaa4042cc5c5101eed40c437f50d488f9a84d5e396d3b2afad4f36",
+    "agent/qa_agent.py": "d197e40f58251d464e28b5de57133290c9383326f88351b3f5eaa936238e36ad",
+    "agent/ui_runtime.py": "3f4ac2eceeab4272dfc1d20e146599bf22e8b372553e986ddb75227940b84300",
+    "indexer/repository_service.py": "5a224f199b080b90bdf59dfe73f227ff889ebed8890f2a52a4f8d3d24fa5c74e",
+    "security/git_transport.py": "faba8c9f6241104969af651cbd65d4075344fbcb3e2f449db587ae5ee7b313c9",
+    "tasks/__init__.py": "d7495249729fc46f98038f6c5ee3f13e446f3cc9cb3334aeb0ba7f427ee05e94",
+    "tasks/context.py": "5c60830dcfd75c23d09216c9be11648ed9aa89396886dd20f3c470501f9aacb8",
+    "tasks/handlers.py": "5f13c4af5ef1526a94d1f22c1405edafee6a11ba8d8004998bc0fbfc0a94ddde",
+    "tasks/limits.py": "c7503659edbc835d8e7ec33756fb0b0a7669efa0d2d26643c76f1db3421152b8",
+    "tasks/service.py": "39f89941804eee4a40078139d4df936112a8eb41e1e1d364d4d6a4b3bc7a68b7",
+    "tasks/store.py": "07a6c7750b39774d433b5b700dec8bb695782e6a97bee85f1ce04837bd4ab0a7",
+    "tasks/ui.py": "aa9684d2c4009c3d74e859e0d6b0bb103a531258c199308f37643e943d948e16",
+    "tests/test_tasks.py": "88a0655f22bfcd56166e356dbd41f1b82698156c615c5212f57fce574351f52b",
+    "tests/test_conversations.py": "85c26e519a2b10f33c5231f3662fcb5af94bcd46ab67b5491169602f96de80de",
+    "tests/test_planning.py": "f10a35e3d6e41aff4ba628b6d0575d4fe1567410f0d99a8f200b8e73b028d70e",
+    "tests/test_repository_ui.py": "1ee6f79f4e4afc6b93b28c9662311a995fe421d74418f7d622d6e27217a295ad"
+  },
+  "ci_at_record": "pending_feature_push",
+  "final_shutdown_check": {
+    "tests": 28,
+    "seconds": 3.85,
+    "process_exit_code": 0,
+    "reason": "Normal service close does not emit a dispatcher failure; final targeted check after full suite."
+  }
+}
