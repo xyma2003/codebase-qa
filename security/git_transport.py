@@ -56,7 +56,17 @@ def _disk_bytes(path):
 
 def _stop(process):
     if process.poll() is None:
-        os.killpg(process.pid, signal.SIGTERM)
+        try:
+            os.killpg(process.pid, signal.SIGTERM)
+        except (ProcessLookupError, PermissionError) as error:
+            # A short-lived child can exit between poll() and killpg(). Some
+            # macOS execution environments report EPERM for that race. Accept
+            # only a confirmed exit; never swallow failure to stop a live child.
+            try:
+                process.wait(timeout=2)
+            except subprocess.TimeoutExpired:
+                raise error
+            return
         try:
             process.wait(timeout=2)
         except subprocess.TimeoutExpired:

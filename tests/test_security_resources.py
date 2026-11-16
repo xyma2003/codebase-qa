@@ -22,6 +22,25 @@ from tests import test_runtime as fixtures
 
 
 class TransportBoundaryTests(unittest.TestCase):
+    def test_cleanup_signal_error_is_accepted_only_after_confirmed_process_exit(self):
+        from unittest.mock import Mock
+        process = Mock(pid=123)
+        process.poll.return_value = None
+        process.wait.return_value = 0
+        for error in (ProcessLookupError(), PermissionError()):
+            with patch.object(transport.os, "killpg", side_effect=error):
+                transport._stop(process)
+        process.wait.assert_called_with(timeout=2)
+
+    def test_cleanup_permission_error_for_live_process_is_not_suppressed(self):
+        from unittest.mock import Mock
+        process = Mock(pid=123)
+        process.poll.return_value = None
+        process.wait.side_effect = subprocess.TimeoutExpired("fixture", 2)
+        with patch.object(transport.os, "killpg", side_effect=PermissionError("LIVE_CHILD")), \
+             self.assertRaisesRegex(PermissionError, "LIVE_CHILD"):
+            transport._stop(process)
+
     def test_clone_removal_rejects_noncanonical_input_and_symlinks(self):
         with TemporaryDirectory() as directory, patch.object(cloner, "CLONE_DIR", directory):
             keep = Path(directory)/"keep"
