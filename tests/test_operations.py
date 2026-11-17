@@ -226,7 +226,10 @@ class DeploymentTests(AuditFixture, unittest.TestCase):
 
     def test_proxy_renderer_rejects_injected_hostname(self):
         from scripts.render_proxy import render
-        self.assertIn("server_name qa.example.org;", render("qa.example.org"))
+        rendered = render("qa.example.org")
+        self.assertIn("server_name qa.example.org;", rendered)
+        for directory in ("client_body", "proxy", "fastcgi", "uwsgi", "scgi"):
+            self.assertIn("_temp_path /tmp/" + directory + ";", rendered)
         for value in ("qa.example.org; include /etc/secret", "*", "localhost", "https://qa.example.org"):
             with self.assertRaises(ValueError):
                 render(value)
