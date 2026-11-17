@@ -1,0 +1,40 @@
+{
+  "local_tests": {
+    "count": 383,
+    "seconds": 120.9,
+    "exit_code": 0
+  },
+  "targeted_tests": 6,
+  "baseline": {
+    "revision": "2c71603c1e31fb133a2b9a0f1ef286985421467c",
+    "run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/44042931432",
+    "artifact_sha256": "ce7d697e678ab79f519651a06ded5c34570511f0418e8baee74dcd9150f99fcd",
+    "os_raw_sha256": "fb164a35ee292d557c694e8ec82d6ad07cc8587c4db550421f9f6ee354e1f6a4",
+    "records": 483,
+    "unique_ids": 243
+  },
+  "target_packages": 7,
+  "target_records": 38,
+  "target_unique_ids": 25,
+  "first_pydantic_ci": {
+    "sha": "8bf28d3683c8e98d73d89cc580e66890cd5c569b",
+    "run_id": 44049495312,
+    "mac": "success",
+    "linux": "success",
+    "linux_packages": 196,
+    "common_public_versions": 193,
+    "python_groups_remaining": 4,
+    "os_records_remaining": 483
+  },
+  "tested_files": {
+    "deploy/os-security-minimums.json": "2fa7c54f95a6765f30e714aa91c8b041b3446f6c7488368f0de73691397709d6",
+    "ops/os_packages.py": "9d54cbcf4da908223aabe59720679ae68f0541a7ecea70b1a8299bd9040cde2b",
+    "tests/test_os_packages.py": "75d8a1bb4965675dd4cffe77686373096b43704a87fb36fd52cdb1f68350b9a3",
+    "deploy/Dockerfile": "8dd0833872fd5afff01c621935b187f22216e3bf922c498d290dae3793b6a3db",
+    ".dockerignore": "4ee67a3c44931e3e7c6184bfb21579533f7af82c6e8e866859f85efcfb350ad0",
+    ".github/workflows/ci.yml": "de0d8310e18c4cbc6e766a83ca6589545a21acab49995f0657bade718711ab5e"
+  },
+  "actual_linux_remediation_verification": "pending_this_commit_ci",
+  "real_model_requests": 0,
+  "public_release_allowed": false
+}

@@ -107,6 +107,7 @@ jobs:
           docker run --rm --entrypoint python codebase-qa:preparation -c 'import torch,chromadb,pydantic_ai,streamlit; assert torch.version.cuda is None'
           docker run --rm --entrypoint python codebase-qa:preparation -c 'from ops.dependency_audit import check_installed; differences=check_installed("deploy/runtime.lock",strict=True); assert not differences,differences; print("all_installed_packages_match_audited_lock")'
           docker run --rm --entrypoint dpkg-query codebase-qa:preparation -W > "$RUNNER_TEMP/deployment-records/os-packages.txt"
+          docker run --rm --entrypoint cat codebase-qa:preparation /app/deploy/os-package-check.json > "$RUNNER_TEMP/deployment-records/os-package-minimums.json"
       - name: Collect advisories and record release block separately from smoke checks
         run: |
           python scripts/audit_dependencies.py --lock deploy/runtime.lock --collect-only --output "$RUNNER_TEMP/deployment-records/osv"
@@ -125,6 +126,7 @@ jobs:
           docker run --rm --user "$(id -u):$(id -g)" --cap-drop ALL --security-opt no-new-privileges --memory 2g --cpus 2 -e TRIVY_CACHE_DIR=/tmp/trivy-cache -v "$RUNNER_TEMP/container-image.tar:/input/image.tar:ro" -v "$RUNNER_TEMP/deployment-records:/records" "$trivy_image" image --input /input/image.tar --scanners vuln --pkg-types os --format json --output /records/os-raw.json --exit-code 0
           image_id=$(docker image inspect --format '{{.Id}}' codebase-qa:preparation)
           python scripts/package_os_audit.py "$RUNNER_TEMP/deployment-records/os-raw.json" --lock deploy/runtime.lock --revision "$GITHUB_SHA" --image-id "$image_id" --output "$RUNNER_TEMP/deployment-records/os-audit.json"
+          python -m ops.os_packages --scan "$RUNNER_TEMP/deployment-records/os-raw.json" --output "$RUNNER_TEMP/deployment-records/os-remediation.json"
           rm "$RUNNER_TEMP/container-image.tar"
       - name: Keep preparation evidence
         if: always()

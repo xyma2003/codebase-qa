@@ -16,6 +16,8 @@ Linux CI 使用 Python 3.12.13、uv 0.12.3，基于 `dependencies/runtime-pins.t
 
 Dockerfile 要求传入已检查的 Python/uv 镜像摘要；nginx 和扫描器也记录摘要。CI 保存平台锁、镜像信息、OS 包清单、Python/OS 公告及烟雾检查。没有自动上传镜像或部署生产环境。构建上下文采用白名单，排除 `.git`、实际 `.env`、用户数据、测试数据和模型缓存。
 
+Dockerfile 另外定向更新 `apt`、`libapt-pkg6.0`、`liblzma5`、`libpcre2-8-0`、`libssl3`、`openssl`、`tzdata`。`deploy/os-security-minimums.json` 记录原始扫描及最低修复版本；安装后使用原生 `dpkg --compare-versions` 逐项比较，未达标直接构建失败。镜像内保存版本检查结果，CI 再确认原扫描中 38 条目标命中消失，保留其他全部公告。此检查只表示指定问题清除，完整系统扫描和发布阻断保持执行。
+
 正式推广必须使用对应的不可变应用镜像 digest 和 config image ID，并保存本次锁与审计产物。重新构建或换基础镜像后重新审计。当前 Dockerfile/Compose 不替代镜像签名、实际主机加固或真实公网验收。
 
 ## 配置准备

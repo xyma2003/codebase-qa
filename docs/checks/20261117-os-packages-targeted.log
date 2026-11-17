@@ -1,0 +1,11 @@
+test_failed_or_partial_inventory_is_rejected_with_original_error (tests.test_os_packages.OsPackageTests.test_failed_or_partial_inventory_is_rejected_with_original_error) ... ok
+test_installed_targets_are_all_queried_and_compared_by_dpkg (tests.test_os_packages.OsPackageTests.test_installed_targets_are_all_queried_and_compared_by_dpkg) ... ok
+test_old_versions_and_command_errors_cannot_pass (tests.test_os_packages.OsPackageTests.test_old_versions_and_command_errors_cannot_pass) ... ok
+test_scan_must_cover_targets_and_reject_remaining_targeted_findings (tests.test_os_packages.OsPackageTests.test_scan_must_cover_targets_and_reject_remaining_targeted_findings) ... ok
+test_targeted_clearance_retains_other_findings_and_release_block (tests.test_os_packages.OsPackageTests.test_targeted_clearance_retains_other_findings_and_release_block) ... ok
+test_wrong_distribution_or_invalid_targets_are_rejected (tests.test_os_packages.OsPackageTests.test_wrong_distribution_or_invalid_targets_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.007s
+
+OK

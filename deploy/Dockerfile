@@ -7,7 +7,11 @@ COPY --from=uv /uv /usr/local/bin/uv
 ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1 \
     HF_HOME=/app/.cache/huggingface CODEBASE_QA_LOCAL_MODE=0
 WORKDIR /app
-RUN apt-get update && apt-get install --no-install-recommends -y git ca-certificates \
+COPY ops/os_packages.py /app/ops/os_packages.py
+COPY deploy/os-security-minimums.json /app/deploy/os-security-minimums.json
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+    git ca-certificates apt libapt-pkg6.0 liblzma5 libpcre2-8-0 libssl3 openssl tzdata \
+    && python -m ops.os_packages --output /app/deploy/os-package-check.json \
     && rm -rf /var/lib/apt/lists/* \
     && useradd --uid 10001 --create-home --shell /usr/sbin/nologin app
 COPY dependencies/runtime-pins.txt /app/deploy/source-pins.txt

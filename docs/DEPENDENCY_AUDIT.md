@@ -57,6 +57,8 @@ Linux 使用从当前 `dependencies/runtime-pins.txt` 与直接依赖声明解�
 
 原提交 `2c71603` 的 Linux CI 已通过，安装 197 个包并逐项与审计锁一致；Trivy 返回 483 条系统包命中、243 个不同漏洞编号，其中 38 条有修复版本。此数字是整改前记录，不能直接当作当前风险数量或已经修复的结果。
 
+Pydantic 整改提交 `8bf28d3` 的 Linux CI 已通过，193 个公共版本保持一致，运行环境为 196 个包，Python 查询剩 8 个编号/4 组 Chroma 公告；系统扫描仍为 483 条。后续单独定向更新上面 7 个 Debian 包，具体目标、版本下限、验证范围与未处理项见[系统包整改记录](checks/20261117-os-packages.md)。
+
 CI 另外用固定版本 Trivy 0.76.2 对保存的镜像扫描 OS 包，不向扫描器挂 Docker socket，不忽略未修复项。记录与镜像 ID、代码版本和运行锁绑定；部署入口也要求对应的、7 天内的系统扫描结果且无公告。基础镜像、Python 解释器、应用依赖、真实模型与公网验证仍需分别判断，不以单次扫描保证不存在漏洞。
 
 数据源：[OSV 查询约定](https://google.github.io/osv.dev/post-v1-querybatch/)、[GitHub Advisory Database](https://github.com/advisories)、[Trivy 固定版本](https://github.com/aquasecurity/trivy/releases/tag/v0.76.2)。本轮查询材料见 [审计记录](checks/20261117-dependency-audit.json)。
