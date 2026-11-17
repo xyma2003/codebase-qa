@@ -9,7 +9,7 @@ from ops.dependency_audit import audit, check_installed, groups
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--lock", type=Path, default=ROOT / "docs/baseline/runs/20261110-stage0/requirements-hashed.txt")
+    parser.add_argument("--lock", type=Path, default=ROOT / "dependencies/runtime-macos.lock")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--check-installed", action="store_true")
     parser.add_argument("--collect-only", action="store_true", help="只收集公告；不表示发布审核通过")

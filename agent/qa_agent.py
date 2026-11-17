@@ -123,7 +123,7 @@ async def _run_answer(question, deps, conversation_id=None, mode: AnswerMode = "
         checked = check_plan(result.output, deps.evidence)
     else:
         checked = deps.evidence.check_answer(result.output) if deps.evidence else CheckedAnswer(text=result.output)
-    usage = result.usage()
+    usage = result.usage
     record = RunRecord(policy=policy, retrieval_strategy=deps.retrieval_strategy, use_answer_cache=deps.use_answer_cache,
                        elapsed_ms=max(0, round((time.perf_counter()-started)*1000)), requests=usage.requests,
                        tool_calls=usage.tool_calls, input_tokens=usage.input_tokens, output_tokens=usage.output_tokens)

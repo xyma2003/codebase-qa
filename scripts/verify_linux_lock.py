@@ -12,7 +12,7 @@ if __name__ == "__main__":
     parser.add_argument("lock", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    original = pins(ROOT / "docs/baseline/runs/20261110-stage0/requirements-resolved.txt")
+    original = pins(ROOT / "dependencies/runtime-pins.txt")
     actual = pins(args.lock)
     changes = {name: {"original": value, "linux": actual.get(name)} for name, value in original.items()
                if actual.get(name, "").split("+")[0] != value}

@@ -10,7 +10,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install --no-install-recommends -y git ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
     && useradd --uid 10001 --create-home --shell /usr/sbin/nologin app
-COPY docs/baseline/runs/20261110-stage0/requirements-resolved.txt /app/deploy/source-pins.txt
+COPY dependencies/runtime-pins.txt /app/deploy/source-pins.txt
 # Compile and archive this Linux CPU lock before building. Never resolve during
 # image installation; original Mac baseline remains intact.
 COPY deploy/runtime.lock /app/deploy/runtime.lock

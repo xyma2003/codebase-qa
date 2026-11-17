@@ -1,4 +1,4 @@
-pydantic-ai[anthropic]==1.91.0
+pydantic-ai-slim[anthropic,openai]==1.107.7
 chromadb
 sentence-transformers
 streamlit

@@ -33,11 +33,11 @@ jobs:
           python-version: "3.12.13"
           activate-environment: true
           enable-cache: true
-          cache-dependency-glob: docs/baseline/runs/20261110-stage0/requirements-hashed.txt
-      - name: Install recorded dependencies
+          cache-dependency-glob: dependencies/runtime-macos.lock
+      - name: Install current locked dependencies
         run: |
           mkdir -p "$RUNNER_TEMP/check-records"
-          uv pip install --require-hashes -r docs/baseline/runs/20261110-stage0/requirements-hashed.txt
+          uv pip install --require-hashes -r dependencies/runtime-macos.lock
           uv pip check
           uv pip freeze > "$RUNNER_TEMP/check-records/requirements.txt"
       - name: Verify frozen development data
@@ -86,10 +86,10 @@ jobs:
         with:
           version: "0.12.3"
           python-version: "3.12.13"
-      - name: Resolve separate Linux CPU lock from frozen public versions
+      - name: Resolve separate Linux CPU lock from current public versions
         run: |
           mkdir -p "$RUNNER_TEMP/deployment-records"
-          uv pip compile docs/baseline/runs/20261110-stage0/requirements-resolved.txt --python-version 3.12.13 --torch-backend cpu --generate-hashes --no-annotate -o deploy/runtime.lock
+          uv pip compile requirements.txt dependencies/runtime-pins.txt --python-version 3.12.13 --torch-backend cpu --generate-hashes --no-annotate -o deploy/runtime.lock
           python scripts/verify_linux_lock.py deploy/runtime.lock --output "$RUNNER_TEMP/deployment-records/platform.json"
           cp deploy/runtime.lock "$RUNNER_TEMP/deployment-records/runtime.lock"
       - name: Inspect immutable base images

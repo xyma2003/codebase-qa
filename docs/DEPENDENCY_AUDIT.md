@@ -1,12 +1,26 @@
 # 依赖审计 · 2026-11-17
 
-已对当前环境的 194 个精确版本完整查询 OSV，并逐项取回公告。返回 41 个公告编号，按 CVE/GHSA/PYSEC 别名合并后为 **15 组**，涉及 `pydantic-ai==1.91.0`、`pydantic-ai-slim==1.91.0` 和 `chromadb==1.5.9`。查询完成不等于没有漏洞；当前发布检查保持阻断。
+阶段零的 194 个精确版本查询返回 41 个公告编号、**15 组**问题。Pydantic AI 整改后的当前 Mac 锁为 193 个包，完整复查返回 8 个编号、**4 组**问题，均涉及 `chromadb==1.5.9`。发布检查继续阻断。
 
-原始阶段零锁和本机环境均保留，没有批量升级。已安装版本与原锁逐项一致，194 个包兼容检查通过。这仅说明安装关系一致，不能代替漏洞检查。
+原始阶段零锁保留，新的精确版本和哈希锁放在 `dependencies/`。这次只变更下表版本并移除全量 Pydantic AI 元包，其余 188 个版本不变。兼容检查不能代替漏洞检查。
+
+## 第一项：Pydantic AI
+
+| 包 | 原版本 | 当前版本 | 原因 |
+| --- | --- | --- | --- |
+| pydantic-ai | 1.91.0 | 移除元包 | 使用官方精简发行包，保留相同的 `pydantic_ai` 导入名 |
+| pydantic-ai-slim | 1.91.0 | 1.107.7 | 覆盖原审计中的 11 组 Pydantic AI 公告 |
+| pydantic-graph / pydantic-evals | 1.91.0 | 1.107.7 | 保持框架家族精确版本一致 |
+| genai-prices | 0.2.2 | 0.0.73 | 修复版明确要求 `>=0.0.62,<0.1` |
+| anthropic | 2.7.0 | 0.125.0 | 修复版明确要求 `>=0.108.0,<1` |
+
+两个 SDK 依照框架要求回到兼容版本范围，经过新锁的漏洞复查；没有放宽上游约束。直接依赖仅启用 `[anthropic,openai]`，不激活未使用的 Hugging Face 适配器，原嵌入相关版本保持不变。参考[官方精简安装说明](https://ai.pydantic.dev/install/)及[1.107.7 发布记录](https://github.com/pydantic/pydantic-ai/releases/tag/v1.107.7)。
 
 ## 公告与处理安排
 
-| 公告 | 涉及能力 | 当前处理 |
+下表保留原 15 组公告的处理轨迹；Pydantic AI 各项已通过新锁查询消除，Chroma 四项继续阻断。
+
+| 公告 | 涉及能力 | 原审计时的路径判断 |
 | --- | --- | --- |
 | [GHSA-36p7-vc44-83pf](https://github.com/advisories/GHSA-36p7-vc44-83pf) | Chroma REST 更新集合时允许远端模型代码 | Critical；本项目使用本地 PersistentClient，没有启动 REST 服务；保留阻断，不能据此宣布依赖已修复 |
 | [GHSA-f4j7-r4q5-qw2c](https://github.com/advisories/GHSA-f4j7-r4q5-qw2c) | Chroma REST 创建集合时的未认证代码注入 | Critical；同上，公告没有给出已修复版本 |
@@ -24,7 +38,7 @@
 | [GHSA-3gh4-cghq-f8v4](https://github.com/advisories/GHSA-3gh4-cghq-f8v4) | OpenTelemetry 重试内容脱敏不足 | 没有主动启用内容追踪；继续阻断，不用配置推断代替修复 |
 | [GHSA-4x9p-g9wm-8q7f](https://github.com/advisories/GHSA-4x9p-g9wm-8q7f) | OpenTelemetry 异常事件可能包含内容 | 同上 |
 
-Pydantic AI 这些公告列出的 1.x 修复版本最高到 `1.107.7`，可作为下一项兼容性验证的起点。Chroma 四组公告没有标出 patched version，需要核对维护方方案或进一步隔离，不建议盲目降级旧数据库。上述未启用路径属于代码及配置范围判断，不是漏洞利用验证，也没有添加忽略名单。
+Chroma 四组公告没有标出 patched version，核对 PyPI 后当前最新仍为 1.5.9。本项目没有启动 REST 服务，但这不能证明依赖已修复；不盲目降级现有数据库，不添加忽略名单。
 
 ## 可重复检查
 
@@ -39,7 +53,9 @@ Pydantic AI 这些公告列出的 1.x 修复版本最高到 `1.107.7`，可作�
 
 ## Linux 与系统包
 
-Linux 使用从同一组精确版本解析的独立 CPU 锁，不覆盖 Mac 原锁。公共版本必须逐项一致；PyTorch 允许对应 `+cpu` wheel，其公共版本用于 OSV 查询。本机 PyPI 解析超时及 Docker 注册表连接失败的原始错误保留，没有把失败写成通过。实际解析、安装和导入由 Linux CI 验证并归档锁及镜像摘要。
+Linux 使用从当前 `dependencies/runtime-pins.txt` 与直接依赖声明解析的独立 CPU 锁，不覆盖 Mac 锁或历史基线。公共版本必须逐项一致；PyTorch 允许对应 `+cpu` wheel，其公共版本用于 OSV 查询。实际解析、安装和导入由 Linux CI 验证并归档锁及镜像摘要。
+
+原提交 `2c71603` 的 Linux CI 已通过，安装 197 个包并逐项与审计锁一致；Trivy 返回 483 条系统包命中、243 个不同漏洞编号，其中 38 条有修复版本。此数字是整改前记录，不能直接当作当前风险数量或已经修复的结果。
 
 CI 另外用固定版本 Trivy 0.76.2 对保存的镜像扫描 OS 包，不向扫描器挂 Docker socket，不忽略未修复项。记录与镜像 ID、代码版本和运行锁绑定；部署入口也要求对应的、7 天内的系统扫描结果且无公告。基础镜像、Python 解释器、应用依赖、真实模型与公网验证仍需分别判断，不以单次扫描保证不存在漏洞。
 

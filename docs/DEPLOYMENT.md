@@ -1,6 +1,6 @@
 # 单主机部署与运维准备
 
-本轮提供部署配置和可执行检查，**没有开放公网，也没有完成真实 OIDC、模型或域名验收**。当前依赖审计有 15 组未处理公告，部署入口会拒绝启动。CI 的镜像、TLS 和恢复检查通过也不能解除这个阻断。
+本轮提供部署配置和可执行检查，**没有开放公网，也没有完成真实 OIDC、模型或域名验收**。Pydantic AI 整改后，当前 Mac 锁仍有 Chroma 的 4 组公告，部署入口会拒绝启动。CI 的镜像、TLS 和恢复检查通过也不能解除这个阻断。
 
 ## 结构
 
@@ -12,7 +12,7 @@ nginx 保留 WebSocket，限制每 IP 请求和连接数，设置 2 MiB HTTP 请
 
 ## 构建与审计
 
-Linux CI 使用 Python 3.12.13、uv 0.12.3，基于原 194 个公共版本生成 CPU 平台锁，先核对差异，再按哈希安装。`deploy/runtime.lock` 是构建输入和 CI 产物，不能用另一次解析结果冒充同一镜像。原 Mac 基线锁不变。
+Linux CI 使用 Python 3.12.13、uv 0.12.3，基于 `dependencies/runtime-pins.txt` 和直接依赖声明生成 CPU 平台锁，先核对公共版本，再按哈希安装。当前 Mac 锁为 `dependencies/runtime-macos.lock`，193 个版本；历史阶段零的 194 个版本不覆盖。`deploy/runtime.lock` 是构建输入和 CI 产物，不能用另一次解析结果冒充同一镜像。
 
 Dockerfile 要求传入已检查的 Python/uv 镜像摘要；nginx 和扫描器也记录摘要。CI 保存平台锁、镜像信息、OS 包清单、Python/OS 公告及烟雾检查。没有自动上传镜像或部署生产环境。构建上下文采用白名单，排除 `.git`、实际 `.env`、用户数据、测试数据和模型缓存。
 

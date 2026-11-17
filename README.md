@@ -48,10 +48,12 @@ git clone https://github.com/xyma2003/codebase-qa.git
 cd codebase-qa
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install --require-hashes -r dependencies/runtime-macos.lock
 ```
 
-复现本机原始环境时，使用[阶段零依赖锁](docs/baseline/runs/20261110-stage0/requirements-hashed.txt)和[运行说明](docs/baseline/README.md)。`markdown-it-py` 和登录用的 Authlib 补为直接依赖，版本仍与原环境一致，没有升级现有环境。
+上面的哈希锁用于 Python 3.12 / macOS。Linux CPU 锁由 CI 根据[当前精确版本](dependencies/runtime-pins.txt)单独解析并检查，见[部署说明](docs/DEPLOYMENT.md)。模型接口使用 `pydantic-ai-slim[anthropic,openai]`，不安装全量适配器元包。
+
+复现原版时，使用[阶段零依赖锁](docs/baseline/runs/20261110-stage0/requirements-hashed.txt)和[运行说明](docs/baseline/README.md)。历史锁保持不变，依赖整改写入当前锁及[审计记录](docs/DEPENDENCY_AUDIT.md)。
 
 项目 `.env` 使用用户已选择的接口：
 

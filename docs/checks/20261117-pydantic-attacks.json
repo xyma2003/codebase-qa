@@ -1,0 +1,24 @@
+{
+  "status": "application_boundaries_passed",
+  "case_count": 13,
+  "passed_cases": [
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "A05",
+    "A06",
+    "A07",
+    "A08",
+    "A09",
+    "A10",
+    "A11",
+    "A12",
+    "A13"
+  ],
+  "real_model_requests": 0,
+  "model_attack_resistance_rate": null,
+  "fixture_sha256": "bdbea32d7043d790b1c5667e240452fb52ff04a473def7e2dff38a5f4a5d6a9b",
+  "test_sha256": "42804ab2bbe204a44d08da86a91dfdcfc8feff199967873ae961d9d90e40e33b",
+  "scope": "Forced unsafe model choices through the actual SDK/tools; not a model obedience or quality measurement."
+}

@@ -1,0 +1,178 @@
+{
+  "baseline_resolved_sha256": "6cf2dd5f1a10cf33fc3204d4e75a25c03ad5b2d36d162faab0a288da272c64ae",
+  "baseline_hashed_sha256": "72002f141f855c37f442955d00ef93e3c50f7ed4e83a760f8d1467f6cdb14297",
+  "baseline_packages": 194,
+  "current_packages": 193,
+  "unchanged_versions": 188,
+  "removed": {
+    "pydantic-ai": "1.91.0"
+  },
+  "changes": [
+    {
+      "name": "pydantic-ai-slim",
+      "from": "1.91.0",
+      "to": "1.107.7",
+      "metadata_url": "https://pypi.org/pypi/pydantic-ai-slim/1.107.7/json",
+      "metadata_sha256": "8669a3dca1fc04423f11e7dc95396ad365a316c7310585b5b6687a3dd4a4b8c0",
+      "hashes": [
+        "92aa6087e190017348f9b6354d30f0e67998992c0273e778930005bc31e04794",
+        "ecc02b80dcd9a4e7182e9389d21d6e559bcc324f6793b3f7171a52fb883edb5b"
+      ]
+    },
+    {
+      "name": "pydantic-graph",
+      "from": "1.91.0",
+      "to": "1.107.7",
+      "metadata_url": "https://pypi.org/pypi/pydantic-graph/1.107.7/json",
+      "metadata_sha256": "4933b6e0e65897dd8a193b56c2196527f8526969286b99fbb0d80183b8a225b6",
+      "hashes": [
+        "0a7b964d6895f80b51ebab5e77f59b500d39ca7b17095e2233861e6dfd338ec6",
+        "f58b7dfa3bf60eb7d68946e64dff2ccbb8e8c67458e957efd7d14bc9338c9400"
+      ]
+    },
+    {
+      "name": "pydantic-evals",
+      "from": "1.91.0",
+      "to": "1.107.7",
+      "metadata_url": "https://pypi.org/pypi/pydantic-evals/1.107.7/json",
+      "metadata_sha256": "5d90b527949da50171f8e9860fe95b78a18bef7d763e3b32f8e809de1607284e",
+      "hashes": [
+        "818623cf712cb4fdc1b9e132ff238a8342c58bd158de4b4f2ec1d6b6c9dee1e5",
+        "c42e39fec380f6126604021fa7b7da3d9b20a855746d4f17e6922d19458f35f9"
+      ]
+    },
+    {
+      "name": "genai-prices",
+      "from": "0.2.2",
+      "to": "0.0.73",
+      "metadata_url": "https://pypi.org/pypi/genai-prices/0.0.73/json",
+      "metadata_sha256": "c53b753dd11a21a2a4de0216ce58faf89b6b6ab8384ac3192f1923ee38657c01",
+      "hashes": [
+        "64dfbbf55df91db6b74ff2b24ac752b8154952e0aed4e62868d6cd42710bf742",
+        "ddad5b23dadd7aac8a58ab5af7506addb062114037e96427324703e50bc35077"
+      ]
+    },
+    {
+      "name": "anthropic",
+      "from": "2.7.0",
+      "to": "0.125.0",
+      "metadata_url": "https://pypi.org/pypi/anthropic/0.125.0/json",
+      "metadata_sha256": "1de1cefd81818b27ca8d4e95fd2f116f6f38b5f399d63d2d1f227e3395ab18b2",
+      "hashes": [
+        "3486013602eca76d8b12540764e53654f02cf4951110bca86cf06e67428a9f21",
+        "e0cdd336580cb7411c1cdab69f80973e9bf4bff7f8e08141811d46307d45c682"
+      ]
+    }
+  ],
+  "wheels": [
+    {
+      "name": "pydantic-ai-slim",
+      "version": "1.107.7",
+      "url": "https://files.pythonhosted.org/packages/28/6a/bd17311a6c3cb8c241de6abf43ef2ac0b4209ad46e24ee54efda44c2812c/pydantic_ai_slim-1.107.7-py3-none-any.whl",
+      "filename": "pydantic_ai_slim-1.107.7-py3-none-any.whl",
+      "sha256": "ecc02b80dcd9a4e7182e9389d21d6e559bcc324f6793b3f7171a52fb883edb5b"
+    },
+    {
+      "name": "pydantic-graph",
+      "version": "1.107.7",
+      "url": "https://files.pythonhosted.org/packages/0f/bb/b7a252e6205d9321ac1ce11fa251d8a25fe27cd23e780afd899036047b8f/pydantic_graph-1.107.7-py3-none-any.whl",
+      "filename": "pydantic_graph-1.107.7-py3-none-any.whl",
+      "sha256": "0a7b964d6895f80b51ebab5e77f59b500d39ca7b17095e2233861e6dfd338ec6"
+    },
+    {
+      "name": "pydantic-evals",
+      "version": "1.107.7",
+      "url": "https://files.pythonhosted.org/packages/ac/fc/3508eb8a09994edae90aa43341c989aacaf69da0269fca4e1582dc037cf9/pydantic_evals-1.107.7-py3-none-any.whl",
+      "filename": "pydantic_evals-1.107.7-py3-none-any.whl",
+      "sha256": "818623cf712cb4fdc1b9e132ff238a8342c58bd158de4b4f2ec1d6b6c9dee1e5"
+    },
+    {
+      "name": "genai-prices",
+      "version": "0.0.73",
+      "url": "https://files.pythonhosted.org/packages/a8/85/527a729ecd58b7169430e47febdab2e3f91193d0e3f5a56d721c04525709/genai_prices-0.0.73-py3-none-any.whl",
+      "filename": "genai_prices-0.0.73-py3-none-any.whl",
+      "sha256": "64dfbbf55df91db6b74ff2b24ac752b8154952e0aed4e62868d6cd42710bf742"
+    },
+    {
+      "name": "anthropic",
+      "version": "0.125.0",
+      "url": "https://files.pythonhosted.org/packages/2f/1a/b1bd30cda3790557e8791bec5922a6ec8fabb6fa8b008c76a39cf7be6152/anthropic-0.125.0-py3-none-any.whl",
+      "filename": "anthropic-0.125.0-py3-none-any.whl",
+      "sha256": "3486013602eca76d8b12540764e53654f02cf4951110bca86cf06e67428a9f21"
+    }
+  ],
+  "history": {
+    "conversations": 2,
+    "turns": 3,
+    "native_message_readback": true,
+    "content_sha256": "9fd14008178680c699d441cd6e83dd0056b35b1f4c0faf206df92afec7de647f",
+    "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+    "chunks": 58
+  },
+  "archive": {
+    "status": "archive_verified",
+    "backend": "provider_fixture",
+    "real_model_called": false,
+    "required_turns": 19,
+    "attempted_turns": 19,
+    "completed_turns": 19,
+    "failed_turns": 0,
+    "blocked_turns": 0,
+    "not_run_turns": 0,
+    "reviewed_turns": 0,
+    "quality_score": null,
+    "dataset_fingerprint": "8122764bc4c92e2d13592ada8c3817384c1604e907917e4d77be8098e7812b7f",
+    "archive_sha256": "cd67b59e8ca4f632d8d7b817b91354a96bb14323aef37be9ab2b549456dce2f8",
+    "artifact_count": 210
+  },
+  "audit": {
+    "complete": true,
+    "packages": 193,
+    "ids": 8,
+    "groups": 4,
+    "release_allowed": false
+  },
+  "unittest": {
+    "tests": 377,
+    "seconds": 123.198,
+    "exit_code": 0
+  },
+  "targeted_archive_tests": 11,
+  "attack_cases": 13,
+  "restore": {
+    "status": "stopped_service_restore_passed",
+    "scope": "temporary_git_chroma_and_two_user_fixture",
+    "source_process_exited_before_backup": true,
+    "original_path_replaced_for_readback": true,
+    "source_snapshot_checked": true,
+    "vectors_restored": 1,
+    "conversations_restored": 2,
+    "native_turns_restored": 2,
+    "cross_owner_denied": true,
+    "model_requests": 0,
+    "real_business_data_modified": false,
+    "backup": {
+      "files": 37,
+      "bytes": 273432,
+      "sha256": "9a97517cf6dd5fcfbf2c707cdd1feae3ff577abfa6822660a1e75c157ec59c37"
+    },
+    "restore": {
+      "files": 37
+    }
+  },
+  "tested_files": {
+    "requirements.txt": "69ae749b3512984ebbe1ed4c2e9cca64afe459856d975676cb3869727100ef50",
+    "dependencies/runtime-pins.txt": "fedf383792edd369b2bca521bf2cd49366a37534d1baaffbd6d4ef30432a2e61",
+    "dependencies/runtime-macos.lock": "147ab705f8ae28877c1e1df8f60b03255cc2289c62dbcc91c79f7e0f380dcc7b",
+    "agent/qa_agent.py": "abb5765df4b038d093125498af64fa19224905991011d5a1322652b6beccb695",
+    "evaluation/runner.py": "82de6fba8931575a16232580644a0b60f155f89714259bbb36f5e540f754b7d9",
+    "evaluation/archive.py": "e0eb885255b9e87a0504745fba5458afd5ffa4a839ec15da6bf715027c7e1ba9",
+    "tests/test_real_evaluation.py": "34456c6b4833bca5f7ac6e327e6c06dc5ca1e390c4de2e090723bd49858ab6b3",
+    ".github/workflows/ci.yml": "becfaee5c84b50ac2f8c90b1e7e0c63ee118099f7b02ceb1b97fb3d59c5d1014",
+    "deploy/Dockerfile": "00a1620f0b2f6d8dfe3e1641f2b6d44ef789aeff335e4ca9a1736fd9afcfd07d",
+    "scripts/audit_dependencies.py": "e196a8aa04c808c4e8d88dc17c510c727cba3d9cfb15fd25555f1f06d7090ac9",
+    "scripts/verify_linux_lock.py": "e4302088aa720f2db6a3836d23d515bfe0dbf8aaa67974be12f402823ff8e55f"
+  },
+  "current_environment_exact_match": 193,
+  "preserved_stage0_environment_exact_match": 194
+}

@@ -165,7 +165,11 @@ def verify_archive(root, repository):
                         native_responses = [message for message in messages if isinstance(message, ModelResponse)][-len(responses):] if responses else []
                         native_data = json.loads(ModelMessagesTypeAdapter.dump_json(native_responses))
                         def comparable(item):
-                            return {key: value for key, value in item.items() if key not in {"run_id", "conversation_id"}}
+                            # Normalize old and new records with the same SDK defaults.
+                            # Reject extra fields rather than silently discarding them.
+                            normalized = ModelMessagesTypeAdapter.validate_python([item], extra="forbid")
+                            value = json.loads(ModelMessagesTypeAdapter.dump_json(normalized))[0]
+                            return {key: field for key, field in value.items() if key not in {"run_id", "conversation_id"}}
                         if [comparable(item["message"]) for item in responses] != [comparable(item) for item in native_data]:
                             raise ValueError("Provider responses differ from actual native messages")
                         if status == "completed" and (not responses or any(item["status"] != "completed" for item in requests)):

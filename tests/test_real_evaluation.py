@@ -235,11 +235,20 @@ class RealEvaluationTests(unittest.TestCase):
         self.assertEqual(verify_report(report, extracted, self.fixture.work), outcome)
         self.assertIn("接口模拟输出", (report / "report.md").read_text())
 
+    def test_published_v1_provider_archive_remains_readable(self):
+        extracted = self.fixture.root / "published-provider"
+        with zipfile.ZipFile(ROOT / "docs/checks/20261112-provider-evaluation-local.zip") as zipped:
+            zipped.extractall(extracted)
+        receipt = verify_archive(extracted, ROOT)
+        self.assertFalse(receipt["real_model_called"])
+
     def test_resealed_usage_backend_and_source_tampering_are_rejected(self):
         self.run_fixture()
         for name, update in (("turns/001-01/metrics.json", lambda row: row.update(provider_usage=[])),
                              ("run.json", lambda row: row.update(real_model_called=True)),
-                             ("index-manifest.json", lambda row: row["sources"][0].update(commit_sha="a" * 40))):
+                             ("index-manifest.json", lambda row: row["sources"][0].update(commit_sha="a" * 40)),
+                             ("turns/001-01/responses.json", lambda row: row[0]["message"].update(provider_response_id="forged")),
+                             ("turns/001-01/responses.json", lambda row: row[0]["message"].update(unknown_field="forged"))):
             path = self.output / name
             original = path.read_bytes()
             data = read_json(original)

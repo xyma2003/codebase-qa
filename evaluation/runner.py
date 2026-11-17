@@ -163,7 +163,7 @@ async def _run(dataset, repository, output, *, backend, turn_timeout, indexed=No
                     write_json(folder / "messages.json", messages_data)
                     write_json(folder / "requests.json", safe(backend.requests))
                     write_json(folder / "trace.json", safe(tool_trace(messages)))
-                    usage = asdict(result[0].usage()) if result else None
+                    usage = asdict(result[0].usage) if result else None
                     metrics = {"elapsed_seconds": elapsed, "model_requests": len(backend.requests),
                                "framework_usage_estimate": usage, "provider_usage": None, "cost": None}
                     if indexed:

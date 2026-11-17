@@ -31,11 +31,8 @@
 !deploy/Dockerfile
 !deploy/runtime.lock
 !deploy/embedding-cache.json
-!docs/
-!docs/baseline/
-!docs/baseline/runs/
-!docs/baseline/runs/20261110-stage0/
-!docs/baseline/runs/20261110-stage0/requirements-resolved.txt
+!dependencies/
+!dependencies/runtime-pins.txt
 **/__pycache__/
 **/*.pyc
 **/.git/
