@@ -16,7 +16,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def run(*args, **kwargs):
-    return subprocess.run(args, check=True, capture_output=True, text=True, timeout=kwargs.pop("timeout", 60), **kwargs).stdout.strip()
+    try:
+        return subprocess.run(args, check=True, capture_output=True, text=True, timeout=kwargs.pop("timeout", 60), **kwargs).stdout.strip()
+    except subprocess.CalledProcessError as exc:
+        # Preserve the actual nginx/docker error, not only its exit code.
+        print(exc.stdout or "", file=sys.stderr)
+        print(exc.stderr or "", file=sys.stderr)
+        raise
 
 
 def main(image, proxy_image, output):

@@ -199,6 +199,18 @@ class DrainTests(unittest.TestCase):
 
 
 class DeploymentTests(AuditFixture, unittest.TestCase):
+    def test_container_command_failure_preserves_original_stderr(self):
+        import contextlib
+        import io
+        import subprocess
+        from scripts import check_container
+        output = io.StringIO()
+        error = subprocess.CalledProcessError(1, ["nginx", "-t"], output="LOCAL_STDOUT", stderr="NGINX_ORIGINAL_LOCAL_ERROR")
+        with patch.object(check_container.subprocess, "run", side_effect=error), contextlib.redirect_stderr(output):
+            with self.assertRaises(subprocess.CalledProcessError):
+                check_container.run("nginx", "-t")
+        self.assertIn("NGINX_ORIGINAL_LOCAL_ERROR", output.getvalue())
+
     def test_system_audit_rejects_findings_and_mismatched_image(self):
         from ops.os_audit import validate_os_audit
         image = "sha256:" + "b" * 64
