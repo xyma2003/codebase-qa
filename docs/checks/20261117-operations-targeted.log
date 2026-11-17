@@ -1,0 +1,21 @@
+test_audit_expiry_future_time_and_lock_change_are_rejected (tests.test_operations.AuditTests.test_audit_expiry_future_time_and_lock_change_are_rejected) ... ok
+test_exact_pins_canonical_names_and_invalid_inputs (tests.test_operations.AuditTests.test_exact_pins_canonical_names_and_invalid_inputs) ... ok
+test_full_clean_audit_can_pass_and_altered_summary_is_rejected (tests.test_operations.AuditTests.test_full_clean_audit_can_pass_and_altered_summary_is_rejected) ... ok
+test_network_failure_and_missing_coverage_are_not_clean (tests.test_operations.AuditTests.test_network_failure_and_missing_coverage_are_not_clean) ... ok
+test_pagination_aliases_and_known_vulnerabilities_block_release (tests.test_operations.AuditTests.test_pagination_aliases_and_known_vulnerabilities_block_release) ... ok
+test_backup_requires_stop_and_refuses_running_worker (tests.test_operations.BackupTests.test_backup_requires_stop_and_refuses_running_worker) ... ok
+test_stopped_backup_restores_exact_bytes_and_excludes_secrets_cache (tests.test_operations.BackupTests.test_stopped_backup_restores_exact_bytes_and_excludes_secrets_cache) ... ok
+test_symlinks_corrupt_sqlite_and_external_registered_archive_refuse_backup (tests.test_operations.BackupTests.test_symlinks_corrupt_sqlite_and_external_registered_archive_refuse_backup) ... ok
+test_traversal_tampering_unknown_roots_and_wrong_runtime_are_rejected (tests.test_operations.BackupTests.test_traversal_tampering_unknown_roots_and_wrong_runtime_are_rejected) ... ok
+test_cached_embedding_hashes_and_paths_are_checked_without_model_loading (tests.test_operations.DeploymentTests.test_cached_embedding_hashes_and_paths_are_checked_without_model_loading) ... ok
+test_compose_privilege_network_and_secret_boundaries (tests.test_operations.DeploymentTests.test_compose_privilege_network_and_secret_boundaries) ... ok
+test_preflight_checks_configuration_without_model_or_oidc_calls (tests.test_operations.DeploymentTests.test_preflight_checks_configuration_without_model_or_oidc_calls) ... ok
+test_proxy_renderer_rejects_injected_hostname (tests.test_operations.DeploymentTests.test_proxy_renderer_rejects_injected_hostname) ... ok
+test_system_audit_rejects_findings_and_mismatched_image (tests.test_operations.DeploymentTests.test_system_audit_rejects_findings_and_mismatched_image) ... ok
+test_drain_blocks_new_admission_but_keeps_private_status_and_resume (tests.test_operations.DrainTests.test_drain_blocks_new_admission_but_keeps_private_status_and_resume) ... ok
+test_drain_timeout_preserves_stop_marker (tests.test_operations.DrainTests.test_drain_timeout_preserves_stop_marker) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.080s
+
+OK

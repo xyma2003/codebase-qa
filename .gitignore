@@ -25,3 +25,6 @@ venv/
 chroma_db/
 repos/
 .baseline_runtime/
+deploy/private/
+deploy/runtime.lock
+deploy/environment

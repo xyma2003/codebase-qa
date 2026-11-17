@@ -1,0 +1,21 @@
+{
+  "status": "stopped_service_restore_passed",
+  "scope": "temporary_git_chroma_and_two_user_fixture",
+  "source_process_exited_before_backup": true,
+  "original_path_replaced_for_readback": true,
+  "source_snapshot_checked": true,
+  "vectors_restored": 1,
+  "conversations_restored": 2,
+  "native_turns_restored": 2,
+  "cross_owner_denied": true,
+  "model_requests": 0,
+  "real_business_data_modified": false,
+  "backup": {
+    "files": 37,
+    "bytes": 273432,
+    "sha256": "9656153954ae656c0ee2b329369fd96cd0df03493bc426d7872fa2cb5fda21bd"
+  },
+  "restore": {
+    "files": 37
+  }
+}

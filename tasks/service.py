@@ -11,6 +11,7 @@ from security.sources import ensure_safe_text
 from tasks.context import TaskCancelled, TaskControl, task_context
 from tasks.limits import TaskLimits, load_limits
 from tasks.store import TaskRejected, TaskStore, LIVE, encode
+from ops.service_control import admission
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -61,7 +62,10 @@ class TaskService:
         ensure_safe_text(encode(normalized))
         with self._lock:
             self._available()
-            task_id, created = self.store.admit(principal.owner_id, submission, kind, scope, normalized)
+            with admission(self.store.root):
+                if (self.store.root / "draining").exists():
+                    raise TaskRejected("服务维护中，暂不接收新任务。")
+                task_id, created = self.store.admit(principal.owner_id, submission, kind, scope, normalized)
             if created:
                 self._principals[task_id] = principal
             self._wake.set()

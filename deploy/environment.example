@@ -1,0 +1,10 @@
+# Replace with reviewed immutable image references; never put API keys here.
+CODEBASE_QA_IMAGE=registry.example.invalid/codebase-qa@sha256:REPLACE_WITH_REVIEWED_DIGEST
+CODEBASE_QA_IMAGE_ID=sha256:REPLACE_WITH_INSPECTED_IMAGE_CONFIG_ID
+NGINX_IMAGE=nginx@sha256:REPLACE_WITH_REVIEWED_DIGEST
+CODEBASE_QA_PUBLIC_ORIGIN=https://qa.example.invalid
+CONFIG_DIR=/srv/codebase-qa/config
+STATE_DIR=/srv/codebase-qa/state
+TLS_DIR=/srv/codebase-qa/tls
+MODEL_CACHE_DIR=/srv/codebase-qa/huggingface
+EVALUATION_REPOSITORY=/srv/codebase-qa/evaluation-repository

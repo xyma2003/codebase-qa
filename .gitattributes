@@ -2,3 +2,4 @@
 docs/baseline/runs/**/*.log -whitespace
 # Terminal formatting is evidence; keep captured check logs byte-for-byte.
 docs/checks/20261116-tasks-*.log -whitespace
+docs/checks/20261117-operations-*.log -whitespace

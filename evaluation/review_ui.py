@@ -1,6 +1,7 @@
 """Small Streamlit view over the existing review packet and scoring services."""
 
 from pathlib import Path
+import os
 from urllib.parse import quote
 
 import streamlit as st
@@ -14,6 +15,7 @@ from security.web_auth import require_web_user
 from security.review_access import list_review_runs, resolve_review_run, review_directory
 
 ROOT = Path(__file__).resolve().parents[1]
+REVIEW_REPOSITORY = Path(os.environ.get("CODEBASE_QA_EVALUATION_REPOSITORY", ROOT))
 WORKSPACE = ROOT / ".baseline_runtime/reviews/ui"
 CATEGORIES = {"understanding": "项目理解", "localization": "实现定位", "planning": "修改规划", "unanswerable": "无答案"}
 DIMENSIONS = {"correctness": "正确性", "evidence": "证据", "completeness": "完整性", "boundaries": "边界说明"}
@@ -106,7 +108,7 @@ def _grade_form(workspace, row, prefix):
         st.rerun()
 
 
-def render_review_page(*, repository=ROOT, directory=WORKSPACE):
+def render_review_page(*, repository=REVIEW_REPOSITORY, directory=WORKSPACE):
     st.set_page_config(page_title="评测评审 · Codebase QA", layout="wide")
     actor = require_web_user(admin=True)
     st.title("评测评审")

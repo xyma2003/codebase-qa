@@ -1,0 +1,64 @@
+services:
+  app:
+    image: ${CODEBASE_QA_IMAGE:?Use an audited image digest}
+    user: "10001:10001"
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 256
+    cpus: 2.0
+    mem_limit: 4g
+    restart: "no"
+    stop_grace_period: 330s
+    tmpfs: ["/tmp:size=256m,mode=1777"]
+    environment:
+      CODEBASE_QA_LOCAL_MODE: "0"
+      CODEBASE_QA_PUBLIC_ORIGIN: ${CODEBASE_QA_PUBLIC_ORIGIN:?Set real HTTPS origin}
+      CODEBASE_QA_AUDIT_FILE: /run/config/audit.json
+      CODEBASE_QA_IMAGE_ID: ${CODEBASE_QA_IMAGE_ID:?Use inspected application image ID}
+      CODEBASE_QA_EVALUATION_REPOSITORY: /evaluation-repository
+      HF_HOME: /app/.cache/huggingface
+      HF_HUB_OFFLINE: "1"
+    volumes:
+      - ${CONFIG_DIR:?}/model.env:/app/.env:ro
+      - ${CONFIG_DIR:?}/secrets.toml:/app/.streamlit/secrets.toml:ro
+      - ${CONFIG_DIR:?}/access.toml:/app/.streamlit/access.toml:ro
+      - ${CONFIG_DIR:?}/tasks.toml:/app/.streamlit/tasks.toml:ro
+      - ${CONFIG_DIR:?}/audit.json:/run/config/audit.json:ro
+      - ${CONFIG_DIR:?}/os-audit.json:/run/config/os-audit.json:ro
+      - ${STATE_DIR:?}/chroma_db:/app/chroma_db
+      - ${STATE_DIR:?}/repos:/app/repos
+      - ${STATE_DIR:?}/tasks:/app/.baseline_runtime/tasks
+      - ${STATE_DIR:?}/reviews:/app/.baseline_runtime/reviews
+      - ${STATE_DIR:?}/evaluations:/app/.baseline_runtime/evaluations
+      - ${MODEL_CACHE_DIR:?}:/app/.cache/huggingface:ro
+      - ${EVALUATION_REPOSITORY:?}:/evaluation-repository:ro
+    networks: [backend]
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+  proxy:
+    image: ${NGINX_IMAGE:?Use an inspected nginx image digest}
+    user: "101:101"
+    entrypoint: [nginx, -g, "daemon off;"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    cpus: 0.5
+    mem_limit: 128m
+    restart: "no"
+    tmpfs: ["/tmp:size=32m,mode=1777"]
+    depends_on:
+      app: {condition: service_healthy}
+    ports: ["127.0.0.1:18443:8443"]
+    volumes:
+      - ${CONFIG_DIR:?}/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ${TLS_DIR:?}:/run/tls:ro
+    networks: [backend]
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+networks:
+  backend: {}
