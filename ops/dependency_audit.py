@@ -94,10 +94,13 @@ def audit(path, output, *, transport=request):
     return report
 
 
-def check_installed(path):
+def check_installed(path, *, strict=False):
     expected = pins(path)
     installed = {re.sub(r"[-_.]+", "-", d.metadata["Name"]).lower(): d.version for d in importlib.metadata.distributions()}
-    return {name: {"expected": version, "installed": installed.get(name)} for name, version in expected.items() if installed.get(name) != version}
+    differences = {name: {"expected": version, "installed": installed.get(name)} for name, version in expected.items() if installed.get(name) != version}
+    if strict:
+        differences.update({name: {"expected": None, "installed": version} for name, version in installed.items() if name not in expected})
+    return differences
 
 
 def groups(findings):

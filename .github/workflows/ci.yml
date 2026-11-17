@@ -105,6 +105,7 @@ jobs:
           docker build -f deploy/Dockerfile --build-arg "PYTHON_IMAGE=$python_image" --build-arg "UV_IMAGE=$uv_image" --build-arg "CODEBASE_REVISION=$GITHUB_SHA" -t codebase-qa:preparation .
           docker image inspect codebase-qa:preparation > "$RUNNER_TEMP/deployment-records/application-image.json"
           docker run --rm --entrypoint python codebase-qa:preparation -c 'import torch,chromadb,pydantic_ai,streamlit; assert torch.version.cuda is None'
+          docker run --rm --entrypoint python codebase-qa:preparation -c 'from ops.dependency_audit import check_installed; differences=check_installed("deploy/runtime.lock",strict=True); assert not differences,differences; print("all_installed_packages_match_audited_lock")'
           docker run --rm --entrypoint dpkg-query codebase-qa:preparation -W > "$RUNNER_TEMP/deployment-records/os-packages.txt"
       - name: Collect advisories and record release block separately from smoke checks
         run: |

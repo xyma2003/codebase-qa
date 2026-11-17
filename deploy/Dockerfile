@@ -16,6 +16,7 @@ COPY docs/baseline/runs/20261110-stage0/requirements-resolved.txt /app/deploy/so
 COPY deploy/runtime.lock /app/deploy/runtime.lock
 COPY deploy/embedding-cache.json /app/deploy/embedding-cache.json
 RUN uv pip install --system --no-cache --require-hashes --torch-backend cpu -r deploy/runtime.lock \
+    && uv pip uninstall --system pip \
     && uv pip check && python -c "import sys; assert sys.version_info[:3] == (3,12,13)"
 COPY app.py config.py /app/
 COPY agent /app/agent

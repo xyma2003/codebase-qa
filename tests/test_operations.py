@@ -14,7 +14,7 @@ import zipfile
 
 import yaml
 from ops import backup as state_backup
-from ops.dependency_audit import audit, groups, pins, release_gate
+from ops.dependency_audit import audit, groups, pins, release_gate, check_installed
 from ops.preflight import preflight
 from ops.service_control import begin_drain, counts, resume, wait_idle
 from tasks.store import TaskRejected
@@ -36,6 +36,14 @@ class AuditFixture:
 
 
 class AuditTests(AuditFixture, unittest.TestCase):
+    def test_strict_inventory_rejects_packages_outside_the_audited_lock(self):
+        from types import SimpleNamespace
+        distributions = [SimpleNamespace(metadata={"Name": "sample-package"}, version="1.2.3"),
+                         SimpleNamespace(metadata={"Name": "pip"}, version="LOCAL_FIXTURE")]
+        with patch("ops.dependency_audit.importlib.metadata.distributions", return_value=distributions):
+            self.assertEqual(check_installed(self.lock), {})
+            self.assertIn("pip", check_installed(self.lock, strict=True))
+
 
     def test_exact_pins_canonical_names_and_invalid_inputs(self):
         self.assertEqual(pins(self.lock), {"sample-package": "1.2.3"})
