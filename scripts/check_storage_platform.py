@@ -54,7 +54,7 @@ def main(baseline_image, image, output):
         volume_created = True
         run("prepare", "docker", "run", "--rm", "--network", "none", "--read-only", "--cap-drop", "ALL", "--cap-add", "CHOWN",
             "--security-opt", "no-new-privileges", "--user", "0:0", "--entrypoint", "python", "-v", volume + ":/fixture", baseline_image,
-            "-c", "import os; os.chown('/fixture',10001,10001); os.mkdir('/fixture/runtime'); os.chown('/fixture/runtime',10001,10001)")
+            "-c", "import os; os.mkdir('/fixture/runtime'); os.chown('/fixture/runtime',10001,10001); os.chown('/fixture',10001,10001)")
         worker("seed", baseline_image, "--worker", "seed", "--root", "/fixture/runtime", "--expected", "/fixture/expected.json", "--runtime-output", "/fixture/seed-runtime.json")
         worker("verify", image, "--worker", "verify", "--root", "/fixture/runtime", "--expected", "/fixture/expected.json", "--runtime-output", "/fixture/verify-runtime.json")
         worker("restore", image, "--output", "/fixture/restore")
