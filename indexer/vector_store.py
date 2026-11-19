@@ -1,10 +1,10 @@
-import os
 from typing import Optional
 import chromadb
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from indexer.chunker import CodeChunk
 from config import CHROMA_DIR, EMBED_MODEL
 from security.sources import check_chunks, ensure_safe_source, ensure_safe_text, sensitive_path
+from security.vector_client import local_chroma_client
 
 
 def _get_collection_name(repo_url: str) -> str:
@@ -17,8 +17,7 @@ def _get_collection_name(repo_url: str) -> str:
 
 
 def _get_client() -> chromadb.PersistentClient:
-    os.makedirs(CHROMA_DIR, exist_ok=True)
-    return chromadb.PersistentClient(path=CHROMA_DIR)
+    return local_chroma_client(CHROMA_DIR)
 
 
 def _get_embed_fn() -> SentenceTransformerEmbeddingFunction:

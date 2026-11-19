@@ -9,20 +9,19 @@ import os
 from pathlib import Path
 import uuid
 
-import chromadb
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from config import CHROMA_DIR, EMBED_MODEL, MEMORY_SIMILARITY_THRESHOLD
 from indexer.snapshots import load_snapshot, normalize_repo_url
 from indexer.citations import SourceCitation, check_source_citation
 from security.sources import ensure_safe_text, MAX_SOURCE_BYTES
 from security.identity import current_principal, AccessDenied
+from security.vector_client import local_chroma_client
 
 MAX_CACHE_ENTRIES = 2000
 
 
 def _get_client():
-    os.makedirs(CHROMA_DIR, exist_ok=True)
-    return chromadb.PersistentClient(path=CHROMA_DIR)
+    return local_chroma_client(CHROMA_DIR)
 
 
 def _get_embed_fn():

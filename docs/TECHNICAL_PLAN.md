@@ -1,6 +1,6 @@
 # Codebase Q&A 技术方案
 
-版本：0.18。更新日期：2026-11-17。对应[产品方案](PRODUCT_PLAN.md)。当前依赖锁位于 `dependencies/`，原始依赖锁和运行基线保留。Pydantic AI 使用 1.107.7 精简包；Debian 7 个包采用最低安全版本检查和目标公告复扫。存在其他公告时继续阻断发布。
+版本：0.19。更新日期：2026-11-19。对应[产品方案](PRODUCT_PLAN.md)。当前依赖锁位于 `dependencies/`，原始锁和索引保留。源码与缓存的 Chroma 客户端固定 Rust 本地实现，不从环境变量、dotenv 或 secrets 目录读取组件配置，禁用 reset、遥测与 OTel 导出。此项属于边界加固，不解除未修复公告的发布阻断。
 
 ## 当前基础
 
@@ -220,3 +220,4 @@ GitHub Actions 由 uv 0.12.3 安装 macOS arm64 的 Python 3.12.13，在 macOS 1
 - 2026-11-17：0.16 增加 OSV 精确版本审计及离线重放、Python/OS 发布阻断、容器准备、TLS/WebSocket/限流检查、停止接单和停服恢复。原 194 个版本查询发现 41 个编号、15 组公告，未自动升级或忽略。374 项本机测试通过，107.118 秒、进程退出 0；独立进程恢复临时 Git、向量和两名用户的原生会话。详见[审计](DEPENDENCY_AUDIT.md)、[部署](DEPLOYMENT.md)与[记录](checks/20261117-operations.md)。
 - 2026-11-17：0.17 使用 `pydantic-ai-slim[anthropic,openai]==1.107.7`，graph/evals 同步版本，两个 SDK 服从上游兼容范围，其他 188 个版本保留。当前精确版本及 Mac 哈希锁进入 `dependencies/`，Linux 从同一公共版本解析 CPU 锁；不覆盖阶段零。归档两侧统一 SDK 默认值并拒绝未知字段，377 项全量通过，剩 4 组 Chroma 公告，发布继续阻断。见[版本差异与验收](checks/20261117-pydantic.md)。
 - 2026-11-17：0.18 从实际系统扫描锁定 7 个包/38 条命中，构建时定向更新并用原生 dpkg 检查版本，CI 保存实际版本并要求目标公告消失。其他全部系统公告继续参与严格发布检查。新增 6 项边界测试，全量 383 项通过，Linux 实测以本提交 CI 为准；不更改 Python、模型或历史锁。见[记录](checks/20261117-os-packages.md)。
+- 2026-11-19：0.19 在 `security.vector_client` 隔离 Chroma 配置来源，固定 Rust 本地实现并禁用 reset、匿名遥测和 OTel 导出，两个存储入口共用。验证环境、dotenv、secrets 注入和独立进程首次导入；全量 387 项通过，原数据、依赖和模型保持不变。4 组上游公告仍阻断发布，详见[记录](checks/20261119-chroma-local.md)。

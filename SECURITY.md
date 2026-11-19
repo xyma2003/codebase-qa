@@ -52,6 +52,8 @@
 
 ## 验收范围
 
+源码索引和私有缓存统一通过 `security.vector_client.local_chroma_client` 创建嵌入式 Chroma。组件配置只接受程序内固定值，不读取环境变量、`.env` 或 secrets 目录；固定 Rust 本地 API、禁用 reset、匿名遥测和 OTel 导出，不启用 Chroma REST 或服务端认证插件。此项是应用配置边界加固，不代表上游公告已修复。
+
 以[安全实施计划](docs/SECURITY_PLAN.md)区分已实现、离线程序边界测试和待真实模型验证的事项。模拟攻击可验证程序是否拒绝危险读取或输出，不能替代真实模型攻击成功率评估。
 
 阶段零 194 个 Python 包查询发现 41 个编号、15 组问题。Pydantic AI 整改后的当前 Mac 锁为 193 个包，复查剩 8 个编号、4 组 Chroma 公告，发布检查保持阻断；没有自动忽略未启用功能相关的公告。Linux 准备流程另外保存 OS 包扫描，Python/OS 记录与镜像和锁绑定，过期、不完整或有公告时拒绝部署。见[审计](docs/DEPENDENCY_AUDIT.md)。

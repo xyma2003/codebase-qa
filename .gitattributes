@@ -5,3 +5,4 @@ docs/checks/20261116-tasks-*.log -whitespace
 docs/checks/20261117-operations-*.log -whitespace
 docs/checks/20261117-pydantic-*.log -whitespace
 docs/checks/20261117-os-packages-*.log -whitespace
+docs/checks/20261119-chroma-*.log -whitespace

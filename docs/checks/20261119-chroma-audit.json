@@ -1,0 +1,3411 @@
+{
+  "schema": 1,
+  "source": "https://api.osv.dev/v1",
+  "queried_at": "2026-11-19T08:05:34.858243+00:00",
+  "input_sha256": "147ab705f8ae28877c1e1df8f60b03255cc2289c62dbcc91c79f7e0f380dcc7b",
+  "packages": {
+    "ag-ui-protocol": "1.0.0",
+    "aiofile": "3.12.3",
+    "aiohappyeyeballs": "2.7.1",
+    "aiohttp": "3.14.5",
+    "aiohttp-retry": "2.9.1",
+    "aiosignal": "1.4.0",
+    "altair": "6.3.0",
+    "annotated-doc": "0.0.5",
+    "annotated-types": "0.8.0",
+    "anthropic": "0.125.0",
+    "anyio": "4.16.0",
+    "argcomplete": "3.7.2",
+    "attrs": "26.1.0",
+    "authlib": "1.9.5",
+    "bcrypt": "5.0.0",
+    "beartype": "0.23.1",
+    "boto3": "1.43.127",
+    "botocore": "1.43.127",
+    "build": "1.6.1",
+    "cachetools": "8.0.0",
+    "caio": "0.12.10",
+    "certifi": "2026.10.23",
+    "cffi": "2.1.1",
+    "charset-normalizer": "3.5.2",
+    "chromadb": "1.5.9",
+    "click": "8.5.1",
+    "cloudpickle": "3.1.2",
+    "cohere": "7.3.1",
+    "cryptography": "50.0.2",
+    "cyclopts": "5.4.0",
+    "distro": "1.9.0",
+    "dnspython": "2.9.2",
+    "docstring-parser": "0.18.0",
+    "durationpy": "0.11",
+    "email-validator": "2.3.0",
+    "eval-type-backport": "0.4.0",
+    "exceptiongroup": "1.3.1",
+    "executing": "2.3.0",
+    "fastavro": "1.13.1",
+    "fastmcp": "3.4.11",
+    "fastmcp-slim": "3.4.11",
+    "filelock": "4.2.10",
+    "flatbuffers": "25.12.19",
+    "frozenlist": "1.8.0",
+    "fsspec": "2026.9.0",
+    "genai-prices": "0.0.73",
+    "gitdb": "4.0.12",
+    "gitpython": "3.2.1",
+    "google-auth": "2.62.1",
+    "google-genai": "3.0.0",
+    "googleapis-common-protos": "1.76.0",
+    "griffelib": "2.4.1",
+    "groq": "1.7.0",
+    "grpcio": "1.85.1",
+    "h11": "0.16.0",
+    "hf-xet": "1.8.0",
+    "httpcore": "1.0.9",
+    "httpcore2": "2.16.0",
+    "httptools": "0.9.0",
+    "httpx": "0.28.1",
+    "httpx-sse": "0.4.3",
+    "httpx2": "2.16.0",
+    "huggingface-hub": "1.33.0",
+    "idna": "3.20",
+    "importlib-resources": "7.1.0",
+    "itsdangerous": "2.2.0",
+    "jaraco-classes": "3.4.0",
+    "jaraco-context": "6.1.2",
+    "jaraco-functools": "4.6.0",
+    "jinja2": "3.1.6",
+    "jiter": "0.19.0",
+    "jmespath": "1.1.0",
+    "joblib": "1.6.0",
+    "joserfc": "1.8.0",
+    "jsonpath-python": "1.1.6",
+    "jsonref": "1.1.0",
+    "jsonschema": "4.26.0",
+    "jsonschema-path": "0.5.0",
+    "jsonschema-specifications": "2025.9.1",
+    "keyring": "25.7.0",
+    "kubernetes": "37.0.1",
+    "logfire": "5.5.0",
+    "logfire-api": "5.5.0",
+    "logfire-sdk": "5.5.0",
+    "markdown-it-py": "4.2.0",
+    "markupsafe": "3.0.4",
+    "mcp": "1.30.0",
+    "mdurl": "0.1.2",
+    "mistralai": "3.7.0",
+    "mmh3": "5.3.1",
+    "more-itertools": "11.2.1",
+    "mpmath": "1.3.0",
+    "multidict": "7.2.1",
+    "narwhals": "2.28.0",
+    "nest-asyncio": "1.6.0",
+    "networkx": "3.7",
+    "nexus-rpc": "1.4.0",
+    "numpy": "2.5.4",
+    "oauthlib": "4.0.1",
+    "onnxruntime": "1.31.1",
+    "openai": "3.49.0",
+    "openapi-pydantic": "0.6.0",
+    "opentelemetry-api": "1.45.2",
+    "opentelemetry-exporter-http-transport": "0.66b2",
+    "opentelemetry-exporter-otlp-common": "0.66b2",
+    "opentelemetry-exporter-otlp-proto-common": "1.45.2",
+    "opentelemetry-exporter-otlp-proto-grpc": "1.45.2",
+    "opentelemetry-exporter-otlp-proto-http": "1.45.2",
+    "opentelemetry-instrumentation": "0.66b2",
+    "opentelemetry-instrumentation-httpx": "0.66b2",
+    "opentelemetry-proto": "1.45.2",
+    "opentelemetry-sdk": "1.45.2",
+    "opentelemetry-semantic-conventions": "0.66b2",
+    "opentelemetry-util-http": "0.66b2",
+    "orjson": "3.13.0",
+    "overrides": "7.7.0",
+    "packaging": "25.0",
+    "pandas": "3.1.1",
+    "pathable": "0.6.0",
+    "pillow": "13.0.0",
+    "platformdirs": "4.14.5",
+    "prompt-toolkit": "3.0.53",
+    "propcache": "0.5.4",
+    "protobuf": "7.36.2",
+    "py-key-value-aio": "0.4.6",
+    "pyarrow": "26.0.1",
+    "pyasn1": "0.6.5",
+    "pyasn1-modules": "0.4.2",
+    "pybase64": "1.5.1",
+    "pycparser": "3.12",
+    "pydantic": "2.14.3",
+    "pydantic-ai-slim": "1.107.7",
+    "pydantic-core": "2.50.4",
+    "pydantic-evals": "1.107.7",
+    "pydantic-graph": "1.107.7",
+    "pydantic-handlebars": "0.2.1",
+    "pydantic-settings": "2.16.2",
+    "pydeck": "0.9.3",
+    "pygments": "2.21.0",
+    "pyjwt": "2.15.1",
+    "pyperclip": "1.11.0",
+    "pypika": "0.51.1",
+    "pyproject-hooks": "1.3.3",
+    "python-dateutil": "2.9.0.post0",
+    "python-dotenv": "1.2.4",
+    "python-multipart": "0.0.33",
+    "pyyaml": "6.0.3",
+    "referencing": "0.37.0",
+    "regex": "2026.11.9",
+    "requests": "2.34.2",
+    "requests-oauthlib": "2.0.0",
+    "rich": "15.0.0",
+    "rich-rst": "2.2.0",
+    "rpds-py": "2026.9.1",
+    "s3transfer": "0.19.3",
+    "safetensors": "0.8.0",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "sentence-transformers": "6.2.0",
+    "setuptools": "84.2.1",
+    "shellingham": "1.5.4",
+    "six": "1.17.0",
+    "smmap": "5.0.3",
+    "sniffio": "1.3.1",
+    "sse-starlette": "3.7.0",
+    "starlette": "1.10.0",
+    "streamlit": "1.67.0",
+    "sympy": "1.14.0",
+    "temporalio": "1.35.0",
+    "tenacity": "9.1.4",
+    "threadpoolctl": "3.8.0",
+    "tiktoken": "0.14.0",
+    "tokenizers": "0.23.3",
+    "torch": "2.15.0",
+    "tqdm": "4.70.1",
+    "transformers": "5.22.2",
+    "truststore": "0.10.5",
+    "typer": "0.29.0",
+    "types-protobuf": "7.35.1.20260906",
+    "types-requests": "2.33.0.20261030",
+    "typing-extensions": "4.16.0",
+    "typing-inspection": "0.4.5",
+    "uncalled-for": "0.6.0",
+    "urllib3": "2.8.0",
+    "uvicorn": "0.54.0",
+    "uvloop": "0.23.0",
+    "watchfiles": "1.3.0",
+    "wcwidth": "0.9.4",
+    "websocket-client": "1.9.2",
+    "websockets": "17.4",
+    "wrapt": "2.5.2",
+    "xai-sdk": "1.21.0",
+    "yarl": "1.25.1"
+  },
+  "complete": true,
+  "findings": [
+    {
+      "id": "GHSA-2wm9-hf6c-p5cr",
+      "packages": [
+        "chromadb"
+      ],
+      "aliases": [
+        "CVE-2026-45830",
+        "PYSEC-2026-3813"
+      ],
+      "summary": "",
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "type": "CVSS_V4",
+          "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N"
+        }
+      ],
+      "references": [
+        {
+          "type": "ADVISORY",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45830"
+        },
+        {
+          "type": "WEB",
+          "url": "https://github.com/chroma-core/chroma/issues/7588"
+        },
+        {
+          "type": "WEB",
+          "url": "https://github.com/chroma-core/chroma/pull/7602"
+        },
+        {
+          "type": "WEB",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-45830"
+        },
+        {
+          "type": "WEB",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2488408"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://github.com/chroma-core/chroma"
+        },
+        {
+          "type": "WEB",
+          "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-45830.json"
+        },
+        {
+          "type": "WEB",
+          "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-36p7-vc44-83pf",
+      "packages": [
+        "chromadb"
+      ],
+      "aliases": [
+        "CVE-2026-45833",
+        "PYSEC-2026-3814"
+      ],
+      "summary": "",
+      "severity": [
+        {
+          "type": "CVSS_V4",
+          "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
+        }
+      ],
+      "references": [
+        {
+          "type": "ADVISORY",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45833"
+        },
+        {
+          "type": "WEB",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-45833"
+        },
+        {
+          "type": "WEB",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2488430"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://github.com/chroma-core/chroma"
+        },
+        {
+          "type": "WEB",
+          "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-45833.json"
+        },
+        {
+          "type": "WEB",
+          "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb-5"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-f4j7-r4q5-qw2c",
+      "packages": [
+        "chromadb"
+      ],
+      "aliases": [
+        "CVE-2026-45829",
+        "PYSEC-2026-311"
+      ],
+      "summary": "",
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+        },
+        {
+          "type": "CVSS_V4",
+          "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:P"
+        }
+      ],
+      "references": [
+        {
+          "type": "ADVISORY",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45829"
+        },
+        {
+          "type": "WEB",
+          "url": "https://github.com/chroma-core/chroma/issues/6717"
+        },
+        {
+          "type": "WEB",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-45829"
+        },
+        {
+          "type": "WEB",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2479623"
+        },
+        {
+          "type": "ADVISORY",
+          "url": "https://github.com/advisories/GHSA-f4j7-r4q5-qw2c"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://github.com/chroma-core/chroma"
+        },
+        {
+          "type": "WEB",
+          "url": "https://github.com/pypa/advisory-database/tree/main/vulns/chromadb/PYSEC-2026-311.yaml"
+        },
+        {
+          "type": "WEB",
+          "url": "https://pypi.org/project/chromadb"
+        },
+        {
+          "type": "WEB",
+          "url": "https://www.hiddenlayer.com/research/chromatoast-served-pre-auth"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-xph7-9rjv-w5fr",
+      "packages": [
+        "chromadb"
+      ],
+      "aliases": [
+        "CVE-2026-45831",
+        "PYSEC-2026-3815"
+      ],
+      "summary": "",
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "type": "CVSS_V4",
+          "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N"
+        }
+      ],
+      "references": [
+        {
+          "type": "ADVISORY",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45831"
+        },
+        {
+          "type": "WEB",
+          "url": "https://github.com/chroma-core/chroma/issues/7588"
+        },
+        {
+          "type": "WEB",
+          "url": "https://github.com/chroma-core/chroma/pull/7602"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://github.com/chroma-core/chroma"
+        },
+        {
+          "type": "WEB",
+          "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb-3"
+        }
+      ]
+    },
+    {
+      "id": "PYSEC-2026-311",
+      "packages": [
+        "chromadb"
+      ],
+      "aliases": [
+        "CVE-2026-45829",
+        "GHSA-f4j7-r4q5-qw2c"
+      ],
+      "summary": "",
+      "severity": [
+        {
+          "type": "CVSS_V4",
+          "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:P"
+        }
+      ],
+      "references": [
+        {
+          "type": "ADVISORY",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45829"
+        },
+        {
+          "type": "WEB",
+          "url": "https://github.com/chroma-core/chroma/issues/6717"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://github.com/chroma-core/chroma"
+        },
+        {
+          "type": "WEB",
+          "url": "https://www.hiddenlayer.com/research/chromatoast-served-pre-auth"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://pypi.org/project/chromadb"
+        },
+        {
+          "type": "ADVISORY",
+          "url": "https://github.com/advisories/GHSA-f4j7-r4q5-qw2c"
+        }
+      ]
+    },
+    {
+      "id": "PYSEC-2026-3813",
+      "packages": [
+        "chromadb"
+      ],
+      "aliases": [
+        "CVE-2026-45830",
+        "GHSA-2wm9-hf6c-p5cr"
+      ],
+      "summary": "",
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "type": "CVSS_V4",
+          "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N"
+        }
+      ],
+      "references": [
+        {
+          "type": "ADVISORY",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45830"
+        },
+        {
+          "type": "WEB",
+          "url": "https://github.com/chroma-core/chroma/issues/7588"
+        },
+        {
+          "type": "WEB",
+          "url": "https://github.com/chroma-core/chroma/pull/7602"
+        },
+        {
+          "type": "WEB",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-45830"
+        },
+        {
+          "type": "WEB",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2488408"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://github.com/chroma-core/chroma"
+        },
+        {
+          "type": "WEB",
+          "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-45830.json"
+        },
+        {
+          "type": "WEB",
+          "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://pypi.org/project/chromadb"
+        },
+        {
+          "type": "ADVISORY",
+          "url": "https://github.com/advisories/GHSA-2wm9-hf6c-p5cr"
+        }
+      ]
+    },
+    {
+      "id": "PYSEC-2026-3814",
+      "packages": [
+        "chromadb"
+      ],
+      "aliases": [
+        "CVE-2026-45833",
+        "GHSA-36p7-vc44-83pf"
+      ],
+      "summary": "",
+      "severity": [
+        {
+          "type": "CVSS_V4",
+          "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
+        }
+      ],
+      "references": [
+        {
+          "type": "ADVISORY",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45833"
+        },
+        {
+          "type": "WEB",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-45833"
+        },
+        {
+          "type": "WEB",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2488430"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://github.com/chroma-core/chroma"
+        },
+        {
+          "type": "WEB",
+          "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-45833.json"
+        },
+        {
+          "type": "WEB",
+          "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb-5"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://pypi.org/project/chromadb"
+        },
+        {
+          "type": "ADVISORY",
+          "url": "https://github.com/advisories/GHSA-36p7-vc44-83pf"
+        }
+      ]
+    },
+    {
+      "id": "PYSEC-2026-3815",
+      "packages": [
+        "chromadb"
+      ],
+      "aliases": [
+        "CVE-2026-45831",
+        "GHSA-xph7-9rjv-w5fr"
+      ],
+      "summary": "",
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "type": "CVSS_V4",
+          "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N"
+        }
+      ],
+      "references": [
+        {
+          "type": "ADVISORY",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45831"
+        },
+        {
+          "type": "WEB",
+          "url": "https://github.com/chroma-core/chroma/issues/7588"
+        },
+        {
+          "type": "WEB",
+          "url": "https://github.com/chroma-core/chroma/pull/7602"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://github.com/chroma-core/chroma"
+        },
+        {
+          "type": "WEB",
+          "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb-3"
+        },
+        {
+          "type": "PACKAGE",
+          "url": "https://pypi.org/project/chromadb"
+        },
+        {
+          "type": "ADVISORY",
+          "url": "https://github.com/advisories/GHSA-xph7-9rjv-w5fr"
+        }
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "endpoint": "/querybatch",
+      "input": {
+        "queries": [
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "ag-ui-protocol"
+            },
+            "version": "1.0.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "aiofile"
+            },
+            "version": "3.12.3"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "aiohappyeyeballs"
+            },
+            "version": "2.7.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "aiohttp"
+            },
+            "version": "3.14.5"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "aiohttp-retry"
+            },
+            "version": "2.9.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "aiosignal"
+            },
+            "version": "1.4.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "altair"
+            },
+            "version": "6.3.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "annotated-doc"
+            },
+            "version": "0.0.5"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "annotated-types"
+            },
+            "version": "0.8.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "anthropic"
+            },
+            "version": "0.125.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "anyio"
+            },
+            "version": "4.16.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "argcomplete"
+            },
+            "version": "3.7.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "attrs"
+            },
+            "version": "26.1.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "authlib"
+            },
+            "version": "1.9.5"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "bcrypt"
+            },
+            "version": "5.0.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "beartype"
+            },
+            "version": "0.23.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "boto3"
+            },
+            "version": "1.43.127"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "botocore"
+            },
+            "version": "1.43.127"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "build"
+            },
+            "version": "1.6.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "cachetools"
+            },
+            "version": "8.0.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "caio"
+            },
+            "version": "0.12.10"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "certifi"
+            },
+            "version": "2026.10.23"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "cffi"
+            },
+            "version": "2.1.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "charset-normalizer"
+            },
+            "version": "3.5.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "chromadb"
+            },
+            "version": "1.5.9"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "click"
+            },
+            "version": "8.5.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "cloudpickle"
+            },
+            "version": "3.1.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "cohere"
+            },
+            "version": "7.3.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "cryptography"
+            },
+            "version": "50.0.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "cyclopts"
+            },
+            "version": "5.4.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "distro"
+            },
+            "version": "1.9.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "dnspython"
+            },
+            "version": "2.9.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "docstring-parser"
+            },
+            "version": "0.18.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "durationpy"
+            },
+            "version": "0.11"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "email-validator"
+            },
+            "version": "2.3.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "eval-type-backport"
+            },
+            "version": "0.4.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "exceptiongroup"
+            },
+            "version": "1.3.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "executing"
+            },
+            "version": "2.3.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "fastavro"
+            },
+            "version": "1.13.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "fastmcp"
+            },
+            "version": "3.4.11"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "fastmcp-slim"
+            },
+            "version": "3.4.11"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "filelock"
+            },
+            "version": "4.2.10"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "flatbuffers"
+            },
+            "version": "25.12.19"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "frozenlist"
+            },
+            "version": "1.8.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "fsspec"
+            },
+            "version": "2026.9.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "genai-prices"
+            },
+            "version": "0.0.73"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "gitdb"
+            },
+            "version": "4.0.12"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "gitpython"
+            },
+            "version": "3.2.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "google-auth"
+            },
+            "version": "2.62.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "google-genai"
+            },
+            "version": "3.0.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "googleapis-common-protos"
+            },
+            "version": "1.76.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "griffelib"
+            },
+            "version": "2.4.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "groq"
+            },
+            "version": "1.7.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "grpcio"
+            },
+            "version": "1.85.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "h11"
+            },
+            "version": "0.16.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "hf-xet"
+            },
+            "version": "1.8.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "httpcore"
+            },
+            "version": "1.0.9"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "httpcore2"
+            },
+            "version": "2.16.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "httptools"
+            },
+            "version": "0.9.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "httpx"
+            },
+            "version": "0.28.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "httpx-sse"
+            },
+            "version": "0.4.3"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "httpx2"
+            },
+            "version": "2.16.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "huggingface-hub"
+            },
+            "version": "1.33.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "idna"
+            },
+            "version": "3.20"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "importlib-resources"
+            },
+            "version": "7.1.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "itsdangerous"
+            },
+            "version": "2.2.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "jaraco-classes"
+            },
+            "version": "3.4.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "jaraco-context"
+            },
+            "version": "6.1.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "jaraco-functools"
+            },
+            "version": "4.6.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "jinja2"
+            },
+            "version": "3.1.6"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "jiter"
+            },
+            "version": "0.19.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "jmespath"
+            },
+            "version": "1.1.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "joblib"
+            },
+            "version": "1.6.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "joserfc"
+            },
+            "version": "1.8.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "jsonpath-python"
+            },
+            "version": "1.1.6"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "jsonref"
+            },
+            "version": "1.1.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "jsonschema"
+            },
+            "version": "4.26.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "jsonschema-path"
+            },
+            "version": "0.5.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "jsonschema-specifications"
+            },
+            "version": "2025.9.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "keyring"
+            },
+            "version": "25.7.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "kubernetes"
+            },
+            "version": "37.0.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "logfire"
+            },
+            "version": "5.5.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "logfire-api"
+            },
+            "version": "5.5.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "logfire-sdk"
+            },
+            "version": "5.5.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "markdown-it-py"
+            },
+            "version": "4.2.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "markupsafe"
+            },
+            "version": "3.0.4"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "mcp"
+            },
+            "version": "1.30.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "mdurl"
+            },
+            "version": "0.1.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "mistralai"
+            },
+            "version": "3.7.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "mmh3"
+            },
+            "version": "5.3.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "more-itertools"
+            },
+            "version": "11.2.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "mpmath"
+            },
+            "version": "1.3.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "multidict"
+            },
+            "version": "7.2.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "narwhals"
+            },
+            "version": "2.28.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "nest-asyncio"
+            },
+            "version": "1.6.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "networkx"
+            },
+            "version": "3.7"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "nexus-rpc"
+            },
+            "version": "1.4.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "numpy"
+            },
+            "version": "2.5.4"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "oauthlib"
+            },
+            "version": "4.0.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "onnxruntime"
+            },
+            "version": "1.31.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "openai"
+            },
+            "version": "3.49.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "openapi-pydantic"
+            },
+            "version": "0.6.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-api"
+            },
+            "version": "1.45.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-exporter-http-transport"
+            },
+            "version": "0.66b2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-exporter-otlp-common"
+            },
+            "version": "0.66b2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-exporter-otlp-proto-common"
+            },
+            "version": "1.45.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-exporter-otlp-proto-grpc"
+            },
+            "version": "1.45.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-exporter-otlp-proto-http"
+            },
+            "version": "1.45.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-instrumentation"
+            },
+            "version": "0.66b2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-instrumentation-httpx"
+            },
+            "version": "0.66b2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-proto"
+            },
+            "version": "1.45.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-sdk"
+            },
+            "version": "1.45.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-semantic-conventions"
+            },
+            "version": "0.66b2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "opentelemetry-util-http"
+            },
+            "version": "0.66b2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "orjson"
+            },
+            "version": "3.13.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "overrides"
+            },
+            "version": "7.7.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "packaging"
+            },
+            "version": "25.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pandas"
+            },
+            "version": "3.1.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pathable"
+            },
+            "version": "0.6.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pillow"
+            },
+            "version": "13.0.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "platformdirs"
+            },
+            "version": "4.14.5"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "prompt-toolkit"
+            },
+            "version": "3.0.53"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "propcache"
+            },
+            "version": "0.5.4"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "protobuf"
+            },
+            "version": "7.36.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "py-key-value-aio"
+            },
+            "version": "0.4.6"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pyarrow"
+            },
+            "version": "26.0.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pyasn1"
+            },
+            "version": "0.6.5"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pyasn1-modules"
+            },
+            "version": "0.4.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pybase64"
+            },
+            "version": "1.5.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pycparser"
+            },
+            "version": "3.12"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pydantic"
+            },
+            "version": "2.14.3"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pydantic-ai-slim"
+            },
+            "version": "1.107.7"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pydantic-core"
+            },
+            "version": "2.50.4"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pydantic-evals"
+            },
+            "version": "1.107.7"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pydantic-graph"
+            },
+            "version": "1.107.7"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pydantic-handlebars"
+            },
+            "version": "0.2.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pydantic-settings"
+            },
+            "version": "2.16.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pydeck"
+            },
+            "version": "0.9.3"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pygments"
+            },
+            "version": "2.21.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pyjwt"
+            },
+            "version": "2.15.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pyperclip"
+            },
+            "version": "1.11.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pypika"
+            },
+            "version": "0.51.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pyproject-hooks"
+            },
+            "version": "1.3.3"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "python-dateutil"
+            },
+            "version": "2.9.0.post0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "python-dotenv"
+            },
+            "version": "1.2.4"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "python-multipart"
+            },
+            "version": "0.0.33"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "pyyaml"
+            },
+            "version": "6.0.3"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "referencing"
+            },
+            "version": "0.37.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "regex"
+            },
+            "version": "2026.11.9"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "requests"
+            },
+            "version": "2.34.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "requests-oauthlib"
+            },
+            "version": "2.0.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "rich"
+            },
+            "version": "15.0.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "rich-rst"
+            },
+            "version": "2.2.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "rpds-py"
+            },
+            "version": "2026.9.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "s3transfer"
+            },
+            "version": "0.19.3"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "safetensors"
+            },
+            "version": "0.8.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "scikit-learn"
+            },
+            "version": "1.9.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "scipy"
+            },
+            "version": "1.18.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "sentence-transformers"
+            },
+            "version": "6.2.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "setuptools"
+            },
+            "version": "84.2.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "shellingham"
+            },
+            "version": "1.5.4"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "six"
+            },
+            "version": "1.17.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "smmap"
+            },
+            "version": "5.0.3"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "sniffio"
+            },
+            "version": "1.3.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "sse-starlette"
+            },
+            "version": "3.7.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "starlette"
+            },
+            "version": "1.10.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "streamlit"
+            },
+            "version": "1.67.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "sympy"
+            },
+            "version": "1.14.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "temporalio"
+            },
+            "version": "1.35.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "tenacity"
+            },
+            "version": "9.1.4"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "threadpoolctl"
+            },
+            "version": "3.8.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "tiktoken"
+            },
+            "version": "0.14.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "tokenizers"
+            },
+            "version": "0.23.3"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "torch"
+            },
+            "version": "2.15.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "tqdm"
+            },
+            "version": "4.70.1"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "transformers"
+            },
+            "version": "5.22.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "truststore"
+            },
+            "version": "0.10.5"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "typer"
+            },
+            "version": "0.29.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "types-protobuf"
+            },
+            "version": "7.35.1.20260906"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "types-requests"
+            },
+            "version": "2.33.0.20261030"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "typing-extensions"
+            },
+            "version": "4.16.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "typing-inspection"
+            },
+            "version": "0.4.5"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "uncalled-for"
+            },
+            "version": "0.6.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "urllib3"
+            },
+            "version": "2.8.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "uvicorn"
+            },
+            "version": "0.54.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "uvloop"
+            },
+            "version": "0.23.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "watchfiles"
+            },
+            "version": "1.3.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "wcwidth"
+            },
+            "version": "0.9.4"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "websocket-client"
+            },
+            "version": "1.9.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "websockets"
+            },
+            "version": "17.4"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "wrapt"
+            },
+            "version": "2.5.2"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "xai-sdk"
+            },
+            "version": "1.21.0"
+          },
+          {
+            "package": {
+              "ecosystem": "PyPI",
+              "name": "yarl"
+            },
+            "version": "1.25.1"
+          }
+        ]
+      },
+      "response": {
+        "results": [
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {
+            "vulns": [
+              {
+                "id": "GHSA-2wm9-hf6c-p5cr",
+                "modified": "2026-09-10T12:25:31.394776Z"
+              },
+              {
+                "id": "GHSA-36p7-vc44-83pf",
+                "modified": "2026-09-10T12:25:44.502926Z"
+              },
+              {
+                "id": "GHSA-f4j7-r4q5-qw2c",
+                "modified": "2026-10-05T21:45:03.620198Z"
+              },
+              {
+                "id": "GHSA-xph7-9rjv-w5fr",
+                "modified": "2026-09-10T12:25:45.510140Z"
+              },
+              {
+                "id": "PYSEC-2026-311",
+                "modified": "2026-07-01T20:22:50.354214Z"
+              },
+              {
+                "id": "PYSEC-2026-3813",
+                "modified": "2026-09-10T12:15:06.103369Z"
+              },
+              {
+                "id": "PYSEC-2026-3814",
+                "modified": "2026-09-10T12:15:04.042216Z"
+              },
+              {
+                "id": "PYSEC-2026-3815",
+                "modified": "2026-09-10T12:15:06.245023Z"
+              }
+            ]
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ]
+      }
+    },
+    {
+      "endpoint": "/vulns/GHSA-2wm9-hf6c-p5cr",
+      "response": {
+        "id": "GHSA-2wm9-hf6c-p5cr",
+        "aliases": [
+          "CVE-2026-45830",
+          "PYSEC-2026-3813"
+        ],
+        "modified": "2026-09-10T12:25:31.394776670Z",
+        "published": "2026-06-12T18:31:56Z",
+        "database_specific": {
+          "github_reviewed": true,
+          "github_reviewed_at": "2026-08-24T19:57:41Z",
+          "nvd_published_at": "2026-06-12T16:16:28Z",
+          "cwe_ids": [
+            "CWE-266",
+            "CWE-639"
+          ],
+          "severity": "HIGH"
+        },
+        "references": [
+          {
+            "type": "ADVISORY",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45830"
+          },
+          {
+            "type": "WEB",
+            "url": "https://github.com/chroma-core/chroma/issues/7588"
+          },
+          {
+            "type": "WEB",
+            "url": "https://github.com/chroma-core/chroma/pull/7602"
+          },
+          {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-45830"
+          },
+          {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2488408"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://github.com/chroma-core/chroma"
+          },
+          {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-45830.json"
+          },
+          {
+            "type": "WEB",
+            "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb"
+          }
+        ],
+        "affected": [
+          {
+            "package": {
+              "name": "chromadb",
+              "ecosystem": "PyPI",
+              "purl": "pkg:pypi/chromadb"
+            },
+            "ranges": [
+              {
+                "type": "ECOSYSTEM",
+                "events": [
+                  {
+                    "introduced": "0.4.17"
+                  },
+                  {
+                    "last_affected": "1.5.9"
+                  }
+                ]
+              }
+            ],
+            "versions": [
+              "0.4.17",
+              "0.4.18",
+              "0.4.19",
+              "0.4.20",
+              "0.4.21",
+              "0.4.22",
+              "0.4.23",
+              "0.4.24",
+              "0.5.0",
+              "0.5.1",
+              "0.5.10",
+              "0.5.11",
+              "0.5.12",
+              "0.5.13",
+              "0.5.15",
+              "0.5.16",
+              "0.5.17",
+              "0.5.18",
+              "0.5.2",
+              "0.5.20",
+              "0.5.21",
+              "0.5.23",
+              "0.5.3",
+              "0.5.4",
+              "0.5.5",
+              "0.5.7",
+              "0.5.9",
+              "0.6.0",
+              "0.6.1",
+              "0.6.2",
+              "0.6.3",
+              "1.0.0",
+              "1.0.0b0",
+              "1.0.10",
+              "1.0.11",
+              "1.0.12",
+              "1.0.13",
+              "1.0.15",
+              "1.0.16",
+              "1.0.17",
+              "1.0.18",
+              "1.0.19",
+              "1.0.2",
+              "1.0.20",
+              "1.0.21",
+              "1.0.3",
+              "1.0.4",
+              "1.0.5",
+              "1.0.6",
+              "1.0.7",
+              "1.0.8",
+              "1.0.9",
+              "1.1.0",
+              "1.1.1",
+              "1.2.0",
+              "1.2.1",
+              "1.2.2",
+              "1.3.0",
+              "1.3.2",
+              "1.3.3",
+              "1.3.4",
+              "1.3.5",
+              "1.3.6",
+              "1.3.7",
+              "1.4.0",
+              "1.4.1",
+              "1.5.0",
+              "1.5.1",
+              "1.5.2",
+              "1.5.3",
+              "1.5.4",
+              "1.5.5",
+              "1.5.6",
+              "1.5.7",
+              "1.5.8",
+              "1.5.9"
+            ],
+            "database_specific": {
+              "source": "https://github.com/github/advisory-database/blob/main/advisories/github-reviewed/2026/06/GHSA-2wm9-hf6c-p5cr/GHSA-2wm9-hf6c-p5cr.json"
+            }
+          }
+        ],
+        "schema_version": "1.9.0",
+        "severity": [
+          {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+          },
+          {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N"
+          }
+        ]
+      }
+    },
+    {
+      "endpoint": "/vulns/GHSA-36p7-vc44-83pf",
+      "response": {
+        "id": "GHSA-36p7-vc44-83pf",
+        "aliases": [
+          "CVE-2026-45833",
+          "PYSEC-2026-3814"
+        ],
+        "modified": "2026-09-10T12:25:44.502926958Z",
+        "published": "2026-06-12T18:31:56Z",
+        "database_specific": {
+          "github_reviewed": true,
+          "github_reviewed_at": "2026-08-24T20:03:34Z",
+          "nvd_published_at": "2026-06-12T16:16:29Z",
+          "cwe_ids": [
+            "CWE-94"
+          ],
+          "severity": "CRITICAL"
+        },
+        "references": [
+          {
+            "type": "ADVISORY",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45833"
+          },
+          {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-45833"
+          },
+          {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2488430"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://github.com/chroma-core/chroma"
+          },
+          {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-45833.json"
+          },
+          {
+            "type": "WEB",
+            "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb-5"
+          }
+        ],
+        "affected": [
+          {
+            "package": {
+              "name": "chromadb",
+              "ecosystem": "PyPI",
+              "purl": "pkg:pypi/chromadb"
+            },
+            "ranges": [
+              {
+                "type": "ECOSYSTEM",
+                "events": [
+                  {
+                    "introduced": "0.4.17"
+                  },
+                  {
+                    "last_affected": "1.5.9"
+                  }
+                ]
+              }
+            ],
+            "versions": [
+              "0.4.17",
+              "0.4.18",
+              "0.4.19",
+              "0.4.20",
+              "0.4.21",
+              "0.4.22",
+              "0.4.23",
+              "0.4.24",
+              "0.5.0",
+              "0.5.1",
+              "0.5.10",
+              "0.5.11",
+              "0.5.12",
+              "0.5.13",
+              "0.5.15",
+              "0.5.16",
+              "0.5.17",
+              "0.5.18",
+              "0.5.2",
+              "0.5.20",
+              "0.5.21",
+              "0.5.23",
+              "0.5.3",
+              "0.5.4",
+              "0.5.5",
+              "0.5.7",
+              "0.5.9",
+              "0.6.0",
+              "0.6.1",
+              "0.6.2",
+              "0.6.3",
+              "1.0.0",
+              "1.0.0b0",
+              "1.0.10",
+              "1.0.11",
+              "1.0.12",
+              "1.0.13",
+              "1.0.15",
+              "1.0.16",
+              "1.0.17",
+              "1.0.18",
+              "1.0.19",
+              "1.0.2",
+              "1.0.20",
+              "1.0.21",
+              "1.0.3",
+              "1.0.4",
+              "1.0.5",
+              "1.0.6",
+              "1.0.7",
+              "1.0.8",
+              "1.0.9",
+              "1.1.0",
+              "1.1.1",
+              "1.2.0",
+              "1.2.1",
+              "1.2.2",
+              "1.3.0",
+              "1.3.2",
+              "1.3.3",
+              "1.3.4",
+              "1.3.5",
+              "1.3.6",
+              "1.3.7",
+              "1.4.0",
+              "1.4.1",
+              "1.5.0",
+              "1.5.1",
+              "1.5.2",
+              "1.5.3",
+              "1.5.4",
+              "1.5.5",
+              "1.5.6",
+              "1.5.7",
+              "1.5.8",
+              "1.5.9"
+            ],
+            "database_specific": {
+              "source": "https://github.com/github/advisory-database/blob/main/advisories/github-reviewed/2026/06/GHSA-36p7-vc44-83pf/GHSA-36p7-vc44-83pf.json"
+            }
+          }
+        ],
+        "schema_version": "1.9.0",
+        "severity": [
+          {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
+          }
+        ]
+      }
+    },
+    {
+      "endpoint": "/vulns/GHSA-f4j7-r4q5-qw2c",
+      "response": {
+        "id": "GHSA-f4j7-r4q5-qw2c",
+        "aliases": [
+          "CVE-2026-45829",
+          "PYSEC-2026-311"
+        ],
+        "modified": "2026-10-05T21:45:03.620198036Z",
+        "published": "2026-05-18T18:31:30Z",
+        "database_specific": {
+          "github_reviewed": true,
+          "github_reviewed_at": "2026-05-29T19:15:04Z",
+          "nvd_published_at": "2026-05-18T17:16:34Z",
+          "cwe_ids": [
+            "CWE-502",
+            "CWE-94"
+          ],
+          "severity": "CRITICAL"
+        },
+        "references": [
+          {
+            "type": "ADVISORY",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45829"
+          },
+          {
+            "type": "WEB",
+            "url": "https://github.com/chroma-core/chroma/issues/6717"
+          },
+          {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-45829"
+          },
+          {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2479623"
+          },
+          {
+            "type": "ADVISORY",
+            "url": "https://github.com/advisories/GHSA-f4j7-r4q5-qw2c"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://github.com/chroma-core/chroma"
+          },
+          {
+            "type": "WEB",
+            "url": "https://github.com/pypa/advisory-database/tree/main/vulns/chromadb/PYSEC-2026-311.yaml"
+          },
+          {
+            "type": "WEB",
+            "url": "https://pypi.org/project/chromadb"
+          },
+          {
+            "type": "WEB",
+            "url": "https://www.hiddenlayer.com/research/chromatoast-served-pre-auth"
+          }
+        ],
+        "affected": [
+          {
+            "package": {
+              "name": "chromadb",
+              "ecosystem": "PyPI",
+              "purl": "pkg:pypi/chromadb"
+            },
+            "ranges": [
+              {
+                "type": "ECOSYSTEM",
+                "events": [
+                  {
+                    "introduced": "1.0.0"
+                  },
+                  {
+                    "last_affected": "1.5.9"
+                  }
+                ]
+              }
+            ],
+            "versions": [
+              "1.0.0",
+              "1.0.10",
+              "1.0.11",
+              "1.0.12",
+              "1.0.13",
+              "1.0.15",
+              "1.0.16",
+              "1.0.17",
+              "1.0.18",
+              "1.0.19",
+              "1.0.2",
+              "1.0.20",
+              "1.0.21",
+              "1.0.3",
+              "1.0.4",
+              "1.0.5",
+              "1.0.6",
+              "1.0.7",
+              "1.0.8",
+              "1.0.9",
+              "1.1.0",
+              "1.1.1",
+              "1.2.0",
+              "1.2.1",
+              "1.2.2",
+              "1.3.0",
+              "1.3.2",
+              "1.3.3",
+              "1.3.4",
+              "1.3.5",
+              "1.3.6",
+              "1.3.7",
+              "1.4.0",
+              "1.4.1",
+              "1.5.0",
+              "1.5.1",
+              "1.5.2",
+              "1.5.3",
+              "1.5.4",
+              "1.5.5",
+              "1.5.6",
+              "1.5.7",
+              "1.5.8",
+              "1.5.9"
+            ],
+            "database_specific": {
+              "source": "https://github.com/github/advisory-database/blob/main/advisories/github-reviewed/2026/05/GHSA-f4j7-r4q5-qw2c/GHSA-f4j7-r4q5-qw2c.json"
+            }
+          }
+        ],
+        "schema_version": "1.9.0",
+        "severity": [
+          {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+          },
+          {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:P"
+          }
+        ]
+      }
+    },
+    {
+      "endpoint": "/vulns/GHSA-xph7-9rjv-w5fr",
+      "response": {
+        "id": "GHSA-xph7-9rjv-w5fr",
+        "aliases": [
+          "CVE-2026-45831",
+          "PYSEC-2026-3815"
+        ],
+        "modified": "2026-09-10T12:25:45.510140945Z",
+        "published": "2026-06-12T18:31:56Z",
+        "database_specific": {
+          "severity": "HIGH",
+          "github_reviewed": true,
+          "github_reviewed_at": "2026-08-24T20:00:42Z",
+          "nvd_published_at": "2026-06-12T16:16:28Z",
+          "cwe_ids": [
+            "CWE-863"
+          ]
+        },
+        "references": [
+          {
+            "type": "ADVISORY",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45831"
+          },
+          {
+            "type": "WEB",
+            "url": "https://github.com/chroma-core/chroma/issues/7588"
+          },
+          {
+            "type": "WEB",
+            "url": "https://github.com/chroma-core/chroma/pull/7602"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://github.com/chroma-core/chroma"
+          },
+          {
+            "type": "WEB",
+            "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb-3"
+          }
+        ],
+        "affected": [
+          {
+            "package": {
+              "name": "chromadb",
+              "ecosystem": "PyPI",
+              "purl": "pkg:pypi/chromadb"
+            },
+            "ranges": [
+              {
+                "type": "ECOSYSTEM",
+                "events": [
+                  {
+                    "introduced": "0.5.0"
+                  },
+                  {
+                    "last_affected": "1.5.9"
+                  }
+                ]
+              }
+            ],
+            "versions": [
+              "0.5.0",
+              "0.5.1",
+              "0.5.10",
+              "0.5.11",
+              "0.5.12",
+              "0.5.13",
+              "0.5.15",
+              "0.5.16",
+              "0.5.17",
+              "0.5.18",
+              "0.5.2",
+              "0.5.20",
+              "0.5.21",
+              "0.5.23",
+              "0.5.3",
+              "0.5.4",
+              "0.5.5",
+              "0.5.7",
+              "0.5.9",
+              "0.6.0",
+              "0.6.1",
+              "0.6.2",
+              "0.6.3",
+              "1.0.0",
+              "1.0.0b0",
+              "1.0.10",
+              "1.0.11",
+              "1.0.12",
+              "1.0.13",
+              "1.0.15",
+              "1.0.16",
+              "1.0.17",
+              "1.0.18",
+              "1.0.19",
+              "1.0.2",
+              "1.0.20",
+              "1.0.21",
+              "1.0.3",
+              "1.0.4",
+              "1.0.5",
+              "1.0.6",
+              "1.0.7",
+              "1.0.8",
+              "1.0.9",
+              "1.1.0",
+              "1.1.1",
+              "1.2.0",
+              "1.2.1",
+              "1.2.2",
+              "1.3.0",
+              "1.3.2",
+              "1.3.3",
+              "1.3.4",
+              "1.3.5",
+              "1.3.6",
+              "1.3.7",
+              "1.4.0",
+              "1.4.1",
+              "1.5.0",
+              "1.5.1",
+              "1.5.2",
+              "1.5.3",
+              "1.5.4",
+              "1.5.5",
+              "1.5.6",
+              "1.5.7",
+              "1.5.8",
+              "1.5.9"
+            ],
+            "database_specific": {
+              "source": "https://github.com/github/advisory-database/blob/main/advisories/github-reviewed/2026/06/GHSA-xph7-9rjv-w5fr/GHSA-xph7-9rjv-w5fr.json"
+            }
+          }
+        ],
+        "schema_version": "1.9.0",
+        "severity": [
+          {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+          },
+          {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N"
+          }
+        ]
+      }
+    },
+    {
+      "endpoint": "/vulns/PYSEC-2026-311",
+      "response": {
+        "id": "PYSEC-2026-311",
+        "aliases": [
+          "CVE-2026-45829",
+          "GHSA-f4j7-r4q5-qw2c"
+        ],
+        "modified": "2026-07-01T20:22:50.354214Z",
+        "published": "2026-06-29T11:50:50.691654Z",
+        "references": [
+          {
+            "type": "ADVISORY",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45829"
+          },
+          {
+            "type": "WEB",
+            "url": "https://github.com/chroma-core/chroma/issues/6717"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://github.com/chroma-core/chroma"
+          },
+          {
+            "type": "WEB",
+            "url": "https://www.hiddenlayer.com/research/chromatoast-served-pre-auth"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://pypi.org/project/chromadb"
+          },
+          {
+            "type": "ADVISORY",
+            "url": "https://github.com/advisories/GHSA-f4j7-r4q5-qw2c"
+          }
+        ],
+        "affected": [
+          {
+            "package": {
+              "name": "chromadb",
+              "ecosystem": "PyPI",
+              "purl": "pkg:pypi/chromadb"
+            },
+            "ranges": [
+              {
+                "type": "ECOSYSTEM",
+                "events": [
+                  {
+                    "introduced": "1.0.0"
+                  },
+                  {
+                    "last_affected": "1.5.9"
+                  }
+                ]
+              }
+            ],
+            "versions": [
+              "1.0.0",
+              "1.0.10",
+              "1.0.11",
+              "1.0.12",
+              "1.0.13",
+              "1.0.15",
+              "1.0.16",
+              "1.0.17",
+              "1.0.18",
+              "1.0.19",
+              "1.0.2",
+              "1.0.20",
+              "1.0.21",
+              "1.0.3",
+              "1.0.4",
+              "1.0.5",
+              "1.0.6",
+              "1.0.7",
+              "1.0.8",
+              "1.0.9",
+              "1.1.0",
+              "1.1.1",
+              "1.2.0",
+              "1.2.1",
+              "1.2.2",
+              "1.3.0",
+              "1.3.2",
+              "1.3.3",
+              "1.3.4",
+              "1.3.5",
+              "1.3.6",
+              "1.3.7",
+              "1.4.0",
+              "1.4.1",
+              "1.5.0",
+              "1.5.1",
+              "1.5.2",
+              "1.5.3",
+              "1.5.4",
+              "1.5.5",
+              "1.5.6",
+              "1.5.7",
+              "1.5.8",
+              "1.5.9"
+            ],
+            "database_specific": {
+              "source": "https://github.com/pypa/advisory-database/blob/main/vulns/chromadb/PYSEC-2026-311.yaml"
+            }
+          }
+        ],
+        "schema_version": "1.7.5",
+        "severity": [
+          {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:P"
+          }
+        ]
+      }
+    },
+    {
+      "endpoint": "/vulns/PYSEC-2026-3813",
+      "response": {
+        "id": "PYSEC-2026-3813",
+        "aliases": [
+          "CVE-2026-45830",
+          "GHSA-2wm9-hf6c-p5cr"
+        ],
+        "modified": "2026-09-10T12:15:06.103369504Z",
+        "published": "2026-09-10T09:44:49.728625Z",
+        "references": [
+          {
+            "type": "ADVISORY",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45830"
+          },
+          {
+            "type": "WEB",
+            "url": "https://github.com/chroma-core/chroma/issues/7588"
+          },
+          {
+            "type": "WEB",
+            "url": "https://github.com/chroma-core/chroma/pull/7602"
+          },
+          {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-45830"
+          },
+          {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2488408"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://github.com/chroma-core/chroma"
+          },
+          {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-45830.json"
+          },
+          {
+            "type": "WEB",
+            "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://pypi.org/project/chromadb"
+          },
+          {
+            "type": "ADVISORY",
+            "url": "https://github.com/advisories/GHSA-2wm9-hf6c-p5cr"
+          }
+        ],
+        "affected": [
+          {
+            "package": {
+              "name": "chromadb",
+              "ecosystem": "PyPI",
+              "purl": "pkg:pypi/chromadb"
+            },
+            "ranges": [
+              {
+                "type": "ECOSYSTEM",
+                "events": [
+                  {
+                    "introduced": "0.4.17"
+                  },
+                  {
+                    "last_affected": "1.5.9"
+                  }
+                ]
+              }
+            ],
+            "versions": [
+              "0.4.17",
+              "0.4.18",
+              "0.4.19",
+              "0.4.20",
+              "0.4.21",
+              "0.4.22",
+              "0.4.23",
+              "0.4.24",
+              "0.5.0",
+              "0.5.1",
+              "0.5.10",
+              "0.5.11",
+              "0.5.12",
+              "0.5.13",
+              "0.5.15",
+              "0.5.16",
+              "0.5.17",
+              "0.5.18",
+              "0.5.2",
+              "0.5.20",
+              "0.5.21",
+              "0.5.23",
+              "0.5.3",
+              "0.5.4",
+              "0.5.5",
+              "0.5.7",
+              "0.5.9",
+              "0.6.0",
+              "0.6.1",
+              "0.6.2",
+              "0.6.3",
+              "1.0.0",
+              "1.0.0b0",
+              "1.0.10",
+              "1.0.11",
+              "1.0.12",
+              "1.0.13",
+              "1.0.15",
+              "1.0.16",
+              "1.0.17",
+              "1.0.18",
+              "1.0.19",
+              "1.0.2",
+              "1.0.20",
+              "1.0.21",
+              "1.0.3",
+              "1.0.4",
+              "1.0.5",
+              "1.0.6",
+              "1.0.7",
+              "1.0.8",
+              "1.0.9",
+              "1.1.0",
+              "1.1.1",
+              "1.2.0",
+              "1.2.1",
+              "1.2.2",
+              "1.3.0",
+              "1.3.2",
+              "1.3.3",
+              "1.3.4",
+              "1.3.5",
+              "1.3.6",
+              "1.3.7",
+              "1.4.0",
+              "1.4.1",
+              "1.5.0",
+              "1.5.1",
+              "1.5.2",
+              "1.5.3",
+              "1.5.4",
+              "1.5.5",
+              "1.5.6",
+              "1.5.7",
+              "1.5.8",
+              "1.5.9"
+            ],
+            "database_specific": {
+              "source": "https://github.com/pypa/advisory-database/blob/main/vulns/chromadb/PYSEC-2026-3813.yaml"
+            }
+          }
+        ],
+        "schema_version": "1.9.0",
+        "severity": [
+          {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+          },
+          {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N"
+          }
+        ]
+      }
+    },
+    {
+      "endpoint": "/vulns/PYSEC-2026-3814",
+      "response": {
+        "id": "PYSEC-2026-3814",
+        "aliases": [
+          "CVE-2026-45833",
+          "GHSA-36p7-vc44-83pf"
+        ],
+        "modified": "2026-09-10T12:15:04.042216507Z",
+        "published": "2026-09-10T09:44:49.796549Z",
+        "references": [
+          {
+            "type": "ADVISORY",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45833"
+          },
+          {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-45833"
+          },
+          {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2488430"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://github.com/chroma-core/chroma"
+          },
+          {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-45833.json"
+          },
+          {
+            "type": "WEB",
+            "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb-5"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://pypi.org/project/chromadb"
+          },
+          {
+            "type": "ADVISORY",
+            "url": "https://github.com/advisories/GHSA-36p7-vc44-83pf"
+          }
+        ],
+        "affected": [
+          {
+            "package": {
+              "name": "chromadb",
+              "ecosystem": "PyPI",
+              "purl": "pkg:pypi/chromadb"
+            },
+            "ranges": [
+              {
+                "type": "ECOSYSTEM",
+                "events": [
+                  {
+                    "introduced": "0.4.17"
+                  },
+                  {
+                    "last_affected": "1.5.9"
+                  }
+                ]
+              }
+            ],
+            "versions": [
+              "0.4.17",
+              "0.4.18",
+              "0.4.19",
+              "0.4.20",
+              "0.4.21",
+              "0.4.22",
+              "0.4.23",
+              "0.4.24",
+              "0.5.0",
+              "0.5.1",
+              "0.5.10",
+              "0.5.11",
+              "0.5.12",
+              "0.5.13",
+              "0.5.15",
+              "0.5.16",
+              "0.5.17",
+              "0.5.18",
+              "0.5.2",
+              "0.5.20",
+              "0.5.21",
+              "0.5.23",
+              "0.5.3",
+              "0.5.4",
+              "0.5.5",
+              "0.5.7",
+              "0.5.9",
+              "0.6.0",
+              "0.6.1",
+              "0.6.2",
+              "0.6.3",
+              "1.0.0",
+              "1.0.0b0",
+              "1.0.10",
+              "1.0.11",
+              "1.0.12",
+              "1.0.13",
+              "1.0.15",
+              "1.0.16",
+              "1.0.17",
+              "1.0.18",
+              "1.0.19",
+              "1.0.2",
+              "1.0.20",
+              "1.0.21",
+              "1.0.3",
+              "1.0.4",
+              "1.0.5",
+              "1.0.6",
+              "1.0.7",
+              "1.0.8",
+              "1.0.9",
+              "1.1.0",
+              "1.1.1",
+              "1.2.0",
+              "1.2.1",
+              "1.2.2",
+              "1.3.0",
+              "1.3.2",
+              "1.3.3",
+              "1.3.4",
+              "1.3.5",
+              "1.3.6",
+              "1.3.7",
+              "1.4.0",
+              "1.4.1",
+              "1.5.0",
+              "1.5.1",
+              "1.5.2",
+              "1.5.3",
+              "1.5.4",
+              "1.5.5",
+              "1.5.6",
+              "1.5.7",
+              "1.5.8",
+              "1.5.9"
+            ],
+            "database_specific": {
+              "source": "https://github.com/pypa/advisory-database/blob/main/vulns/chromadb/PYSEC-2026-3814.yaml"
+            }
+          }
+        ],
+        "schema_version": "1.9.0",
+        "severity": [
+          {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
+          }
+        ]
+      }
+    },
+    {
+      "endpoint": "/vulns/PYSEC-2026-3815",
+      "response": {
+        "id": "PYSEC-2026-3815",
+        "aliases": [
+          "CVE-2026-45831",
+          "GHSA-xph7-9rjv-w5fr"
+        ],
+        "modified": "2026-09-10T12:15:06.245023955Z",
+        "published": "2026-09-10T09:44:49.853001Z",
+        "references": [
+          {
+            "type": "ADVISORY",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45831"
+          },
+          {
+            "type": "WEB",
+            "url": "https://github.com/chroma-core/chroma/issues/7588"
+          },
+          {
+            "type": "WEB",
+            "url": "https://github.com/chroma-core/chroma/pull/7602"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://github.com/chroma-core/chroma"
+          },
+          {
+            "type": "WEB",
+            "url": "https://www.hiddenlayer.com/sai-security-advisory/2026-06-chromadb-3"
+          },
+          {
+            "type": "PACKAGE",
+            "url": "https://pypi.org/project/chromadb"
+          },
+          {
+            "type": "ADVISORY",
+            "url": "https://github.com/advisories/GHSA-xph7-9rjv-w5fr"
+          }
+        ],
+        "affected": [
+          {
+            "package": {
+              "name": "chromadb",
+              "ecosystem": "PyPI",
+              "purl": "pkg:pypi/chromadb"
+            },
+            "ranges": [
+              {
+                "type": "ECOSYSTEM",
+                "events": [
+                  {
+                    "introduced": "0.5.0"
+                  },
+                  {
+                    "last_affected": "1.5.9"
+                  }
+                ]
+              }
+            ],
+            "versions": [
+              "0.5.0",
+              "0.5.1",
+              "0.5.10",
+              "0.5.11",
+              "0.5.12",
+              "0.5.13",
+              "0.5.15",
+              "0.5.16",
+              "0.5.17",
+              "0.5.18",
+              "0.5.2",
+              "0.5.20",
+              "0.5.21",
+              "0.5.23",
+              "0.5.3",
+              "0.5.4",
+              "0.5.5",
+              "0.5.7",
+              "0.5.9",
+              "0.6.0",
+              "0.6.1",
+              "0.6.2",
+              "0.6.3",
+              "1.0.0",
+              "1.0.0b0",
+              "1.0.10",
+              "1.0.11",
+              "1.0.12",
+              "1.0.13",
+              "1.0.15",
+              "1.0.16",
+              "1.0.17",
+              "1.0.18",
+              "1.0.19",
+              "1.0.2",
+              "1.0.20",
+              "1.0.21",
+              "1.0.3",
+              "1.0.4",
+              "1.0.5",
+              "1.0.6",
+              "1.0.7",
+              "1.0.8",
+              "1.0.9",
+              "1.1.0",
+              "1.1.1",
+              "1.2.0",
+              "1.2.1",
+              "1.2.2",
+              "1.3.0",
+              "1.3.2",
+              "1.3.3",
+              "1.3.4",
+              "1.3.5",
+              "1.3.6",
+              "1.3.7",
+              "1.4.0",
+              "1.4.1",
+              "1.5.0",
+              "1.5.1",
+              "1.5.2",
+              "1.5.3",
+              "1.5.4",
+              "1.5.5",
+              "1.5.6",
+              "1.5.7",
+              "1.5.8",
+              "1.5.9"
+            ],
+            "database_specific": {
+              "source": "https://github.com/pypa/advisory-database/blob/main/vulns/chromadb/PYSEC-2026-3815.yaml"
+            }
+          }
+        ],
+        "schema_version": "1.9.0",
+        "severity": [
+          {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+          },
+          {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N"
+          }
+        ]
+      }
+    }
+  ],
+  "error": null
+}
