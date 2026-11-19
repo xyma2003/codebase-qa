@@ -66,3 +66,5 @@ CI 另外用固定版本 Trivy 0.76.2 对保存的镜像扫描 OS 包，不向�
 2026-11-19 的最新成功提交 `b4804a0` 已通过 Mac/Linux CI。系统包库存与 11 月 17 日一致，新扫描为 459 条命中/225 个编号，且当前 Debian 12 扫描未给出修复版本；旧 445 条不能继续冒充最新基线。本次以这份记录验证 Debian 13 升级，固定 Linux 196 个依赖和非目标工具镜像，保留旧最小版本清单及完整数据回读检查。实际新系统扫描结果以本提交 CI 为准，不预先声明零漏洞，见[底座整改记录](checks/20261119-trixie.md)。
 
 数据源：[OSV 查询约定](https://google.github.io/osv.dev/post-v1-querybatch/)、[GitHub Advisory Database](https://github.com/advisories)、[Trivy 固定版本](https://github.com/aquasecurity/trivy/releases/tag/v0.76.2)。本轮查询材料见 [审计记录](checks/20261117-dependency-audit.json)。
+
+2026-11-19 最终代码 `cf1c464` 已通过 Mac/Linux CI。实际 Trixie 扫描为 413 条/194 个编号，Critical 2→0、High 仍为 118 条；对照有 48 个编号不再报告、17 个新增报告，剩余记录均未给出当前稳定发行版的修复版本。Python 仍有 4 组 Chroma 公告。全部保留阻断，后续先核对新增 util-linux 高危与留存高危可达性及补丁方案，另行评估 Chroma 后端替换。详见[最终回读及差异](checks/20261119-security-readback.md)。

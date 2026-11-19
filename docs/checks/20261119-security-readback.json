@@ -1,0 +1,366 @@
+{
+  "comparison_kind": "different_os_release_with_identical_python_dependency_lock",
+  "baseline": {
+    "records": 459,
+    "unique_ids": 225,
+    "severity": {
+      "CRITICAL": 2,
+      "HIGH": 118,
+      "LOW": 153,
+      "MEDIUM": 175,
+      "UNKNOWN": 11
+    },
+    "records_with_fixed_version": 0,
+    "raw_sha256": "53c5bc9c760f9ae21e3381daa1c77f6d7d1b4aadeab1a94afc7be044c022759c",
+    "revision": "b4804a0b61d8ffcffe9462d2060b09ca699f3c42",
+    "run_id": 44486338282,
+    "artifact_sha256": "75dba8d8a5f3495de324dce04299968ded44d73e5c43f2d036df1c7594a58420"
+  },
+  "candidate": {
+    "records": 413,
+    "unique_ids": 194,
+    "severity": {
+      "HIGH": 118,
+      "LOW": 133,
+      "MEDIUM": 150,
+      "UNKNOWN": 12
+    },
+    "records_with_fixed_version": 0,
+    "raw_sha256": "b25dba87674775dfba1fcb555c5a83c9dbe65274a0d5ae8de2fe3b97553ccd29",
+    "revision": "cf1c464d0df9991254e919b389f1267643470f3f",
+    "run_id": 44490135880,
+    "artifact_sha256": "71f88cbdfb2c96a9491449084330b2ee43fc8137b6d2838978f9e612ae63eabd"
+  },
+  "ids_no_longer_reported": [
+    "CVE-2016-2781",
+    "CVE-2018-6829",
+    "CVE-2022-27943",
+    "CVE-2022-3219",
+    "CVE-2023-2953",
+    "CVE-2023-31486",
+    "CVE-2023-45853",
+    "CVE-2023-50495",
+    "CVE-2023-52426",
+    "CVE-2024-10041",
+    "CVE-2024-2236",
+    "CVE-2024-2379",
+    "CVE-2025-0725",
+    "CVE-2025-13151",
+    "CVE-2025-14104",
+    "CVE-2025-27587",
+    "CVE-2025-29088",
+    "CVE-2025-30258",
+    "CVE-2025-6020",
+    "CVE-2025-68972",
+    "CVE-2025-7458",
+    "CVE-2025-7709",
+    "CVE-2026-105712",
+    "CVE-2026-11822",
+    "CVE-2026-11824",
+    "CVE-2026-13595",
+    "CVE-2026-1965",
+    "CVE-2026-27171",
+    "CVE-2026-27456",
+    "CVE-2026-41080",
+    "CVE-2026-41991",
+    "CVE-2026-41992",
+    "CVE-2026-4873",
+    "CVE-2026-53613",
+    "CVE-2026-53615",
+    "CVE-2026-5450",
+    "CVE-2026-5545",
+    "CVE-2026-57062",
+    "CVE-2026-5928",
+    "CVE-2026-6253",
+    "CVE-2026-6276",
+    "CVE-2026-6429",
+    "CVE-2026-8286",
+    "CVE-2026-85091",
+    "CVE-2026-85231",
+    "CVE-2026-85977",
+    "CVE-2026-8924",
+    "CVE-2026-8927"
+  ],
+  "newly_reported_ids": [
+    {
+      "id": "CVE-2026-107161",
+      "severity": "MEDIUM",
+      "packages": [
+        "libsasl2-2",
+        "libsasl2-modules-db"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-107929",
+      "severity": "LOW",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-115455",
+      "severity": "MEDIUM",
+      "packages": [
+        "gcc-14-base",
+        "libgcc-s1",
+        "libstdc++6"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-76642",
+      "severity": "HIGH",
+      "packages": [
+        "bsdutils",
+        "libblkid1",
+        "liblastlog2-2",
+        "libmount1",
+        "libsmartcols1",
+        "libuuid1",
+        "login",
+        "mount",
+        "util-linux"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-78408",
+      "severity": "HIGH",
+      "packages": [
+        "bsdutils",
+        "libblkid1",
+        "liblastlog2-2",
+        "libmount1",
+        "libsmartcols1",
+        "libuuid1",
+        "login",
+        "mount",
+        "util-linux"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-78409",
+      "severity": "HIGH",
+      "packages": [
+        "bsdutils",
+        "libblkid1",
+        "liblastlog2-2",
+        "libmount1",
+        "libsmartcols1",
+        "libuuid1",
+        "login",
+        "mount",
+        "util-linux"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-80229",
+      "severity": "LOW",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-80255",
+      "severity": "LOW",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-82208",
+      "severity": "LOW",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-87862",
+      "severity": "LOW",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-87863",
+      "severity": "LOW",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-8926",
+      "severity": "MEDIUM",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-9079",
+      "severity": "MEDIUM",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-9080",
+      "severity": "MEDIUM",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-92386",
+      "severity": "LOW",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-92387",
+      "severity": "LOW",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    },
+    {
+      "id": "CVE-2026-9545",
+      "severity": "MEDIUM",
+      "packages": [
+        "libcurl3t64-gnutls"
+      ],
+      "status": "affected",
+      "fixed_version": null
+    }
+  ],
+  "critical_ids_no_longer_reported": [
+    "CVE-2023-45853",
+    "CVE-2025-7458"
+  ],
+  "linux_lock_sha256": "0b0776cc11f664609c5a1b518d9e0d36269199e34cf76b1174fe231b9cb3bd63",
+  "actual_minimum_versions": {
+    "status": "targeted_package_versions_passed",
+    "manifest_sha256": "2965af11351e2e7c1ee4694e5f111a591edf8181754c9311811b4a567cac811f",
+    "installed": {
+      "apt": "3.0.4",
+      "libapt-pkg7.0": "3.0.4",
+      "liblzma5": "5.8.1-1+deb13u2",
+      "libpcre2-8-0": "10.46-1~deb13u3",
+      "libsqlite3-0": "3.46.1-7+deb13u2",
+      "libssl3t64": "3.5.7-1~deb13u3",
+      "openssl": "3.5.7-1~deb13u3",
+      "tzdata": "2026f-0+deb13u1",
+      "zlib1g": "1:1.3.dfsg+really1.3.1-1+deb13u1"
+    },
+    "minimums": {
+      "apt": "3.0.4",
+      "libapt-pkg7.0": "3.0.4",
+      "liblzma5": "5.8.1-1+deb13u2",
+      "libpcre2-8-0": "10.46-1~deb13u3",
+      "libssl3t64": "3.5.7-1~deb13u3",
+      "openssl": "3.5.7-1~deb13u3",
+      "tzdata": "2026c-0+deb13u1",
+      "libsqlite3-0": "3.46.1-7+deb13u2",
+      "zlib1g": "1:1.3.dfsg+really1.3.1-1+deb13u1"
+    }
+  },
+  "storage_compatibility": {
+    "status": "storage_platform_compatibility_passed",
+    "before": {
+      "python": "3.12.13",
+      "sqlite": "3.40.1",
+      "uid": 10001,
+      "system": "Linux",
+      "distribution": {
+        "NAME": "Debian GNU/Linux",
+        "ID": "debian",
+        "PRETTY_NAME": "Debian GNU/Linux 12 (bookworm)",
+        "VERSION_ID": "12",
+        "VERSION": "12 (bookworm)",
+        "VERSION_CODENAME": "bookworm",
+        "HOME_URL": "https://www.debian.org/",
+        "SUPPORT_URL": "https://www.debian.org/support",
+        "BUG_REPORT_URL": "https://bugs.debian.org/"
+      }
+    },
+    "after": {
+      "python": "3.12.13",
+      "sqlite": "3.46.1",
+      "uid": 10001,
+      "system": "Linux",
+      "distribution": {
+        "NAME": "Debian GNU/Linux",
+        "ID": "debian",
+        "PRETTY_NAME": "Debian GNU/Linux 13 (trixie)",
+        "VERSION_ID": "13",
+        "VERSION": "13 (trixie)",
+        "VERSION_CODENAME": "trixie",
+        "DEBIAN_VERSION_FULL": "13.7",
+        "HOME_URL": "https://www.debian.org/",
+        "SUPPORT_URL": "https://www.debian.org/support",
+        "BUG_REPORT_URL": "https://bugs.debian.org/"
+      }
+    },
+    "old_data_read_on_new_image": true,
+    "new_image_restore": {
+      "status": "stopped_service_restore_passed",
+      "scope": "temporary_git_chroma_and_two_user_fixture",
+      "source_process_exited_before_backup": true,
+      "original_path_replaced_for_readback": true,
+      "source_snapshot_checked": true,
+      "vectors_restored": 1,
+      "conversations_restored": 2,
+      "native_turns_restored": 2,
+      "cross_owner_denied": true,
+      "model_requests": 0,
+      "real_business_data_modified": false,
+      "backup": {
+        "files": 37,
+        "bytes": 272426,
+        "sha256": "94b8866a8d92f5eeb2099f657444c018fcf2d971e5afde687320752d484b3af1"
+      },
+      "restore": {
+        "files": 37
+      }
+    },
+    "real_model_requests": 0,
+    "baseline_image": "codebase-qa:storage-baseline",
+    "image": "codebase-qa:preparation"
+  },
+  "linux_and_mac_ci": "success",
+  "mac_tests": 392,
+  "mac_test_seconds": 138.048,
+  "python_packages_audited": 196,
+  "python_advisory_groups_remaining": 4,
+  "release_allowed": false
+}
