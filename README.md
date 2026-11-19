@@ -51,7 +51,7 @@ source .venv/bin/activate
 pip install --require-hashes -r dependencies/runtime-macos.lock
 ```
 
-上面的哈希锁用于 Python 3.12 / macOS。Linux CPU 锁由 CI 根据[当前精确版本](dependencies/runtime-pins.txt)单独解析并检查，见[部署说明](docs/DEPLOYMENT.md)。模型接口使用 `pydantic-ai-slim[anthropic,openai]`，不安装全量适配器元包。
+上面的哈希锁用于 Python 3.12 / macOS。Linux 使用[已验收的 CPU 哈希锁](dependencies/runtime-linux-cpu.lock)，CI 检查与[当前公共版本](dependencies/runtime-pins.txt)一致，见[部署说明](docs/DEPLOYMENT.md)。模型接口使用 `pydantic-ai-slim[anthropic,openai]`，不安装全量适配器元包。
 
 复现原版时，使用[阶段零依赖锁](docs/baseline/runs/20261110-stage0/requirements-hashed.txt)和[运行说明](docs/baseline/README.md)。历史锁保持不变，依赖整改写入当前锁及[审计记录](docs/DEPENDENCY_AUDIT.md)。
 

@@ -80,6 +80,17 @@ class OsPackageTests(unittest.TestCase):
             with self.subTest(change=change), self.assertRaises(ValueError):
                 check_scan(self.path, scan)
 
+    def test_trixie_manifest_requires_trixie_inventory_and_retains_critical_targets(self):
+        data = json.loads((Path(__file__).resolve().parents[1] / "deploy/os-security-minimums.json").read_text())
+        self.assertEqual(data["distribution"], {"id": "debian", "version": "13"})
+        self.assertTrue({("libsqlite3-0", "CVE-2025-7458"), ("zlib1g", "CVE-2023-45853")}.issubset({(r["package"], r["id"]) for r in data["targeted_findings"]}))
+        self.path.write_text(json.dumps(data))
+        scan = {"Metadata": {"OS": {"Family": "debian", "Name": "13.6"}}, "Results": [{"Class": "os-pkgs", "Packages": [{"Name": n} for n in data["packages"]], "Vulnerabilities": []}]}
+        self.assertEqual(check_scan(self.path, scan)["targeted_findings_cleared"], 40)
+        scan["Metadata"]["OS"]["Name"] = "12.15"
+        with self.assertRaises(ValueError):
+            check_scan(self.path, scan)
+
 
 if __name__ == "__main__":
     unittest.main()

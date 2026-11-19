@@ -2,7 +2,7 @@
 
 - `runtime-pins.txt`：当前公共包的精确版本，作为 Mac 和 Linux 的共同输入。
 - `runtime-macos.lock`：Python 3.12 / macOS 安装锁，包含 PyPI SHA256。
-- Linux CPU 锁：CI 使用 `requirements.txt` 和 `runtime-pins.txt` 解析，逐项检查公共版本，再归档为 `runtime.lock`。Linux 额外依赖及 PyTorch 的 `+cpu` 标记单独记录。
+- `runtime-linux-cpu.lock`：从最新成功 Linux CI 回收的 Python 3.12 CPU 哈希锁，共 196 个包；193 个公共版本与 Mac 一致，另外 3 个 Linux 包及 PyTorch 的 `+cpu` 标记单独记录。构建直接复用此文件并检查哈希和公共版本，不在底座升级时重新解析依赖。
 
 全新 Mac 虚拟环境按哈希安装：
 

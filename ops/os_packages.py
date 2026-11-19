@@ -11,7 +11,7 @@ import subprocess
 
 def load_targets(path):
     data = json.loads(Path(path).read_bytes())
-    if data.get("schema") != 1 or data.get("distribution") != {"id": "debian", "version": "12"}:
+    if data.get("schema") != 1 or data.get("distribution") not in ({"id": "debian", "version": "12"}, {"id": "debian", "version": "13"}):
         raise ValueError("系统包修复清单格式或发行版不匹配。")
     packages = data.get("packages")
     if not isinstance(packages, dict) or not packages:
@@ -30,8 +30,8 @@ def load_targets(path):
 def check_installed(path, *, run=subprocess.run, os_release=None):
     targets = load_targets(path)
     system = platform.freedesktop_os_release() if os_release is None else os_release
-    if (system.get("ID"), system.get("VERSION_ID")) != ("debian", "12"):
-        raise ValueError("系统包最低版本检查只支持当前 Debian 12 镜像。")
+    if (system.get("ID"), system.get("VERSION_ID")) != ("debian", targets["distribution"]["version"]):
+        raise ValueError("系统包最低版本检查与清单指定的 Debian 版本不匹配。")
     packages = targets["packages"]
     result = run(["dpkg-query", "--show", "--showformat=${binary:Package}\t${db:Status-Status}\t${Version}\n", *sorted(packages)], capture_output=True, text=True, timeout=15)
     if result.returncode:
@@ -57,7 +57,7 @@ def check_scan(path, scan):
     system = scan.get("Metadata", {}).get("OS", {})
     results = [row for row in scan.get("Results", []) if row.get("Class") == "os-pkgs"]
     inventory = {package["Name"] for row in results for package in row.get("Packages", [])}
-    if system.get("Family") != "debian" or system.get("Name", "").split(".")[0] != "12" or not set(targets["packages"]).issubset(inventory):
+    if system.get("Family") != "debian" or system.get("Name", "").split(".")[0] != targets["distribution"]["version"] or not set(targets["packages"]).issubset(inventory):
         raise ValueError("系统扫描未覆盖当前发行版及全部修复目标包。")
     findings = [item for row in results for item in row.get("Vulnerabilities", [])]
     keys = {(row["PkgName"], row["VulnerabilityID"]) for row in findings}

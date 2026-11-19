@@ -1,0 +1,178 @@
+{
+  "schema": 1,
+  "distribution": {
+    "id": "debian",
+    "version": "12"
+  },
+  "baseline": {
+    "revision": "2c71603c1e31fb133a2b9a0f1ef286985421467c",
+    "run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/44042931432",
+    "artifact_sha256": "ce7d697e678ab79f519651a06ded5c34570511f0418e8baee74dcd9150f99fcd",
+    "os_raw_sha256": "fb164a35ee292d557c694e8ec82d6ad07cc8587c4db550421f9f6ee354e1f6a4",
+    "records": 483,
+    "unique_ids": 243
+  },
+  "packages": {
+    "apt": "2.6.2",
+    "libapt-pkg6.0": "2.6.2",
+    "liblzma5": "5.4.1-1+deb12u2",
+    "libpcre2-8-0": "10.42-1+deb12u2",
+    "libssl3": "3.0.22-1~deb12u2",
+    "openssl": "3.0.22-1~deb12u2",
+    "tzdata": "2026f-0+deb12u1"
+  },
+  "targeted_findings": [
+    {
+      "package": "apt",
+      "id": "CVE-2026-109518"
+    },
+    {
+      "package": "libapt-pkg6.0",
+      "id": "CVE-2026-109518"
+    },
+    {
+      "package": "liblzma5",
+      "id": "DLA-4783-1"
+    },
+    {
+      "package": "liblzma5",
+      "id": "TEMP-1147318-639065"
+    },
+    {
+      "package": "libpcre2-8-0",
+      "id": "CVE-2026-103111"
+    },
+    {
+      "package": "libpcre2-8-0",
+      "id": "CVE-2026-86145"
+    },
+    {
+      "package": "libpcre2-8-0",
+      "id": "CVE-2026-89157"
+    },
+    {
+      "package": "libpcre2-8-0",
+      "id": "CVE-2026-89161"
+    },
+    {
+      "package": "libpcre2-8-0",
+      "id": "CVE-2026-89156"
+    },
+    {
+      "package": "libpcre2-8-0",
+      "id": "CVE-2026-89158"
+    },
+    {
+      "package": "libpcre2-8-0",
+      "id": "CVE-2026-89160"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-84782"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-54872"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-63072"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-63076"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-75805"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-75806"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-77696"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-35189"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-42767"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-54874"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-63074"
+    },
+    {
+      "package": "libssl3",
+      "id": "CVE-2026-75803"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-84782"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-54872"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-63072"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-63076"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-75805"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-75806"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-77696"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-35189"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-42767"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-54874"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-63074"
+    },
+    {
+      "package": "openssl",
+      "id": "CVE-2026-75803"
+    },
+    {
+      "package": "tzdata",
+      "id": "DLA-4792-1"
+    },
+    {
+      "package": "tzdata",
+      "id": "DLA-4854-1"
+    },
+    {
+      "package": "tzdata",
+      "id": "DLA-4867-1"
+    }
+  ]
+}

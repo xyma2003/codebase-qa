@@ -1,0 +1,10 @@
+{
+  "baseline_revision": "b4804a0b61d8ffcffe9462d2060b09ca699f3c42",
+  "python_image": "python@sha256:4766d8b510c428e595d74b9cc5bbb2fae8e26316fffb4adc89908d79aacd58a2",
+  "uv_image": "ghcr.io/astral-sh/uv@sha256:2d890623d310b57771ce840f0da5eed5fc6d657da05ffaa45d82797b53fa3abc",
+  "linux_lock_sha256": "0b0776cc11f664609c5a1b518d9e0d36269199e34cf76b1174fe231b9cb3bd63",
+  "scope": "synthetic_git_chroma_and_two_owner_native_conversations",
+  "baseline_run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/44486338282",
+  "proxy_image": "nginx@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a",
+  "scanner_image": "ghcr.io/aquasecurity/trivy@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb"
+}

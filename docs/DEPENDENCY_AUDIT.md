@@ -63,4 +63,6 @@ Pydantic 整改提交 `8bf28d3` 的 Linux CI 已通过，193 个公共版本保�
 
 CI 另外用固定版本 Trivy 0.76.2 对保存的镜像扫描 OS 包，不向扫描器挂 Docker socket，不忽略未修复项。记录与镜像 ID、代码版本和运行锁绑定；部署入口也要求对应的、7 天内的系统扫描结果且无公告。基础镜像、Python 解释器、应用依赖、真实模型与公网验证仍需分别判断，不以单次扫描保证不存在漏洞。
 
+2026-11-19 的最新成功提交 `b4804a0` 已通过 Mac/Linux CI。系统包库存与 11 月 17 日一致，新扫描为 459 条命中/225 个编号，且当前 Debian 12 扫描未给出修复版本；旧 445 条不能继续冒充最新基线。本次以这份记录验证 Debian 13 升级，固定 Linux 196 个依赖和非目标工具镜像，保留旧最小版本清单及完整数据回读检查。实际新系统扫描结果以本提交 CI 为准，不预先声明零漏洞，见[底座整改记录](checks/20261119-trixie.md)。
+
 数据源：[OSV 查询约定](https://google.github.io/osv.dev/post-v1-querybatch/)、[GitHub Advisory Database](https://github.com/advisories)、[Trivy 固定版本](https://github.com/aquasecurity/trivy/releases/tag/v0.76.2)。本轮查询材料见 [审计记录](checks/20261117-dependency-audit.json)。

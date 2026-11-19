@@ -9,8 +9,9 @@ ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1 \
 WORKDIR /app
 COPY ops/os_packages.py /app/ops/os_packages.py
 COPY deploy/os-security-minimums.json /app/deploy/os-security-minimums.json
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-    git ca-certificates apt libapt-pkg6.0 liblzma5 libpcre2-8-0 libssl3 openssl tzdata \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade --no-install-recommends -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+    git ca-certificates apt libapt-pkg7.0 liblzma5 libpcre2-8-0 libssl3t64 openssl tzdata libsqlite3-0 zlib1g \
     && python -m ops.os_packages --output /app/deploy/os-package-check.json \
     && rm -rf /var/lib/apt/lists/* \
     && useradd --uid 10001 --create-home --shell /usr/sbin/nologin app

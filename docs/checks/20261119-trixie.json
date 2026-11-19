@@ -1,0 +1,67 @@
+{
+  "tests": {
+    "count": 392,
+    "seconds": 126.332,
+    "exit_code": 0
+  },
+  "targeted_checks": 11,
+  "local_restore": {
+    "status": "stopped_service_restore_passed",
+    "scope": "temporary_git_chroma_and_two_user_fixture",
+    "source_process_exited_before_backup": true,
+    "original_path_replaced_for_readback": true,
+    "source_snapshot_checked": true,
+    "vectors_restored": 1,
+    "conversations_restored": 2,
+    "native_turns_restored": 2,
+    "cross_owner_denied": true,
+    "model_requests": 0,
+    "real_business_data_modified": false,
+    "backup": {
+      "files": 37,
+      "bytes": 273432,
+      "sha256": "cc681d1b84a15e2171cdc3e63d51ee05f37b5051e2ff48258b8bd541b4f458d5"
+    },
+    "restore": {
+      "files": 37
+    }
+  },
+  "tested_files": {
+    "ops/os_packages.py": "f9e65bfd72698a7b54646200a2dc5ba769de23329be7b1552b9773798263c675",
+    "scripts/check_restore.py": "8a5717b4bf29915c8ccadc82a0f376e018bbe2bf5e4351efaf7fbf0822a22269",
+    "scripts/check_storage_platform.py": "17c57a4a48d8229875d4b1692940c0cb65fca9ac35e3f14c764419669ab99973",
+    "tests/test_os_packages.py": "2b250b8e1560245992e2394c4a5f9e8b4e4fc91cd77c0ac7aa64eb2b2b41a443",
+    "tests/test_storage_platform.py": "0ef91aee27e3c56740ad9e53435a6f4b3e75365ec41caf4c2928016f5a0104be",
+    "deploy/Dockerfile": "bdedb28856130cf2dbf0408fb4f73501e4c74d86b9b7fd29cfd1221e2d227a0f",
+    "deploy/os-security-minimums.json": "2965af11351e2e7c1ee4694e5f111a591edf8181754c9311811b4a567cac811f",
+    "deploy/storage-compatibility.json": "67dfe2057d1f3109dda708c7b53317d74fd3cf781c32f7f5effc9804bdb48e38",
+    "dependencies/runtime-linux-cpu.lock": "0b0776cc11f664609c5a1b518d9e0d36269199e34cf76b1174fe231b9cb3bd63",
+    ".github/workflows/ci.yml": "0b42d40beee436116f4ee392fc59501325d9dd65c5b3e0b79e382728cf7c3446"
+  },
+  "baseline": {
+    "revision": "b4804a0b61d8ffcffe9462d2060b09ca699f3c42",
+    "run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/44486338282",
+    "artifact_sha256": "75dba8d8a5f3495de324dce04299968ded44d73e5c43f2d036df1c7594a58420",
+    "os_raw_sha256": "53c5bc9c760f9ae21e3381daa1c77f6d7d1b4aadeab1a94afc7be044c022759c",
+    "records": 459,
+    "unique_ids": 225,
+    "prior_minimums_sha256": "2fa7c54f95a6765f30e714aa91c8b041b3446f6c7488368f0de73691397709d6"
+  },
+  "compatibility_inputs": {
+    "baseline_revision": "b4804a0b61d8ffcffe9462d2060b09ca699f3c42",
+    "python_image": "python@sha256:4766d8b510c428e595d74b9cc5bbb2fae8e26316fffb4adc89908d79aacd58a2",
+    "uv_image": "ghcr.io/astral-sh/uv@sha256:2d890623d310b57771ce840f0da5eed5fc6d657da05ffaa45d82797b53fa3abc",
+    "linux_lock_sha256": "0b0776cc11f664609c5a1b518d9e0d36269199e34cf76b1174fe231b9cb3bd63",
+    "scope": "synthetic_git_chroma_and_two_owner_native_conversations",
+    "baseline_run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/44486338282",
+    "proxy_image": "nginx@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a",
+    "scanner_image": "ghcr.io/aquasecurity/trivy@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb"
+  },
+  "preserved_mac_packages": 193,
+  "preserved_linux_packages": 196,
+  "retained_regression_targets": 38,
+  "added_critical_targets": 2,
+  "actual_linux_container_verification": "pending_this_commit_ci",
+  "real_model_requests": 0,
+  "public_release_allowed": false
+}

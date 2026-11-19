@@ -2,24 +2,31 @@
   "schema": 1,
   "distribution": {
     "id": "debian",
-    "version": "12"
+    "version": "13"
   },
   "baseline": {
-    "revision": "2c71603c1e31fb133a2b9a0f1ef286985421467c",
-    "run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/44042931432",
-    "artifact_sha256": "ce7d697e678ab79f519651a06ded5c34570511f0418e8baee74dcd9150f99fcd",
-    "os_raw_sha256": "fb164a35ee292d557c694e8ec82d6ad07cc8587c4db550421f9f6ee354e1f6a4",
-    "records": 483,
-    "unique_ids": 243
+    "revision": "b4804a0b61d8ffcffe9462d2060b09ca699f3c42",
+    "run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/44486338282",
+    "artifact_sha256": "75dba8d8a5f3495de324dce04299968ded44d73e5c43f2d036df1c7594a58420",
+    "os_raw_sha256": "53c5bc9c760f9ae21e3381daa1c77f6d7d1b4aadeab1a94afc7be044c022759c",
+    "records": 459,
+    "unique_ids": 225,
+    "prior_minimums_sha256": "2fa7c54f95a6765f30e714aa91c8b041b3446f6c7488368f0de73691397709d6"
   },
   "packages": {
-    "apt": "2.6.2",
-    "libapt-pkg6.0": "2.6.2",
-    "liblzma5": "5.4.1-1+deb12u2",
-    "libpcre2-8-0": "10.42-1+deb12u2",
-    "libssl3": "3.0.22-1~deb12u2",
-    "openssl": "3.0.22-1~deb12u2",
-    "tzdata": "2026f-0+deb12u1"
+    "apt": "3.0.4",
+    "libapt-pkg7.0": "3.0.4",
+    "liblzma5": "5.8.1-1+deb13u2",
+    "libpcre2-8-0": "10.46-1~deb13u3",
+    "libssl3t64": "3.5.7-1~deb13u3",
+    "openssl": "3.5.7-1~deb13u3",
+    "tzdata": "2026c-0+deb13u1",
+    "libsqlite3-0": "3.46.1-7+deb13u2",
+    "zlib1g": "1:1.3.dfsg+really1.3.1-1+deb13u1"
+  },
+  "renamed_packages": {
+    "libapt-pkg6.0": "libapt-pkg7.0",
+    "libssl3": "libssl3t64"
   },
   "targeted_findings": [
     {
@@ -27,7 +34,7 @@
       "id": "CVE-2026-109518"
     },
     {
-      "package": "libapt-pkg6.0",
+      "package": "libapt-pkg7.0",
       "id": "CVE-2026-109518"
     },
     {
@@ -67,51 +74,51 @@
       "id": "CVE-2026-89160"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-84782"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-54872"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-63072"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-63076"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-75805"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-75806"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-77696"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-35189"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-42767"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-54874"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-63074"
     },
     {
-      "package": "libssl3",
+      "package": "libssl3t64",
       "id": "CVE-2026-75803"
     },
     {
@@ -173,6 +180,14 @@
     {
       "package": "tzdata",
       "id": "DLA-4867-1"
+    },
+    {
+      "package": "libsqlite3-0",
+      "id": "CVE-2025-7458"
+    },
+    {
+      "package": "zlib1g",
+      "id": "CVE-2023-45853"
     }
   ]
 }

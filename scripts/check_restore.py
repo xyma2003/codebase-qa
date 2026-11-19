@@ -7,6 +7,8 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import platform
+import sqlite3
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -52,13 +54,17 @@ def fixture(root, operation, expected):
         saved = json.loads(expected.read_text())
         repository = service.get_current_repository(URL)
         assert repository.commit_sha == saved["sha"] and repository.chunk_count == 1
-        stored = vector_store._get_client().get_collection(repository.collection_name, embedding_function=None).get(include=["embeddings", "documents"])
+        stored = vector_store._get_client().get_collection(repository.collection_name, embedding_function=None).get(include=["embeddings", "documents", "metadatas"])
         assert stored["ids"] == ["sample.py:1"] and "return 42" in stored["documents"][0]
-        assert abs(float(stored["embeddings"][0][0]) - .1) < .00001
+        assert all(abs(float(actual) - expected) < .00001 for actual, expected in zip(stored["embeddings"][0], (.1, .2, .3))) and len(stored["embeddings"][0]) == 3
+        assert stored["metadatas"][0]["file_path"] == "sample.py" and stored["metadatas"][0]["commit_sha"] == saved["sha"]
+        assert (Path(repository.repo_root) / "sample.py").read_text() == "def answer():\n    return 42\n"
         for name, principal in actors.items():
             with as_principal(principal):
                 history = conversations.load_conversation(saved["sessions"][name], URL, repository.commit_sha, repository.collection_name)
                 assert history.revision == 1 and len(history.messages) == 2
+                assert history.turns[0].question == "LOCAL_" + name and history.turns[0].answer.text == "RESTORE_LOCAL_" + name
+                assert history.messages[0].parts[0].content == "LOCAL_" + name and history.messages[1].parts[0].content == "RESTORE_LOCAL_" + name
                 other = "bob" if name == "alice" else "alice"
                 try:
                     conversations.load_conversation(saved["sessions"][other], URL, repository.commit_sha, repository.collection_name)
@@ -105,9 +111,14 @@ if __name__ == "__main__":
     parser.add_argument("--worker", choices=("seed", "verify"))
     parser.add_argument("--root", type=Path)
     parser.add_argument("--expected", type=Path)
+    parser.add_argument("--runtime-output", type=Path)
     args = parser.parse_args()
     if args.worker:
         fixture(args.root, args.worker, args.expected)
+        if args.runtime_output:
+            args.runtime_output.write_text(json.dumps({"python": platform.python_version(), "sqlite": sqlite3.sqlite_version,
+                "uid": os.getuid(), "system": platform.system(),
+                "distribution": platform.freedesktop_os_release() if sys.platform == "linux" else None}, indent=2) + "\n")
     else:
         if not args.output:
             parser.error("--output is required")

@@ -86,22 +86,25 @@ jobs:
         with:
           version: "0.12.3"
           python-version: "3.12.13"
-      - name: Resolve separate Linux CPU lock from current public versions
+      - name: Reuse verified Linux CPU lock
         run: |
           mkdir -p "$RUNNER_TEMP/deployment-records"
-          uv pip compile requirements.txt dependencies/runtime-pins.txt --python-version 3.12.13 --torch-backend cpu --generate-hashes --no-annotate -o deploy/runtime.lock
+          cp dependencies/runtime-linux-cpu.lock deploy/runtime.lock
+          python -c 'import hashlib,json,pathlib; expected=json.loads(pathlib.Path("deploy/storage-compatibility.json").read_text())["linux_lock_sha256"]; assert hashlib.sha256(pathlib.Path("deploy/runtime.lock").read_bytes()).hexdigest()==expected'
           python scripts/verify_linux_lock.py deploy/runtime.lock --output "$RUNNER_TEMP/deployment-records/platform.json"
           cp deploy/runtime.lock "$RUNNER_TEMP/deployment-records/runtime.lock"
       - name: Inspect immutable base images
         run: |
-          docker pull python:3.12.13-slim-bookworm
-          docker pull ghcr.io/astral-sh/uv:0.12.3
-          docker pull nginx:1.30.6-alpine
-          docker image inspect python:3.12.13-slim-bookworm ghcr.io/astral-sh/uv:0.12.3 nginx:1.30.6-alpine > "$RUNNER_TEMP/deployment-records/base-images.json"
+          docker pull python:3.12.13-slim-trixie
+          uv_image=$(python -c 'import json; print(json.load(open("deploy/storage-compatibility.json"))["uv_image"])')
+          nginx_image=$(python -c 'import json; print(json.load(open("deploy/storage-compatibility.json"))["proxy_image"])')
+          docker pull "$uv_image"
+          docker pull "$nginx_image"
+          docker image inspect python:3.12.13-slim-trixie "$uv_image" "$nginx_image" > "$RUNNER_TEMP/deployment-records/base-images.json"
       - name: Build preparation image without secrets or business data
         run: |
-          python_image=$(docker image inspect --format '{{index .RepoDigests 0}}' python:3.12.13-slim-bookworm)
-          uv_image=$(docker image inspect --format '{{index .RepoDigests 0}}' ghcr.io/astral-sh/uv:0.12.3)
+          python_image=$(docker image inspect --format '{{index .RepoDigests 0}}' python:3.12.13-slim-trixie)
+          uv_image=$(python -c 'import json; print(json.load(open("deploy/storage-compatibility.json"))["uv_image"])')
           docker build -f deploy/Dockerfile --build-arg "PYTHON_IMAGE=$python_image" --build-arg "UV_IMAGE=$uv_image" --build-arg "CODEBASE_REVISION=$GITHUB_SHA" -t codebase-qa:preparation .
           docker image inspect codebase-qa:preparation > "$RUNNER_TEMP/deployment-records/application-image.json"
           docker run --rm --entrypoint python codebase-qa:preparation -c 'import torch,chromadb,pydantic_ai,streamlit; assert torch.version.cuda is None'
@@ -115,13 +118,25 @@ jobs:
       - name: Check Compose shape, TLS proxy, WebSocket, rate limit and non-root image
         run: |
           CODEBASE_QA_IMAGE=codebase-qa:preparation CODEBASE_QA_IMAGE_ID=sha256:fixture NGINX_IMAGE=nginx:1.30.6-alpine CODEBASE_QA_PUBLIC_ORIGIN=https://qa.example.invalid CONFIG_DIR=/tmp/qa-config STATE_DIR=/tmp/qa-state TLS_DIR=/tmp/qa-tls MODEL_CACHE_DIR=/tmp/qa-model EVALUATION_REPOSITORY=/tmp/qa-eval docker compose -f deploy/compose.yaml config --quiet
-          nginx_image=$(docker image inspect --format '{{index .RepoDigests 0}}' nginx:1.30.6-alpine)
+          nginx_image=$(python -c 'import json; print(json.load(open("deploy/storage-compatibility.json"))["proxy_image"])')
           python scripts/check_container.py codebase-qa:preparation "$nginx_image" "$RUNNER_TEMP/deployment-records/smoke"
+      - name: Read baseline storage on the new image and exercise restore
+        run: |
+          baseline_revision=$(python -c 'import json; print(json.load(open("deploy/storage-compatibility.json"))["baseline_revision"])')
+          baseline_python=$(python -c 'import json; print(json.load(open("deploy/storage-compatibility.json"))["python_image"])')
+          baseline_uv=$(python -c 'import json; print(json.load(open("deploy/storage-compatibility.json"))["uv_image"])')
+          mkdir "$RUNNER_TEMP/baseline-source"
+          git archive "$baseline_revision" | tar -x -f - -C "$RUNNER_TEMP/baseline-source"
+          cp dependencies/runtime-linux-cpu.lock "$RUNNER_TEMP/baseline-source/deploy/runtime.lock"
+          docker build -f "$RUNNER_TEMP/baseline-source/deploy/Dockerfile" --build-arg "PYTHON_IMAGE=$baseline_python" --build-arg "UV_IMAGE=$baseline_uv" --build-arg "CODEBASE_REVISION=$baseline_revision" -t codebase-qa:storage-baseline "$RUNNER_TEMP/baseline-source"
+          docker image inspect codebase-qa:storage-baseline > "$RUNNER_TEMP/deployment-records/storage-baseline-image.json"
+          python scripts/check_storage_platform.py codebase-qa:storage-baseline codebase-qa:preparation --output "$RUNNER_TEMP/deployment-records/storage-compatibility"
+          docker image rm codebase-qa:storage-baseline
       - name: Collect OS advisories without Docker socket access
         run: |
-          docker pull ghcr.io/aquasecurity/trivy:0.76.2
-          trivy_image=$(docker image inspect --format '{{index .RepoDigests 0}}' ghcr.io/aquasecurity/trivy:0.76.2)
-          docker image inspect ghcr.io/aquasecurity/trivy:0.76.2 > "$RUNNER_TEMP/deployment-records/scanner-image.json"
+          trivy_image=$(python -c 'import json; print(json.load(open("deploy/storage-compatibility.json"))["scanner_image"])')
+          docker pull "$trivy_image"
+          docker image inspect "$trivy_image" > "$RUNNER_TEMP/deployment-records/scanner-image.json"
           docker save codebase-qa:preparation -o "$RUNNER_TEMP/container-image.tar"
           docker run --rm --user "$(id -u):$(id -g)" --cap-drop ALL --security-opt no-new-privileges --memory 2g --cpus 2 -e TRIVY_CACHE_DIR=/tmp/trivy-cache -v "$RUNNER_TEMP/container-image.tar:/input/image.tar:ro" -v "$RUNNER_TEMP/deployment-records:/records" "$trivy_image" image --input /input/image.tar --scanners vuln --pkg-types os --format json --output /records/os-raw.json --exit-code 0
           image_id=$(docker image inspect --format '{{.Id}}' codebase-qa:preparation)
