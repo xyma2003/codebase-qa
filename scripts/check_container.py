@@ -88,10 +88,16 @@ def main(image, proxy_image, output):
                     limited = True
             assert limited, "Proxy rate limit did not reject a burst"
             assert run("docker", "exec", app, "id", "-u") == "10001"
+            isolation = json.loads(run("docker", "exec", app, "python", "-m", "ops.privileged_tools", "--runtime"))
+            for tool in ("mount", "umount", "nsenter", "unshare"):
+                attempt = subprocess.run(["docker", "exec", app, "/usr/bin/" + tool, "--version"], capture_output=True, text=True, timeout=10)
+                assert attempt.returncode != 0 and "permission denied" in (attempt.stdout + attempt.stderr).lower(), tool
+            denied_syscalls = json.loads(run("docker", "exec", app, "python", "-c", "import ctypes,errno,json; c=ctypes.CDLL(None,use_errno=True); r=c.unshare(0x00020000); e=ctypes.get_errno(); assert r==-1 and e==errno.EPERM,(r,e); print(json.dumps({'new_mount_namespace_denied':True}))"))
             run("docker", "exec", app, "python", "scripts/healthcheck.py")
             report = {"status": "linux_container_preparation_passed", "image": image, "proxy": proxy_image,
                       "tls_verified": True, "websocket_upgraded": True, "unconfigured_startup_refused": True,
                       "proxy_rate_limit_checked": limited,
+                      "privilege_isolation": isolation, "syscall_isolation": denied_syscalls,
                       "application_uid": 10001, "real_model_requests": 0, "real_oidc_callback_tested": False,
                       "public_release_allowed": False}
             (output / "container.json").write_text(json.dumps(report, indent=2) + "\n")

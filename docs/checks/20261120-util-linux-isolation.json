@@ -1,0 +1,19 @@
+{
+  "baseline_revision": "ea3679af89d28f9e2c84bc9366d151d92c0f40be",
+  "tests": {
+    "count": 395,
+    "seconds": 128.196,
+    "exit_code": 0
+  },
+  "files": {
+    "ops/privileged_tools.py": "02a80b86ccd091437b6788aec1d193b21621771e12af5f7e12bfbf3edcd57f96",
+    "tests/test_privileged_tools.py": "0afb784b50079b09153eab032b890228e0affc84401c3c3194f6a35a7db1a412",
+    "deploy/Dockerfile": "24fa291a3ca5a49dd099ac371670fbaf32083950902e562927540177283df84e",
+    "scripts/check_container.py": "f39f2d0f9f9288509be4bff9cc29b4a58d1a35e4af412da77860d48c91d3fd99"
+  },
+  "test_log_sha256": "991a91095c9587c340b2b793182f5b2eb1b103a3b03afbaa4b248345f9990b9b",
+  "upstream_patched": false,
+  "linux_runtime_verified": false,
+  "real_model_requests": 0,
+  "release_allowed": false
+}

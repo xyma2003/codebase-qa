@@ -8,6 +8,7 @@ ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1 \
     HF_HOME=/app/.cache/huggingface CODEBASE_QA_LOCAL_MODE=0
 WORKDIR /app
 COPY ops/os_packages.py /app/ops/os_packages.py
+COPY ops/privileged_tools.py /app/ops/privileged_tools.py
 COPY deploy/os-security-minimums.json /app/deploy/os-security-minimums.json
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade --no-install-recommends -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
@@ -15,6 +16,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade --no-instal
     && python -m ops.os_packages --output /app/deploy/os-package-check.json \
     && rm -rf /var/lib/apt/lists/* \
     && useradd --uid 10001 --create-home --shell /usr/sbin/nologin app
+RUN python -m ops.privileged_tools --harden > /app/deploy/privilege-hardening.json \
+    && python -m ops.privileged_tools
 COPY dependencies/runtime-pins.txt /app/deploy/source-pins.txt
 # Compile and archive this Linux CPU lock before building. Never resolve during
 # image installation; original Mac baseline remains intact.
