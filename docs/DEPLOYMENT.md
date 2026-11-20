@@ -2,7 +2,7 @@
 
 2026-11-20：当前运行锁已移除 Chroma，Mac 192 / Linux 195 包，旧锁保存在 `dependencies/legacy-chroma-20261120/`。旧向量先用旧环境离线导出，再使用新环境或镜像的 `/app/scripts/import_vectors.py` 按摘要导入；命令见[迁移与回滚](VECTOR_MIGRATION.md)。不要直接启动新版去覆盖旧库。容器禁用 mount/umount/nsenter/unshare 并去掉 Set-ID；这不能代替 util-linux 包修复。系统扫描仍有命中，发布保持阻断。
 
-本轮提供部署配置和可执行检查，**没有开放公网，也没有完成真实 OIDC、模型或域名验收**。Pydantic AI 整改后，当前 Mac 锁仍有 Chroma 的 4 组公告，部署入口会拒绝启动。CI 的镜像、TLS 和恢复检查通过也不能解除这个阻断。
+本轮提供部署配置和可执行检查，**没有开放公网，也没有完成真实 OIDC、模型或域名验收**。当前 Mac/Linux Python 依赖完整查询为 0 公告，但系统仍有 423 条/200 个编号，部署入口会因系统公告拒绝启动。CI 的镜像、TLS 和恢复检查通过也不能解除这个阻断。
 
 ## 结构
 
@@ -14,13 +14,13 @@ nginx 保留 WebSocket，限制每 IP 请求和连接数，设置 2 MiB HTTP 请
 
 ## 构建与审计
 
-Linux CI 使用 Python 3.12.13、uv 0.12.3 与 Debian 13，直接复用最近成功 CI 的 `dependencies/runtime-linux-cpu.lock`（196 个运行包），核对 SHA256 及 193 个公共版本后按哈希安装，不在本轮底座升级时重新解析依赖。当前 Mac 锁为 `dependencies/runtime-macos.lock`，193 个版本；历史阶段零的 194 个版本不覆盖。`deploy/runtime.lock` 是该固定文件的构建副本和 CI 产物。
+Linux CI 使用 Python 3.12.13、uv 0.12.3 与 Debian 13，直接复用最近成功 CI 的 `dependencies/runtime-linux-cpu.lock`（195 个运行包），核对 SHA256 及 192 个公共版本后按哈希安装，不在本轮底座升级时重新解析依赖。当前 Mac 锁为 `dependencies/runtime-macos.lock`，192 个版本；历史阶段零的 194 个版本不覆盖。`deploy/runtime.lock` 是该固定文件的构建副本和 CI 产物。
 
 Dockerfile 要求传入已检查的 Python/uv 镜像摘要；nginx 和扫描器也记录摘要。CI 保存平台锁、镜像信息、OS 包清单、Python/OS 公告及烟雾检查。没有自动上传镜像或部署生产环境。构建上下文采用白名单，排除 `.git`、实际 `.env`、用户数据、测试数据和模型缓存。
 
 Dockerfile 在 Debian 13 新镜像内应用已发布系统更新，检查 `apt`、`libapt-pkg7.0`、`liblzma5`、`libpcre2-8-0`、`libssl3t64`、`openssl`、`tzdata`、`libsqlite3-0`、`zlib1g` 的版本下限。`deploy/os-security-minimums.json` 绑定最近真实成功扫描，原生 `dpkg --compare-versions` 未达标直接构建失败。原 38 项作为回归检查保留，包更名单独记录，另外要求 SQLite 和 zlib 的两个严重公告消失；不能将 40 项检查都记成此次新增修复。完整系统扫描和严格发布阻断继续执行。
 
-`deploy/storage-compatibility.json` 固定最近成功的源码、Bookworm 基础镜像、Linux 锁和 UV/nginx/Trivy 镜像摘要。CI 用该源码及同一锁构建基线镜像，在断网、UID 10001 的临时容器中写入测试 Git、向量和双用户会话；新 Trixie 镜像从同一固定路径直接回读，再独立进行停服备份恢复。检查完整向量、源码、原生消息内容和跨用户拒绝。此流程只使用临时样例，不迁移业务数据；真实迁移仍需停服备份、明确的挂载路径和实际主机验收。
+`deploy/storage-compatibility.json` 固定最近成功的源码、Bookworm 基础镜像、Linux 锁和 UV/nginx/Trivy 镜像摘要。CI 用该源码及另存的原 196 包锁构建基线镜像，在断网、UID 10001 的临时容器中写入测试 Git、向量和双用户会话；新 Trixie 镜像使用当前 195 包锁，先从同一固定路径导出旧向量并校验导入新库，再回读，再独立进行停服备份恢复。检查完整向量、源码、原生消息内容和跨用户拒绝。此流程只使用临时样例，不迁移业务数据；真实迁移仍需停服备份、明确的挂载路径和实际主机验收。
 
 正式推广必须使用对应的不可变应用镜像 digest 和 config image ID，并保存本次锁与审计产物。重新构建或换基础镜像后重新审计。当前 Dockerfile/Compose 不替代镜像签名、实际主机加固或真实公网验收。
 
@@ -87,7 +87,7 @@ docker compose --env-file deploy/environment -f deploy/compose.yaml exec app pyt
 
 ## 本轮验证边界
 
-本机执行离线测试、真实临时 Git/Chroma/SQLite 的独立进程恢复演练和缓存核对。Linux CI 负责实际锁解析、镜像构建、非 root 导入、Compose 检查、用临时证书验证 TLS/WebSocket/限流和系统扫描。本机没有 Docker；本地 PyPI/注册表连接失败的原始日志保留，不能当作容器验证成功。
+本机执行离线测试、真实临时 Git/Chroma/SQLite 的独立进程恢复演练和缓存核对。Linux CI 负责固定锁安装与库存核对、镜像构建、非 root 导入、Compose 检查、用临时证书验证 TLS/WebSocket/限流和系统扫描。本机没有 Docker；本地 PyPI/注册表连接失败的原始日志保留，不能当作容器验证成功。
 
 所有模型、OIDC 和 TLS 试验数据均为测试样例。真实模型成功基线、登录回调、生产证书、外网访问、主机备份恢复和负载验收仍在后续范围。当前已知依赖公告未整改，发布检查保持阻断。
 

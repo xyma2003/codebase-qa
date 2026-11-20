@@ -1,6 +1,6 @@
 # 安全实施计划
 
-2026-11-20：新增 3 个 util-linux 高危已通过镜像权限、四工具执行拒绝与 unshare 系统调用拒绝验证；包本身仍未修复，完整命中不豁免。Chroma 已由 SQLite + NumPy 替换，迁移保留原向量及逐条来源，运行包移除后 Mac 192 包 OSV 0 命中。Linux 跨后端迁移及复扫由对应 CI 回读，系统剩余公告仍阻断，真实登录/模型验收后置。见[迁移](VECTOR_MIGRATION.md)和[系统隔离](checks/20261120-util-linux-isolation.md)。
+2026-11-20：新增 3 个 util-linux 高危已通过镜像权限、四工具执行拒绝与 unshare 系统调用拒绝验证；包本身仍未修复，完整命中不豁免。Chroma 已由 SQLite + NumPy 替换，迁移保留原向量及逐条来源，运行包移除后 Mac 192 包 OSV 0 命中。Linux 跨后端迁移、恢复及 195 包 0 命中已通过 CI，系统仍 423 条/200 编号并实际阻断，真实登录/模型验收后置。见[迁移](VECTOR_MIGRATION.md)和[系统隔离](checks/20261120-util-linux-isolation.md)。
 
 日期：2026-11-12。对应产品与技术方案，按独立功能验收并推送 main。
 
