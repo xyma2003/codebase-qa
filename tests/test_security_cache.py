@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 
-import chromadb
+from indexer.sqlite_vectors import LocalVectorClient
 from pydantic_ai.messages import ModelResponse, TextPart, ToolCallPart, ToolReturnPart
 from pydantic_ai.models.function import FunctionModel
 from streamlit.testing.v1 import AppTest
@@ -26,7 +26,7 @@ class CachePolicyTests(unittest.TestCase):
         self.snapshot = self.fixture.old
         self.url, self.sha = self.snapshot.repo_url, self.snapshot.commit_sha
         self.db = Path(self.snapshot.root).parents[3]/"cache-db"
-        self.client = chromadb.PersistentClient(path=str(self.db))
+        self.client = LocalVectorClient(path=str(self.db))
         for context in (patch.object(cache, "CHROMA_DIR", str(self.db)),
                         patch.object(cache, "_get_client", return_value=self.client),
                         patch.object(cache, "_get_embed_fn", side_effect=FixtureEmbedding)):

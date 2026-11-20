@@ -5,7 +5,7 @@ Codebase Q&A 帮助开发者理解固定版本的代码，并获得可核对依�
 ```mermaid
 flowchart TD
   Git[Git 提交] --> Snapshot[固定快照与文件摘要]
-  Snapshot --> Index[AST / 文本分块与 Chroma 向量]
+  Snapshot --> Index[AST / 文本分块与 SQLite 向量库 向量]
   UI[Streamlit 与 OIDC] --> Queue[用户任务与配额 / SQLite]
   Queue --> Worker[单进程后台调度]
   Worker --> Agent[Pydantic AI 主 Agent]

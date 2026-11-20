@@ -39,15 +39,18 @@ def main(baseline_image, image, output):
             raise subprocess.CalledProcessError(result.returncode, command, result.stdout, result.stderr)
         return result.stdout.strip()
 
-    def worker(label, selected_image, *arguments):
+    def worker(label, selected_image, *arguments, script="check_restore.py"):
         identifier = run(label + "-create", "docker", "create", "--network", "none", "--read-only", "--tmpfs", "/tmp:rw,nosuid,size=256m",
                          "--cap-drop", "ALL", "--security-opt", "no-new-privileges", "--entrypoint", "python", "-e", "PYTHONPATH=/app",
                          "-v", volume + ":/fixture", "-v", str(ROOT / "scripts/check_restore.py") + ":/validation/check_restore.py:ro",
-                         selected_image, "/validation/check_restore.py", *arguments)
+                         "-v", str(ROOT / "scripts/export_legacy_vectors.py") + ":/validation/export_legacy_vectors.py:ro",
+                         "-v", str(ROOT / "scripts/import_vectors.py") + ":/validation/import_vectors.py:ro",
+                         selected_image, "/validation/" + script, *arguments)
         containers.append(identifier)
-        run(label, "docker", "start", "--attach", identifier)
+        stdout = run(label, "docker", "start", "--attach", identifier)
         if run(label + "-exit", "docker", "inspect", "--format", "{{.State.ExitCode}}", identifier) != "0":
             raise RuntimeError("跨底座检查进程失败，请查看 " + label + ".log")
+        return stdout
 
     try:
         run("volume", "docker", "volume", "create", volume)
@@ -56,6 +59,10 @@ def main(baseline_image, image, output):
             "--security-opt", "no-new-privileges", "--user", "0:0", "--entrypoint", "python", "-v", volume + ":/fixture", baseline_image,
             "-c", "import os; os.mkdir('/fixture/runtime'); os.chown('/fixture/runtime',10001,10001); os.chown('/fixture',10001,10001)")
         worker("seed", baseline_image, "--worker", "seed", "--root", "/fixture/runtime", "--expected", "/fixture/expected.json", "--runtime-output", "/fixture/seed-runtime.json")
+        exported = json.loads(worker("legacy-export", baseline_image, "--source", "/fixture/runtime/chroma_db",
+            "--output", "/fixture/legacy-vectors.json", "--service-stopped", script="export_legacy_vectors.py"))
+        migration = json.loads(worker("sqlite-import", image, "/fixture/legacy-vectors.json", "--destination", "/fixture/runtime/chroma_db",
+            "--sha256", exported["sha256"], "--service-stopped", script="import_vectors.py"))
         worker("verify", image, "--worker", "verify", "--root", "/fixture/runtime", "--expected", "/fixture/expected.json", "--runtime-output", "/fixture/verify-runtime.json")
         worker("restore", image, "--output", "/fixture/restore")
     finally:
@@ -74,7 +81,9 @@ def main(baseline_image, image, output):
             raise RuntimeError("跨底座检查记录收集失败：" + collected.stderr)
     data = output / "data"
     report = verify_records(json.loads((data / "seed-runtime.json").read_bytes()), json.loads((data / "verify-runtime.json").read_bytes()), json.loads((data / "restore/report.json").read_bytes()))
-    report.update(baseline_image=baseline_image, image=image)
+    if migration.get("vectors") != 1 or migration.get("exact_float32_readback") is not True or migration.get("embeddings_recomputed") != 0:
+        raise ValueError("向量迁移未通过逐条验证。")
+    report.update(baseline_image=baseline_image, image=image, migration=migration)
     (output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report))
 

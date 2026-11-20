@@ -1,23 +1,21 @@
 from typing import Optional
-import chromadb
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+from indexer.embeddings import SentenceTransformerEmbeddingFunction
 from indexer.chunker import CodeChunk
 from config import CHROMA_DIR, EMBED_MODEL
 from security.sources import check_chunks, ensure_safe_source, ensure_safe_text, sensitive_path
-from security.vector_client import local_chroma_client
+from security.vector_client import local_vector_client
 
 
 def _get_collection_name(repo_url: str) -> str:
-    """Derive a stable ChromaDB collection name from a repo URL."""
+    """Keep the original stable collection names across storage migration."""
     repo_name = repo_url.rstrip("/").split("/")[-1].replace(".git", "")
     owner = repo_url.rstrip("/").split("/")[-2]
-    # ChromaDB collection names must be 3-63 chars, alphanumeric + hyphens
     name = f"{owner}-{repo_name}".lower().replace("_", "-")[:63]
     return name
 
 
-def _get_client() -> chromadb.PersistentClient:
-    return local_chroma_client(CHROMA_DIR)
+def _get_client():
+    return local_vector_client(CHROMA_DIR)
 
 
 def _get_embed_fn() -> SentenceTransformerEmbeddingFunction:
@@ -38,7 +36,7 @@ def index_chunks(
     progress_callback=None,
 ) -> int:
     """
-    Store chunks in ChromaDB. Returns number of chunks indexed.
+    Store chunks in local SQLite. Returns number of chunks indexed.
     Overwrites any existing collection for this repo.
     Optional progress_callback(done, total) called after each batch.
     """

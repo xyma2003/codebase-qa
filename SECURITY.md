@@ -52,7 +52,7 @@
 
 ## 验收范围
 
-源码索引和私有缓存统一通过 `security.vector_client.local_chroma_client` 创建嵌入式 Chroma。组件配置只接受程序内固定值，不读取环境变量、`.env` 或 secrets 目录；固定 Rust 本地 API、禁用 reset、匿名遥测和 OTel 导出，不启用 Chroma REST 或服务端认证插件。此项是应用配置边界加固，不代表上游公告已修复。
+源码索引和私有缓存统一通过 `security.vector_client.local_vector_client` 使用本地 SQLite + NumPy。持久化配置只作 JSON 数据，不选择组件或模型；嵌入由应用固定，禁止信任远程代码。新环境不提供 Chroma REST、服务端 RBAC、动态嵌入注册、reset 或遥测。旧库需显式停服导出、摘要验证和逐条回读后导入新文件，见[迁移与回滚](docs/VECTOR_MIGRATION.md)。运行依赖中是否彻底移除 Chroma，以对应锁和完整复扫为准。
 
 以[安全实施计划](docs/SECURITY_PLAN.md)区分已实现、离线程序边界测试和待真实模型验证的事项。模拟攻击可验证程序是否拒绝危险读取或输出，不能替代真实模型攻击成功率评估。
 

@@ -1,4 +1,4 @@
-"""Real Chroma and Git checks; no paid/chat model requests."""
+"""Real SQLite vectors and Git checks; no paid/chat model requests."""
 
 import asyncio
 import argparse
@@ -10,7 +10,6 @@ import sys
 import tempfile
 from unittest.mock import patch
 
-import chromadb
 from git import Actor, Repo
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -18,6 +17,7 @@ from mcp.client.stdio import stdio_client
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from indexer import repository_service as service, repository_state as state, snapshots, vector_store
+from indexer.sqlite_vectors import LocalVectorClient
 
 URL = "https://github.com/xyma2003/codebase-qa"
 
@@ -29,7 +29,7 @@ def migrate_existing():
     original = legacy.get(include=["documents", "metadatas", "embeddings"])
     function = vector_store._get_embed_fn()
     with patch.object(vector_store, "_get_embed_fn", return_value=function), patch.object(
-        function._model, "encode", side_effect=AssertionError("Existing vectors must not be recomputed")
+        type(function), "__call__", side_effect=AssertionError("Existing vectors must not be recomputed")
     ) as encode:
         current = service.import_repository(URL)
         assert current.reused_legacy_vectors
@@ -56,7 +56,7 @@ def native_versions():
                 repo.index.add(["example.py"])
                 return repo.index.commit(f"value {value}", author=actor, committer=actor).hexsha
             first = commit(1)
-            client = chromadb.PersistentClient(path=str(root / "vectors"))
+            client = LocalVectorClient(path=str(root / "vectors"))
             fixture_url = "https://github.com/example/native-fixture"
             with patch.object(snapshots, "CLONE_DIR", str(root / "snapshots")), patch.object(state, "CHROMA_DIR", str(root / "metadata")), patch.object(service, "clone_repo", return_value=str(work)), patch.object(service, "_fetch_default_commit", side_effect=lambda _: repo.head.commit.hexsha), patch.object(vector_store, "_get_client", return_value=client):
                 old = service.import_repository(fixture_url)

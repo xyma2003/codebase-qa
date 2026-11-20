@@ -14,8 +14,7 @@ import unittest
 from unittest.mock import patch
 import zipfile
 
-import chromadb
-from chromadb.api.types import EmbeddingFunction
+from indexer.sqlite_vectors import LocalVectorClient
 import httpx
 from pydantic_ai.messages import ModelMessagesTypeAdapter, ModelRequest, ModelResponse, TextPart, UserPromptPart
 from pydantic_ai.models.openai import OpenAIChatModel
@@ -34,7 +33,7 @@ from tests import test_evaluation_runner as fixtures
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class FixtureEmbedding(EmbeddingFunction):
+class FixtureEmbedding:
     def __init__(self):
         pass
     def __call__(self, input):
@@ -124,7 +123,7 @@ class RealEvaluationTests(unittest.TestCase):
         baseline_fixture(self.baseline)
         self.indexes = self.fixture.root / "indexes"
         self.output = self.fixture.root / "provider-run"
-        self.client = chromadb.PersistentClient(path=str(self.fixture.root / "vectors"))
+        self.client = LocalVectorClient(path=str(self.fixture.root / "vectors"))
         for context in (patch.object(vector_store, "_get_client", return_value=self.client),
                         patch.object(vector_store, "_get_embed_fn", return_value=FixtureEmbedding())):
             context.start()
@@ -206,7 +205,7 @@ class RealEvaluationTests(unittest.TestCase):
         data = read_json((self.indexes / "index.json").read_bytes())
         collection = self.client.get_collection(data["sources"][0]["collection_name"], embedding_function=None)
         identity = collection.get()["ids"][0]
-        collection.update(ids=[identity], documents=["altered source"])
+        collection.update(ids=[identity], documents=["altered source"], embeddings=[[1.0, 0.0, 0.5]])
         with self.assertRaisesRegex(ValueError, "向量存储"):
             self.run_fixture()
         self.assertFalse(self.output.exists())

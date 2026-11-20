@@ -1,29 +1,9 @@
-"""The application uses embedded Chroma only, with no external configuration."""
+"""Local SQLite only. No network client, plugin registry, reset or telemetry."""
+from pathlib import Path
 
-import os
-
-import chromadb
-from chromadb.config import Settings
-
-
-class _LocalSettings(Settings):
-    @classmethod
-    def settings_customise_sources(cls, settings_cls, init_settings, env_settings, dotenv_settings, file_secret_settings):
-        # Chroma settings can select importable components. Never accept those
-        # selections from the process environment, .env or a secrets directory.
-        return (init_settings,)
-
-
-def local_chroma_client(path):
-    settings = _LocalSettings(
-        _env_file=None,
-        chroma_api_impl="chromadb.api.rust.RustBindingsAPI",
-        is_persistent=True,
-        persist_directory=os.fspath(path),
-        allow_reset=False,
-        anonymized_telemetry=False,
-        chroma_otel_collection_endpoint="",
-        chroma_otel_granularity=None,
-    )
-    os.makedirs(path, exist_ok=True)
-    return chromadb.PersistentClient(path=os.fspath(path), settings=settings)
+def local_vector_client(path):
+    from indexer.sqlite_vectors import LocalVectorClient
+    directory = Path(path)
+    if (directory / "chroma.sqlite3").exists() and not (directory / "vectors.sqlite3").exists():
+        raise ValueError("旧向量库需要先停服导出并校验迁移，原库不会自动覆盖。")
+    return LocalVectorClient(directory)

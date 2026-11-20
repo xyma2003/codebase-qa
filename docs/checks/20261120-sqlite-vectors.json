@@ -1,0 +1,77 @@
+{
+  "collections": 4,
+  "vectors": 1256,
+  "exact_float32_readback": true,
+  "source_sha256": "4063c92c8b17149477746a49c971d6d5b194d7aca7ec84fa4807b334cfa760d2",
+  "original_chroma_preserved": true,
+  "model_requests": 0,
+  "embeddings_recomputed": 0,
+  "tests": {
+    "count": 408,
+    "seconds": 117.4,
+    "exit_code": 0
+  },
+  "targeted_tests": 17,
+  "mcp": {
+    "status": "mcp_security_integration_passed",
+    "protocol": "2025-11-25",
+    "tool_count": 9,
+    "calls_passed": 14,
+    "active_source_commit": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+    "active_chunks": 58,
+    "index_rebuilt": false,
+    "real_model_requests": 0,
+    "network_import_enabled": false
+  },
+  "restore": {
+    "status": "stopped_service_restore_passed",
+    "scope": "temporary_git_sqlite_vectors_and_two_user_fixture",
+    "source_process_exited_before_backup": true,
+    "original_path_replaced_for_readback": true,
+    "source_snapshot_checked": true,
+    "vectors_restored": 1,
+    "conversations_restored": 2,
+    "native_turns_restored": 2,
+    "cross_owner_denied": true,
+    "model_requests": 0,
+    "real_business_data_modified": false,
+    "backup": {
+      "files": 33,
+      "bytes": 89795,
+      "sha256": "ffd1cd369dfb62a57d0d90fe5604bd9f924c1786f11e334dc04fb7c5360aaef9"
+    },
+    "restore": {
+      "files": 33
+    }
+  },
+  "history": {
+    "root": "chroma_db",
+    "conversations": 2,
+    "turns": 3,
+    "sha256": "9fd14008178680c699d441cd6e83dd0056b35b1f4c0faf206df92afec7de647f"
+  },
+  "retrieval": {
+    "schema": 1,
+    "queries": 19,
+    "collection_queries": 76,
+    "embedding_max_error": 0.0,
+    "ordered_top5_equal": 76,
+    "top5_sets_equal": 76,
+    "distance_max_error": 3.423903247590232e-07,
+    "real_model_requests": 0,
+    "reference_sha256": "f6f4116252cb5c1d4251b2dcf97b74b8b45c08c20873c5a641481d4de6f75c65"
+  },
+  "implementation_sha256": {
+    "indexer/sqlite_vectors.py": "38da85ded55ac542a745e0262ca7001ec1743c69ff29371198974180adf3eece",
+    "indexer/embeddings.py": "c0fe6a3518e60a4e1bf77bf75e941e4d2196e87d7bcd96954c1f71552258dc6a",
+    "ops/vector_migration.py": "a6c6ec2868c9eaee277d2d4a66b93244c8e7ebab2e33970d9dbb9a8417829bec",
+    "security/vector_client.py": "2f5c95046113191d96d91f8b95ef01e5434654888f82bf8a7ea1c3129ff92080",
+    "scripts/check_storage_platform.py": "a8590f10cf715483bc79cbc2ae5997a3bbd7ae13f76115110bbfaf4ce3a99016",
+    "scripts/export_legacy_vectors.py": "9bd416066f6839175226fc7a8c5c30bca1020b0a879300ac56eeffcf3c98d3f2",
+    "scripts/import_vectors.py": "f3edbd216861210cbc1692caa372bb14913508b7ed754f23f5736704e60ff474",
+    "tests/test_vector_client.py": "eb837a20346de9d65bc71a10460c44f1989ee7c6759b140393175f770c988a51"
+  },
+  "test_log_sha256": "0c0b0b8bd42cf138240ff710b22c6f5aec94e15ccbd39cf7a8854a1ef3600abf",
+  "chroma_dependency_removed": false,
+  "release_allowed": false
+}

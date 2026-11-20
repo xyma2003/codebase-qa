@@ -1,4 +1,4 @@
-"""Independent processes, actual Git/Chroma/native messages, no model calls."""
+"""Independent processes, actual Git/vectors/native messages, no model calls."""
 import argparse
 import hashlib
 import json
@@ -96,7 +96,7 @@ def main(output):
         root.rename(root.with_name("original-not-used"))
         loaded = restore(archive, root, runtime_root=root)
         child("verify")
-        report = {"status": "stopped_service_restore_passed", "scope": "temporary_git_chroma_and_two_user_fixture",
+        report = {"status": "stopped_service_restore_passed", "scope": "temporary_git_sqlite_vectors_and_two_user_fixture",
             "source_process_exited_before_backup": True, "original_path_replaced_for_readback": True,
             "source_snapshot_checked": True, "vectors_restored": 1, "conversations_restored": 2,
             "native_turns_restored": 2, "cross_owner_denied": True, "model_requests": 0,

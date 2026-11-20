@@ -3,7 +3,7 @@ import hashlib
 import unittest
 from unittest.mock import patch
 
-import chromadb
+from indexer.sqlite_vectors import LocalVectorClient
 
 from evaluation.retrieval import evidence_coverage, group_coverage, _summary
 from indexer.chunker import chunk_repo
@@ -79,7 +79,7 @@ class RetrievalIndexTests(unittest.TestCase):
         self.fixture.manifest["sources"][0].update(commit_sha=commit.hexsha, tree_sha=commit.tree.hexsha)
         self.fixture.evidence[0]["file_sha256"] = hashlib.sha256(source.read_bytes()).hexdigest()
         self.fixture.save()
-        self.client = chromadb.PersistentClient(path=str(self.fixture.root / "vectors"))
+        self.client = LocalVectorClient(path=str(self.fixture.root / "vectors"))
         for context in (patch.object(vector_store, "_get_client", return_value=self.client),
                         patch.object(vector_store, "_get_embed_fn", return_value=FixtureEmbedding())):
             context.start()
@@ -108,7 +108,7 @@ class RetrievalIndexTests(unittest.TestCase):
     def test_damaged_successful_index_is_rejected_before_creating_candidate(self):
         name = self.client.list_collections()[0].name
         collection = self.client.get_collection(name, embedding_function=None)
-        collection.update(ids=[collection.get()["ids"][0]], documents=["changed"])
+        collection.update(ids=[collection.get()["ids"][0]], documents=["changed"], embeddings=[[1.0, 0.0, 0.5]])
         destination = self.fixture.root / "comparison"
         with self.assertRaisesRegex(ValueError, "向量存储"):
             compare_module_chunks(self.fixture.data, self.fixture.work, self.indexes, destination)

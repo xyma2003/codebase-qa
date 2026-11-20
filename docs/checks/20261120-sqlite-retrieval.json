@@ -1,0 +1,2673 @@
+{
+  "schema": 1,
+  "queries": 19,
+  "collection_queries": 76,
+  "embedding_max_error": 0.0,
+  "ordered_top5_equal": 76,
+  "top5_sets_equal": 76,
+  "distance_max_error": 3.423903247590232e-07,
+  "real_model_requests": 0,
+  "reference_sha256": "f6f4116252cb5c1d4251b2dcf97b74b8b45c08c20873c5a641481d4de6f75c65",
+  "records": [
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "11bc014b868af5f8b008a5c0a3a84d6493dc4a02860665848ec2d6a154504a35",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.749681832225903e-07,
+      "actual_ids": [
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53",
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:1",
+        "docs/checks/20261110-overview.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:1"
+      ],
+      "legacy_ids": [
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53",
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:1",
+        "docs/checks/20261110-overview.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:1"
+      ],
+      "actual_distances": [
+        0.43054459173682946,
+        0.45092073727253157,
+        0.45772270592933073,
+        0.4602771102464801,
+        0.47249577026020617
+      ],
+      "legacy_distances": [
+        0.43054431676864624,
+        0.4509207606315613,
+        0.4577229619026184,
+        0.460277259349823,
+        0.4724956750869751
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "5cc7bb5d17fba138bf47b1ebc170ad79029584f56658bee1ea1b89c4b2dec5e2",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.959185735340597e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:68",
+        "docs/checks/20261110-repository-versions.md:1",
+        "docs/checks/20261111-planning.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:68",
+        "docs/checks/20261110-repository-versions.md:1",
+        "docs/checks/20261111-planning.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "actual_distances": [
+        0.3041632220668563,
+        0.5104603415742439,
+        0.518804309647669,
+        0.5319041311740007,
+        0.5525123665713938
+      ],
+      "legacy_distances": [
+        0.30416303873062134,
+        0.510460376739502,
+        0.5188040137290955,
+        0.5319043397903442,
+        0.5525124073028564
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "5da9726376d9ab99b8e0db30833a3ba90394d0daf7cb465a193c479632c247d1",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.545305297057098e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "tests/test_repository_ui.py:161",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "tests/test_repository_ui.py:161",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:1"
+      ],
+      "actual_distances": [
+        0.3789646725221397,
+        0.525776516101486,
+        0.5592514629716918,
+        0.6124745172811856,
+        0.6236996837995145
+      ],
+      "legacy_distances": [
+        0.37896472215652466,
+        0.5257766246795654,
+        0.5592513084411621,
+        0.6124745607376099,
+        0.6236996650695801
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "d54ea834e925e3e123f7913875ef2723f871b07a3b57028c611ee29ba42234c9",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.5643673584596627e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "docs/checks/20261111-conversations.md:1",
+        "docs/checks/20261111-planning.json:167"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "docs/checks/20261111-conversations.md:1",
+        "docs/checks/20261111-planning.json:167"
+      ],
+      "actual_distances": [
+        0.5129138121805166,
+        0.5714014349731673,
+        0.6140818776067798,
+        0.6206920764905529,
+        0.6472397033515407
+      ],
+      "legacy_distances": [
+        0.5129139423370361,
+        0.5714015960693359,
+        0.614081621170044,
+        0.6206918954849243,
+        0.6472398042678833
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "deed3bcfbc526e908f9a662f84f8b58c58709aade2f2e9ad01b927a6e6c6b4de",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.6190217366762738e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:68",
+        "docs/TECHNICAL_PLAN.md:1",
+        "README.md:1",
+        "docs/baseline/README.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:68",
+        "docs/TECHNICAL_PLAN.md:1",
+        "README.md:1",
+        "docs/baseline/README.md:1"
+      ],
+      "actual_distances": [
+        0.5037247942290624,
+        0.5611331035931266,
+        0.5678749082773555,
+        0.5773500613807199,
+        0.5916303270687386
+      ],
+      "legacy_distances": [
+        0.5037246942520142,
+        0.5611332654953003,
+        0.5678747892379761,
+        0.5773500204086304,
+        0.5916303396224976
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "54d36ef15558dce5224fffc0c9c0e373bcac018ef9262a7f6ec18ef626e98f1e",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.6641544159655695e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/checks/20261111-planning.md:1",
+        "docs/checks/20261111-conversations.md:1",
+        "README.md:68"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/checks/20261111-planning.md:1",
+        "docs/checks/20261111-conversations.md:1",
+        "README.md:68"
+      ],
+      "actual_distances": [
+        0.3202414178396652,
+        0.5193068716106877,
+        0.5471434356171114,
+        0.5616915505951291,
+        0.5637397848227661
+      ],
+      "legacy_distances": [
+        0.32024121284484863,
+        0.519307017326355,
+        0.5471434593200684,
+        0.5616912841796875,
+        0.5637397766113281
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "1cf085ea5df8110004b2803a4ac15c0d8ff590ad0c356f544b859e062666fe4c",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.9702214965343643e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "README.md:120",
+        "docs/checks/20261110-source-reader.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:20",
+        "docs/checks/20261110-dependencies.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "README.md:120",
+        "docs/checks/20261110-source-reader.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:20",
+        "docs/checks/20261110-dependencies.md:1"
+      ],
+      "actual_distances": [
+        0.28990535971919607,
+        0.3797289218846499,
+        0.43120982851354994,
+        0.4390487084862732,
+        0.44372381479461465
+      ],
+      "legacy_distances": [
+        0.2899054288864136,
+        0.37972891330718994,
+        0.4312095642089844,
+        0.43904900550842285,
+        0.44372355937957764
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "84a8698cd45d6142624a773e0c17abcac773f1f6cb259391a78eebe671715ca3",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.788781045508614e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "docs/checks/20261110-citations.md:1",
+        "docs/checks/20261111-planning.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "docs/checks/20261110-citations.md:1",
+        "docs/checks/20261111-planning.md:1"
+      ],
+      "actual_distances": [
+        0.41578984266976105,
+        0.6068617448320645,
+        0.6114678417058406,
+        0.6139934848176679,
+        0.6141657413818327
+      ],
+      "legacy_distances": [
+        0.4157896637916565,
+        0.6068617105484009,
+        0.6114678382873535,
+        0.6139935255050659,
+        0.6141659021377563
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "0bb7cb72279905b64871fa84321f0bddd891b54661f3a8c20e66d40edea4265f",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.551265918526724e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "docs/checks/20261111-planning.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "docs/checks/20261111-planning.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "actual_distances": [
+        0.35014178039514654,
+        0.572423567031767,
+        0.5844282871801347,
+        0.6039182237173788,
+        0.6177129829064876
+      ],
+      "legacy_distances": [
+        0.3501415252685547,
+        0.5724235773086548,
+        0.5844283103942871,
+        0.6039182543754578,
+        0.6177130341529846
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "23d34ba0909022cb3135936a4a254cc88328ecca8022e600f605fe50a815505e",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.1537384958515418e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "docs/PRODUCT_PLAN.md:1",
+        "docs/checks/20261111-planning.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "docs/PRODUCT_PLAN.md:1",
+        "docs/checks/20261111-planning.md:1"
+      ],
+      "actual_distances": [
+        0.28880367243939586,
+        0.6155965405791943,
+        0.6393240306531333,
+        0.652627832255384,
+        0.6594861707479951
+      ],
+      "legacy_distances": [
+        0.2888036370277405,
+        0.6155965328216553,
+        0.6393239498138428,
+        0.6526279449462891,
+        0.6594860553741455
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "c5bc9940de19e307b737e257bf19111b7a0fa1d2da012f7bcbd70569f5e84674",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.577201300673181e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "docs/TECHNICAL_PLAN.md:48",
+        "README.md:120",
+        "docs/checks/20261110-dependencies.md:1",
+        "README.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "docs/TECHNICAL_PLAN.md:48",
+        "README.md:120",
+        "docs/checks/20261110-dependencies.md:1",
+        "README.md:1"
+      ],
+      "actual_distances": [
+        0.3294604717403715,
+        0.40271327277655744,
+        0.420833864575904,
+        0.43757746573168155,
+        0.46043445099051983
+      ],
+      "legacy_distances": [
+        0.3294604420661926,
+        0.4027131199836731,
+        0.4208337068557739,
+        0.43757736682891846,
+        0.4604344367980957
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "31cbde6c9b209e9e15c20de3d6e90f4cd9164ddd5d5baf896afce5b01d1f675b",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 3.423903247590232e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261111-planning.md:1",
+        "README.md:68",
+        "docs/checks/20261110-overview.md:1",
+        "docs/checks/20261110-repository-versions.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261111-planning.md:1",
+        "README.md:68",
+        "docs/checks/20261110-overview.md:1",
+        "docs/checks/20261110-repository-versions.md:1"
+      ],
+      "actual_distances": [
+        0.25259147550800054,
+        0.4764775490625295,
+        0.5108421056294855,
+        0.5325498214098741,
+        0.5363925452554492
+      ],
+      "legacy_distances": [
+        0.2525911331176758,
+        0.4764772653579712,
+        0.510841965675354,
+        0.5325497984886169,
+        0.5363925695419312
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "5c67a41614a1bdb76baa32baa721b0ee98173e7818f9ebab0362a5fb3b6cf197",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.6676439473783944e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261111-planning.json:82",
+        "docs/checks/20261111-conversations.md:1",
+        "docs/checks/20261111-planning.json:167",
+        "docs/baseline/questions.json:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261111-planning.json:82",
+        "docs/checks/20261111-conversations.md:1",
+        "docs/checks/20261111-planning.json:167",
+        "docs/baseline/questions.json:1"
+      ],
+      "actual_distances": [
+        0.3239226167270627,
+        0.6023358823155003,
+        0.6036030599583617,
+        0.6098039258782767,
+        0.6139618386788288
+      ],
+      "legacy_distances": [
+        0.32392245531082153,
+        0.602336049079895,
+        0.6036031246185303,
+        0.6098040342330933,
+        0.6139617562294006
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "9f15eafc0c17f047807ab5cde2f2e14860bf3328f2dd51ddc3dcfba90c2ad2b9",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.2089281426218577e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "tests/test_repository_ui.py:161",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:59",
+        "memory/quality.py:28",
+        "app.py:58"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "tests/test_repository_ui.py:161",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:59",
+        "memory/quality.py:28",
+        "app.py:58"
+      ],
+      "actual_distances": [
+        0.5160209711810078,
+        0.7339406434900424,
+        0.7414664470639885,
+        0.7460518632110158,
+        0.7577464801534473
+      ],
+      "legacy_distances": [
+        0.516021192073822,
+        0.7339407205581665,
+        0.7414662837982178,
+        0.7460519075393677,
+        0.7577464580535889
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "af4fb457c05fbf1d994cf0c668372d8663901edeabb54507189232fdcd887546",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.797951171862323e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "docs/TECHNICAL_PLAN.md:48",
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-dependencies.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "docs/TECHNICAL_PLAN.md:48",
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-dependencies.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "actual_distances": [
+        0.3219596290556622,
+        0.3926694210876892,
+        0.4376840850040422,
+        0.46520152262953696,
+        0.4744375619737886
+      ],
+      "legacy_distances": [
+        0.3219597339630127,
+        0.392669141292572,
+        0.43768393993377686,
+        0.465201735496521,
+        0.47443777322769165
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "a3b1281e2350ddfd32ac867cf0c1cc0ace5ca263624288e52b948e9d3917ba25",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.8083888742026488e-07,
+      "actual_ids": [
+        "docs/IMPLEMENTATION_STATUS.md:1",
+        "docs/checks/20261110-code-search.md:52",
+        "docs/baseline/README.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:12",
+        "docs/baseline/runs/20261110-stage0/REPORT.md:48"
+      ],
+      "legacy_ids": [
+        "docs/IMPLEMENTATION_STATUS.md:1",
+        "docs/checks/20261110-code-search.md:52",
+        "docs/baseline/README.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:12",
+        "docs/baseline/runs/20261110-stage0/REPORT.md:48"
+      ],
+      "actual_distances": [
+        0.4733322504224061,
+        0.48221617559490926,
+        0.5125163916204767,
+        0.5691770931466267,
+        0.5887359780125583
+      ],
+      "legacy_distances": [
+        0.4733322262763977,
+        0.4822162389755249,
+        0.5125164985656738,
+        0.5691769123077393,
+        0.5887359976768494
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "cc85a11be59a7db327245fd6a1f42e5ad70247a3e05701a3bc5ac573f629a49d",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.656941308603166e-07,
+      "actual_ids": [
+        "docs/checks/20261110-dependencies.md:1",
+        "docs/checks/20261110-code-search.md:1",
+        "README.md:120",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:36",
+        "docs/checks/20261111-planning.json:167"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-dependencies.md:1",
+        "docs/checks/20261110-code-search.md:1",
+        "README.md:120",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:36",
+        "docs/checks/20261111-planning.json:167"
+      ],
+      "actual_distances": [
+        0.39540267380000516,
+        0.4433021882621325,
+        0.5053193178988538,
+        0.5086988675526514,
+        0.5124527980103135
+      ],
+      "legacy_distances": [
+        0.3954026699066162,
+        0.4433022141456604,
+        0.5053192377090454,
+        0.5086987018585205,
+        0.5124528408050537
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "09d2a43eb7209dc641c9f2d38d0c225e8e6c7506c58fd1a5d5fabee93843b73f",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.1560045076741687e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-code-search.md:1",
+        "docs/checks/20261111-planning.md:44",
+        "docs/checks/20261111-planning.md:1",
+        "docs/checks/20261111-conversations.md:43"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-code-search.md:1",
+        "docs/checks/20261111-planning.md:44",
+        "docs/checks/20261111-planning.md:1",
+        "docs/checks/20261111-conversations.md:43"
+      ],
+      "actual_distances": [
+        0.3066295457042312,
+        0.5462774002226432,
+        0.5993313474143368,
+        0.6017799564729591,
+        0.6222316074336403
+      ],
+      "legacy_distances": [
+        0.3066295385360718,
+        0.5462772846221924,
+        0.5993313789367676,
+        0.6017799377441406,
+        0.6222317218780518
+      ]
+    },
+    {
+      "collection": "evaluation-35655ba23f7e48aeb0b54243e9cf8fd4",
+      "question_sha256": "1359ec603b06a6ec11f5fbd56a01b2280b6ed1690cbf620cd7cdf7567a3adcd4",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.6198323504745815e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "docs/checks/20261110-citations.md:1",
+        "docs/checks/20261110-repository-versions.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "docs/checks/20261110-citations.md:1",
+        "docs/checks/20261110-repository-versions.md:1"
+      ],
+      "actual_distances": [
+        0.4697571228520705,
+        0.5443883499229345,
+        0.5552001123097945,
+        0.5568175697951712,
+        0.5744307797625909
+      ],
+      "legacy_distances": [
+        0.46975696086883545,
+        0.5443882942199707,
+        0.5552000403404236,
+        0.5568177103996277,
+        0.5744308233261108
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "11bc014b868af5f8b008a5c0a3a84d6493dc4a02860665848ec2d6a154504a35",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.0545082568546036e-07,
+      "actual_ids": [
+        "README.md:1",
+        "README.md:124",
+        "README.md:336",
+        "memory/knowledge.py:27",
+        "README.md:43"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "README.md:124",
+        "README.md:336",
+        "memory/knowledge.py:27",
+        "README.md:43"
+      ],
+      "actual_distances": [
+        0.43404723594539196,
+        0.540266230668008,
+        0.6734540132816362,
+        0.6932963621481647,
+        0.729777070322364
+      ],
+      "legacy_distances": [
+        0.4340471029281616,
+        0.5402661561965942,
+        0.6734538078308105,
+        0.6932963728904724,
+        0.7297770380973816
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "5cc7bb5d17fba138bf47b1ebc170ad79029584f56658bee1ea1b89c4b2dec5e2",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.8194194228993155e-07,
+      "actual_ids": [
+        "README.md:1",
+        "app.py:58",
+        "README.md:43",
+        "README.md:124",
+        "memory/quality.py:28"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "app.py:58",
+        "README.md:43",
+        "README.md:124",
+        "memory/quality.py:28"
+      ],
+      "actual_distances": [
+        0.6114208729552785,
+        0.7248800544870995,
+        0.7580239366445933,
+        0.7969649762421495,
+        0.8224941538684287
+      ],
+      "legacy_distances": [
+        0.6114206910133362,
+        0.7248799800872803,
+        0.7580237984657288,
+        0.7969649434089661,
+        0.8224940896034241
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "5da9726376d9ab99b8e0db30833a3ba90394d0daf7cb465a193c479632c247d1",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.1883901906983851e-07,
+      "actual_ids": [
+        "README.md:1",
+        "app.py:58",
+        "README.md:124",
+        "memory/quality.py:28",
+        "agent/tools.py:18"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "app.py:58",
+        "README.md:124",
+        "memory/quality.py:28",
+        "agent/tools.py:18"
+      ],
+      "actual_distances": [
+        0.7110010260759881,
+        0.7438189743285448,
+        0.763636320936973,
+        0.7699018713109429,
+        0.7995956161299551
+      ],
+      "legacy_distances": [
+        0.7110009789466858,
+        0.743818998336792,
+        0.7636362314224243,
+        0.7699017524719238,
+        0.7995955944061279
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "d54ea834e925e3e123f7913875ef2723f871b07a3b57028c611ee29ba42234c9",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.6692737125900692e-07,
+      "actual_ids": [
+        "memory/knowledge.py:45",
+        "README.md:1",
+        "memory/quality.py:28",
+        "memory/knowledge.py:68",
+        "RESEARCH_PYDANTIC.md:588"
+      ],
+      "legacy_ids": [
+        "memory/knowledge.py:45",
+        "README.md:1",
+        "memory/quality.py:28",
+        "memory/knowledge.py:68",
+        "RESEARCH_PYDANTIC.md:588"
+      ],
+      "actual_distances": [
+        0.7232774140953508,
+        0.7350886173638354,
+        0.7497354021502447,
+        0.7590990543709137,
+        0.7725412736848513
+      ],
+      "legacy_distances": [
+        0.7232773303985596,
+        0.7350887060165405,
+        0.7497352361679077,
+        0.7590988874435425,
+        0.7725412845611572
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "deed3bcfbc526e908f9a662f84f8b58c58709aade2f2e9ad01b927a6e6c6b4de",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 8.502039949842555e-08,
+      "actual_ids": [
+        "README.md:1",
+        "README.md:408",
+        "memory/knowledge.py:45",
+        "app.py:58",
+        "README.md:43"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "README.md:408",
+        "memory/knowledge.py:45",
+        "app.py:58",
+        "README.md:43"
+      ],
+      "actual_distances": [
+        0.6935216442588333,
+        0.7672380765931655,
+        0.7837901407653185,
+        0.7867572722586065,
+        0.8190959947288161
+      ],
+      "legacy_distances": [
+        0.6935215592384338,
+        0.7672380208969116,
+        0.783790111541748,
+        0.786757230758667,
+        0.8190959692001343
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "54d36ef15558dce5224fffc0c9c0e373bcac018ef9262a7f6ec18ef626e98f1e",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 9.473173823160153e-08,
+      "actual_ids": [
+        "README.md:1",
+        "README.md:408",
+        "README.md:124",
+        "memory/quality.py:28",
+        "README.md:43"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "README.md:408",
+        "README.md:124",
+        "memory/quality.py:28",
+        "README.md:43"
+      ],
+      "actual_distances": [
+        0.7176443792890241,
+        0.7274325635077801,
+        0.7501293176016113,
+        0.7557143496787797,
+        0.7560319324927055
+      ],
+      "legacy_distances": [
+        0.7176443338394165,
+        0.7274325489997864,
+        0.750129222869873,
+        0.7557142972946167,
+        0.75603187084198
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "1cf085ea5df8110004b2803a4ac15c0d8ff590ad0c356f544b859e062666fe4c",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.0924419363854696e-07,
+      "actual_ids": [
+        "README.md:408",
+        "README.md:124",
+        "indexer/chunker.py:78",
+        "README.md:236",
+        "agent/tools.py:60"
+      ],
+      "legacy_ids": [
+        "README.md:408",
+        "README.md:124",
+        "indexer/chunker.py:78",
+        "README.md:236",
+        "agent/tools.py:60"
+      ],
+      "actual_distances": [
+        0.5239937597194294,
+        0.6569522359396207,
+        0.6749842124301997,
+        0.6775046801751167,
+        0.6792449644053435
+      ],
+      "legacy_distances": [
+        0.523993968963623,
+        0.6569521427154541,
+        0.674984335899353,
+        0.6775045394897461,
+        0.6792449355125427
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "84a8698cd45d6142624a773e0c17abcac773f1f6cb259391a78eebe671715ca3",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.9458013900131022e-07,
+      "actual_ids": [
+        "memory/quality.py:28",
+        "README.md:124",
+        "README.md:43",
+        "agent/tools.py:18",
+        "README.md:1"
+      ],
+      "legacy_ids": [
+        "memory/quality.py:28",
+        "README.md:124",
+        "README.md:43",
+        "agent/tools.py:18",
+        "README.md:1"
+      ],
+      "actual_distances": [
+        0.6698342906788026,
+        0.7226125755615843,
+        0.7254090007526829,
+        0.7269969525345094,
+        0.7381894981630919
+      ],
+      "legacy_distances": [
+        0.6698341369628906,
+        0.7226123809814453,
+        0.7254089117050171,
+        0.7269967794418335,
+        0.7381894588470459
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "0bb7cb72279905b64871fa84321f0bddd891b54661f3a8c20e66d40edea4265f",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.0639150738178671e-07,
+      "actual_ids": [
+        "README.md:1",
+        "memory/quality.py:28",
+        "README.md:43",
+        "README.md:408",
+        "memory/knowledge.py:68"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "memory/quality.py:28",
+        "README.md:43",
+        "README.md:408",
+        "memory/knowledge.py:68"
+      ],
+      "actual_distances": [
+        0.7041440926906362,
+        0.7691773900417507,
+        0.7779446513220583,
+        0.7818478492676523,
+        0.80665370292727
+      ],
+      "legacy_distances": [
+        0.7041441202163696,
+        0.7691774964332581,
+        0.7779445648193359,
+        0.7818478941917419,
+        0.806653618812561
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "23d34ba0909022cb3135936a4a254cc88328ecca8022e600f605fe50a815505e",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 3.9261058182304964e-08,
+      "actual_ids": [
+        "app.py:58",
+        "README.md:124",
+        "memory/quality.py:28",
+        "README.md:1",
+        "memory/knowledge.py:68"
+      ],
+      "legacy_ids": [
+        "app.py:58",
+        "README.md:124",
+        "memory/quality.py:28",
+        "README.md:1",
+        "memory/knowledge.py:68"
+      ],
+      "actual_distances": [
+        0.7805244557976342,
+        0.7825497793585962,
+        0.8075117246434677,
+        0.8170898164098708,
+        0.8213894356675353
+      ],
+      "legacy_distances": [
+        0.780524492263794,
+        0.7825497984886169,
+        0.8075116872787476,
+        0.817089855670929,
+        0.8213894367218018
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "c5bc9940de19e307b737e257bf19111b7a0fa1d2da012f7bcbd70569f5e84674",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.480775923574541e-07,
+      "actual_ids": [
+        "README.md:1",
+        "README.md:236",
+        "agent/tools.py:14",
+        "agent/tools.py:18",
+        "README.md:43"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "README.md:236",
+        "agent/tools.py:14",
+        "agent/tools.py:18",
+        "README.md:43"
+      ],
+      "actual_distances": [
+        0.40792823803730915,
+        0.46620672825008014,
+        0.4930906109154344,
+        0.5048854441855397,
+        0.5195089419227452
+      ],
+      "legacy_distances": [
+        0.4079279899597168,
+        0.46620672941207886,
+        0.49309056997299194,
+        0.5048856139183044,
+        0.5195088386535645
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "31cbde6c9b209e9e15c20de3d6e90f4cd9164ddd5d5baf896afce5b01d1f675b",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.6351116266809527e-07,
+      "actual_ids": [
+        "app.py:58",
+        "README.md:1",
+        "README.md:124",
+        "memory/knowledge.py:45",
+        "memory/quality.py:28"
+      ],
+      "legacy_ids": [
+        "app.py:58",
+        "README.md:1",
+        "README.md:124",
+        "memory/knowledge.py:45",
+        "memory/quality.py:28"
+      ],
+      "actual_distances": [
+        0.7129062331386575,
+        0.7251020864655675,
+        0.7251569283594903,
+        0.7849913686644215,
+        0.7922620517537456
+      ],
+      "legacy_distances": [
+        0.7129061222076416,
+        0.7251019477844238,
+        0.7251566648483276,
+        0.7849912643432617,
+        0.7922619581222534
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "5c67a41614a1bdb76baa32baa721b0ee98173e7818f9ebab0362a5fb3b6cf197",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 9.978601478444205e-08,
+      "actual_ids": [
+        "README.md:124",
+        "README.md:43",
+        "memory/quality.py:28",
+        "README.md:1",
+        "memory/knowledge.py:45"
+      ],
+      "legacy_ids": [
+        "README.md:124",
+        "README.md:43",
+        "memory/quality.py:28",
+        "README.md:1",
+        "memory/knowledge.py:45"
+      ],
+      "actual_distances": [
+        0.6936787172634318,
+        0.7342423833186684,
+        0.7480986443548756,
+        0.7495218106460083,
+        0.7574556114176515
+      ],
+      "legacy_distances": [
+        0.693678617477417,
+        0.7342423796653748,
+        0.748098611831665,
+        0.7495218515396118,
+        0.757455587387085
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "9f15eafc0c17f047807ab5cde2f2e14860bf3328f2dd51ddc3dcfba90c2ad2b9",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.4989422425504273e-07,
+      "actual_ids": [
+        "memory/quality.py:28",
+        "app.py:58",
+        "memory/knowledge.py:45",
+        "README.md:124",
+        "agent/tools.py:18"
+      ],
+      "legacy_ids": [
+        "memory/quality.py:28",
+        "app.py:58",
+        "memory/knowledge.py:45",
+        "README.md:124",
+        "agent/tools.py:18"
+      ],
+      "actual_distances": [
+        0.7460518085343366,
+        0.764316947150694,
+        0.8402097599966455,
+        0.8463907854603684,
+        0.8559505103228524
+      ],
+      "legacy_distances": [
+        0.7460517883300781,
+        0.7643167972564697,
+        0.8402096629142761,
+        0.8463908433914185,
+        0.8559504151344299
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "af4fb457c05fbf1d994cf0c668372d8663901edeabb54507189232fdcd887546",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.9388801869867365e-07,
+      "actual_ids": [
+        "README.md:1",
+        "agent/tools.py:18",
+        "README.md:124",
+        "README.md:408",
+        "README.md:236"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "agent/tools.py:18",
+        "README.md:124",
+        "README.md:408",
+        "README.md:236"
+      ],
+      "actual_distances": [
+        0.5465333503113526,
+        0.589371529900689,
+        0.5931032515706146,
+        0.5937564095601514,
+        0.6105488300748257
+      ],
+      "legacy_distances": [
+        0.5465336441993713,
+        0.5893715620040894,
+        0.5931034088134766,
+        0.5937565565109253,
+        0.6105486750602722
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "a3b1281e2350ddfd32ac867cf0c1cc0ace5ca263624288e52b948e9d3917ba25",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.8552401892524273e-07,
+      "actual_ids": [
+        "README.md:43",
+        "README.md:124",
+        "README.md:408",
+        "README.md:1",
+        "agent/qa_agent.py:11"
+      ],
+      "legacy_ids": [
+        "README.md:43",
+        "README.md:124",
+        "README.md:408",
+        "README.md:1",
+        "agent/qa_agent.py:11"
+      ],
+      "actual_distances": [
+        0.57263725325009,
+        0.6340967656168298,
+        0.7606134459438748,
+        0.7660532990877769,
+        0.7878258883546829
+      ],
+      "legacy_distances": [
+        0.5726374387741089,
+        0.6340968608856201,
+        0.7606135010719299,
+        0.7660531997680664,
+        0.7878260612487793
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "cc85a11be59a7db327245fd6a1f42e5ad70247a3e05701a3bc5ac573f629a49d",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.0203236683613568e-07,
+      "actual_ids": [
+        "indexer/chunker.py:9",
+        "README.md:236",
+        "RESEARCH_PYDANTIC.md:588",
+        "RESEARCH_PYDANTIC.md:282",
+        "README.md:124"
+      ],
+      "legacy_ids": [
+        "indexer/chunker.py:9",
+        "README.md:236",
+        "RESEARCH_PYDANTIC.md:588",
+        "RESEARCH_PYDANTIC.md:282",
+        "README.md:124"
+      ],
+      "actual_distances": [
+        0.5548843405648742,
+        0.586747848364154,
+        0.602665090570887,
+        0.6128932607134371,
+        0.6139469496491539
+      ],
+      "legacy_distances": [
+        0.5548844337463379,
+        0.5867476463317871,
+        0.6026649475097656,
+        0.6128932237625122,
+        0.6139470934867859
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "09d2a43eb7209dc641c9f2d38d0c225e8e6c7506c58fd1a5d5fabee93843b73f",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.5136562248052599e-07,
+      "actual_ids": [
+        "README.md:124",
+        "app.py:58",
+        "memory/quality.py:28",
+        "README.md:1",
+        "README.md:43"
+      ],
+      "legacy_ids": [
+        "README.md:124",
+        "app.py:58",
+        "memory/quality.py:28",
+        "README.md:1",
+        "README.md:43"
+      ],
+      "actual_distances": [
+        0.6904892408559488,
+        0.738020301502518,
+        0.7454603421477244,
+        0.749403985708579,
+        0.752776099241917
+      ],
+      "legacy_distances": [
+        0.6904892921447754,
+        0.7380202412605286,
+        0.7454603910446167,
+        0.7494038343429565,
+        0.752776026725769
+      ]
+    },
+    {
+      "collection": "repo-8727293985437850-7ed1f8f22e3c-de0f9eff8f3e",
+      "question_sha256": "1359ec603b06a6ec11f5fbd56a01b2280b6ed1690cbf620cd7cdf7567a3adcd4",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.3266334475403596e-07,
+      "actual_ids": [
+        "README.md:1",
+        "README.md:124",
+        "README.md:408",
+        "README.md:43",
+        "app.py:58"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "README.md:124",
+        "README.md:408",
+        "README.md:43",
+        "app.py:58"
+      ],
+      "actual_distances": [
+        0.6845693453716284,
+        0.7018088451622184,
+        0.7711935893014497,
+        0.7898371090317179,
+        0.8413496467735291
+      ],
+      "legacy_distances": [
+        0.6845694780349731,
+        0.7018088102340698,
+        0.7711936235427856,
+        0.789837121963501,
+        0.8413495421409607
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "11bc014b868af5f8b008a5c0a3a84d6493dc4a02860665848ec2d6a154504a35",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.749681832225903e-07,
+      "actual_ids": [
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53",
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:1",
+        "docs/checks/20261110-overview.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:1"
+      ],
+      "legacy_ids": [
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53",
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:1",
+        "docs/checks/20261110-overview.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:1"
+      ],
+      "actual_distances": [
+        0.43054459173682946,
+        0.45092073727253157,
+        0.45772270592933073,
+        0.4602771102464801,
+        0.47249577055785885
+      ],
+      "legacy_distances": [
+        0.43054431676864624,
+        0.4509207606315613,
+        0.4577229619026184,
+        0.460277259349823,
+        0.4724956750869751
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "5cc7bb5d17fba138bf47b1ebc170ad79029584f56658bee1ea1b89c4b2dec5e2",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.959185735340597e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:68",
+        "docs/checks/20261110-repository-versions.md:1",
+        "docs/checks/20261111-planning.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:68",
+        "docs/checks/20261110-repository-versions.md:1",
+        "docs/checks/20261111-planning.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "actual_distances": [
+        0.3041632220668563,
+        0.5104603415742439,
+        0.518804309647669,
+        0.5319041311740007,
+        0.5525123665713938
+      ],
+      "legacy_distances": [
+        0.30416303873062134,
+        0.510460376739502,
+        0.5188040137290955,
+        0.5319043397903442,
+        0.5525124073028564
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "5da9726376d9ab99b8e0db30833a3ba90394d0daf7cb465a193c479632c247d1",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.545305297057098e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "app.py:121",
+        "tests/test_repository_ui.py:161"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "app.py:121",
+        "tests/test_repository_ui.py:161"
+      ],
+      "actual_distances": [
+        0.3789646725221397,
+        0.525776516101486,
+        0.5592514629716918,
+        0.5633663987727708,
+        0.612474517947202
+      ],
+      "legacy_distances": [
+        0.37896472215652466,
+        0.5257766246795654,
+        0.5592513084411621,
+        0.5633663535118103,
+        0.6124745011329651
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "d54ea834e925e3e123f7913875ef2723f871b07a3b57028c611ee29ba42234c9",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.5643673584596627e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "app.py:121",
+        "docs/checks/20261111-conversations.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "app.py:121",
+        "docs/checks/20261111-conversations.md:1"
+      ],
+      "actual_distances": [
+        0.5129138121805166,
+        0.5714014349731673,
+        0.6140818776067798,
+        0.618904004745956,
+        0.6206920764905529
+      ],
+      "legacy_distances": [
+        0.5129139423370361,
+        0.5714015960693359,
+        0.614081621170044,
+        0.6189039349555969,
+        0.6206919550895691
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "deed3bcfbc526e908f9a662f84f8b58c58709aade2f2e9ad01b927a6e6c6b4de",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.6190217366762738e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:68",
+        "docs/TECHNICAL_PLAN.md:1",
+        "README.md:1",
+        "docs/baseline/README.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "README.md:68",
+        "docs/TECHNICAL_PLAN.md:1",
+        "README.md:1",
+        "docs/baseline/README.md:1"
+      ],
+      "actual_distances": [
+        0.5037247942290624,
+        0.5611331035931266,
+        0.5678749082773555,
+        0.5773500613807199,
+        0.5916303270687386
+      ],
+      "legacy_distances": [
+        0.5037246942520142,
+        0.5611332654953003,
+        0.5678747892379761,
+        0.5773500204086304,
+        0.5916303396224976
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "54d36ef15558dce5224fffc0c9c0e373bcac018ef9262a7f6ec18ef626e98f1e",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.0681079682116632e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/checks/20261111-planning.md:1",
+        "docs/checks/20261111-conversations.md:1",
+        "README.md:68"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/checks/20261111-planning.md:1",
+        "docs/checks/20261111-conversations.md:1",
+        "README.md:68"
+      ],
+      "actual_distances": [
+        0.3202414178396652,
+        0.5193068716106877,
+        0.5471434356171114,
+        0.5616915505951291,
+        0.5637397848227661
+      ],
+      "legacy_distances": [
+        0.32024121284484863,
+        0.519307017326355,
+        0.5471434593200684,
+        0.5616913437843323,
+        0.5637397766113281
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "1cf085ea5df8110004b2803a4ac15c0d8ff590ad0c356f544b859e062666fe4c",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 3.137871212866017e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "README.md:120",
+        "docs/checks/20261110-source-reader.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:20",
+        "docs/checks/20261110-dependencies.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "README.md:120",
+        "docs/checks/20261110-source-reader.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:20",
+        "docs/checks/20261110-dependencies.md:1"
+      ],
+      "actual_distances": [
+        0.28990535971919607,
+        0.3797289218846499,
+        0.43120982851354994,
+        0.4390487084862732,
+        0.44372381356205415
+      ],
+      "legacy_distances": [
+        0.2899053692817688,
+        0.3797290325164795,
+        0.4312096834182739,
+        0.43904900550842285,
+        0.44372349977493286
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "84a8698cd45d6142624a773e0c17abcac773f1f6cb259391a78eebe671715ca3",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.2036056845919916e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "docs/checks/20261110-citations.md:1",
+        "docs/checks/20261111-planning.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "docs/checks/20261110-citations.md:1",
+        "docs/checks/20261111-planning.md:1"
+      ],
+      "actual_distances": [
+        0.41578984266976105,
+        0.6068617448320645,
+        0.6114678417058406,
+        0.6139934848176679,
+        0.6141657413818327
+      ],
+      "legacy_distances": [
+        0.4157896637916565,
+        0.6068617105484009,
+        0.6114678978919983,
+        0.6139935255050659,
+        0.6141659617424011
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "0bb7cb72279905b64871fa84321f0bddd891b54661f3a8c20e66d40edea4265f",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.551265918526724e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "docs/checks/20261111-planning.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "docs/checks/20261111-planning.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "actual_distances": [
+        0.35014178039514654,
+        0.572423567031767,
+        0.5844282871801347,
+        0.6039182237173788,
+        0.6177129829064876
+      ],
+      "legacy_distances": [
+        0.3501415252685547,
+        0.5724235773086548,
+        0.5844283103942871,
+        0.6039183139801025,
+        0.6177130341529846
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "23d34ba0909022cb3135936a4a254cc88328ecca8022e600f605fe50a815505e",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.1269090505194868e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "app.py:121",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "docs/PRODUCT_PLAN.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "app.py:121",
+        "docs/checks/20261110-overview.md:1",
+        "README.md:68",
+        "docs/PRODUCT_PLAN.md:1"
+      ],
+      "actual_distances": [
+        0.28880367243939586,
+        0.613198339909119,
+        0.6155965405791943,
+        0.6393240306531333,
+        0.652627832255384
+      ],
+      "legacy_distances": [
+        0.2888036370277405,
+        0.6131983399391174,
+        0.6155965328216553,
+        0.6393239498138428,
+        0.6526279449462891
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "c5bc9940de19e307b737e257bf19111b7a0fa1d2da012f7bcbd70569f5e84674",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.5754590920735723e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "docs/TECHNICAL_PLAN.md:48",
+        "README.md:120",
+        "docs/checks/20261110-dependencies.md:1",
+        "README.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "docs/TECHNICAL_PLAN.md:48",
+        "README.md:120",
+        "docs/checks/20261110-dependencies.md:1",
+        "README.md:1"
+      ],
+      "actual_distances": [
+        0.3294604717403715,
+        0.40271327277655744,
+        0.420833864575904,
+        0.4375774647701829,
+        0.46043445099051983
+      ],
+      "legacy_distances": [
+        0.3294605016708374,
+        0.40271317958831787,
+        0.42083388566970825,
+        0.4375773072242737,
+        0.4604344367980957
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "31cbde6c9b209e9e15c20de3d6e90f4cd9164ddd5d5baf896afce5b01d1f675b",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 3.423903247590232e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261111-planning.md:1",
+        "README.md:68",
+        "docs/checks/20261110-overview.md:1",
+        "docs/checks/20261110-repository-versions.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261111-planning.md:1",
+        "README.md:68",
+        "docs/checks/20261110-overview.md:1",
+        "docs/checks/20261110-repository-versions.md:1"
+      ],
+      "actual_distances": [
+        0.25259147550800054,
+        0.4764775490625295,
+        0.5108421056294855,
+        0.5325498214098741,
+        0.5363925452554492
+      ],
+      "legacy_distances": [
+        0.2525911331176758,
+        0.47647732496261597,
+        0.510841965675354,
+        0.5325497984886169,
+        0.5363925695419312
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "5c67a41614a1bdb76baa32baa721b0ee98173e7818f9ebab0362a5fb3b6cf197",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.8629761877608786e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "app.py:121",
+        "docs/checks/20261111-planning.json:82",
+        "docs/checks/20261111-conversations.md:1",
+        "docs/checks/20261111-planning.json:167"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "app.py:121",
+        "docs/checks/20261111-planning.json:82",
+        "docs/checks/20261111-conversations.md:1",
+        "docs/checks/20261111-planning.json:167"
+      ],
+      "actual_distances": [
+        0.3239226167270627,
+        0.5919478014442557,
+        0.6023358823155003,
+        0.6036030599583617,
+        0.6098039258782767
+      ],
+      "legacy_distances": [
+        0.32392245531082153,
+        0.591947615146637,
+        0.602336049079895,
+        0.6036031246185303,
+        0.6098040342330933
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "9f15eafc0c17f047807ab5cde2f2e14860bf3328f2dd51ddc3dcfba90c2ad2b9",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.2089281426218577e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "app.py:121",
+        "tests/test_repository_ui.py:161",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:59",
+        "memory/quality.py:28"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "app.py:121",
+        "tests/test_repository_ui.py:161",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:59",
+        "memory/quality.py:28"
+      ],
+      "actual_distances": [
+        0.5160209711810078,
+        0.632065237969808,
+        0.7339406433751889,
+        0.7414664470639885,
+        0.7460518632110158
+      ],
+      "legacy_distances": [
+        0.516021192073822,
+        0.6320651769638062,
+        0.7339407205581665,
+        0.7414662837982178,
+        0.7460519075393677
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "af4fb457c05fbf1d994cf0c668372d8663901edeabb54507189232fdcd887546",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.2019047241084166e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "docs/TECHNICAL_PLAN.md:48",
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-dependencies.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:1",
+        "docs/TECHNICAL_PLAN.md:48",
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-dependencies.md:1",
+        "docs/baseline/runs/20261110-stage0/mcp-results.json:53"
+      ],
+      "actual_distances": [
+        0.3219596290556622,
+        0.3926694210876892,
+        0.4376840850040422,
+        0.4652015204594513,
+        0.4744375619737886
+      ],
+      "legacy_distances": [
+        0.32195979356765747,
+        0.3926692008972168,
+        0.43768393993377686,
+        0.465201735496521,
+        0.47443777322769165
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "a3b1281e2350ddfd32ac867cf0c1cc0ace5ca263624288e52b948e9d3917ba25",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.8083888742026488e-07,
+      "actual_ids": [
+        "docs/IMPLEMENTATION_STATUS.md:1",
+        "docs/checks/20261110-code-search.md:52",
+        "docs/baseline/README.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:12",
+        "docs/baseline/runs/20261110-stage0/REPORT.md:48"
+      ],
+      "legacy_ids": [
+        "docs/IMPLEMENTATION_STATUS.md:1",
+        "docs/checks/20261110-code-search.md:52",
+        "docs/baseline/README.md:1",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:12",
+        "docs/baseline/runs/20261110-stage0/REPORT.md:48"
+      ],
+      "actual_distances": [
+        0.4733322504224061,
+        0.48221617559490926,
+        0.5125163916204767,
+        0.5691770931466267,
+        0.5887359780125583
+      ],
+      "legacy_distances": [
+        0.4733322262763977,
+        0.4822162389755249,
+        0.5125164985656738,
+        0.5691769123077393,
+        0.5887359976768494
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "cc85a11be59a7db327245fd6a1f42e5ad70247a3e05701a3bc5ac573f629a49d",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.656941308603166e-07,
+      "actual_ids": [
+        "docs/checks/20261110-dependencies.md:1",
+        "docs/checks/20261110-code-search.md:1",
+        "README.md:120",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:36",
+        "docs/checks/20261111-planning.json:167"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-dependencies.md:1",
+        "docs/checks/20261110-code-search.md:1",
+        "README.md:120",
+        "docs/baseline/runs/20261110-stage0/retrieval-results.json:36",
+        "docs/checks/20261111-planning.json:167"
+      ],
+      "actual_distances": [
+        0.3954026734829793,
+        0.4433021882621325,
+        0.5053193178988538,
+        0.5086988675526514,
+        0.5124527980103135
+      ],
+      "legacy_distances": [
+        0.39540261030197144,
+        0.4433022141456604,
+        0.505319356918335,
+        0.5086987018585205,
+        0.5124528408050537
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "09d2a43eb7209dc641c9f2d38d0c225e8e6c7506c58fd1a5d5fabee93843b73f",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.7184317879781474e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-code-search.md:1",
+        "app.py:121",
+        "docs/checks/20261111-planning.md:44",
+        "docs/checks/20261111-planning.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-code-search.md:1",
+        "app.py:121",
+        "docs/checks/20261111-planning.md:44",
+        "docs/checks/20261111-planning.md:1"
+      ],
+      "actual_distances": [
+        0.3066295457042312,
+        0.5462774002226432,
+        0.5951459477513952,
+        0.5993313474143368,
+        0.6017799564729591
+      ],
+      "legacy_distances": [
+        0.3066295385360718,
+        0.5462773442268372,
+        0.595146119594574,
+        0.5993313789367676,
+        0.6017799973487854
+      ]
+    },
+    {
+      "collection": "retrieval-module-4f4bdcdf44964271ad3205ac5c962eef",
+      "question_sha256": "1359ec603b06a6ec11f5fbd56a01b2280b6ed1690cbf620cd7cdf7567a3adcd4",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.6198323504745815e-07,
+      "actual_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "docs/checks/20261110-citations.md:1",
+        "docs/checks/20261110-repository-versions.md:1"
+      ],
+      "legacy_ids": [
+        "docs/checks/20261110-code-search.md:52",
+        "docs/checks/20261110-overview.md:1",
+        "docs/PRODUCT_PLAN.md:1",
+        "docs/checks/20261110-citations.md:1",
+        "docs/checks/20261110-repository-versions.md:1"
+      ],
+      "actual_distances": [
+        0.4697571228520705,
+        0.5443883499229345,
+        0.5552001123097945,
+        0.5568175697951712,
+        0.5744307797625909
+      ],
+      "legacy_distances": [
+        0.46975696086883545,
+        0.5443882942199707,
+        0.5552000999450684,
+        0.5568177103996277,
+        0.5744308233261108
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "11bc014b868af5f8b008a5c0a3a84d6493dc4a02860665848ec2d6a154504a35",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.0545082568546036e-07,
+      "actual_ids": [
+        "README.md:1",
+        "README.md:124",
+        "README.md:336",
+        "memory/knowledge.py:27",
+        "README.md:43"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "README.md:124",
+        "README.md:336",
+        "memory/knowledge.py:27",
+        "README.md:43"
+      ],
+      "actual_distances": [
+        0.43404723594539196,
+        0.540266230668008,
+        0.6734540132816362,
+        0.6932963645121142,
+        0.729777070322364
+      ],
+      "legacy_distances": [
+        0.4340471029281616,
+        0.5402661561965942,
+        0.6734538078308105,
+        0.6932963728904724,
+        0.7297770380973816
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "5cc7bb5d17fba138bf47b1ebc170ad79029584f56658bee1ea1b89c4b2dec5e2",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.4154658706532217e-07,
+      "actual_ids": [
+        "README.md:1",
+        "app.py:58",
+        "README.md:43",
+        "README.md:124",
+        "memory/quality.py:28"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "app.py:58",
+        "README.md:43",
+        "README.md:124",
+        "memory/quality.py:28"
+      ],
+      "actual_distances": [
+        0.6114208729552785,
+        0.7248800544870995,
+        0.7580239366445933,
+        0.7969649762421495,
+        0.8224941560738024
+      ],
+      "legacy_distances": [
+        0.6114206314086914,
+        0.7248799800872803,
+        0.7580237984657288,
+        0.7969649434089661,
+        0.8224940896034241
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "5da9726376d9ab99b8e0db30833a3ba90394d0daf7cb465a193c479632c247d1",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.2146550942837564e-07,
+      "actual_ids": [
+        "README.md:1",
+        "app.py:58",
+        "README.md:124",
+        "memory/quality.py:28",
+        "agent/tools.py:18"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "app.py:58",
+        "README.md:124",
+        "memory/quality.py:28",
+        "agent/tools.py:18"
+      ],
+      "actual_distances": [
+        0.7110010260759881,
+        0.7438189743285448,
+        0.763636320936973,
+        0.7699018739374333,
+        0.7995956161299551
+      ],
+      "legacy_distances": [
+        0.711000919342041,
+        0.743818998336792,
+        0.7636362314224243,
+        0.7699017524719238,
+        0.7995955944061279
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "d54ea834e925e3e123f7913875ef2723f871b07a3b57028c611ee29ba42234c9",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.6825256821118018e-07,
+      "actual_ids": [
+        "memory/knowledge.py:45",
+        "README.md:1",
+        "memory/quality.py:28",
+        "memory/knowledge.py:68",
+        "RESEARCH_PYDANTIC.md:588"
+      ],
+      "legacy_ids": [
+        "memory/knowledge.py:45",
+        "README.md:1",
+        "memory/quality.py:28",
+        "memory/knowledge.py:68",
+        "RESEARCH_PYDANTIC.md:588"
+      ],
+      "actual_distances": [
+        0.7232774140953508,
+        0.7350886173638354,
+        0.7497354019060154,
+        0.7590990556961107,
+        0.7725412736848513
+      ],
+      "legacy_distances": [
+        0.7232773303985596,
+        0.7350887060165405,
+        0.7497352361679077,
+        0.7590988874435425,
+        0.7725412845611572
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "deed3bcfbc526e908f9a662f84f8b58c58709aade2f2e9ad01b927a6e6c6b4de",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.4462504427381617e-07,
+      "actual_ids": [
+        "README.md:1",
+        "README.md:408",
+        "memory/knowledge.py:45",
+        "app.py:58",
+        "README.md:43"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "README.md:408",
+        "memory/knowledge.py:45",
+        "app.py:58",
+        "README.md:43"
+      ],
+      "actual_distances": [
+        0.6935216442588333,
+        0.7672380765931655,
+        0.7837901407653185,
+        0.7867572722586065,
+        0.8190959947288161
+      ],
+      "legacy_distances": [
+        0.6935214996337891,
+        0.7672380208969116,
+        0.783790111541748,
+        0.786757230758667,
+        0.8190959692001343
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "54d36ef15558dce5224fffc0c9c0e373bcac018ef9262a7f6ec18ef626e98f1e",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 9.473173823160153e-08,
+      "actual_ids": [
+        "README.md:1",
+        "README.md:408",
+        "README.md:124",
+        "memory/quality.py:28",
+        "README.md:43"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "README.md:408",
+        "README.md:124",
+        "memory/quality.py:28",
+        "README.md:43"
+      ],
+      "actual_distances": [
+        0.7176443792890241,
+        0.7274325635077801,
+        0.7501293176016113,
+        0.7557143518799412,
+        0.7560319324927055
+      ],
+      "legacy_distances": [
+        0.7176443338394165,
+        0.7274325489997864,
+        0.750129222869873,
+        0.7557142972946167,
+        0.75603187084198
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "1cf085ea5df8110004b2803a4ac15c0d8ff590ad0c356f544b859e062666fe4c",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.0924419363854696e-07,
+      "actual_ids": [
+        "README.md:408",
+        "README.md:124",
+        "indexer/chunker.py:78",
+        "README.md:236",
+        "agent/tools.py:60"
+      ],
+      "legacy_ids": [
+        "README.md:408",
+        "README.md:124",
+        "indexer/chunker.py:78",
+        "README.md:236",
+        "agent/tools.py:60"
+      ],
+      "actual_distances": [
+        0.5239937597194294,
+        0.6569522359396207,
+        0.6749842124301997,
+        0.677504683391981,
+        0.6792449644053435
+      ],
+      "legacy_distances": [
+        0.523993968963623,
+        0.6569521427154541,
+        0.6749842166900635,
+        0.6775045394897461,
+        0.6792449355125427
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "84a8698cd45d6142624a773e0c17abcac773f1f6cb259391a78eebe671715ca3",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.9458013900131022e-07,
+      "actual_ids": [
+        "memory/quality.py:28",
+        "README.md:124",
+        "README.md:43",
+        "agent/tools.py:18",
+        "README.md:1"
+      ],
+      "legacy_ids": [
+        "memory/quality.py:28",
+        "README.md:124",
+        "README.md:43",
+        "agent/tools.py:18",
+        "README.md:1"
+      ],
+      "actual_distances": [
+        0.6698342942080397,
+        0.7226125755615843,
+        0.7254090007526829,
+        0.7269969525345094,
+        0.7381894981630919
+      ],
+      "legacy_distances": [
+        0.6698341369628906,
+        0.7226123809814453,
+        0.7254089117050171,
+        0.7269967794418335,
+        0.7381893992424011
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "0bb7cb72279905b64871fa84321f0bddd891b54661f3a8c20e66d40edea4265f",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.036106199725495e-07,
+      "actual_ids": [
+        "README.md:1",
+        "memory/quality.py:28",
+        "README.md:43",
+        "README.md:408",
+        "memory/knowledge.py:68"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "memory/quality.py:28",
+        "README.md:43",
+        "README.md:408",
+        "memory/knowledge.py:68"
+      ],
+      "actual_distances": [
+        0.7041440926906362,
+        0.7691773928226381,
+        0.7779446513220583,
+        0.7818478492676523,
+        0.8066537041384791
+      ],
+      "legacy_distances": [
+        0.7041441202163696,
+        0.7691774964332581,
+        0.7779445648193359,
+        0.7818478941917419,
+        0.806653618812561
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "23d34ba0909022cb3135936a4a254cc88328ecca8022e600f605fe50a815505e",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 4.160589583968033e-08,
+      "actual_ids": [
+        "app.py:58",
+        "README.md:124",
+        "memory/quality.py:28",
+        "README.md:1",
+        "memory/knowledge.py:68"
+      ],
+      "legacy_ids": [
+        "app.py:58",
+        "README.md:124",
+        "memory/quality.py:28",
+        "README.md:1",
+        "memory/knowledge.py:68"
+      ],
+      "actual_distances": [
+        0.7805244557976342,
+        0.7825497793585962,
+        0.8075117288846434,
+        0.8170898164098708,
+        0.8213894394440686
+      ],
+      "legacy_distances": [
+        0.7805244326591492,
+        0.7825497984886169,
+        0.8075116872787476,
+        0.8170897960662842,
+        0.8213894367218018
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "c5bc9940de19e307b737e257bf19111b7a0fa1d2da012f7bcbd70569f5e84674",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 3.076822371328447e-07,
+      "actual_ids": [
+        "README.md:1",
+        "README.md:236",
+        "agent/tools.py:14",
+        "agent/tools.py:18",
+        "README.md:43"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "README.md:236",
+        "agent/tools.py:14",
+        "agent/tools.py:18",
+        "README.md:43"
+      ],
+      "actual_distances": [
+        0.40792823803730915,
+        0.4662067274639401,
+        0.4930906109154344,
+        0.5048854441855397,
+        0.5195089419227452
+      ],
+      "legacy_distances": [
+        0.407927930355072,
+        0.46620672941207886,
+        0.49309056997299194,
+        0.5048856139183044,
+        0.5195088386535645
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "31cbde6c9b209e9e15c20de3d6e90f4cd9164ddd5d5baf896afce5b01d1f675b",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.6351116266809527e-07,
+      "actual_ids": [
+        "app.py:58",
+        "README.md:1",
+        "README.md:124",
+        "memory/knowledge.py:45",
+        "memory/quality.py:28"
+      ],
+      "legacy_ids": [
+        "app.py:58",
+        "README.md:1",
+        "README.md:124",
+        "memory/knowledge.py:45",
+        "memory/quality.py:28"
+      ],
+      "actual_distances": [
+        0.7129062331386575,
+        0.7251020864655675,
+        0.7251569283594903,
+        0.7849913686644215,
+        0.7922620523984865
+      ],
+      "legacy_distances": [
+        0.7129060626029968,
+        0.7251019477844238,
+        0.7251566648483276,
+        0.7849912643432617,
+        0.7922619581222534
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "5c67a41614a1bdb76baa32baa721b0ee98173e7818f9ebab0362a5fb3b6cf197",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 9.978601478444205e-08,
+      "actual_ids": [
+        "README.md:124",
+        "README.md:43",
+        "memory/quality.py:28",
+        "README.md:1",
+        "memory/knowledge.py:45"
+      ],
+      "legacy_ids": [
+        "README.md:124",
+        "README.md:43",
+        "memory/quality.py:28",
+        "README.md:1",
+        "memory/knowledge.py:45"
+      ],
+      "actual_distances": [
+        0.6936787172634318,
+        0.7342423833186684,
+        0.7480986461597872,
+        0.7495218106460083,
+        0.7574556114176515
+      ],
+      "legacy_distances": [
+        0.693678617477417,
+        0.7342423796653748,
+        0.748098611831665,
+        0.749521791934967,
+        0.757455587387085
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "9f15eafc0c17f047807ab5cde2f2e14860bf3328f2dd51ddc3dcfba90c2ad2b9",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.4989422425504273e-07,
+      "actual_ids": [
+        "memory/quality.py:28",
+        "app.py:58",
+        "memory/knowledge.py:45",
+        "README.md:124",
+        "agent/tools.py:18"
+      ],
+      "legacy_ids": [
+        "memory/quality.py:28",
+        "app.py:58",
+        "memory/knowledge.py:45",
+        "README.md:124",
+        "agent/tools.py:18"
+      ],
+      "actual_distances": [
+        0.7460518090954976,
+        0.764316947150694,
+        0.8402097599966455,
+        0.8463907854603684,
+        0.8559505103228524
+      ],
+      "legacy_distances": [
+        0.7460517883300781,
+        0.7643167972564697,
+        0.8402096629142761,
+        0.8463908433914185,
+        0.8559504151344299
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "af4fb457c05fbf1d994cf0c668372d8663901edeabb54507189232fdcd887546",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 2.3428337392328302e-07,
+      "actual_ids": [
+        "README.md:1",
+        "agent/tools.py:18",
+        "README.md:124",
+        "README.md:408",
+        "README.md:236"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "agent/tools.py:18",
+        "README.md:124",
+        "README.md:408",
+        "README.md:236"
+      ],
+      "actual_distances": [
+        0.5465333503113526,
+        0.589371529900689,
+        0.5931032515706146,
+        0.5937564095601514,
+        0.610548830534789
+      ],
+      "legacy_distances": [
+        0.5465335845947266,
+        0.5893715620040894,
+        0.5931034088134766,
+        0.5937565565109253,
+        0.6105486750602722
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "a3b1281e2350ddfd32ac867cf0c1cc0ace5ca263624288e52b948e9d3917ba25",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.8552401892524273e-07,
+      "actual_ids": [
+        "README.md:43",
+        "README.md:124",
+        "README.md:408",
+        "README.md:1",
+        "agent/qa_agent.py:11"
+      ],
+      "legacy_ids": [
+        "README.md:43",
+        "README.md:124",
+        "README.md:408",
+        "README.md:1",
+        "agent/qa_agent.py:11"
+      ],
+      "actual_distances": [
+        0.57263725325009,
+        0.6340967656168298,
+        0.7606134459438748,
+        0.7660532990877769,
+        0.7878258883546829
+      ],
+      "legacy_distances": [
+        0.5726374387741089,
+        0.6340968608856201,
+        0.7606135010719299,
+        0.7660531997680664,
+        0.7878260612487793
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "cc85a11be59a7db327245fd6a1f42e5ad70247a3e05701a3bc5ac573f629a49d",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.4495674616199494e-07,
+      "actual_ids": [
+        "indexer/chunker.py:9",
+        "README.md:236",
+        "RESEARCH_PYDANTIC.md:588",
+        "RESEARCH_PYDANTIC.md:282",
+        "README.md:124"
+      ],
+      "legacy_ids": [
+        "indexer/chunker.py:9",
+        "README.md:236",
+        "RESEARCH_PYDANTIC.md:588",
+        "RESEARCH_PYDANTIC.md:282",
+        "README.md:124"
+      ],
+      "actual_distances": [
+        0.5548843405648742,
+        0.586747850893178,
+        0.602665090570887,
+        0.6128932607134371,
+        0.6139469496491539
+      ],
+      "legacy_distances": [
+        0.5548844337463379,
+        0.5867477059364319,
+        0.6026649475097656,
+        0.6128932237625122,
+        0.6139470934867859
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "09d2a43eb7209dc641c9f2d38d0c225e8e6c7506c58fd1a5d5fabee93843b73f",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.5136562248052599e-07,
+      "actual_ids": [
+        "README.md:124",
+        "app.py:58",
+        "memory/quality.py:28",
+        "README.md:1",
+        "README.md:43"
+      ],
+      "legacy_ids": [
+        "README.md:124",
+        "app.py:58",
+        "memory/quality.py:28",
+        "README.md:1",
+        "README.md:43"
+      ],
+      "actual_distances": [
+        0.6904892408559488,
+        0.738020301502518,
+        0.7454603452116284,
+        0.749403985708579,
+        0.752776099241917
+      ],
+      "legacy_distances": [
+        0.6904892921447754,
+        0.7380201816558838,
+        0.7454604506492615,
+        0.7494038343429565,
+        0.752776026725769
+      ]
+    },
+    {
+      "collection": "xyma2003-codebase-qa",
+      "question_sha256": "1359ec603b06a6ec11f5fbd56a01b2280b6ed1690cbf620cd7cdf7567a3adcd4",
+      "ordered_ids_equal": true,
+      "set_equal": true,
+      "distance_max_error": 1.6423721316272122e-07,
+      "actual_ids": [
+        "README.md:1",
+        "README.md:124",
+        "README.md:408",
+        "README.md:43",
+        "app.py:58"
+      ],
+      "legacy_ids": [
+        "README.md:1",
+        "README.md:124",
+        "README.md:408",
+        "README.md:43",
+        "app.py:58"
+      ],
+      "actual_distances": [
+        0.6845693453716284,
+        0.7018088451622184,
+        0.7711935893014497,
+        0.7898371090317179,
+        0.8413496467735291
+      ],
+      "legacy_distances": [
+        0.6845694780349731,
+        0.7018088102340698,
+        0.7711936235427856,
+        0.789837121963501,
+        0.8413494825363159
+      ]
+    }
+  ]
+}
