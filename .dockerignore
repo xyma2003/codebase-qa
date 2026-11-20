@@ -25,6 +25,7 @@
 !scripts/audit_dependencies.py
 !scripts/manage_service.py
 !scripts/seed_embeddings.py
+!scripts/import_vectors.py
 !.streamlit/
 !.streamlit/config.toml
 !deploy/

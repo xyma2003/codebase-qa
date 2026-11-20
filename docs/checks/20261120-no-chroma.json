@@ -1,0 +1,85 @@
+{
+  "baseline_revision": "05d11fe0e5bfd9d80ee2419d99a7f9c73b64c9de",
+  "changes": {
+    "runtime-pins.txt": {
+      "previous_sha256": "fedf383792edd369b2bca521bf2cd49366a37534d1baaffbd6d4ef30432a2e61",
+      "current_sha256": "f3dcfd50fc69ee76a25cce646c2b14640ad809c6b91ad40989900fb891bda0fb",
+      "previous_packages": 193,
+      "current_packages": 192,
+      "removed": {
+        "chromadb": "1.5.9"
+      },
+      "upgraded": {}
+    },
+    "runtime-macos.lock": {
+      "previous_sha256": "147ab705f8ae28877c1e1df8f60b03255cc2289c62dbcc91c79f7e0f380dcc7b",
+      "current_sha256": "4fbcd23d3d6d0b08bf41e2050041ffd615d1fe6462ef8236189397d6ef2ce3e5",
+      "previous_packages": 193,
+      "current_packages": 192,
+      "removed": {
+        "chromadb": "1.5.9"
+      },
+      "upgraded": {}
+    },
+    "runtime-linux-cpu.lock": {
+      "previous_sha256": "0b0776cc11f664609c5a1b518d9e0d36269199e34cf76b1174fe231b9cb3bd63",
+      "current_sha256": "fc11ed823fbaf15e1916480928041c2d889b1580c30e772882dbc04c3826ebb7",
+      "previous_packages": 196,
+      "current_packages": 195,
+      "removed": {
+        "chromadb": "1.5.9"
+      },
+      "upgraded": {}
+    }
+  },
+  "tests": {
+    "count": 408,
+    "seconds": 120.651,
+    "exit_code": 0
+  },
+  "test_log_sha256": "0fa6a1cec8194d71cbaf8474d9ac401e1ea89690764801653b8040faa581843c",
+  "audit": {
+    "packages": 192,
+    "complete": true,
+    "advisory_ids": 0,
+    "advisory_groups": 0,
+    "sha256": "1ab3c4a843f8186d04084af1b0c20da9540738cbf27b4fb0be473b7ab0bae5de"
+  },
+  "installed_matches_lock": true,
+  "chroma_import_available": false,
+  "mcp": {
+    "status": "mcp_security_integration_passed",
+    "protocol": "2025-11-25",
+    "tool_count": 9,
+    "calls_passed": 14,
+    "active_source_commit": "7ed1f8f22e3c1caf1c23b9ca976bf9e86a5feffb",
+    "active_chunks": 58,
+    "index_rebuilt": false,
+    "real_model_requests": 0,
+    "network_import_enabled": false
+  },
+  "restore": {
+    "status": "stopped_service_restore_passed",
+    "scope": "temporary_git_sqlite_vectors_and_two_user_fixture",
+    "source_process_exited_before_backup": true,
+    "original_path_replaced_for_readback": true,
+    "source_snapshot_checked": true,
+    "vectors_restored": 1,
+    "conversations_restored": 2,
+    "native_turns_restored": 2,
+    "cross_owner_denied": true,
+    "model_requests": 0,
+    "real_business_data_modified": false,
+    "backup": {
+      "files": 33,
+      "bytes": 89795,
+      "sha256": "4ec1dd52b803ca4cf1a77414deab428f6ac14f424ce2a891f5b393323787bc2e"
+    },
+    "restore": {
+      "files": 33
+    }
+  },
+  "linux_current_commit_verified": false,
+  "real_model_requests": 0,
+  "release_allowed": false
+}

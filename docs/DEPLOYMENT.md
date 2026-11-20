@@ -1,5 +1,7 @@
 # 单主机部署与运维准备
 
+2026-11-20：当前运行锁已移除 Chroma，Mac 192 / Linux 195 包，旧锁保存在 `dependencies/legacy-chroma-20261120/`。旧向量先用旧环境离线导出，再使用新环境或镜像的 `/app/scripts/import_vectors.py` 按摘要导入；命令见[迁移与回滚](VECTOR_MIGRATION.md)。不要直接启动新版去覆盖旧库。容器禁用 mount/umount/nsenter/unshare 并去掉 Set-ID；这不能代替 util-linux 包修复。系统扫描仍有命中，发布保持阻断。
+
 本轮提供部署配置和可执行检查，**没有开放公网，也没有完成真实 OIDC、模型或域名验收**。Pydantic AI 整改后，当前 Mac 锁仍有 Chroma 的 4 组公告，部署入口会拒绝启动。CI 的镜像、TLS 和恢复检查通过也不能解除这个阻断。
 
 ## 结构

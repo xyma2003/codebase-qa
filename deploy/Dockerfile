@@ -36,7 +36,7 @@ COPY ops /app/ops
 COPY evaluation /app/evaluation
 COPY pages /app/pages
 COPY .streamlit/config.toml /app/.streamlit/config.toml
-COPY scripts/run_service.py scripts/healthcheck.py scripts/backup_state.py scripts/audit_dependencies.py scripts/manage_service.py scripts/seed_embeddings.py /app/scripts/
+COPY scripts/run_service.py scripts/healthcheck.py scripts/backup_state.py scripts/audit_dependencies.py scripts/manage_service.py scripts/seed_embeddings.py scripts/import_vectors.py /app/scripts/
 RUN mkdir -p /app/.streamlit /app/chroma_db /app/repos /app/.baseline_runtime/tasks \
     /app/.baseline_runtime/reviews /app/.baseline_runtime/evaluations /app/.cache/huggingface \
     && chown -R 10001:10001 /app

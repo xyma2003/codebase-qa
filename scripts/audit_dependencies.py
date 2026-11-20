@@ -22,5 +22,6 @@ if __name__ == "__main__":
     result = audit(args.lock, args.output)
     print(json.dumps({"complete": result["complete"], "packages": len(result["packages"]),
                       "advisory_ids": len(result["findings"]), "advisory_groups": len(groups(result["findings"])),
-                      "release_allowed": result["complete"] and not result["findings"], "error": result["error"]}, ensure_ascii=False))
+                      "scope": "python_dependencies_only",
+                      "python_dependency_gate_clear": result["complete"] and not result["findings"], "error": result["error"]}, ensure_ascii=False))
     sys.exit(0 if result["complete"] and (args.collect_only or not result["findings"]) else 1)

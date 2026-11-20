@@ -1,6 +1,6 @@
 pydantic-ai-slim[anthropic,openai]==1.107.7
-chromadb
 sentence-transformers
+numpy==2.5.4
 streamlit
 gitpython
 python-dotenv

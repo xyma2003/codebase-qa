@@ -2,16 +2,17 @@
 
 - `runtime-pins.txt`：当前公共包的精确版本，作为 Mac 和 Linux 的共同输入。
 - `runtime-macos.lock`：Python 3.12 / macOS 安装锁，包含 PyPI SHA256。
-- `runtime-linux-cpu.lock`：从最新成功 Linux CI 回收的 Python 3.12 CPU 哈希锁，共 196 个包；193 个公共版本与 Mac 一致，另外 3 个 Linux 包及 PyTorch 的 `+cpu` 标记单独记录。构建直接复用此文件并检查哈希和公共版本，不在底座升级时重新解析依赖。
+- `runtime-linux-cpu.lock`：Python 3.12 CPU 哈希锁，共 195 个包；192 个公共版本与 Mac 一致，另外 3 个 Linux 包及 PyTorch 的 `+cpu` 标记单独记录。仅从最近成功的锁移除 Chroma，其余版本及哈希逐字节保留，构建不重新解析依赖。
+- `legacy-chroma-20261120/`：含 Chroma 的旧 193/196 包锁及摘要，供停止服务后的离线导出和回滚；不用于当前部署。
 
 全新 Mac 虚拟环境按哈希安装：
 
 ```bash
-uv pip install --require-hashes -r dependencies/runtime-macos.lock
+uv pip sync --require-hashes dependencies/runtime-macos.lock
 uv pip check
 ```
 
-更新既有环境时使用 `uv pip sync --require-hashes dependencies/runtime-macos.lock`，以移除旧元包。先备份原环境，升级和回滚均在停止服务后进行；不能只更换源码而沿用不匹配的依赖环境。
+更新既有环境也使用 `uv pip sync --require-hashes dependencies/runtime-macos.lock`，以移除旧元包和 Chroma。先备份原环境和完整数据，按[向量迁移](../docs/VECTOR_MIGRATION.md)导出、导入并回读；升级和回滚均在停止服务后进行，不能只更换源码而沿用不匹配的依赖环境。CI 另外断言 Chroma 无法导入、已安装包与锁完整一致。
 
 Pydantic AI 使用官方精简发行包 `pydantic-ai-slim[anthropic,openai]==1.107.7`，Python 导入名仍为 `pydantic_ai`。移除全量适配器元包，避免启用未使用的 Hugging Face 适配器约束。其余既有包暂时保留；这次没有整体清理或升级依赖树。
 

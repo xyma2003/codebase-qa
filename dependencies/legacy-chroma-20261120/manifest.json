@@ -1,0 +1,9 @@
+{
+  "revision": "b2d98ab4487aa88b12605baf0ce0f4b46db01c7f",
+  "scope": "frozen_vulnerable_legacy_export_and_rollback_only",
+  "sha256": {
+    "runtime-pins.txt": "fedf383792edd369b2bca521bf2cd49366a37534d1baaffbd6d4ef30432a2e61",
+    "runtime-macos.lock": "147ab705f8ae28877c1e1df8f60b03255cc2289c62dbcc91c79f7e0f380dcc7b",
+    "runtime-linux-cpu.lock": "0b0776cc11f664609c5a1b518d9e0d36269199e34cf76b1174fe231b9cb3bd63"
+  }
+}
