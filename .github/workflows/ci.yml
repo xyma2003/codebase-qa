@@ -87,6 +87,7 @@ jobs:
         with:
           version: "0.12.3"
           python-version: "3.12.13"
+          enable-cache: false
       - name: Reuse verified Linux CPU lock
         run: |
           mkdir -p "$RUNNER_TEMP/deployment-records"
