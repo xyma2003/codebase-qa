@@ -12,8 +12,9 @@
 | SQLite：119373、119374、119379 | FTS5 索引或 session changeset 路径 | 应用使用普通表和参数化 SQL，没有创建 FTS5 虚表或调用 changeset；向量迁移只导入 JSON 和 float32，新库由程序创建，禁用扩展加载。私有数据库不能通过网页上传替换 | 已核对应用数据入口；未完成对所有 SQLite 公告的利用验证，仍跟踪 |
 | OpenSSL：124709 | OpenSSL QUIC 服务端持续接收并重置流 | 代理配置仅 TCP TLS，Compose 没有公开 UDP，Streamlit 上游使用 HTTP/1.1 WebSocket；当前没有 QUIC 服务配置。客户端模型 HTTP 请求不能作为 QUIC 服务端入口 | 配置条件未出现；保持公告。扫描 High 与厂商描述的 Low 应分开记录，不改扫描原级别 |
 | systemd：16742 | systemd-homed 的特权家目录记录处理 | 扫描的二进制包是 libsystemd0/libudev1；容器进程为应用及 init，不是 systemd-homed 服务 | 组件库与服务入口需要区分；本结论不覆盖同源其他公告，无自动豁免 |
-| Perl Archive-Tar：9538 | 解析恶意 tar 头 | Perl 为 Debian Git 的依赖；应用源码快照读取 Git 对象，运维备份用 Python ZIP，没有开放 Perl tar 解析工具 | 生产调用入口暂未发现；保留待核查，不强删 Perl 破坏 Git |
-| expat、ncurses、ACL 的剩余 High | XML、终端数据库或特权文件权限处理 | 这些是发行版与 Git 的库依赖，当前没有完成逐个解析路径的实际可达性回放 | 保持优先核查，不根据“没直接 import”判安全 |
+| Perl Archive-Tar：9538 | 解析恶意 tar 头中的巨大 entry size | Perl 为 Git 的依赖，不删除整个 Perl；构建时将所有 `/usr` 下 Archive/Tar.pm 的权限设为 000，保留包库存；CI 使用 UID 10001 实测导入拒绝，并确认 Git 所需 Error.pm 可用 | 新增模块入口隔离，需以对应 Linux 产物验证；源码公告保留 |
+| ncurses：69720 | infocmp 的 analyze_string 解析恶意终端数据 | 仅将用不到的 infocmp 设为 root 所有、权限 000，不删 Python/Git 依赖的 ncurses 库；CI 实际执行要求 PermissionError | 新增命令入口隔离，需以对应 Linux 产物验证；源码公告保留 |
+| expat、ACL 的剩余 High | XML 或特权文件权限处理 | 这些是发行版与 Git 的库依赖，当前没有完成逐个解析路径的实际可达性回放 | 保持优先核查，不根据“没直接 import”判安全 |
 
 以上是从当前源码、部署文件和实际库存得到的入口核对。后续如新增协议、递归克隆、补丁执行、数据库上传、QUIC 或多实例，应重新评估；当前结论不自动适用于新的使用方式。未知级别、没有修复版本和未审完的条目完整保留。
 

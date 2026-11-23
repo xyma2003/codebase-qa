@@ -24,6 +24,7 @@
     "apt-cache",
     "apt-cdrom",
     "apt-config",
-    "apt-mark"
+    "apt-mark",
+    "infocmp"
   ]
 }

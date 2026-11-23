@@ -15,6 +15,7 @@ ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1 \
 WORKDIR /app
 COPY ops/os_packages.py /app/ops/os_packages.py
 COPY ops/privileged_tools.py /app/ops/privileged_tools.py
+COPY ops/optional_parsers.py /app/ops/optional_parsers.py
 COPY deploy/os-security-minimums.json /app/deploy/os-security-minimums.json
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade --no-install-recommends -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
@@ -27,6 +28,8 @@ COPY --from=dependencies /opt/venv /opt/venv
 RUN python -m ops.os_packages --output /app/deploy/os-package-check.json
 RUN python -m ops.privileged_tools --harden > /app/deploy/privilege-hardening.json \
     && python -m ops.privileged_tools
+RUN python -m ops.optional_parsers --harden > /app/deploy/parser-hardening.json \
+    && python -m ops.optional_parsers
 COPY dependencies/runtime-pins.txt /app/deploy/source-pins.txt
 # Compile and archive this Linux CPU lock before building. Never resolve during
 # image installation; original Mac baseline remains intact.
