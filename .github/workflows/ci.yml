@@ -146,6 +146,7 @@ jobs:
           image_id=$(docker image inspect --format '{{.Id}}' codebase-qa:preparation)
           python scripts/package_os_audit.py "$RUNNER_TEMP/deployment-records/os-raw.json" --lock deploy/runtime.lock --revision "$GITHUB_SHA" --image-id "$image_id" --output "$RUNNER_TEMP/deployment-records/os-audit.json"
           python -m ops.os_packages --scan "$RUNNER_TEMP/deployment-records/os-raw.json" --output "$RUNNER_TEMP/deployment-records/os-remediation.json"
+          python scripts/triage_os_audit.py "$RUNNER_TEMP/deployment-records/os-raw.json" --output "$RUNNER_TEMP/deployment-records/risk-review"
           rm "$RUNNER_TEMP/container-image.tar"
       - name: Keep preparation evidence
         if: always()
