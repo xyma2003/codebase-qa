@@ -8,6 +8,8 @@ import stat
 
 import numpy as np
 
+from security.sqlite import connect
+
 MAX_RECORDS = 10000
 MAX_DIMENSIONS = 4096
 MAX_TEXT_BYTES = 1024 * 1024
@@ -77,11 +79,9 @@ class LocalVectorClient:
 
     @contextmanager
     def connect(self):
-        db = sqlite3.connect(self.path, timeout=10)
+        db = connect(self.path, timeout=10)
         try:
             db.execute("PRAGMA foreign_keys=ON")
-            db.execute("PRAGMA trusted_schema=OFF")
-            db.enable_load_extension(False)
             with db:
                 yield db
         finally:

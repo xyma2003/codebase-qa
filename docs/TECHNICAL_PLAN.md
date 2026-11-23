@@ -1,6 +1,6 @@
 # Codebase Q&A 技术方案
 
-版本：0.26。更新日期：2026-11-23。在最近成功的 `7c4beb9` 基线上增加 Git 精确操作限制：进程启动前校验固定 clone/fetch 参数、规范化 HTTPS 地址、克隆目标和资源检查目录，关闭 fsmonitor、递归子模块、代理与空认证；拒绝其他 Git 操作和附加参数。本项 422 项本机通过，底座与依赖锁不变。后续按公告逐项检查解析入口，完整系统扫描和严格发布门槛不变。详见[记录](checks/20261123-git-policy.md)。
+版本：0.27。更新日期：2026-11-23。沿用既有 Python 镜像、195 包 Linux 锁及模型配置。Git 固定不检出代码的浅克隆与默认 HEAD 更新；infocmp 和 Archive/Tar.pm 权限 000，两项远端全通过。6 处 SQLite 连接统一启用 DEFENSIVE 与 authorizer 限制，禁止虚表、附加库、MATCH 和扩展；旧 Chroma 库单独固定只读完整性检查。本机 435 项通过，CI 另存实际 Linux 引擎探针和原数据迁移恢复。完整系统扫描与严格发布门槛不变，详见[SQLite 记录](checks/20261123-sqlite-policy.md)。
 
 ## 当前基础
 

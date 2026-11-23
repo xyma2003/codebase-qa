@@ -7,10 +7,11 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import shutil
-import sqlite3
 import stat
 import tempfile
 import zipfile
+
+from security.sqlite import check_integrity
 
 ROOTS = ("chroma_db", "repos", ".baseline_runtime/tasks", ".baseline_runtime/reviews", ".baseline_runtime/evaluations")
 MAX_BYTES = 10 * 1024 ** 3
@@ -55,12 +56,7 @@ def maintenance(root):
 def sqlite_check(path):
     if Path(path).suffix not in {".sqlite3", ".sqlite"}:
         return
-    db = sqlite3.connect(Path(path).absolute().as_uri() + "?mode=ro", uri=True)
-    try:
-        if db.execute("PRAGMA integrity_check").fetchall() != [("ok",)]:
-            raise ValueError("SQLite 完整性检查失败。")
-    finally:
-        db.close()
+    check_integrity(path)
 
 
 def check_registered_archives(root):

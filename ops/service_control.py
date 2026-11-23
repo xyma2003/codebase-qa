@@ -3,8 +3,9 @@ from contextlib import contextmanager
 import fcntl
 import os
 from pathlib import Path
-import sqlite3
 import time
+
+from security.sqlite import connect
 
 
 @contextmanager
@@ -42,7 +43,7 @@ def counts(root):
     result = {"queued": 0, "running": 0, "cancelling": 0, "draining": (root / "draining").exists()}
     if not path.exists():
         return result
-    db = sqlite3.connect(path.absolute().as_uri() + "?mode=ro", uri=True)
+    db = connect(path, read_only=True)
     try:
         for state, count in db.execute("SELECT state,COUNT(*) FROM tasks WHERE state IN ('queued','running','cancelling') GROUP BY state"):
             result[state] = count

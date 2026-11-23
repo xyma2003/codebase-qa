@@ -9,7 +9,7 @@
 | util-linux 的 4 个 High：76642、78408、78409、78410 | 特权 mount、nsenter 或授权挂载流程 | root 所有的 mount/umount/nsenter/unshare 权限 000，UID 10001、无 capabilities、NoNewPrivs；实际直接调用与 unshare 已受 CI 检查 | 调用隔离；源码仍未修复。78410 同样跟踪，不漏掉此前三项之外的公告 |
 | Git：105437、111760、114466 | merge 尺寸溢出、恶意树检出（也影响普通非递归克隆）、fast-import/export 文件访问 | `security/git_transport.py` 在启动进程前只接受现有两种精确参数：不检出代码的浅克隆、默认 HEAD 浅更新；仅规范化公开 GitHub HTTPS。拒绝 merge/rebase/cherry-pick/merge-tree、checkout/status、fast-import/export、递归子模块和附加参数；关闭 fsmonitor、hooks、子模块递归、代理和环境凭据。克隆目录只能为受资源监控临时目录下的新目录 | 增加代码强制限制与反向测试；底层 Git 未升级，不能称为源码修复或关闭公告 |
 | curl：12064、8458 | 扫描说明分别涉及无 scheme 的 SFTP/SCP CLI 和连接认证复用 | 仓库 URL 归一为公开 GitHub HTTPS；Git 协议仅允许 HTTPS，禁用环境代理、重定向及凭据。每个 Git 调用为独立子进程，环境不带模型密钥 | 当前路径受约束；继续保留底层库公告，不把所有 curl 代码都当作已证明不可达 |
-| SQLite：119373、119374、119379 | FTS5 索引或 session changeset 路径 | 应用使用普通表和参数化 SQL，没有创建 FTS5 虚表或调用 changeset；向量迁移只导入 JSON 和 float32，新库由程序创建，禁用扩展加载。私有数据库不能通过网页上传替换 | 已核对应用数据入口；未完成对所有 SQLite 公告的利用验证，仍跟踪 |
+| SQLite：119373、119374、119379 | FTS5 索引或 session changeset 路径 | 6 处连接统一启用 DEFENSIVE、关闭 trusted_schema/扩展/FTS3 tokenizer；业务库拒绝已有或新建虚表、ATTACH/DETACH、MATCH 和危险 PRAGMA。保留的旧 Chroma FTS 库只在固定只读完整性检查中打开，不向业务返回连接。Python 3.12 没有 Session API，也没有 changeset 接收工具 | 新增业务入口强制限制与 Linux 引擎探针；native SQLite 仍未打补丁，不关闭公告 |
 | OpenSSL：124709 | OpenSSL QUIC 服务端持续接收并重置流 | 代理配置仅 TCP TLS，Compose 没有公开 UDP，Streamlit 上游使用 HTTP/1.1 WebSocket；当前没有 QUIC 服务配置。客户端模型 HTTP 请求不能作为 QUIC 服务端入口 | 配置条件未出现；保持公告。扫描 High 与厂商描述的 Low 应分开记录，不改扫描原级别 |
 | systemd：16742 | systemd-homed 的特权家目录记录处理 | 扫描的二进制包是 libsystemd0/libudev1；容器进程为应用及 init，不是 systemd-homed 服务 | 组件库与服务入口需要区分；本结论不覆盖同源其他公告，无自动豁免 |
 | Perl Archive-Tar：9538 | 解析恶意 tar 头中的巨大 entry size | Perl 为 Git 的依赖，不删除整个 Perl；构建时将所有 `/usr` 下 Archive/Tar.pm 的权限设为 000，保留包库存；CI 使用 UID 10001 实测导入拒绝，并确认 Git 所需 Error.pm 可用 | 新增模块入口隔离，需以对应 Linux 产物验证；源码公告保留 |
@@ -31,6 +31,6 @@ Git/curl 条件来自此次完整扫描中的说明及上游参考链接；部�
 
 2026-11-23 补充：重新读取 [Git 官方 111760 公告](https://github.com/git/git/security/advisories/GHSA-vp2w-7xxj-jvxr)，其最新说明比归档扫描描述更广：非递归克隆的检出也可覆盖 `.git`，后续 `git status` 可经 fsmonitor 执行代码。此前把触发条件写成“递归子模块”不完整，现已更正；`--no-checkout` 必须固定，不能只依赖不加递归参数。[Debian 114466](https://security-tracker.debian.org/tracker/CVE-2026-114466)仍标为未修复。本轮不改变镜像、锁、扫描范围、原始公告或发布门槛。
 
-修正后的 `48f6bb1` 实际 Mac/Linux CI 全通过：418 项测试，10 个 APT/特权工具拒绝执行，原生依赖和迁移恢复通过。展开层总大小减少约 51 MiB；同一数据库的旧布局与候选都为 336 条/177 个编号，系统包与版本完全相同。详见[远端回读](checks/20261123-security-readback.md)。
+修正后的 `48f6bb1` 实际 Mac/Linux CI 全通过：418 项测试，10 个 APT/特权工具拒绝执行，原生依赖和迁移恢复通过。展开层总大小减少约 51 MiB；同一数据库的旧布局与候选都为 336 条/177 个编号，系统包与版本完全相同。详见[远端回读](checks/20261123-security-readback.md)。后续 `c42042a` 的 422 项和 `28ac3e8` 的 427 项 Mac/Linux 全通过，后者真实解析器拒绝与 Git 依赖、旧数据恢复通过，扫描数未变，见[Git](checks/20261123-git-policy.md)、[解析器](checks/20261123-optional-parsers.md)。SQLite 限制见[独立记录](checks/20261123-sqlite-policy.md)。
 
 本轮不调整 `validate_os_audit` 或 `release_gate`。所有剩余系统命中仍阻断公开部署；真实模型、真实登录、目标主机负载和真实生产恢复也尚未验收。

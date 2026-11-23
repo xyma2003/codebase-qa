@@ -4,7 +4,6 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 import re
-import sqlite3
 from uuid import UUID, uuid4
 
 from pydantic_ai.messages import ModelMessage, ModelMessagesTypeAdapter
@@ -13,6 +12,7 @@ from agent.evidence import CheckedAnswer
 from config import CHROMA_DIR
 from indexer.snapshots import normalize_repo_url
 from security.identity import current_principal, AccessDenied
+from security.sqlite import connect
 
 
 class ConversationConflict(ValueError):
@@ -64,7 +64,7 @@ def _session_id(value):
 def _connect(storage_dir=None):
     path = Path(storage_dir if storage_dir is not None else CHROMA_DIR) / "conversations.sqlite3"
     path.parent.mkdir(parents=True, exist_ok=True)
-    db = sqlite3.connect(path)
+    db = connect(path)
     try:
         db.executescript("""
             CREATE TABLE IF NOT EXISTS conversations (

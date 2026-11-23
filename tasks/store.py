@@ -7,6 +7,8 @@ import sqlite3
 import time
 from uuid import UUID, uuid4
 
+from security.sqlite import connect
+
 LIVE = ("queued", "running", "cancelling")
 TERMINAL = ("succeeded", "failed", "cancelled", "interrupted")
 
@@ -49,7 +51,7 @@ class TaskStore:
 
     @contextmanager
     def connect(self):
-        db = sqlite3.connect(self.path, timeout=10)
+        db = connect(self.path, timeout=10)
         db.row_factory = sqlite3.Row
         try:
             with db:

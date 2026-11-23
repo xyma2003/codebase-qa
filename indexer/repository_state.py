@@ -3,16 +3,16 @@
 import json
 from contextlib import contextmanager
 from pathlib import Path
-import sqlite3
 
 from config import CHROMA_DIR
+from security.sqlite import connect
 
 
 @contextmanager
 def _connect():
     path = Path(CHROMA_DIR) / "repository_state.sqlite3"
     path.parent.mkdir(parents=True, exist_ok=True)
-    connection = sqlite3.connect(path)
+    connection = connect(path)
     connection.executescript("""
         CREATE TABLE IF NOT EXISTS versions (
             collection_name TEXT PRIMARY KEY,
