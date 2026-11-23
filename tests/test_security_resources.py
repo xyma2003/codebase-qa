@@ -102,11 +102,14 @@ class TransportBoundaryTests(unittest.TestCase):
         with TemporaryDirectory() as directory, patch.object(transport.subprocess, "Popen", side_effect=spawn), \
              patch.object(limits, "MAX_GIT_SECONDS", .05), patch.dict(os.environ, {"OPENAI_API_KEY": "LOCAL_ONLY_CANARY"}):
             with self.assertRaisesRegex(ValueError, "时间上限"):
-                transport.run_git(["--version"], cwd=directory, size_path=directory)
+                transport.run_git(["fetch", "--depth=1", "--no-tags", "https://github.com/example/repo", "HEAD"], cwd=directory, size_path=directory)
         self.assertIsNotNone(children[0].poll())
         self.assertIn("protocol.allow=never", commands[0])
         self.assertIn("http.followRedirects=false", commands[0])
         self.assertIn("core.hooksPath=/dev/null", commands[0])
+        for setting in ("core.fsmonitor=false", "submodule.recurse=false", "fetch.recurseSubmodules=false",
+                        "http.proxy=", "http.emptyAuth=false", "http.delegation=none"):
+            self.assertIn(setting, commands[0])
 
     def test_completed_git_process_is_still_checked_against_disk_budget(self):
         original = subprocess.Popen
@@ -116,7 +119,49 @@ class TransportBoundaryTests(unittest.TestCase):
                 return original([sys.executable, "-c", code], **kwargs)
             with patch.object(transport.subprocess, "Popen", side_effect=spawn), patch.object(limits, "MAX_GIT_BYTES", 10):
                 with self.assertRaisesRegex(ValueError, "磁盘"):
-                    transport.run_git(["--version"], cwd=directory, size_path=directory)
+                    transport.run_git(["fetch", "--depth=1", "--no-tags", "https://github.com/example/repo", "HEAD"], cwd=directory, size_path=directory)
+
+    def test_git_rejects_dangerous_operations_before_spawning_a_child(self):
+        url = "https://github.com/example/repo"
+        with TemporaryDirectory() as directory, patch.object(transport.subprocess, "Popen") as spawn:
+            target = str(Path(directory).resolve()/"repo")
+            cases = [["merge", "HEAD"], ["merge-tree", "HEAD", "HEAD"], ["rebase", "HEAD"],
+                     ["cherry-pick", "HEAD"], ["fast-import"], ["fast-export", "HEAD"], ["status"],
+                     ["clone", "--depth=1", "--no-tags", "--", url, target],
+                     ["clone", "--no-checkout", "--depth=1", "--no-tags", "--recurse-submodules", "--", url, target],
+                     ["-c", "core.fsmonitor=bad", "fetch", url],
+                     ["fetch", "--depth=1", "--no-tags", url, "refs/heads/main"],
+                     ["fetch", "--depth=1", "--no-tags", "https://example.invalid/repo", "HEAD"],
+                     ["fetch", "--depth=1", "--no-tags", "sftp://github.com/example/repo", "HEAD"],
+                     ["fetch", "--depth=1", "--no-tags", "https://user:secret@github.com/example/repo", "HEAD"],
+                     ["fetch", "--depth=1", "--no-tags", url, "HEAD", "--upload-pack=bad"],
+                     ["fetch", "--depth=1", "--no-tags", url+"\0bad", "HEAD"]]
+            for arguments in cases:
+                with self.subTest(arguments=arguments), self.assertRaises(ValueError):
+                    transport.run_git(arguments, cwd=directory, size_path=directory)
+            spawn.assert_not_called()
+
+    def test_git_accepts_only_existing_call_shapes_and_confines_clone_destination(self):
+        from unittest.mock import Mock
+        url = "https://github.com/example/repo"
+        child = Mock(returncode=0)
+        child.poll.return_value = 0
+        with TemporaryDirectory() as directory, patch.object(transport.subprocess, "Popen", return_value=child) as spawn:
+            root = Path(directory).resolve()
+            clone = ["clone", "--no-checkout", "--depth=1", "--no-tags", "--", url, str(root/"repo")]
+            fetch = ["fetch", "--depth=1", "--no-tags", url, "HEAD"]
+            transport.run_git(clone, cwd=directory, size_path=directory)
+            transport.run_git(fetch, cwd=directory, size_path=directory)
+            self.assertEqual(spawn.call_count, 2)
+            for target in (str(root.parent/"outside"), str(root), "relative", str(root/"nested/repo")):
+                with self.subTest(target=target), self.assertRaises(ValueError):
+                    transport.run_git(clone[:-1]+[target], cwd=directory, size_path=directory)
+            (root/"repo").symlink_to(root/"missing")
+            with self.assertRaises(ValueError):
+                transport.run_git(clone, cwd=directory, size_path=directory)
+            with self.assertRaises(ValueError):
+                transport.run_git(fetch, cwd=directory, size_path=root/"unrelated")
+            self.assertEqual(spawn.call_count, 2)
 
 
 class SnapshotResourceTests(unittest.TestCase):

@@ -74,9 +74,41 @@ def _stop(process):
             process.wait()
 
 
+def _validate_operation(arguments, *, cwd, size_path):
+    """Accept only the two transport operations used by repository import.
+
+    In particular, clone must never check out attacker-controlled trees. This
+    restriction also covers nonrecursive checkout attacks (CVE-2026-111760),
+    rather than relying on the absence of --recurse-submodules alone.
+    """
+    from indexer.snapshots import normalize_repo_url
+    if not isinstance(arguments, (list, tuple)) or not all(isinstance(arg, str) and "\0" not in arg for arg in arguments):
+        raise ValueError("Git 操作不在允许范围内。")
+    arguments = list(arguments)
+    directory = Path(cwd)
+    if directory.is_symlink() or not directory.is_dir() or Path(size_path).resolve() != directory.resolve():
+        raise ValueError("Git 操作目录与资源检查目录不一致。")
+    if len(arguments) == 7 and arguments[:5] == ["clone", "--no-checkout", "--depth=1", "--no-tags", "--"]:
+        url, target = arguments[5:]
+        path = Path(target)
+        if (not path.is_absolute() or path.parent != directory.resolve() or path.is_symlink()
+                or path.exists() or target != str(path.resolve())):
+            raise ValueError("Git 克隆只能写入临时目录中的新目录。")
+    elif len(arguments) == 5 and arguments[:3] == ["fetch", "--depth=1", "--no-tags"] and arguments[-1] == "HEAD":
+        url = arguments[3]
+    else:
+        raise ValueError("Git 仅允许不检出代码的浅克隆和默认分支更新。")
+    if url != normalize_repo_url(url):
+        raise ValueError("Git 仅允许规范化的 GitHub HTTPS 地址。")
+    return arguments
+
+
 def run_git(arguments, *, cwd, size_path):
+    arguments = _validate_operation(arguments, cwd=cwd, size_path=size_path)
     command = ["git", "-c", "protocol.allow=never", "-c", "protocol.https.allow=always",
                "-c", "http.followRedirects=false", "-c", "credential.helper=", "-c", "core.hooksPath=/dev/null",
+               "-c", "core.fsmonitor=false", "-c", "submodule.recurse=false", "-c", "fetch.recurseSubmodules=false",
+               "-c", "http.proxy=", "-c", "http.emptyAuth=false", "-c", "http.delegation=none",
                "-c", "http.extraHeader=", "-c", "http.extraHeader=Authorization:", *arguments]
     environment = {name: os.environ[name] for name in ("PATH", "TMPDIR", "TEMP", "TMP", "LANG", "LC_ALL", "SSL_CERT_FILE", "SSL_CERT_DIR") if name in os.environ}
     environment.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull, GIT_TERMINAL_PROMPT="0", GIT_ASKPASS="/usr/bin/false")
