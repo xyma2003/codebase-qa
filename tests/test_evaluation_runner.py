@@ -119,9 +119,36 @@ class RunnerTests(unittest.TestCase):
         allowed = models.ALLOW_MODEL_REQUESTS
         result = self.run_fixture(backend=backend, turn_timeout=0.01)
         self.assertEqual(result["failed_turns"], 1)
-        self.assertEqual(len(backend.requests), 1)
+        self.assertIn(len(backend.requests), (0, 1))  # Deadline may expire before the SDK reaches the callback.
+        self.assertEqual(self.read("turns/001-01/metrics.json")["model_requests"], len(backend.requests))
         self.assertEqual(self.read("turns/001-01/error.json")["kind"], "TimeoutError")
         self.assertEqual(models.ALLOW_MODEL_REQUESTS, allowed)
+
+    def test_timeout_before_first_model_request_is_explicitly_archived_without_fabrication(self):
+        backend = LocalModel()
+        async def not_started(*args, **kwargs):
+            await asyncio.Event().wait()
+        allowed = models.ALLOW_MODEL_REQUESTS
+        with patch.object(runner.qa_agent, "_run_answer", side_effect=not_started):
+            result = self.run_fixture(backend=backend, turn_timeout=0.01)
+        self.assertEqual((result["attempted_turns"], result["failed_turns"]), (1, 1))
+        self.assertEqual(backend.requests, [])
+        self.assertEqual(self.read("turns/001-01/requests.json"), [])
+        self.assertEqual(self.read("turns/001-01/metrics.json")["model_requests"], 0)
+        self.assertTrue(self.read("turns/001-01/outcome.json")["before_first_model_request"])
+        self.assertFalse((self.run_dir/"turns/001-01/output.json").exists())
+        self.assertEqual(models.ALLOW_MODEL_REQUESTS, allowed)
+        self.edit("turns/001-01/outcome.json", lambda data: data.pop("before_first_model_request"))
+        self.reseal()
+        with self.assertRaisesRegex(ValueError, "no model request"):
+            verify_archive(self.run_dir, self.fixture.work)
+
+    def test_pre_model_timeout_marker_cannot_hide_a_completed_turn_or_actual_request(self):
+        self.run_fixture()
+        self.edit("turns/001-01/outcome.json", lambda data: data.update(before_first_model_request=True))
+        self.reseal()
+        with self.assertRaisesRegex(ValueError, "contradicts"):
+            verify_archive(self.run_dir, self.fixture.work)
 
     def test_completed_and_failed_directories_cannot_be_overwritten(self):
         self.run_fixture(backend=LocalModel(fail_question="fixture C1 T1"))

@@ -238,3 +238,5 @@ GitHub Actions 由 uv 0.12.3 安装 macOS arm64 的 Python 3.12.13，在 macOS 1
 - 2026-11-23：首次候选被 APT 系统保护拒绝删除，保留原错误；撤销移除包分支，全部系统包与版本保持同库对照，只减少运行时工具入口。详见[修正](checks/20261123-essential-apt.md)。
 
 - 2026-11-23：0.25 Linux 原始归档已按 SHA256 验证，前后系统 118 包版本完全一致、扫描库摘要相同，镜像 Size 从 2126279205 到 2072972665 字节。Python/NumPy/Torch/Git HTTPS 原生检查及双用户恢复通过；Python gate 通过、OS gate 因剩余公告实际拒绝。见[最终回读](checks/20261123-security-readback.md)。
+
+- 2026-11-23：CI 暴露 0.01 秒本地测试可能在 SDK 回调前到期；仅对 local_fixture + TimeoutError + 0 请求的失败写 before_first_model_request=true。校验显式状态/错误/请求数矛盾，成功仍必须有请求。未改默认超时或模型参数，旧归档/真实后端保持；21 项定向与全量 420 项通过。原错误见[记录](checks/20261123-pre-model-timeout.md)。

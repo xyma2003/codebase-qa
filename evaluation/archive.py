@@ -144,8 +144,14 @@ def verify_archive(root, repository):
                         raise ValueError("Tool trace does not match native messages")
                     requests = read_json((folder / "requests.json").read_bytes())
                     model_attempts += len(requests)
+                    before_first = outcome.get("before_first_model_request", False)
+                    if before_first and (indexed_run or requests or status != "failed"):
+                        raise ValueError("Pre-model timeout marker contradicts actual requests or status")
                     if not requests and (not indexed_run or status == "completed"):
-                        raise ValueError("An attempted local turn has no model request record")
+                        early_timeout = (not indexed_run and status == "failed" and before_first is True
+                            and read_json((folder / "error.json").read_bytes()).get("kind") == "TimeoutError")
+                        if not early_timeout:
+                            raise ValueError("An attempted local turn has no model request record")
                     expected_prompts = [item["question"] for item in case["turns"][:turn_index]]
                     for model_request in requests:
                         native = ModelMessagesTypeAdapter.validate_python(model_request["messages"])

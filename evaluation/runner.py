@@ -175,7 +175,10 @@ async def _run(dataset, repository, output, *, backend, turn_timeout, indexed=No
                         write_json(folder / "new_messages.json", safe(_native(result[0].new_messages())))
                     if error:
                         write_json(folder / "error.json", safe(error))
-                        write_json(folder / "outcome.json", {"status": "failed", "attempts": 1})
+                        outcome = {"status": "failed", "attempts": 1}
+                        if not indexed and error["kind"] == "TimeoutError" and not backend.requests:
+                            outcome["before_first_model_request"] = True
+                        write_json(folder / "outcome.json", outcome)
                         review.update(status="execution_failed", error=safe(error)["message"])
                         stopped, blocked = True, True
                     else:

@@ -1,0 +1,22 @@
+{
+  "failed_run": 45148606491,
+  "failed_mac_job": 137603986899,
+  "error": "An attempted local turn has no model request record",
+  "targeted_tests": 21,
+  "full_tests": {
+    "count": 420,
+    "seconds": 91.026,
+    "exit_code": 0
+  },
+  "test_timeout_unchanged": 0.01,
+  "model_parameters_changed": false,
+  "retry_added": false,
+  "real_model_requests": 0,
+  "scope": "local_fixture_pre_model_timeout_only",
+  "files": {
+    "evaluation/archive.py": "5973f411499ab46da6b555664486728428e4d27263de9c3b436624a26a441eca",
+    "evaluation/runner.py": "cd2e18f2d5cbe30806269a4bff6bc1bd16b0ea46ecbf3f7361a6ed2619a5381a",
+    "tests/test_evaluation_runner.py": "702321290bfab9feb9eafd09ef2937f79d912c0f78d4d2ec8a7a8b090225dc33"
+  },
+  "test_log_sha256": "9a3e0c4a4059d92523b31fe832f24000cd499cab6f0846100fef864d0bb5fdfe"
+}
