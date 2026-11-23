@@ -189,5 +189,9 @@
       "package": "zlib1g",
       "id": "CVE-2023-45853"
     }
+  ],
+  "removed_runtime_packages": [
+    "apt",
+    "libapt-pkg7.0"
   ]
 }

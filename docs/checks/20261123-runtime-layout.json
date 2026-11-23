@@ -1,0 +1,42 @@
+{
+  "baseline": {
+    "schema": 1,
+    "baseline_revision": "aad406ef982898a660a8903ff04b21a81a819d71",
+    "baseline_run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/45144479377",
+    "baseline_artifact_sha256": "1ace8eefdbeeb345260528533bd25435ba2ca6254f4ffc67626d192cea093e5b",
+    "python_image": "python@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36",
+    "linux_lock_sha256": "fc11ed823fbaf15e1916480928041c2d889b1580c30e772882dbc04c3826ebb7",
+    "venv": "/opt/venv",
+    "removed_runtime_packages": [
+      "apt",
+      "libapt-pkg7.0"
+    ],
+    "removed_runtime_commands": [
+      "uv",
+      "uvx",
+      "pip",
+      "pip3",
+      "apt",
+      "apt-get",
+      "apt-cache"
+    ],
+    "strict_release_gate_changed": false
+  },
+  "tests": {
+    "count": 420,
+    "seconds": 114.364,
+    "exit_code": 0
+  },
+  "test_log_sha256": "02e97991398f6dec360fac45c0c07bd9dae8e0eb17c3e8f73291d4eb5d09cbce",
+  "linux_runtime_verified": false,
+  "real_model_requests": 0,
+  "public_release_allowed": false,
+  "files": {
+    "deploy/Dockerfile": "af98f241081866a973980267fc690bf5d40eb1c607a8705e417e23849883f785",
+    "ops/os_packages.py": "3b7f7e85c3e4dddf60f9882ed79d1842f4d7c277a3a9c555943dcf41944e3523",
+    "ops/runtime_layout.py": "5f98b61cb7354e763e2ccf0116126d7d8ec03747a7693e1a9f8de07ea4e61ed6",
+    "ops/image_comparison.py": "f1c97988f2bfd7dbe01f46b298001b351d156be1ef93b47d093c81cc1cec3200",
+    ".github/workflows/ci.yml": "72bc1789cc7473e064bf125c238474dc92497e744692b3ede1f51ba5aa9ddcd0",
+    "deploy/os-security-minimums.json": "ef789ddf2a05489fd67b3d353165b0fd16bb4fea8f88b22b5d51e3517d4e2e4c"
+  }
+}

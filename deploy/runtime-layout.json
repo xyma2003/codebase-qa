@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "baseline_revision": "aad406ef982898a660a8903ff04b21a81a819d71",
+  "baseline_run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/45144479377",
+  "baseline_artifact_sha256": "1ace8eefdbeeb345260528533bd25435ba2ca6254f4ffc67626d192cea093e5b",
+  "python_image": "python@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36",
+  "linux_lock_sha256": "fc11ed823fbaf15e1916480928041c2d889b1580c30e772882dbc04c3826ebb7",
+  "venv": "/opt/venv",
+  "removed_runtime_packages": [
+    "apt",
+    "libapt-pkg7.0"
+  ],
+  "removed_runtime_commands": [
+    "uv",
+    "uvx",
+    "pip",
+    "pip3",
+    "apt",
+    "apt-get",
+    "apt-cache"
+  ],
+  "strict_release_gate_changed": false
+}

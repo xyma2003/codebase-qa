@@ -33,6 +33,7 @@
 !deploy/runtime.lock
 !deploy/embedding-cache.json
 !deploy/os-security-minimums.json
+!deploy/runtime-layout.json
 !dependencies/
 !dependencies/runtime-pins.txt
 **/__pycache__/

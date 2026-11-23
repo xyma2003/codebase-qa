@@ -85,11 +85,38 @@ class OsPackageTests(unittest.TestCase):
         self.assertEqual(data["distribution"], {"id": "debian", "version": "13"})
         self.assertTrue({("libsqlite3-0", "CVE-2025-7458"), ("zlib1g", "CVE-2023-45853")}.issubset({(r["package"], r["id"]) for r in data["targeted_findings"]}))
         self.path.write_text(json.dumps(data))
-        scan = {"Metadata": {"OS": {"Family": "debian", "Name": "13.6"}}, "Results": [{"Class": "os-pkgs", "Packages": [{"Name": n} for n in data["packages"]], "Vulnerabilities": []}]}
+        scan = {"Metadata": {"OS": {"Family": "debian", "Name": "13.6"}}, "Results": [{"Class": "os-pkgs", "Packages": [{"Name": n} for n in data["packages"] if n not in data.get("removed_runtime_packages", [])], "Vulnerabilities": []}]}
         self.assertEqual(check_scan(self.path, scan)["targeted_findings_cleared"], 40)
         scan["Metadata"]["OS"]["Name"] = "12.15"
         with self.assertRaises(ValueError):
             check_scan(self.path, scan)
+
+    def test_runtime_requires_absence_and_build_retains_old_minimums(self):
+        self.data["removed_runtime_packages"] = ["apt"]
+        self.path.write_text(json.dumps(self.data))
+        def run(command, **kwargs):
+            if command[0] == "dpkg-query":
+                return subprocess.CompletedProcess(command, 0, "libssl3\tinstalled\t3.0.22-1~deb12u2\n", "")
+            return self.query(command, **kwargs)
+        report = check_installed(self.path, run=run, os_release=self.system)
+        self.assertEqual(report["removed_runtime_packages"], ["apt"])
+        def reintroduced(command, **kwargs):
+            if command[0] == "dpkg-query" and len(command) > 3:
+                return run(command, **kwargs)
+            return self.query(command, **kwargs)
+        with self.assertRaisesRegex(ValueError, "构建专用包仍在"):
+            check_installed(self.path, run=reintroduced, os_release=self.system)
+        self.assertIn("apt", check_installed(self.path, run=self.query, os_release=self.system, phase="build")["installed"])
+        with self.assertRaises(ValueError):
+            check_scan(self.path, self.scan)
+        self.scan["Results"][0]["Packages"] = [{"Name":"libssl3"}]
+        self.assertEqual(check_scan(self.path, self.scan)["remaining_records"], 1)
+
+    def test_removal_manifest_cannot_hide_unknown_or_repeated_packages(self):
+        for value in (["unknown-package"], ["apt", "apt"], "apt"):
+            self.data["removed_runtime_packages"] = value
+            self.path.write_text(json.dumps(self.data))
+            with self.assertRaises(ValueError): load_targets(self.path)
 
 
 if __name__ == "__main__":

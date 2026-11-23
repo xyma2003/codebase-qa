@@ -2,10 +2,16 @@
 ARG PYTHON_IMAGE
 ARG UV_IMAGE
 FROM ${UV_IMAGE} AS uv
-FROM ${PYTHON_IMAGE}
+FROM ${PYTHON_IMAGE} AS dependencies
 COPY --from=uv /uv /usr/local/bin/uv
+COPY deploy/runtime.lock /build/runtime.lock
+RUN uv venv --python /usr/local/bin/python /opt/venv \
+    && uv pip install --python /opt/venv/bin/python --no-cache --require-hashes --torch-backend cpu -r /build/runtime.lock \
+    && uv pip check --python /opt/venv/bin/python
+
+FROM ${PYTHON_IMAGE} AS runtime
 ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1 \
-    HF_HOME=/app/.cache/huggingface CODEBASE_QA_LOCAL_MODE=0
+    HF_HOME=/app/.cache/huggingface CODEBASE_QA_LOCAL_MODE=0 PATH=/opt/venv/bin:$PATH
 WORKDIR /app
 COPY ops/os_packages.py /app/ops/os_packages.py
 COPY ops/privileged_tools.py /app/ops/privileged_tools.py
@@ -13,9 +19,13 @@ COPY deploy/os-security-minimums.json /app/deploy/os-security-minimums.json
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade --no-install-recommends -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     git ca-certificates apt libapt-pkg7.0 liblzma5 libpcre2-8-0 libssl3t64 openssl tzdata libsqlite3-0 zlib1g \
-    && python -m ops.os_packages --output /app/deploy/os-package-check.json \
+    && python -m ops.os_packages --build --output /app/deploy/os-package-build-check.json \
     && rm -rf /var/lib/apt/lists/* \
-    && useradd --uid 10001 --create-home --shell /usr/sbin/nologin app
+    && useradd --uid 10001 --create-home --shell /usr/sbin/nologin app \
+    && apt-get purge --yes apt libapt-pkg7.0 \
+    && /usr/local/bin/python -m pip uninstall --yes pip
+COPY --from=dependencies /opt/venv /opt/venv
+RUN python -m ops.os_packages --output /app/deploy/os-package-check.json
 RUN python -m ops.privileged_tools --harden > /app/deploy/privilege-hardening.json \
     && python -m ops.privileged_tools
 COPY dependencies/runtime-pins.txt /app/deploy/source-pins.txt
@@ -23,9 +33,8 @@ COPY dependencies/runtime-pins.txt /app/deploy/source-pins.txt
 # image installation; original Mac baseline remains intact.
 COPY deploy/runtime.lock /app/deploy/runtime.lock
 COPY deploy/embedding-cache.json /app/deploy/embedding-cache.json
-RUN uv pip install --system --no-cache --require-hashes --torch-backend cpu -r deploy/runtime.lock \
-    && uv pip uninstall --system pip \
-    && uv pip check && python -c "import sys; assert sys.version_info[:3] == (3,12,13)"
+COPY deploy/runtime-layout.json /app/deploy/runtime-layout.json
+RUN python -c "import sys; assert sys.version_info[:3] == (3,12,13)"
 COPY app.py config.py /app/
 COPY agent /app/agent
 COPY indexer /app/indexer
