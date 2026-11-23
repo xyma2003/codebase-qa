@@ -1,0 +1,255 @@
+{
+  "schema": 1,
+  "date": "2026-11-23",
+  "revision": "48f6bb1e5665228b2fa0c1a90a5a32e5edc9807e",
+  "run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/45147452210",
+  "ci_conclusion": "success",
+  "mac_tests": {
+    "count": 418,
+    "seconds": 124.942
+  },
+  "artifact_id": 14805156407,
+  "artifact_sha256": "f145e3b74d95744b77c9961936b0d5c4db39255a3ddfd234e174f323aa7f1891",
+  "image_sizes": {
+    "baseline_bytes": 2126279205,
+    "candidate_bytes": 2072972665,
+    "saved_bytes": 53306540,
+    "saved_percent": 2.51
+  },
+  "comparison": {
+    "schema": 1,
+    "scope": "same_database_image_comparison",
+    "baseline_image_id": "sha256:cfc97b2ceadacd5b6b95ca3bed83e7ca181e3df9f9ce39829198d6f59af69ab3",
+    "candidate_image_id": "sha256:e083a34c599ea9f81f7f699a7a6b958f8d234ee4ba803fc4cfb8e38e4a01ed18",
+    "package_changes": {},
+    "unchanged_os_packages": 118,
+    "baseline_records": 336,
+    "candidate_records": 336,
+    "baseline_ids": 177,
+    "candidate_ids": 177,
+    "removed_findings": [],
+    "added_findings": [],
+    "candidate_source_groups": 30,
+    "public_release_allowed": false,
+    "baseline_raw_sha256": "1abd203b0d00438ed2d902bb2d378eb4757f608607449ebeb52caa8f71891920",
+    "candidate_raw_sha256": "4d363b0231e1447a988186bf7619a3eac9c632b404b6e1c7f41a2dbf34e1ba3d"
+  },
+  "scanner_database_sha256": "f4bd5852164d046530373ad0b66a42c447f9e9393adaa6e7b75fa432b863f889",
+  "runtime_layout": {
+    "status": "runtime_layout_verified",
+    "prefix": "/opt/venv",
+    "uid": 10001,
+    "python_inventory_unchanged": true,
+    "unavailable_runtime_commands": [
+      "uv",
+      "uvx",
+      "pip",
+      "pip3",
+      "apt",
+      "apt-get",
+      "apt-cache",
+      "apt-cdrom",
+      "apt-config",
+      "apt-mark"
+    ],
+    "removed_os_packages": [],
+    "retained_essential_packages": [
+      "apt",
+      "libapt-pkg7.0"
+    ],
+    "cpu_native_math_checked": true,
+    "sentence_transformers_imported": true,
+    "tokenizers_imported": true,
+    "native_linkage": {
+      "/opt/venv/bin/python": "\tlinux-vdso.so.1 (0x00007ff87b68f000)\n\tlibpython3.12.so.1.0 => /usr/local/lib/libpython3.12.so.1.0 (0x00007ff87b02b000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007ff87ae37000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007ff87ad47000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007ff87b691000)\n",
+      "/usr/lib/git-core/git-remote-https": "\tlinux-vdso.so.1 (0x00007f39b038b000)\n\tlibcurl-gnutls.so.4 => /lib/x86_64-linux-gnu/libcurl-gnutls.so.4 (0x00007f39b0037000)\n\tlibpcre2-8.so.0 => /lib/x86_64-linux-gnu/libpcre2-8.so.0 (0x00007f39aff88000)\n\tlibz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007f39aff68000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f39afd74000)\n\tlibnghttp3.so.9 => /lib/x86_64-linux-gnu/libnghttp3.so.9 (0x00007f39afd48000)\n\tlibngtcp2_crypto_gnutls.so.8 => /lib/x86_64-linux-gnu/libngtcp2_crypto_gnutls.so.8 (0x00007f39afd3c000)\n\tlibngtcp2.so.16 => /lib/x86_64-linux-gnu/libngtcp2.so.16 (0x00007f39afcf1000)\n\tlibnghttp2.so.14 => /lib/x86_64-linux-gnu/libnghttp2.so.14 (0x00007f39afcbf000)\n\tlibidn2.so.0 => /lib/x86_64-linux-gnu/libidn2.so.0 (0x00007f39afc8c000)\n\tlibrtmp.so.1 => /lib/x86_64-linux-gnu/librtmp.so.1 (0x00007f39afc6e000)\n\tlibssh2.so.1 => /lib/x86_64-linux-gnu/libssh2.so.1 (0x00007f39afc23000)\n\tlibpsl.so.5 => /lib/x86_64-linux-gnu/libpsl.so.5 (0x00007f39afc0f000)\n\tlibnettle.so.8 => /lib/x86_64-linux-gnu/libnettle.so.8 (0x00007f39afbb9000)\n\tlibgnutls.so.30 => /lib/x86_64-linux-gnu/libgnutls.so.30 (0x00007f39af990000)\n\tlibgssapi_krb5.so.2 => /lib/x86_64-linux-gnu/libgssapi_krb5.so.2 (0x00007f39af93a000)\n\tlibldap.so.2 => /lib/x86_64-linux-gnu/libldap.so.2 (0x00007f39af8d6000)\n\tliblber.so.2 => /lib/x86_64-linux-gnu/liblber.so.2 (0x00007f39af8c3000)\n\tlibzstd.so.1 => /lib/x86_64-linux-gnu/libzstd.so.1 (0x00007f39af7f9000)\n\tlibbrotlidec.so.1 => /lib/x86_64-linux-gnu/libbrotlidec.so.1 (0x00007f39af7eb000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f39b038d000)\n\tlibunistring.so.5 => /lib/x86_64-linux-gnu/libunistring.so.5 (0x00007f39af603000)\n\tlibhogweed.so.6 => /lib/x86_64-linux-gnu/libhogweed.so.6 (0x00007f39af5b8000)\n\tlibgmp.so.10 => /lib/x86_64-linux-gnu/libgmp.so.10 (0x00007f39af52c000)\n\tlibcrypto.so.3 => /lib/x86_64-linux-gnu/libcrypto.so.3 (0x00007f39aeeef000)\n\tlibp11-kit.so.0 => /lib/x86_64-linux-gnu/libp11-kit.so.0 (0x00007f39aed4e000)\n\tlibtasn1.so.6 => /lib/x86_64-linux-gnu/libtasn1.so.6 (0x00007f39aed38000)\n\tlibkrb5.so.3 => /lib/x86_64-linux-gnu/libkrb5.so.3 (0x00007f39aec60000)\n\tlibk5crypto.so.3 => /lib/x86_64-linux-gnu/libk5crypto.so.3 (0x00007f39aec30000)\n\tlibcom_err.so.2 => /lib/x86_64-linux-gnu/libcom_err.so.2 (0x00007f39aec2a000)\n\tlibkrb5support.so.0 => /lib/x86_64-linux-gnu/libkrb5support.so.0 (0x00007f39aec1c000)\n\tlibsasl2.so.2 => /lib/x86_64-linux-gnu/libsasl2.so.2 (0x00007f39aec00000)\n\tlibssl.so.3 => /lib/x86_64-linux-gnu/libssl.so.3 (0x00007f39aeaf0000)\n\tlibbrotlicommon.so.1 => /lib/x86_64-linux-gnu/libbrotlicommon.so.1 (0x00007f39aeacb000)\n\tlibffi.so.8 => /lib/x86_64-linux-gnu/libffi.so.8 (0x00007f39aeabe000)\n\tlibkeyutils.so.1 => /lib/x86_64-linux-gnu/libkeyutils.so.1 (0x00007f39aeab7000)\n\tlibresolv.so.2 => /lib/x86_64-linux-gnu/libresolv.so.2 (0x00007f39aeaa6000)\n",
+      "/opt/venv/lib/python3.12/site-packages/torch/_C.cpython-312-x86_64-linux-gnu.so": "\tlinux-vdso.so.1 (0x00007f9334d44000)\n\tlibtorch_python.so => /opt/venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so (0x00007f93336b2000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f93334bc000)\n\tlibtorch.so => /opt/venv/lib/python3.12/site-packages/torch/lib/libtorch.so (0x00007f93334b9000)\n\tlibshm.so => /opt/venv/lib/python3.12/site-packages/torch/lib/libshm.so (0x00007f93334ac000)\n\tlibtorch_cpu.so => /opt/venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so (0x00007f931e58a000)\n\tlibc10.so => /opt/venv/lib/python3.12/site-packages/torch/lib/libc10.so (0x00007f931e44f000)\n\tlibpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f931e44a000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f931e1e4000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f931e1b7000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f9334d46000)\n\tlibrt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x00007f931e1b0000)\n\tlibdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f931e1ab000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f931e0bb000)\n\tlibgomp.so.1 => /opt/venv/lib/python3.12/site-packages/torch/lib/libgomp.so.1 (0x00007f931dc00000)\n"
+    },
+    "real_model_requests": 0,
+    "real_embedding_model_evaluated": false,
+    "public_release_allowed": false
+  },
+  "storage": {
+    "status": "storage_platform_compatibility_passed",
+    "before": {
+      "python": "3.12.13",
+      "sqlite": "3.40.1",
+      "uid": 10001,
+      "system": "Linux",
+      "distribution": {
+        "NAME": "Debian GNU/Linux",
+        "ID": "debian",
+        "PRETTY_NAME": "Debian GNU/Linux 12 (bookworm)",
+        "VERSION_ID": "12",
+        "VERSION": "12 (bookworm)",
+        "VERSION_CODENAME": "bookworm",
+        "HOME_URL": "https://www.debian.org/",
+        "SUPPORT_URL": "https://www.debian.org/support",
+        "BUG_REPORT_URL": "https://bugs.debian.org/"
+      }
+    },
+    "after": {
+      "python": "3.12.13",
+      "sqlite": "3.46.1",
+      "uid": 10001,
+      "system": "Linux",
+      "distribution": {
+        "NAME": "Debian GNU/Linux",
+        "ID": "debian",
+        "PRETTY_NAME": "Debian GNU/Linux 13 (trixie)",
+        "VERSION_ID": "13",
+        "VERSION": "13 (trixie)",
+        "VERSION_CODENAME": "trixie",
+        "DEBIAN_VERSION_FULL": "13.8",
+        "HOME_URL": "https://www.debian.org/",
+        "SUPPORT_URL": "https://www.debian.org/support",
+        "BUG_REPORT_URL": "https://bugs.debian.org/"
+      }
+    },
+    "old_data_read_on_new_image": true,
+    "new_image_restore": {
+      "status": "stopped_service_restore_passed",
+      "scope": "temporary_git_sqlite_vectors_and_two_user_fixture",
+      "source_process_exited_before_backup": true,
+      "original_path_replaced_for_readback": true,
+      "source_snapshot_checked": true,
+      "vectors_restored": 1,
+      "conversations_restored": 2,
+      "native_turns_restored": 2,
+      "cross_owner_denied": true,
+      "model_requests": 0,
+      "real_business_data_modified": false,
+      "backup": {
+        "files": 33,
+        "bytes": 88789,
+        "sha256": "ff80126af3a5c1a3c49ccc74cca6321d8cebba991219af1d98866e99252256e8"
+      },
+      "restore": {
+        "files": 33
+      }
+    },
+    "real_model_requests": 0,
+    "baseline_image": "codebase-qa:storage-baseline",
+    "image": "codebase-qa:preparation",
+    "migration": {
+      "collections": 1,
+      "vectors": 1,
+      "exact_float32_readback": true,
+      "source_sha256": "76f419feb7e70991b6463ab1d319f05632ff2db2409b6e5886450703df4537da",
+      "original_chroma_preserved": true,
+      "model_requests": 0,
+      "embeddings_recomputed": 0
+    }
+  },
+  "smoke": {
+    "status": "linux_container_preparation_passed",
+    "image": "codebase-qa:preparation",
+    "proxy": "nginx@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a",
+    "tls_verified": true,
+    "websocket_upgraded": true,
+    "unconfigured_startup_refused": true,
+    "proxy_rate_limit_checked": true,
+    "privilege_isolation": {
+      "blocked_tools": {
+        "apt": {
+          "mode": "000",
+          "owner": 0
+        },
+        "apt-cache": {
+          "mode": "000",
+          "owner": 0
+        },
+        "apt-cdrom": {
+          "mode": "000",
+          "owner": 0
+        },
+        "apt-config": {
+          "mode": "000",
+          "owner": 0
+        },
+        "apt-get": {
+          "mode": "000",
+          "owner": 0
+        },
+        "apt-mark": {
+          "mode": "000",
+          "owner": 0
+        },
+        "mount": {
+          "mode": "000",
+          "owner": 0
+        },
+        "nsenter": {
+          "mode": "000",
+          "owner": 0
+        },
+        "umount": {
+          "mode": "000",
+          "owner": 0
+        },
+        "unshare": {
+          "mode": "000",
+          "owner": 0
+        }
+      },
+      "runtime_checked": true,
+      "setid_files": 0,
+      "upstream_patched": false
+    },
+    "syscall_isolation": {
+      "new_mount_namespace_denied": true
+    },
+    "application_uid": 10001,
+    "real_model_requests": 0,
+    "real_oidc_callback_tested": false,
+    "public_release_allowed": false
+  },
+  "python_audit": {
+    "packages": 195,
+    "complete": true,
+    "findings": 0
+  },
+  "os_audit": {
+    "records": 336,
+    "unique_ids": 177,
+    "groups": 30,
+    "severity": {
+      "CRITICAL": 0,
+      "HIGH": 65,
+      "MEDIUM": 110,
+      "LOW": 141,
+      "UNKNOWN": 20
+    },
+    "raw_sha256": "4d363b0231e1447a988186bf7619a3eac9c632b404b6e1c7f41a2dbf34e1ba3d"
+  },
+  "release_gate": {
+    "python_passed": true,
+    "os_blocked": true,
+    "os_reason": "系统依赖仍有未处理公告，禁止上线。",
+    "public_release_allowed": false
+  },
+  "exposure_review": {
+    "review_date": "2026-11-23",
+    "basis_revision": "aad406ef982898a660a8903ff04b21a81a819d71",
+    "source_groups": 30,
+    "high_records": 65,
+    "unique_high_ids": 21,
+    "scope": "first_pass_static_and_configuration_boundary_review",
+    "release_exception_added": false,
+    "code_sha256": {
+      "indexer/cloner.py": "ba7826baf97e939d421bb58c6076b64e370f0de1b1837da9025c5f5f0241e966",
+      "security/git_transport.py": "faba8c9f6241104969af651cbd65d4075344fbcb3e2f449db587ae5ee7b313c9",
+      "indexer/sqlite_vectors.py": "38da85ded55ac542a745e0262ca7001ec1743c69ff29371198974180adf3eece",
+      "agent/conversations.py": "a7a785aea3031edc9096c44a70bc48a738943154e0947ce7b80968e6d47357fc",
+      "deploy/compose.yaml": "efc78834ff49005a2ba80491e5391f6d146a142287c380ea88dd93a252603c0b",
+      "deploy/nginx.conf.template": "102f0eadb228a53846cbe51b64f41705865759ff5328eecccd4182b69db3921a",
+      "ops/privileged_tools.py": "058c090064b6c437f908cf4d8c492baa571b29ea8d759b3fa62ef2d4ab577fe9"
+    },
+    "all_exploit_paths_tested": false,
+    "real_model_attack_rate": null
+  },
+  "real_model_requests": 0,
+  "real_oidc_tested": false,
+  "target_server_load_tested": false,
+  "public_deployed": false
+}

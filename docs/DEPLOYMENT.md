@@ -1,8 +1,8 @@
 # 单主机部署与运维准备
 
-2026-11-20：当前运行锁已移除 Chroma，Mac 192 / Linux 195 包，旧锁保存在 `dependencies/legacy-chroma-20261120/`。旧向量先用旧环境离线导出，再使用新环境或镜像的 `/app/scripts/import_vectors.py` 按摘要导入；命令见[迁移与回滚](VECTOR_MIGRATION.md)。不要直接启动新版去覆盖旧库。容器禁用 mount/umount/nsenter/unshare 并去掉 Set-ID；这不能代替 util-linux 包修复。系统扫描仍有命中，发布保持阻断。
+2026-11-23：当前运行锁已移除 Chroma，Mac 192 / Linux 195 包，旧锁保存在 `dependencies/legacy-chroma-20261120/`。旧向量先用旧环境离线导出，再使用新环境或镜像的 `/app/scripts/import_vectors.py` 按摘要导入；命令见[迁移与回滚](VECTOR_MIGRATION.md)。不要直接启动新版去覆盖旧库。容器禁用 mount/umount/nsenter/unshare 并去掉 Set-ID；这不能代替 util-linux 包修复。系统扫描仍有命中，发布保持阻断。
 
-本轮提供部署配置和可执行检查，**没有开放公网，也没有完成真实 OIDC、模型或域名验收**。当前 Mac/Linux Python 依赖完整查询为 0 公告，但系统仍有 423 条/200 个编号，部署入口会因系统公告拒绝启动。CI 的镜像、TLS 和恢复检查通过也不能解除这个阻断。
+本轮提供部署配置和可执行检查，**没有开放公网，也没有完成真实 OIDC、模型或域名验收**。当前 Mac/Linux Python 依赖完整查询为 0 公告，但系统仍有 336 条/177 个编号，部署入口会因系统公告拒绝启动。CI 的镜像、TLS 和恢复检查通过也不能解除这个阻断。
 
 ## 结构
 
@@ -13,6 +13,8 @@
 nginx 保留 WebSocket，限制每 IP 请求和连接数，设置 2 MiB HTTP 请求上限。CORS/XSRF 和 Streamlit 的 2 MiB 消息限制保持启用。入口覆盖 Host/转发协议和来源 IP，不信任用户自带的转发头。访问日志关闭，错误只记 critical，避免认证回调参数进入普通代理日志。真实回调和共享出口 IP 下的限流阈值仍需试用验证。
 
 ## 构建与审计
+
+当前为多阶段构建：uv 只在构建阶段，195 包安装在固定 `/opt/venv`，运行阶段复制该环境并移除全局 pip。APT 被基础镜像保护，因此包及 9 包最低版本检查保留，6 个 APT 命令与原 4 个特权工具权限设为 000。不要使用系统 Python 绕过镜像 PATH；标准入口使用 `/opt/venv/bin/python`。源自实际 Essential 拒绝的修正见[记录](checks/20261123-essential-apt.md)。
 
 Linux CI 使用 Python 3.12.13、uv 0.12.3 与 Debian 13，直接复用最近成功 CI 的 `dependencies/runtime-linux-cpu.lock`（195 个运行包），核对 SHA256 及 192 个公共版本后按哈希安装，不在本轮底座升级时重新解析依赖。当前 Mac 锁为 `dependencies/runtime-macos.lock`，192 个版本；历史阶段零的 194 个版本不覆盖。`deploy/runtime.lock` 是该固定文件的构建副本和 CI 产物。
 
