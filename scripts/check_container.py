@@ -89,7 +89,7 @@ def main(image, proxy_image, output):
             assert limited, "Proxy rate limit did not reject a burst"
             assert run("docker", "exec", app, "id", "-u") == "10001"
             isolation = json.loads(run("docker", "exec", app, "python", "-m", "ops.privileged_tools", "--runtime"))
-            for tool in ("mount", "umount", "nsenter", "unshare"):
+            for tool in ("mount", "umount", "nsenter", "unshare", "apt", "apt-get", "apt-cache", "apt-cdrom", "apt-config", "apt-mark"):
                 attempt = subprocess.run(["docker", "exec", app, "/usr/bin/" + tool, "--version"], capture_output=True, text=True, timeout=10)
                 assert attempt.returncode != 0 and "permission denied" in (attempt.stdout + attempt.stderr).lower(), tool
             denied_syscalls = json.loads(run("docker", "exec", app, "python", "-c", "import ctypes,errno,json; c=ctypes.CDLL(None,use_errno=True); r=c.unshare(0x00020000); e=ctypes.get_errno(); assert r==-1 and e==errno.EPERM,(r,e); print(json.dumps({'new_mount_namespace_denied':True}))"))

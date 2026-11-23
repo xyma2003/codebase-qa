@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 import stat
 
-BLOCKED = ("mount", "umount", "nsenter", "unshare")
+BLOCKED = ("mount", "umount", "nsenter", "unshare", "apt", "apt-get", "apt-cache", "apt-cdrom", "apt-config", "apt-mark")
 
 
 def harden(root=Path("/")):

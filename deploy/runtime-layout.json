@@ -6,18 +6,24 @@
   "python_image": "python@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36",
   "linux_lock_sha256": "fc11ed823fbaf15e1916480928041c2d889b1580c30e772882dbc04c3826ebb7",
   "venv": "/opt/venv",
-  "removed_runtime_packages": [
-    "apt",
-    "libapt-pkg7.0"
-  ],
+  "removed_runtime_packages": [],
   "removed_runtime_commands": [
     "uv",
     "uvx",
     "pip",
-    "pip3",
+    "pip3"
+  ],
+  "strict_release_gate_changed": false,
+  "retained_essential_packages": [
+    "apt",
+    "libapt-pkg7.0"
+  ],
+  "disabled_runtime_commands": [
     "apt",
     "apt-get",
-    "apt-cache"
-  ],
-  "strict_release_gate_changed": false
+    "apt-cache",
+    "apt-cdrom",
+    "apt-config",
+    "apt-mark"
+  ]
 }

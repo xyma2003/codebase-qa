@@ -1,0 +1,24 @@
+{
+  "tests": {
+    "count": 418,
+    "seconds": 117.498,
+    "exit_code": 0
+  },
+  "test_log_sha256": "c04eded91c95392ccd71fadac63f143b02948f1ae2ac48590baa90aa4c08fd21",
+  "original_failure_run": 45146594565,
+  "original_failure_job": 137597290662,
+  "failure_reason": "Protected APT removal refused by Debian",
+  "apt_packages_retained": true,
+  "forcible_package_removal": false,
+  "strict_gate_changed": false,
+  "real_model_requests": 0,
+  "linux_runtime_verified": false,
+  "files": {
+    "deploy/Dockerfile": "ac85c8ec7b0488c4c2111bcc14257b53a9ab4c4757953fc8f691aaa5878e1093",
+    "ops/privileged_tools.py": "058c090064b6c437f908cf4d8c492baa571b29ea8d759b3fa62ef2d4ab577fe9",
+    "ops/runtime_layout.py": "81d171650c33593b10e4257521111f7400133c1df8d687e1f4ef0271d77e78cd",
+    "ops/os_packages.py": "f9e65bfd72698a7b54646200a2dc5ba769de23329be7b1552b9773798263c675",
+    "deploy/os-security-minimums.json": "2965af11351e2e7c1ee4694e5f111a591edf8181754c9311811b4a567cac811f",
+    "scripts/check_container.py": "dba489eb80793167904830964e488b2e577369656120d024f6e0188a9fd840bb"
+  }
+}

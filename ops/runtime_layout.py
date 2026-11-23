@@ -15,7 +15,8 @@ def verify(root=Path("/app")):
     manifest = json.loads((root / "deploy/runtime-layout.json").read_text())
     if manifest.get("schema") != 1 or sys.prefix != manifest["venv"] or os.getuid() != 10001:
         raise ValueError("运行镜像的虚拟环境或用户不符。")
-    remaining = {name: shutil.which(name) for name in manifest["removed_runtime_commands"] if shutil.which(name)}
+    unavailable = manifest["removed_runtime_commands"] + manifest["disabled_runtime_commands"]
+    remaining = {name: shutil.which(name) for name in unavailable if shutil.which(name)}
     if remaining or importlib.util.find_spec("pip") is not None or importlib.util.find_spec("chromadb") is not None:
         raise ValueError("运行镜像仍包含安装工具或 Chroma：" + json.dumps(remaining))
     if Path("/usr/local/lib/python3.12/site-packages/pip").exists() or os.access(sys.prefix, os.W_OK):
@@ -39,8 +40,8 @@ def verify(root=Path("/app")):
             raise ValueError("必要原生依赖未完整加载：" + str(path) + result.stdout + result.stderr)
         native[str(path)] = result.stdout
     return {"status": "runtime_layout_verified", "prefix": sys.prefix, "uid": os.getuid(),
-        "python_inventory_unchanged": True, "install_commands_absent": manifest["removed_runtime_commands"],
-        "removed_os_packages": packages["removed_runtime_packages"], "cpu_native_math_checked": True,
+        "python_inventory_unchanged": True, "unavailable_runtime_commands": unavailable,
+        "removed_os_packages": [], "retained_essential_packages": manifest["retained_essential_packages"], "cpu_native_math_checked": True,
         "sentence_transformers_imported": True, "tokenizers_imported": True,
         "native_linkage": native, "real_model_requests": 0, "real_embedding_model_evaluated": False,
         "public_release_allowed": False}

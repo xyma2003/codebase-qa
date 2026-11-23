@@ -19,10 +19,9 @@ COPY deploy/os-security-minimums.json /app/deploy/os-security-minimums.json
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade --no-install-recommends -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     git ca-certificates apt libapt-pkg7.0 liblzma5 libpcre2-8-0 libssl3t64 openssl tzdata libsqlite3-0 zlib1g \
-    && python -m ops.os_packages --build --output /app/deploy/os-package-build-check.json \
+    && python -m ops.os_packages --output /app/deploy/os-package-build-check.json \
     && rm -rf /var/lib/apt/lists/* \
     && useradd --uid 10001 --create-home --shell /usr/sbin/nologin app \
-    && apt-get purge --yes apt libapt-pkg7.0 \
     && /usr/local/bin/python -m pip uninstall --yes pip
 COPY --from=dependencies /opt/venv /opt/venv
 RUN python -m ops.os_packages --output /app/deploy/os-package-check.json
