@@ -14,7 +14,7 @@
 | systemd：16742 | systemd-homed 的特权家目录记录处理 | 扫描的二进制包是 libsystemd0/libudev1；容器进程为应用及 init，不是 systemd-homed 服务 | 组件库与服务入口需要区分；本结论不覆盖同源其他公告，无自动豁免 |
 | Perl Archive-Tar：9538 | 解析恶意 tar 头中的巨大 entry size | Perl 为 Git 的依赖，不删除整个 Perl；构建时将所有 `/usr` 下 Archive/Tar.pm 的权限设为 000，保留包库存；CI 使用 UID 10001 实测导入拒绝，并确认 Git 所需 Error.pm 可用 | 新增模块入口隔离，需以对应 Linux 产物验证；源码公告保留 |
 | ncurses：69720 | infocmp 的 analyze_string 解析恶意终端数据 | 仅将用不到的 infocmp 设为 root 所有、权限 000，不删 Python/Git 依赖的 ncurses 库；CI 实际执行要求 PermissionError | 新增命令入口隔离，需以对应 Linux 产物验证；源码公告保留 |
-| Expat：113351、115506、117610、118370，以及 124317、128241、134703 | 解析器重置内存计数、实体放大、空外部实体、超大属性计数等 | 系统包已更新 2.11，Python 首项也加载 2.11；复核发现 C ElementTree 因精确版本校验回退，需用同版源码、同一 2.11 头文件一并重建两个扩展并强制验证 C 实现 | 系统包已验证，Python 的完整 C 兼容验收待本次 CI；原扫描不豁免，见[系统记录](checks/20261125-expat-system.md)与[Python 记录](checks/20261125-python-expat.md) |
+| Expat：113351、115506、117610、118370，以及 124317、128241、134703 | 解析器重置内存计数、实体放大、空外部实体、超大属性计数等 | 系统库与 Python 两扩展同步使用 2.11；`e01236f` 的 Mac/Linux、451 项项目与 791 项官方 XML 回归通过（12 项上游条件跳过），实际 C Element/XMLParser 与两份扩展摘要均验证，异常 C 缺失跳过为 0 | 本轮目标补丁及 C 兼容已验证；全部原始扫描保留，不自动关闭其他 Expat 公告或生成豁免，见[最终记录](checks/20261125-python-expat.md) |
 | ACL：54369 | 特权调用方处理可被替换的 ACL 路径 | 容器实际 UID 10001、无 capabilities、NoNewPrivs 已检查；未完成具体 ACL 利用回放 | 保留来源公告，不根据“没直接 import”判安全 |
 
 以上是从当前源码、部署文件和实际库存得到的入口核对。后续如新增协议、递归克隆、补丁执行、数据库上传、QUIC 或多实例，应重新评估；当前结论不自动适用于新的使用方式。未知级别、没有修复版本和未审完的条目完整保留。

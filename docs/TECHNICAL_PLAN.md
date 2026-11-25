@@ -1,6 +1,6 @@
 # Codebase Q&A 技术方案
 
-版本：0.30。更新日期：2026-11-25。有效基线仍为系统修复 `83549c4`。Python 3.12.13 的 ElementTree C 扩展会检查 pyexpat C API 的完整 Expat 版本，因此必须用相同 2.11 头文件一并重建 pyexpat 和 _elementtree。编译器仅在构建阶段，原解释器、依赖锁和模型配置不变。构建/运行显式检查 ElementTree 使用 C Element/XMLParser、版本和两份扩展摘要，官方测试中出现 requires _elementtree 跳过即失败。完整扫描与发布门槛保持，详见[记录](checks/20261125-python-expat.md)。
+版本：0.30。更新日期：2026-11-25。最新真实成功代码为 `e01236f`：Python 保持 3.12.13，用相同 2.11 头文件同步重建 pyexpat 和 _elementtree，编译器仅留在构建阶段。两份实际引擎为 2.11，构建/运行检查 C Element/XMLParser、版本和双扩展摘要，禁止 requires _elementtree 隐藏跳过。451 项项目与 791 项官方 XML 回归（12 项上游条件跳过）及 Mac/Linux、迁移恢复通过。原锁、模型配置和 118 个系统包版本保持，完整扫描与发布阻断保留，详见[记录](checks/20261125-python-expat.md)。
 
 ## 当前基础
 
