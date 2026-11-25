@@ -1,4 +1,4 @@
-"""Rebuild only pyexpat from the baseline CPython source, using fixed Expat.
+"""Rebuild Python's two XML extensions against fixed Expat.
 
 The interpreter version, the rest of its standard library, and pip locks stay
 unchanged. Compiler, sources and development headers remain in a build stage.
@@ -58,6 +58,18 @@ def fetch(url, expected_sha256, destination, maximum_bytes, *, opener=None):
     return total
 
 
+def check_test_log(log_text):
+    missing_accelerator = [line for line in log_text.splitlines() if "skipped 'requires _elementtree'" in line]
+    if missing_accelerator:
+        raise ValueError("Official XML tests did not load the ElementTree C accelerator:\n"
+                         + "\n".join(missing_accelerator))
+    summary = re.search(r"Ran (\d+) tests in ([\d.]+)s", log_text)
+    if not summary:
+        raise ValueError("Official CPython XML test summary is missing")
+    skipped = sum(" ... skipped " in line for line in log_text.splitlines())
+    return int(summary[1]), float(summary[2]), skipped
+
+
 def build(manifest, output, work):
     check_baseline(manifest)
     output, work = Path(output), Path(work)
@@ -79,19 +91,29 @@ def build(manifest, output, work):
     shutil.copyfile(source / "Modules/expat/expat_config.h", config / "expat_config.h")
     module_dir = output / "module"
     module_dir.mkdir()
-    extension = module_dir / Path(pyexpat.__file__).name
+    extensions = {name: module_dir / (name + sysconfig.get_config_var("EXT_SUFFIX"))
+                  for name in ("pyexpat", "_elementtree")}
+    extension = extensions["pyexpat"]
     include = Path(sysconfig.get_path("include"))
     flags = []
     for name in ("LDSHARED", "CFLAGS", "CCSHARED", "LDFLAGS"):
         flags.extend(shlex.split(sysconfig.get_config_var(name) or ""))
-    compiler = [*flags, "-I" + str(config), "-I" + str(headers / "usr/include"),
-                "-I" + str(include), "-I" + str(include / "internal"),
-                str(source / "Modules/pyexpat.c"), "-o", str(extension), "-l:libexpat.so.1"]
-    subprocess.run(compiler, check=True, timeout=120)
-    extension.chmod(0o755)
+    # _elementtree checks Expat's exact major/minor/micro in pyexpat's capsule.
+    # Both extensions must use the same headers; otherwise it silently falls
+    # back to Python in ElementTree and its C-specific tests may be skipped.
+    common = [*flags, "-DPy_BUILD_CORE_MODULE=1", "-I" + str(config),
+              "-I" + str(headers / "usr/include"), "-I" + str(include), "-I" + str(include / "internal")]
+    compilers = {}
+    for name, path in extensions.items():
+        compiler = [*common, str(source / "Modules" / (name + ".c")), "-o", str(path), "-l:libexpat.so.1"]
+        subprocess.run(compiler, check=True, timeout=120)
+        path.chmod(0o755)
+        compilers[name] = compiler
     environment = dict(os.environ, PYTHONPATH=str(module_dir.resolve()) + os.pathsep + str(source / "Lib"))
     probe = subprocess.run([sys.executable, "-c",
-        "import json,pyexpat,xml.etree.ElementTree as E; "
+        "import json,pyexpat,_elementtree as C,xml.etree.ElementTree as E; "
+        "assert E.Element is C.Element and E.XMLParser is C.XMLParser; "
+        "assert C.XMLParser().version == 'Expat 2.11.0'; "
         "assert E.fromstring('<root>ok</root>').text=='ok'; "
         "print(json.dumps({'version':pyexpat.EXPAT_VERSION,'module':pyexpat.__file__}))"],
         env=environment, capture_output=True, text=True, timeout=30)
@@ -108,17 +130,17 @@ def build(manifest, output, work):
     if tests.returncode:
         print(log_text, file=sys.stderr)
         raise ValueError("Official CPython XML regression tests failed")
-    summary = re.search(r"Ran (\d+) tests in ([\d.]+)s", log_text)
-    if not summary:
-        raise ValueError("Official CPython XML test summary is missing")
-    if list(module_dir.iterdir()) != [extension]:
-        raise ValueError("The runtime overlay must contain only the pyexpat extension")
+    count, seconds, skipped = check_test_log(log_text)
+    if set(module_dir.iterdir()) != set(extensions.values()):
+        raise ValueError("The runtime overlay must contain only the two XML extensions")
     report = {"status": "baseline_pyexpat_rebuilt", "python_version": manifest["python_version"],
               "source_sha256": manifest["source_sha256"], "headers_sha256": manifest["headers_sha256"],
               "previous_expat_version": pyexpat.EXPAT_VERSION, "rebuilt_expat_version": loaded["version"],
               "extension": extension.name, "extension_sha256": hashlib.sha256(extension.read_bytes()).hexdigest(),
-              "compiler_command": compiler, "upstream_tests": manifest["upstream_tests"],
-              "upstream_test_count": int(summary[1]), "upstream_test_seconds": float(summary[2]),
+              "elementtree_extension_sha256": hashlib.sha256(extensions["_elementtree"].read_bytes()).hexdigest(),
+              "elementtree_accelerator_verified": True,
+              "compiler_commands": compilers, "upstream_tests": manifest["upstream_tests"],
+              "upstream_test_count": count, "upstream_test_seconds": seconds, "upstream_skipped_count": skipped,
               "upstream_test_log_sha256": hashlib.sha256(log_path.read_bytes()).hexdigest(),
               "python_version_unchanged": True, "dependency_locks_unchanged": True,
               "public_release_allowed": False}

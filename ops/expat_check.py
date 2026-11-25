@@ -65,6 +65,8 @@ def verify(manifest_path=Path("deploy/expat-update.json")):
     extension_sha256 = hashlib.sha256(Path(pyexpat.__file__).read_bytes()).hexdigest()
     build_path = Path(manifest_path).parent / "python-expat-build.json"
     if build_path.exists():
+        import _elementtree
+        import xml.etree.ElementTree as elementtree
         build = json.loads(build_path.read_bytes())
         source = json.loads((build_path.parent / "python-expat.json").read_bytes())
         if (sys.version_info[:3] != (3, 12, 13) or python_version != source["expat_version"]
@@ -72,7 +74,11 @@ def verify(manifest_path=Path("deploy/expat-update.json")):
                 or extension_sha256 != build["extension_sha256"]
                 or build["source_sha256"] != source["source_sha256"]
                 or build["headers_sha256"] != source["headers_sha256"]
-                or build["upstream_test_count"] <= 0):
+                or build["upstream_test_count"] <= 0
+                or elementtree.Element is not _elementtree.Element
+                or elementtree.XMLParser is not _elementtree.XMLParser
+                or _elementtree.XMLParser().version != "Expat 2.11.0"
+                or hashlib.sha256(Path(_elementtree.__file__).read_bytes()).hexdigest() != build["elementtree_extension_sha256"]):
             raise ValueError("Python Expat runtime differs from the verified build")
     return {"status": "system_expat_update_verified", "package_version": installed,
             "system_expat_version": native_version, "system_parse_and_reset_passed": True,
@@ -81,6 +87,7 @@ def verify(manifest_path=Path("deploy/expat-update.json")):
             "python_linkage": linkage.stdout, "python_parse_passed": True,
             "python_expat_requires_followup": parse_version(python_version) < (2, 11, 0),
             "python_build_bound_to_runtime": build_path.exists(),
+            "elementtree_accelerator_verified": build_path.exists(),
             "targeted_advisories": manifest["targeted_advisories"],
             "all_expat_advisories_cleared": False, "public_release_allowed": False,
             "real_model_requests": 0}

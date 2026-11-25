@@ -1,6 +1,6 @@
 # Codebase Q&A 技术方案
 
-版本：0.29。更新日期：2026-11-25。最新成功基线为系统 Expat 修复 `83549c4`：libexpat1 2.11，其他 117 个系统包不变。第二项使用原 Python 3.12.13 镜像声明的官方源码哈希与固定 2.11 头文件，仅重建 pyexpat 扩展；原解释器 ABI、195 包 Linux 锁和模型配置不变。编译器只留在构建阶段，必须通过原版五组 CPython XML 测试，运行时核对模块摘要、实际 Expat 版本与系统动态链接。本机 450 项通过，系统包对照应无变化，完整扫描和严格发布门槛保留。详见[Python 记录](checks/20261125-python-expat.md)。
+版本：0.30。更新日期：2026-11-25。有效基线仍为系统修复 `83549c4`。Python 3.12.13 的 ElementTree C 扩展会检查 pyexpat C API 的完整 Expat 版本，因此必须用相同 2.11 头文件一并重建 pyexpat 和 _elementtree。编译器仅在构建阶段，原解释器、依赖锁和模型配置不变。构建/运行显式检查 ElementTree 使用 C Element/XMLParser、版本和两份扩展摘要，官方测试中出现 requires _elementtree 跳过即失败。完整扫描与发布门槛保持，详见[记录](checks/20261125-python-expat.md)。
 
 ## 当前基础
 

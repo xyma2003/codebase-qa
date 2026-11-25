@@ -57,6 +57,12 @@ class PythonExpatBuildTests(unittest.TestCase):
                 builder.fetch('https://example.invalid/source', '', path, 20, opener=self.response(b'data'))
             self.assertEqual(path.read_bytes(), b'KEEP')
 
+    def test_official_test_success_cannot_hide_missing_c_accelerator(self):
+        summary = '\nRan 792 tests in 1.281s\n\nOK (skipped=1)\n'
+        with self.assertRaisesRegex(ValueError, 'C accelerator'):
+            builder.check_test_log("test_c ... skipped 'requires _elementtree'\n" + summary)
+        self.assertEqual(builder.check_test_log("test_windows ... skipped 'platform'\n" + summary), (792, 1.281, 1))
+
 
 if __name__ == '__main__':
     unittest.main()
