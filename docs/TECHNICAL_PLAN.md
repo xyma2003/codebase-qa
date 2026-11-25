@@ -1,6 +1,6 @@
 # Codebase Q&A 技术方案
 
-版本：0.27。更新日期：2026-11-23。沿用既有 Python 镜像、195 包 Linux 锁及模型配置。Git 固定不检出代码的浅克隆与默认 HEAD 更新；infocmp 和 Archive/Tar.pm 权限 000，两项远端全通过。6 处 SQLite 连接统一启用 DEFENSIVE 与 authorizer 限制，禁止虚表、附加库、MATCH 和扩展；旧 Chroma 库单独固定只读完整性检查。本机 435 项通过，CI 另存实际 Linux 引擎探针和原数据迁移恢复。完整系统扫描与严格发布门槛不变，详见[SQLite 记录](checks/20261123-sqlite-policy.md)。
+版本：0.28。更新日期：2026-11-25。以最近成功的 `cfe22d1`、原 Python 3.12.13 镜像和原 Linux 195 包锁为基线。Expat 单包更新固定官方 URL、大小、SHA256、架构、来源和依赖，只允许 libexpat1 从 2.9.0-1~deb13u1 到 2.11.0-1；不启用 sid APT 源，不自动补装依赖。构建和同库扫描都拒绝其他包变化，运行探针分别读取系统 Expat 与 Python 内置副本的实际版本和链接。本机 445 项通过；完整扫描、迁移恢复、严格发布门槛保留。详见[记录](checks/20261125-expat-system.md)。
 
 ## 当前基础
 

@@ -16,6 +16,8 @@ WORKDIR /app
 COPY ops/os_packages.py /app/ops/os_packages.py
 COPY ops/privileged_tools.py /app/ops/privileged_tools.py
 COPY ops/optional_parsers.py /app/ops/optional_parsers.py
+COPY ops/expat_update.py /app/ops/expat_update.py
+COPY deploy/expat-update.json /app/deploy/expat-update.json
 COPY deploy/os-security-minimums.json /app/deploy/os-security-minimums.json
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade --no-install-recommends -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
@@ -24,6 +26,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade --no-instal
     && rm -rf /var/lib/apt/lists/* \
     && useradd --uid 10001 --create-home --shell /usr/sbin/nologin app \
     && /usr/local/bin/python -m pip uninstall --yes pip
+RUN python -m ops.expat_update > /app/deploy/expat-install.json
 COPY --from=dependencies /opt/venv /opt/venv
 RUN python -m ops.os_packages --output /app/deploy/os-package-check.json
 RUN python -m ops.privileged_tools --harden > /app/deploy/privilege-hardening.json \

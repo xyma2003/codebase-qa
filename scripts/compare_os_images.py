@@ -14,7 +14,8 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     manifest = json.loads((ROOT/"deploy/runtime-layout.json").read_text())
-    report = compare(json.loads(args.baseline.read_bytes()), json.loads(args.candidate.read_bytes()), manifest["removed_runtime_packages"])
+    report = compare(json.loads(args.baseline.read_bytes()), json.loads(args.candidate.read_bytes()),
+                     manifest["removed_runtime_packages"], manifest.get("updated_runtime_packages", {}))
     report["baseline_raw_sha256"] = hashlib.sha256(args.baseline.read_bytes()).hexdigest()
     report["candidate_raw_sha256"] = hashlib.sha256(args.candidate.read_bytes()).hexdigest()
     with args.output.open("x") as file:

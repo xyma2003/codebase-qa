@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "package": "libexpat1",
+  "source": "expat",
+  "architecture": "amd64",
+  "before": "2.9.0-1~deb13u1",
+  "after": "2.11.0-1",
+  "pre_depends": "libc6 (>= 2.38)",
+  "url": "https://deb.debian.org/debian/pool/main/e/expat/libexpat1_2.11.0-1_amd64.deb",
+  "sha256": "2a8e9ee7746f8563cd38b7acb324c4ad61c2c877e7ba5f9a5001f44998876526",
+  "bytes": 142788,
+  "metadata_url": "https://packages.debian.org/sid/amd64/libexpat1/download",
+  "targeted_advisories": [
+    "CVE-2026-113351", "CVE-2026-115506", "CVE-2026-117610", "CVE-2026-118370",
+    "CVE-2026-124317", "CVE-2026-128241", "CVE-2026-134703"
+  ],
+  "security_tracker": "https://security-tracker.debian.org/tracker/source-package/expat"
+}

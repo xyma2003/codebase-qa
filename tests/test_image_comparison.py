@@ -27,3 +27,29 @@ class ImageComparisonTests(unittest.TestCase):
         with self.assertRaises(ValueError): compare(self.before,self.before,['mount'])
         self.after['Metadata']['OS']['Name']='14'
         with self.assertRaises(ValueError): compare(self.before,self.after,['mount'])
+
+    def test_explicit_version_update_is_allowed_but_not_reported_as_unchanged(self):
+        after = copy.deepcopy(self.before)
+        after['Results'][0]['Packages'][-1]['Version'] = '2.42'
+        report = compare(self.before, after, [], {'libc6': {'before': '2.41', 'after': '2.42'}})
+        self.assertEqual(report['package_changes'], {'libc6': {'before': '2.41', 'after': '2.42'}})
+        self.assertEqual(report['unchanged_os_packages'], 2)
+        self.assertFalse(report['public_release_allowed'])
+
+    def test_declared_update_must_match_both_exact_versions_and_presence(self):
+        for update in ({'before': 'wrong', 'after': '2.42'}, {'before': '2.41', 'after': 'wrong'},
+                       {'before': '2.41', 'after': '2.42', 'extra': 'bad'}):
+            after = copy.deepcopy(self.before)
+            after['Results'][0]['Packages'][-1]['Version'] = '2.42'
+            with self.subTest(update=update), self.assertRaises(ValueError):
+                compare(self.before, after, [], {'libc6': update})
+        with self.assertRaises(ValueError):
+            compare(self.before, self.before, [], {'missing': {'before': '1', 'after': '2'}})
+
+    def test_declared_update_cannot_allow_other_package_changes(self):
+        after = copy.deepcopy(self.before)
+        after['Results'][0]['Packages'][-1]['Version'] = '2.42'
+        after['Results'][0]['Packages'][0]['Version'] = '9'
+        after['Results'][0]['Vulnerabilities'][0]['InstalledVersion'] = '9'
+        with self.assertRaises(ValueError):
+            compare(self.before, after, [], {'libc6': {'before': '2.41', 'after': '2.42'}})

@@ -14,7 +14,8 @@
 | systemd：16742 | systemd-homed 的特权家目录记录处理 | 扫描的二进制包是 libsystemd0/libudev1；容器进程为应用及 init，不是 systemd-homed 服务 | 组件库与服务入口需要区分；本结论不覆盖同源其他公告，无自动豁免 |
 | Perl Archive-Tar：9538 | 解析恶意 tar 头中的巨大 entry size | Perl 为 Git 的依赖，不删除整个 Perl；构建时将所有 `/usr` 下 Archive/Tar.pm 的权限设为 000，保留包库存；CI 使用 UID 10001 实测导入拒绝，并确认 Git 所需 Error.pm 可用 | 新增模块入口隔离，需以对应 Linux 产物验证；源码公告保留 |
 | ncurses：69720 | infocmp 的 analyze_string 解析恶意终端数据 | 仅将用不到的 infocmp 设为 root 所有、权限 000，不删 Python/Git 依赖的 ncurses 库；CI 实际执行要求 PermissionError | 新增命令入口隔离，需以对应 Linux 产物验证；源码公告保留 |
-| expat、ACL 的剩余 High | XML 或特权文件权限处理 | 这些是发行版与 Git 的库依赖，当前没有完成逐个解析路径的实际可达性回放 | 保持优先核查，不根据“没直接 import”判安全 |
+| Expat：113351、115506、117610、118370 | 解析器重置内存计数、实体放大、空外部实体与超大属性计数 | 11 月 25 日增加仅 libexpat1 的官方 2.11 包更新；固定大小/哈希/版本/架构，原 libc6 满足 >=2.38，不启用 sid 源。另查新公告 124317、128241、134703，2.10 仍受影响，因此选择 2.11。真实探针分别核对系统库与 Python 内置副本 | 系统候选补丁待对应 CI；Python 内置副本仍需单独处理，不因 dpkg 升级就关闭该路径，见[记录](checks/20261125-expat-system.md) |
+| ACL：54369 | 特权调用方处理可被替换的 ACL 路径 | 容器实际 UID 10001、无 capabilities、NoNewPrivs 已检查；未完成具体 ACL 利用回放 | 保留来源公告，不根据“没直接 import”判安全 |
 
 以上是从当前源码、部署文件和实际库存得到的入口核对。后续如新增协议、递归克隆、补丁执行、数据库上传、QUIC 或多实例，应重新评估；当前结论不自动适用于新的使用方式。未知级别、没有修复版本和未审完的条目完整保留。
 
