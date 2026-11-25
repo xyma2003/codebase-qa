@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "python_version": "3.12.13",
+  "source_url": "https://www.python.org/ftp/python/3.12.13/Python-3.12.13.tar.xz",
+  "source_sha256": "c08bc65a81971c1dd5783182826503369466c7e67374d1646519adf05207b684",
+  "source_max_bytes": 33554432,
+  "headers_url": "https://deb.debian.org/debian/pool/main/e/expat/libexpat1-dev_2.11.0-1_amd64.deb",
+  "headers_sha256": "7f7726333b2b5fd44cf38e78e6e4a7f59cd4e398308102a1805d3aefd2e78e85",
+  "headers_bytes": 201132,
+  "expat_version": "expat_2.11.0",
+  "upstream_tests": [
+    "test.test_pyexpat",
+    "test.test_xml_etree",
+    "test.test_xml_etree_c",
+    "test.test_minidom",
+    "test.test_sax"
+  ]
+}

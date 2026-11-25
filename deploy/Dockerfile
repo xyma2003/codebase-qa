@@ -9,6 +9,14 @@ RUN uv venv --python /usr/local/bin/python /opt/venv \
     && uv pip install --python /opt/venv/bin/python --no-cache --require-hashes --torch-backend cpu -r /build/runtime.lock \
     && uv pip check --python /opt/venv/bin/python
 
+FROM ${PYTHON_IMAGE} AS expat-python
+WORKDIR /build
+COPY ops/expat_update.py ops/python_expat_build.py /build/ops/
+COPY deploy/expat-update.json deploy/python-expat.json /build/deploy/
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y gcc libc6-dev libexpat1 \
+    && python -m ops.expat_update > /build/expat-install.json \
+    && python -m ops.python_expat_build --output /build/python-expat-output --work /build/python-expat-work
+
 FROM ${PYTHON_IMAGE} AS runtime
 ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1 \
     HF_HOME=/app/.cache/huggingface CODEBASE_QA_LOCAL_MODE=0 PATH=/opt/venv/bin:$PATH
@@ -27,6 +35,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade --no-instal
     && useradd --uid 10001 --create-home --shell /usr/sbin/nologin app \
     && /usr/local/bin/python -m pip uninstall --yes pip
 RUN python -m ops.expat_update > /app/deploy/expat-install.json
+COPY --from=expat-python /build/python-expat-output/module/ /usr/local/lib/python3.12/lib-dynload/
+COPY --from=expat-python /build/python-expat-output/report.json /app/deploy/python-expat-build.json
+COPY --from=expat-python /build/python-expat-output/unittest.log /app/deploy/python-expat-unittest.log
+COPY deploy/python-expat.json /app/deploy/python-expat.json
 COPY --from=dependencies /opt/venv /opt/venv
 RUN python -m ops.os_packages --output /app/deploy/os-package-check.json
 RUN python -m ops.privileged_tools --harden > /app/deploy/privilege-hardening.json \

@@ -116,6 +116,8 @@ jobs:
           docker run --rm --entrypoint cat codebase-qa:preparation /app/deploy/os-package-check.json > "$RUNNER_TEMP/deployment-records/os-package-minimums.json"
           docker run --rm --entrypoint cat codebase-qa:preparation /app/deploy/os-package-build-check.json > "$RUNNER_TEMP/deployment-records/os-package-build-minimums.json"
           docker run --rm --entrypoint cat codebase-qa:preparation /app/deploy/expat-install.json > "$RUNNER_TEMP/deployment-records/expat-install.json"
+          docker run --rm --entrypoint cat codebase-qa:preparation /app/deploy/python-expat-build.json > "$RUNNER_TEMP/deployment-records/python-expat-build.json"
+          docker run --rm --entrypoint cat codebase-qa:preparation /app/deploy/python-expat-unittest.log > "$RUNNER_TEMP/deployment-records/python-expat-unittest.log"
           docker run --rm --read-only --network none --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges --entrypoint python codebase-qa:preparation -m ops.runtime_layout > "$RUNNER_TEMP/deployment-records/runtime-layout.json"
           docker run --rm --read-only --network none --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges --entrypoint python codebase-qa:preparation -m ops.optional_parsers --runtime > "$RUNNER_TEMP/deployment-records/optional-parser-probes.json"
           docker run --rm --read-only --network none --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges --entrypoint python codebase-qa:preparation -m ops.sqlite_security_check > "$RUNNER_TEMP/deployment-records/sqlite-security-probes.json"

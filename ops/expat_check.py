@@ -7,6 +7,7 @@ from pathlib import Path
 import pyexpat
 import re
 import subprocess
+import sys
 
 
 def parse_version(value):
@@ -61,12 +62,25 @@ def verify(manifest_path=Path("deploy/expat-update.json")):
     linkage = subprocess.run(["ldd", pyexpat.__file__], capture_output=True, text=True, timeout=10)
     if linkage.returncode or "not found" in linkage.stdout + linkage.stderr:
         raise ValueError("Python Expat native dependencies are incomplete")
+    extension_sha256 = hashlib.sha256(Path(pyexpat.__file__).read_bytes()).hexdigest()
+    build_path = Path(manifest_path).parent / "python-expat-build.json"
+    if build_path.exists():
+        build = json.loads(build_path.read_bytes())
+        source = json.loads((build_path.parent / "python-expat.json").read_bytes())
+        if (sys.version_info[:3] != (3, 12, 13) or python_version != source["expat_version"]
+                or "libexpat.so.1" not in linkage.stdout
+                or extension_sha256 != build["extension_sha256"]
+                or build["source_sha256"] != source["source_sha256"]
+                or build["headers_sha256"] != source["headers_sha256"]
+                or build["upstream_test_count"] <= 0):
+            raise ValueError("Python Expat runtime differs from the verified build")
     return {"status": "system_expat_update_verified", "package_version": installed,
             "system_expat_version": native_version, "system_parse_and_reset_passed": True,
             "python_expat_version": python_version, "python_extension": pyexpat.__file__,
-            "python_extension_sha256": hashlib.sha256(Path(pyexpat.__file__).read_bytes()).hexdigest(),
+            "python_extension_sha256": extension_sha256,
             "python_linkage": linkage.stdout, "python_parse_passed": True,
             "python_expat_requires_followup": parse_version(python_version) < (2, 11, 0),
+            "python_build_bound_to_runtime": build_path.exists(),
             "targeted_advisories": manifest["targeted_advisories"],
             "all_expat_advisories_cleared": False, "public_release_allowed": False,
             "real_model_requests": 0}
