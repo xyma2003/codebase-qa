@@ -11,3 +11,5 @@
 运行探针核对实际动态加载的系统 XML_ExpatVersion、解析/重置，以及 Python pyexpat 的版本、文件摘要和 ldd。Python 官方镜像可内置另一份 Expat；系统 dpkg 更新不能作为该副本修复的证据。[CPython 3.12.13 的内置头文件](https://github.com/python/cpython/blob/v3.12.13/Modules/expat/expat.h)版本为 2.7.4，必须单独检查和处理。探针不把未修复副本记成成功，也不授权公开发布。
 
 本机 **20 项定向、445 项全量 / 129.718 秒 / 退出 0**；actionlint 和 diff 检查通过。测试覆盖下载哈希/大小/重定向、元数据、架构、基线版本、dpkg 原错误、禁止未声明包变化。实际 Linux 更新、双引擎、迁移恢复与完整新扫描在本提交 CI 独立验收；真实模型请求 0，密钥/OIDC 后置。
+
+`73cd652` 的 Linux [CI 45575017335](https://github.com/xyma2003/codebase-qa/actions/runs/45575017335)在安装后完整性校验处失败，原异常为 `Installed Expat package verification failed`，没有输出具体 audit/verify 内容。尚未把该候选记为成功。下一次仅修正错误输出，保留两个命令的完整结果；包版本、哈希、依赖、基线和安装参数不变，不跳过校验或猜测调整参数。

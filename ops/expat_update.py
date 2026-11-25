@@ -72,8 +72,12 @@ def install(manifest, *, run=command, fetch=download):
                 raise ValueError("Pinned Debian package metadata differs: " + field)
         # dpkg checks existing dependencies; it cannot fetch/upgrade anything else.
         run(["dpkg", "--install", path])
-    if run(["dpkg", "--audit"]) or run(["dpkg", "--verify", manifest["package"]]):
-        raise ValueError("Installed Expat package verification failed")
+    audit_output = run(["dpkg", "--audit"])
+    verification_output = run(["dpkg", "--verify", manifest["package"]])
+    if audit_output or verification_output:
+        raise ValueError("Installed Expat package verification failed\n"
+                         + "dpkg --audit:\n" + audit_output + "\n"
+                         + "dpkg --verify:\n" + verification_output)
     after = inventory(run)
     changes = validate_changes(before, after, manifest)
     return {"status": "pinned_expat_package_installed", "package_changes": changes,

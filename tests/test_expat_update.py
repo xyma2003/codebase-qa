@@ -105,6 +105,17 @@ class ExpatUpdateTests(unittest.TestCase):
                 update.command(['dpkg', '--install', 'fixture.deb'])
             self.assertEqual(run.call_count, 1)
 
+    def test_successful_dpkg_exit_with_integrity_findings_retains_original_output(self):
+        original, calls = self.fake_run()
+        def run(arguments):
+            if arguments == ['dpkg', '--verify', 'libexpat1']:
+                calls.append(arguments)
+                return 'VERIFY_FIXTURE unexpected file digest'
+            return original(arguments)
+        with self.assertRaisesRegex(ValueError, 'VERIFY_FIXTURE unexpected file digest'):
+            update.install(MANIFEST, run=run, fetch=Mock())
+        self.assertEqual(sum(c == ['dpkg', '--verify', 'libexpat1'] for c in calls), 1)
+
     def test_native_versions_are_compared_numerically_and_unknown_versions_fail(self):
         self.assertGreater(parse_version('expat_2.11.0'), parse_version('expat_2.9.0'))
         self.assertEqual(parse_version('2.11.0'), (2, 11, 0))
