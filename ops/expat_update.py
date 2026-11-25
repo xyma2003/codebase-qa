@@ -70,8 +70,10 @@ def install(manifest, *, run=command, fetch=download):
                                 "Pre-Depends": manifest["pre_depends"]}.items():
             if run(["dpkg-deb", "--field", path, field]) != expected:
                 raise ValueError("Pinned Debian package metadata differs: " + field)
-        # dpkg checks existing dependencies; it cannot fetch/upgrade anything else.
-        run(["dpkg", "--install", path])
+        # Slim images exclude documentation. Retain this package's files so
+        # strict dpkg verification passes without ignoring missing-file records.
+        # This command still cannot fetch/upgrade any other package.
+        run(["dpkg", "--path-include=/usr/share/doc/libexpat1/*", "--install", path])
     audit_output = run(["dpkg", "--audit"])
     verification_output = run(["dpkg", "--verify", manifest["package"]])
     if audit_output or verification_output:
@@ -82,6 +84,7 @@ def install(manifest, *, run=command, fetch=download):
     changes = validate_changes(before, after, manifest)
     return {"status": "pinned_expat_package_installed", "package_changes": changes,
             "package_sha256": manifest["sha256"], "package_source": manifest["url"],
+            "package_docs_retained": True,
             "apt_sources_changed": False, "other_packages_changed": False,
             "public_release_allowed": False}
 

@@ -83,7 +83,10 @@ class ExpatUpdateTests(unittest.TestCase):
         self.assertEqual(report['package_sha256'], MANIFEST['sha256'])
         self.assertFalse(report['other_packages_changed'])
         self.assertFalse(report['apt_sources_changed'])
-        self.assertEqual(sum(c[:2] == ['dpkg', '--install'] for c in calls), 1)
+        installs = [c for c in calls if c[0] == 'dpkg' and '--install' in c]
+        self.assertEqual(len(installs), 1)
+        self.assertEqual(installs[0][1:3], ['--path-include=/usr/share/doc/libexpat1/*', '--install'])
+        self.assertTrue(report['package_docs_retained'])
         self.assertFalse(any(c[0].startswith('apt') for c in calls))
 
     def test_wrong_package_metadata_or_baseline_refuses_before_install(self):
@@ -91,7 +94,7 @@ class ExpatUpdateTests(unittest.TestCase):
             run, calls = self.fake_run(invalid_field=field)
             with self.subTest(field=field), self.assertRaises(ValueError):
                 update.install(MANIFEST, run=run, fetch=Mock())
-            self.assertFalse(any(c[:2] == ['dpkg', '--install'] for c in calls))
+            self.assertFalse(any(c[0] == 'dpkg' and '--install' in c for c in calls))
         run, calls = self.fake_run(wrong_baseline=True)
         fetch = Mock()
         with self.assertRaises(ValueError):
