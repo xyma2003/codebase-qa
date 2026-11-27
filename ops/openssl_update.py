@@ -75,6 +75,8 @@ def install(manifest, report, directory, *, run=command):
             raise ValueError("OpenSSL package source differs")
     # Scoped to these three packages, so dpkg verification needs no exclusions.
     run(["dpkg", "--path-include=/usr/share/doc/*", "--path-include=/usr/share/man/*",
+         "--path-include=/usr/share/lintian/overrides/libssl3t64",
+         "--path-include=/usr/share/lintian/overrides/openssl",
          "--install", *map(str, paths)])
     audit = run(["dpkg", "--audit"])
     verification = run(["dpkg", "--verify", *sorted(PACKAGES)])

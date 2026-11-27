@@ -150,9 +150,10 @@ class OpenSSLBackportTests(unittest.TestCase):
         self.assertEqual(len(installs), 1)
         self.assertEqual(sum(str(p).endswith('.deb') for p in installs[0]), 3)
         self.assertFalse(any(c[0].startswith('apt') for c in calls))
-        run, calls = self.fake_run(report, verify_output='VERIFY_FIXTURE missing library')
-        with self.assertRaisesRegex(ValueError, 'VERIFY_FIXTURE missing library'):
-            updater.install(MANIFEST, report, directory, run=run)
+        for error in ('VERIFY_FIXTURE missing library', 'missing /usr/share/lintian/overrides/openssl'):
+            run, calls = self.fake_run(report, verify_output=error)
+            with self.subTest(error=error), self.assertRaisesRegex(ValueError, error):
+                updater.install(MANIFEST, report, directory, run=run)
 
     def test_source_field_can_only_be_omitted_for_the_same_named_binary(self):
         directory, report = self.fixture_build()
