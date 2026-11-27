@@ -114,7 +114,7 @@ class OpenSSLBackportTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             updater.check_build(MANIFEST, report, directory)
 
-    def fake_run(self, report, *, verify_output=''):
+    def fake_run(self, report, *, verify_output='', source_fields=None):
         before, after = self.inventories()
         values = iter((before, after))
         calls = []
@@ -128,6 +128,10 @@ class OpenSSLBackportTests(unittest.TestCase):
                 return verify_output
             if arguments[0] == 'dpkg-deb':
                 name = Path(arguments[2]).name.split('_')[0]
+                if arguments[-1] == 'Source':
+                    fields = {'openssl': '', 'libssl3t64': 'openssl', 'openssl-provider-legacy': 'openssl'}
+                    fields.update(source_fields or {})
+                    return fields[name]
                 return {'Package': name, 'Source': 'openssl', 'Version': MANIFEST['package_version'],
                         'Architecture': 'amd64'}[arguments[-1]]
             return ''
@@ -149,6 +153,15 @@ class OpenSSLBackportTests(unittest.TestCase):
         run, calls = self.fake_run(report, verify_output='VERIFY_FIXTURE missing library')
         with self.assertRaisesRegex(ValueError, 'VERIFY_FIXTURE missing library'):
             updater.install(MANIFEST, report, directory, run=run)
+
+    def test_source_field_can_only_be_omitted_for_the_same_named_binary(self):
+        directory, report = self.fixture_build()
+        # The successful installation test exercises omitted Source on openssl.
+        for fields in ({'libssl3t64': ''}, {'openssl': 'another-source'}):
+            run, calls = self.fake_run(report, source_fields=fields)
+            with self.subTest(fields=fields), self.assertRaisesRegex(ValueError, 'source differs'):
+                updater.install(MANIFEST, report, directory, run=run)
+            self.assertFalse(any('--install' in call for call in calls))
 
     def test_real_local_tls_verifies_trust_and_hostname(self):
         result = tls_check()

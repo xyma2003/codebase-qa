@@ -123,9 +123,14 @@ def build(manifest, patch_dir, harness, output, work):
             name = "codebase-qa-" + patch.name
             shutil.copyfile(patch, source / "debian/patches" / name)
             file.write(name + "\n")
+    # Keep the exact built tree for post-build probes. Unapplying/reapplying
+    # Debian's Configure patches changes mtimes and forces OpenSSL to reconfigure.
+    with (source / "debian/source/local-options").open("x") as file:
+        file.write("no-unapply-patches\n")
     run(["dpkg-source", "--before-build", str(source)], log=output / "patch-application.log")
     changed_files = {"ssl/quic/quic_stream_map.c", "ssl/quic/quic_channel.c",
-                     "ssl/quic/quic_channel_local.h", "include/internal/quic_channel.h", "test/radix/quic_tests.c"}
+                     "ssl/quic/quic_channel_local.h", "include/internal/quic_channel.h", "test/radix/quic_tests.c",
+                     "Configure", "Configurations/10-main.conf", "Configurations/20-debian.conf"}
     patched_hashes = {name: digest(source / name) for name in sorted(changed_files)}
     changelog = source / "debian/changelog"
     header = ("openssl (" + manifest["package_version"] + ") trixie; urgency=high\n\n"
@@ -138,9 +143,7 @@ def build(manifest, patch_dir, harness, output, work):
                     timeout=1200, log=output / "native-build.log")
     if "Result: PASS" not in build_log:
         raise ValueError("Debian OpenSSL native suite was not verified")
-    # dpkg-source may unapply automatically applied patches after a build.
-    # Restore the same declared source state for the isolated regression probes.
-    run(["dpkg-source", "--before-build", str(source)], log=output / "post-build-patches.log")
+    # Verify the retained source without touching generated build dependencies.
     if {name: digest(source / name) for name in patched_hashes} != patched_hashes:
         raise ValueError("OpenSSL regression source differs from the packaged build")
     quic_log = run(["make", "-C", str(source / "build_shared"), "test", "TESTS=test_quic_radix", "HARNESS_VERBOSE=yes"],

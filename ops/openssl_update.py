@@ -69,7 +69,8 @@ def install(manifest, report, directory, *, run=command):
         for field, expected in {"Version": manifest["package_version"], "Architecture": manifest["architecture"]}.items():
             if run(["dpkg-deb", "--field", str(path), field]) != expected:
                 raise ValueError("OpenSSL package metadata differs: " + field)
-        source = run(["dpkg-deb", "--field", str(path), "Source"])
+        # Debian omits Source when its name and version match the binary.
+        source = run(["dpkg-deb", "--field", str(path), "Source"]) or name
         if source not in {"openssl", "openssl (" + manifest["package_version"] + ")"}:
             raise ValueError("OpenSSL package source differs")
     # Scoped to these three packages, so dpkg verification needs no exclusions.
