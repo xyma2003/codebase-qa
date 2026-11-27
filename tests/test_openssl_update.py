@@ -1,4 +1,6 @@
 import copy
+from contextlib import redirect_stderr
+import io
 import json
 from pathlib import Path
 import shutil
@@ -39,6 +41,19 @@ class OpenSSLBackportTests(unittest.TestCase):
                     good.replace('Result: PASS', 'Result: FAIL')):
             with self.subTest(log=bad), self.assertRaises(ValueError):
                 builder.check_quic_log(bad)
+
+    def test_failure_tail_preserves_original_diagnostic_and_native_evidence(self):
+        log = self.root / 'native.log'
+        log.write_text('ok 17 - new_connid_retrans\nFiles=278, Tests=100\nResult: PASS\n'
+                       + 'verbose output\n'*100 + 'ORIGINAL_PACKAGING_ERROR\n')
+        target = io.StringIO()
+        with redirect_stderr(target):
+            builder.print_failure_log(log)
+        summary = target.getvalue().split('OpenSSL native evidence summary')[1]
+        self.assertIn(builder.digest(log), summary)
+        self.assertIn('new_connid_retrans', summary)
+        self.assertIn('Files=278, Tests=100', summary)
+        self.assertIn('ORIGINAL_PACKAGING_ERROR', summary)
 
     def inventories(self):
         before = {name: {'status': 'installed', 'version': MANIFEST['source_version']}

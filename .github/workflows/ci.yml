@@ -69,7 +69,7 @@ jobs:
             ${{ runner.temp }}/restore-drill/verify.log
   linux-deployment-preparation:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 35
     defaults:
       run:
         shell: bash

@@ -28,12 +28,24 @@ def run(arguments, *, cwd=None, env=None, timeout=60, log=None):
             result = subprocess.run(arguments, cwd=cwd, env=env, text=True,
                                     stdout=target, stderr=subprocess.STDOUT, timeout=timeout)
     except subprocess.TimeoutExpired:
-        print(Path(log).read_text(), file=sys.stderr)
+        print_failure_log(log)
         raise
     if result.returncode:
-        print(Path(log).read_text(), file=sys.stderr)
+        print_failure_log(log)
         raise ValueError("OpenSSL build command failed: " + repr(arguments))
     return Path(log).read_text()
+
+
+def print_failure_log(path):
+    text = Path(path).read_text()
+    print(text, file=sys.stderr)
+    # BuildKit can clip a verbose native log. Repeat the test evidence and the
+    # original final diagnostic at the end so that a clipped log stays useful.
+    print("OpenSSL native evidence summary (full log SHA256 " + digest(path) + ")", file=sys.stderr)
+    for line in text.splitlines():
+        if any(marker in line for marker in ("Result:", "Files=", "new_connid_retrans", "not ok", "FAILED")):
+            print(line, file=sys.stderr)
+    print("\n".join(text.splitlines()[-60:]), file=sys.stderr)
 
 
 def check_patches(manifest, directory):
@@ -123,7 +135,7 @@ def build(manifest, patch_dir, harness, output, work):
     changelog.write_text(header + changelog.read_text())
     environment = dict(os.environ, DEB_BUILD_OPTIONS=manifest["build_options"], DEB_BUILD_PROFILES=manifest["build_profiles"])
     build_log = run(["dpkg-buildpackage", "-B", "-us", "-uc"], cwd=source, env=environment,
-                    timeout=900, log=output / "native-build.log")
+                    timeout=1200, log=output / "native-build.log")
     if "Result: PASS" not in build_log:
         raise ValueError("Debian OpenSSL native suite was not verified")
     # dpkg-source may unapply automatically applied patches after a build.
