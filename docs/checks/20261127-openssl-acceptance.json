@@ -1,0 +1,112 @@
+{
+  "revision": "cf0f9e78a40dc0fdef21a581c99ecd5b2a4e7f35",
+  "run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/45968128101",
+  "artifact_sha256": "8bf641a713c3cb290ea95be938f840cac88fff2c322e9f70f9ee563337594601",
+  "image_id": "sha256:28ee33537768cc00f577372c48001b1f3f7321c5967cb5da468b230defb0763c",
+  "project_tests": 460,
+  "project_seconds": 121.779,
+  "native_suite": {
+    "files": 347,
+    "tests": 4932
+  },
+  "native_log_sha256": "f7db8d16d36c3eaa80506dd86867c9d32f8d7ca78dbd4324b602f93712607ca9",
+  "gc_controls": {
+    "baseline": {
+      "exit_code": 1,
+      "log_sha256": "4386e2617b06781d44785ff670958916204a1137ece30709161114e01f512814"
+    },
+    "patched": {
+      "exit_code": 0,
+      "log_sha256": "4c486b76da337d649aaa887081649d0f56d93e34f9605f2ac093fcf300db0e1b"
+    }
+  },
+  "quic_completed": true,
+  "tls": {
+    "protocol": "TLSv1.3",
+    "verified_round_trip": true,
+    "wrong_hostname_rejected": true,
+    "untrusted_certificate_rejected": true
+  },
+  "loaded_libraries": [
+    "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+    "/usr/lib/x86_64-linux-gnu/libssl.so.3"
+  ],
+  "cryptography_separate_backend": "OpenSSL 4.0.3 29 Sep 2026",
+  "runtime_files_sha256": {
+    "usr/lib/x86_64-linux-gnu/libssl.so.3": "f49858bc886668fccc726e7a3a30adf102079494b9d30f4cd75b9e2e49bbbe90",
+    "usr/lib/x86_64-linux-gnu/libcrypto.so.3": "c5ec8085cfe5f30fae5e50f92dc24d1d39b36405f612bc92cc76e04a5a0127f7",
+    "usr/lib/x86_64-linux-gnu/ossl-modules/legacy.so": "47af7436924d44b49719792780eaee3c472df720908cb969f00c940c219cba45",
+    "usr/bin/openssl": "238d03b1d3a7f5aa3c9cf8171d483a32c227df0f5a606a55ab31f154c8aa60be"
+  },
+  "package_changes": {
+    "libssl3t64": {
+      "before": "3.5.9-1~deb13u1",
+      "after": "3.5.9-1~deb13u1+codebaseqa1"
+    },
+    "openssl-provider-legacy": {
+      "before": "3.5.9-1~deb13u1",
+      "after": "3.5.9-1~deb13u1+codebaseqa1"
+    },
+    "openssl": {
+      "before": "3.5.9-1~deb13u1",
+      "after": "3.5.9-1~deb13u1+codebaseqa1"
+    }
+  },
+  "unchanged_os_packages": 115,
+  "official_xml_tests": 791,
+  "official_xml_skips": 12,
+  "missing_elementtree_skips": 0,
+  "python_packages": 195,
+  "python_finding_groups": 0,
+  "os_records": 342,
+  "os_ids": 178,
+  "high_ids": 22,
+  "same_database_findings_added": 0,
+  "same_database_findings_removed": 0,
+  "storage_restore_passed": true,
+  "public_release_allowed": false,
+  "real_model_requests": 0,
+  "previous_success_revision": "4dc149d69a26d9d5e3954a1cbcb1342567a4275f",
+  "versus_previous_success_package_changes": {
+    "passwd": {
+      "before": "1:4.17.4-2",
+      "after": "1:4.17.4-2+deb13u1"
+    },
+    "openssl-provider-legacy": {
+      "before": "3.5.9-1~deb13u1",
+      "after": "3.5.9-1~deb13u1+codebaseqa1"
+    },
+    "login.defs": {
+      "before": "1:4.17.4-2",
+      "after": "1:4.17.4-2+deb13u1"
+    },
+    "openssl": {
+      "before": "3.5.9-1~deb13u1",
+      "after": "3.5.9-1~deb13u1+codebaseqa1"
+    },
+    "libssl3t64": {
+      "before": "3.5.9-1~deb13u1",
+      "after": "3.5.9-1~deb13u1+codebaseqa1"
+    }
+  },
+  "versus_previous_success_unchanged_os_packages": 113,
+  "inherited_apt_security_updates": {
+    "source": "shadow",
+    "packages": [
+      "passwd",
+      "login.defs"
+    ],
+    "version": "1:4.17.4-2+deb13u1",
+    "official_source": "https://security-tracker.debian.org/tracker/source-package/shadow"
+  },
+  "original_data_counts": {
+    "conversations.sqlite3": {
+      "conversations": 2,
+      "conversation_turns": 3
+    },
+    "vectors.sqlite3": {
+      "vector_collections": 4,
+      "vector_records": 1256
+    }
+  }
+}

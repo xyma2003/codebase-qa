@@ -1,6 +1,6 @@
 # 系统公告的实际入口核对
 
-日期：2026-11-23。依据 `aad406e` 的真实 Linux 产物：336 条、177 个编号、30 组来源组件，0 Critical、65 条 High（21 个不同 High 编号）。每组原始编号、二进制包与版本保存在 CI `risk-review/review.json`，来源是包库存的 SrcName，不靠包名猜测来源。本页是首轮程序入口核对，不是完整利用测试、VEX、豁免名单或发布授权。
+更新：2026-11-27。最新 `cf0f9e7` 的真实 Linux 扫描为 342 条 / 178 个编号 / 30 组来源组件，22 个不同 High；发布继续阻断。最初入口分析基于 `aad406e`，随后逐项补充实际修复验收。每组原始编号、二进制包和版本保存在 CI risk-review/review.json。本页不是 VEX、豁免或发布授权，见[最新差异和限制](checks/20261127-openssl.md)。
 
 ## 重点入口
 
@@ -10,7 +10,7 @@
 | Git：105437、111760、114466 | merge 尺寸溢出、恶意树检出（也影响普通非递归克隆）、fast-import/export 文件访问 | `security/git_transport.py` 在启动进程前只接受现有两种精确参数：不检出代码的浅克隆、默认 HEAD 浅更新；仅规范化公开 GitHub HTTPS。拒绝 merge/rebase/cherry-pick/merge-tree、checkout/status、fast-import/export、递归子模块和附加参数；关闭 fsmonitor、hooks、子模块递归、代理和环境凭据。克隆目录只能为受资源监控临时目录下的新目录 | 增加代码强制限制与反向测试；底层 Git 未升级，不能称为源码修复或关闭公告 |
 | curl：12064、8458 | 扫描说明分别涉及无 scheme 的 SFTP/SCP CLI 和连接认证复用 | 仓库 URL 归一为公开 GitHub HTTPS；Git 协议仅允许 HTTPS，禁用环境代理、重定向及凭据。每个 Git 调用为独立子进程，环境不带模型密钥 | 当前路径受约束；继续保留底层库公告，不把所有 curl 代码都当作已证明不可达 |
 | SQLite：119373、119374、119379 | FTS5 索引或 session changeset 路径 | 6 处连接统一启用 DEFENSIVE、关闭 trusted_schema/扩展/FTS3 tokenizer；业务库拒绝已有或新建虚表、ATTACH/DETACH、MATCH 和危险 PRAGMA。保留的旧 Chroma FTS 库只在固定只读完整性检查中打开，不向业务返回连接。Python 3.12 没有 Session API，也没有 changeset 接收工具 | 新增业务入口强制限制与 Linux 引擎探针；native SQLite 仍未打补丁，不关闭公告 |
-| OpenSSL：124709、11 月 25 日新增 High 107494 | QUIC 服务端持续接收并重置流，或 QUIC 对端重复 NEW_CONNECTION_ID 帧造成无界排队 | 代理配置仅 TCP TLS，Compose 没有公开 UDP，Streamlit 使用 HTTP/1.1 WebSocket；模型客户端使用普通 HTTPS，没有 QUIC 入口 | 正在从固定 Debian 3.5.9 源码回补两个官方修复；仅更新三个系统运行包，要求官方 QUIC 回归、流回收前后对照和实际加载验收，见[记录](checks/20261127-openssl.md)。Linux 验收完成前不称修复成功；保留全部扫描和原级别 |
+| OpenSSL：124709、11 月 25 日新增 High 107494 | QUIC 服务端持续接收并重置流，或 QUIC 对端重复 NEW_CONNECTION_ID 帧造成无界排队 | 代理配置仅 TCP TLS，Compose 没有公开 UDP，Streamlit 使用 HTTP/1.1 WebSocket；模型客户端使用普通 HTTPS，没有 QUIC 入口 | 系统三个包的官方回补和运行验收通过：4932 项原生 TAP、独立重复帧用例、GC 旧失败/新通过、实际库摘要与 TLS 正反例。cryptography 独立内置库及代理副本不属于本次修复；扫描仍命中，保留全部原级别和发布阻断，见[最终记录](checks/20261127-openssl.md) |
 | systemd：16742 | systemd-homed 的特权家目录记录处理 | 扫描的二进制包是 libsystemd0/libudev1；容器进程为应用及 init，不是 systemd-homed 服务 | 组件库与服务入口需要区分；本结论不覆盖同源其他公告，无自动豁免 |
 | Perl Archive-Tar：9538 | 解析恶意 tar 头中的巨大 entry size | Perl 为 Git 的依赖，不删除整个 Perl；构建时将所有 `/usr` 下 Archive/Tar.pm 的权限设为 000，保留包库存；CI 使用 UID 10001 实测导入拒绝，并确认 Git 所需 Error.pm 可用 | 新增模块入口隔离，需以对应 Linux 产物验证；源码公告保留 |
 | ncurses：69720 | infocmp 的 analyze_string 解析恶意终端数据 | 仅将用不到的 infocmp 设为 root 所有、权限 000，不删 Python/Git 依赖的 ncurses 库；CI 实际执行要求 PermissionError | 新增命令入口隔离，需以对应 Linux 产物验证；源码公告保留 |
