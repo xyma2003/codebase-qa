@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "source_version": "3.5.9-1~deb13u1",
+  "package_version": "3.5.9-1~deb13u1+codebaseqa1",
+  "architecture": "amd64",
+  "runtime_packages": ["libssl3t64", "openssl", "openssl-provider-legacy"],
+  "source_files": [
+    {"name": "openssl_3.5.9-1~deb13u1.dsc", "bytes": 2707, "sha256": "b038dfab5ee111242b7439e07c820d228519273e7fd1f514014b039e929aad9f"},
+    {"name": "openssl_3.5.9.orig.tar.gz", "bytes": 53279637, "sha256": "603f5602e2eef00d77fbd429d34dcd5822bb301757a1bc9cdb24c670f1eb859a"},
+    {"name": "openssl_3.5.9.orig.tar.gz.asc", "bytes": 931, "sha256": "bdccf2057a7c4ae377b40e832cb8c632ae8b532d4fb64cc7b843066eee748f89"},
+    {"name": "openssl_3.5.9-1~deb13u1.debian.tar.xz", "bytes": 54612, "sha256": "7d5158a87cd24641316b050de419be4ebddb1f180afd7ebaa3bc990036c38ec6"}
+  ],
+  "source_base_url": "https://deb.debian.org/debian/pool/main/o/openssl/",
+  "patches": [
+    {"file": "CVE-2026-124709.patch", "commit": "f3acb0a3328046741479482c51cec815839e1b05", "sha256": "d52a6af23bc966daaa9eded816a392d429a67bb76faafd922f4c4cf35a9349f4"},
+    {"file": "CVE-2026-107494.patch", "commit": "734c6cd7444bdbf589bfec917e47598c1b21ddd3", "sha256": "c1726a50d589b2dc289727865c184382c2bd846733ddb139427062713ebeb5bd"},
+    {"file": "CVE-2026-107494-test.patch", "commit": "42919a7f4e00aa217fce1532fbeb49f21be2ee7b", "sha256": "ca74f8bd3f7d6337fae3fe5038604f013c76590b89d6f44593adcb5661f9a0ba"}
+  ],
+  "runtime_files": [
+    "usr/lib/x86_64-linux-gnu/libssl.so.3",
+    "usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+    "usr/lib/x86_64-linux-gnu/ossl-modules/legacy.so",
+    "usr/bin/openssl"
+  ],
+  "targeted_advisories": ["CVE-2026-124709", "CVE-2026-107494"],
+  "build_options": "parallel=2",
+  "build_profiles": "noudeb",
+  "changelog_date": "Fri, 27 Nov 2026 00:00:00 +0000"
+}

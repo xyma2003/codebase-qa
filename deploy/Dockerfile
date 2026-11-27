@@ -17,6 +17,15 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-instal
     && python -m ops.expat_update > /build/expat-install.json \
     && python -m ops.python_expat_build --output /build/python-expat-output --work /build/python-expat-work
 
+FROM ${PYTHON_IMAGE} AS openssl-build
+WORKDIR /build
+COPY ops/openssl_build.py ops/python_expat_build.py /build/ops/
+COPY deploy/openssl-update.json deploy/openssl-gc-regression.c /build/deploy/
+COPY deploy/openssl-patches /build/deploy/openssl-patches
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+    build-essential debhelper libzstd-dev zlib1g-dev debian-keyring gpgv \
+    && python -m ops.openssl_build --output /build/openssl-output --work /build/openssl-work
+
 FROM ${PYTHON_IMAGE} AS runtime
 ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1 \
     HF_HOME=/app/.cache/huggingface CODEBASE_QA_LOCAL_MODE=0 PATH=/opt/venv/bin:$PATH
@@ -35,6 +44,18 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade --no-instal
     && useradd --uid 10001 --create-home --shell /usr/sbin/nologin app \
     && /usr/local/bin/python -m pip uninstall --yes pip
 RUN python -m ops.expat_update > /app/deploy/expat-install.json
+COPY ops/openssl_build.py ops/python_expat_build.py ops/openssl_update.py /app/ops/
+COPY deploy/openssl-update.json /app/deploy/openssl-update.json
+COPY --from=openssl-build /build/openssl-output/packages/ /tmp/openssl-packages/
+COPY --from=openssl-build /build/openssl-output/report.json /app/deploy/openssl-build.json
+COPY --from=openssl-build /build/openssl-output/source-verification.log /app/deploy/openssl-source-verification.log
+COPY --from=openssl-build /build/openssl-output/patch-application.log /app/deploy/openssl-patch-application.log
+COPY --from=openssl-build /build/openssl-output/native-build.log /app/deploy/openssl-native-build.log
+COPY --from=openssl-build /build/openssl-output/quic-regression.log /app/deploy/openssl-quic-regression.log
+COPY --from=openssl-build /build/openssl-output/gc-baseline.log /app/deploy/openssl-gc-baseline.log
+COPY --from=openssl-build /build/openssl-output/gc-patched.log /app/deploy/openssl-gc-patched.log
+RUN python -m ops.openssl_update --packages /tmp/openssl-packages > /app/deploy/openssl-install.json \
+    && rm -rf /tmp/openssl-packages
 COPY --from=expat-python /build/python-expat-output/module/ /usr/local/lib/python3.12/lib-dynload/
 COPY --from=expat-python /build/python-expat-output/report.json /app/deploy/python-expat-build.json
 COPY --from=expat-python /build/python-expat-output/unittest.log /app/deploy/python-expat-unittest.log

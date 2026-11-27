@@ -36,6 +36,10 @@
 !deploy/runtime-layout.json
 !deploy/expat-update.json
 !deploy/python-expat.json
+!deploy/openssl-update.json
+!deploy/openssl-gc-regression.c
+!deploy/openssl-patches/
+!deploy/openssl-patches/*.patch
 !dependencies/
 !dependencies/runtime-pins.txt
 **/__pycache__/

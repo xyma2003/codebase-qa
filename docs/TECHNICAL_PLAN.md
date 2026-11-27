@@ -1,6 +1,6 @@
 # Codebase Q&A 技术方案
 
-版本：0.30。更新日期：2026-11-25。最新真实成功代码为 `e01236f`：Python 保持 3.12.13，用相同 2.11 头文件同步重建 pyexpat 和 _elementtree，编译器仅留在构建阶段。两份实际引擎为 2.11，构建/运行检查 C Element/XMLParser、版本和双扩展摘要，禁止 requires _elementtree 隐藏跳过。451 项项目与 791 项官方 XML 回归（12 项上游条件跳过）及 Mac/Linux、迁移恢复通过。原锁、模型配置和 118 个系统包版本保持，完整扫描与发布阻断保留，详见[记录](checks/20261125-python-expat.md)。
+版本：0.31。更新日期：2026-11-27。OpenSSL 回补以真实成功的 `4dc149d` / CI 45581028837 为基线：固定 Debian 3.5.9 源码与三个官方提交，验证签名和摘要，沿用原 Debian 编译配置及完整原生测试。构建工具留在隔离阶段，运行时只安装 libssl3t64、openssl、openssl-provider-legacy 的本地回补包。校验包库存、实际加载库、官方 QUIC 用例、流回收前后对照与 TLS 正反例。Python 3.12.13、依赖锁、Expat C 验收、模型配置均保持；完整系统扫描继续阻断发布，详见[记录](checks/20261127-openssl.md)。
 
 ## 当前基础
 
@@ -240,3 +240,5 @@ GitHub Actions 由 uv 0.12.3 安装 macOS arm64 的 Python 3.12.13，在 macOS 1
 - 2026-11-23：0.25 Linux 原始归档已按 SHA256 验证，前后系统 118 包版本完全一致、扫描库摘要相同，镜像 Size 从 2126279205 到 2072972665 字节。Python/NumPy/Torch/Git HTTPS 原生检查及双用户恢复通过；Python gate 通过、OS gate 因剩余公告实际拒绝。见[最终回读](checks/20261123-security-readback.md)。
 
 - 2026-11-23：CI 暴露 0.01 秒本地测试可能在 SDK 回调前到期；仅对 local_fixture + TimeoutError + 0 请求的失败写 before_first_model_request=true。校验显式状态/错误/请求数矛盾，成功仍必须有请求。未改默认超时或模型参数，旧归档/真实后端保持；21 项定向与全量 420 项通过。原错误见[记录](checks/20261123-pre-model-timeout.md)。
+
+- 2026-11-27：0.31 新增 `openssl-update.json` 和独立 Debian 源码构建阶段。三个包标记 `+codebaseqa1`，不冒充官方修复版本；安装拒绝依赖变动，dpkg 严格审计及四个运行文件摘要绑定构建结果。Python `/proc/self/maps` 验证实际库，cryptography 独立内置库单独记录，不算本次修复。

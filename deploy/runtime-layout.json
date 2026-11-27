@@ -1,13 +1,17 @@
 {
   "schema": 1,
-  "baseline_revision": "83549c40d04ea83a15945fb1df09f146b042aa1c",
-  "baseline_run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/45575949037",
-  "baseline_artifact_sha256": "96d81519a71736e2f296ab9a88053205753a407510387b40525d596ea62c8dee",
+  "baseline_revision": "4dc149d69a26d9d5e3954a1cbcb1342567a4275f",
+  "baseline_run_url": "https://github.com/xyma2003/codebase-qa/actions/runs/45581028837",
+  "baseline_artifact_sha256": "68e8d883226e32398ddae18ae06520bfd6a3dc0dccecbdb5f5ab8318284e0109",
   "python_image": "python@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36",
   "linux_lock_sha256": "fc11ed823fbaf15e1916480928041c2d889b1580c30e772882dbc04c3826ebb7",
   "venv": "/opt/venv",
   "removed_runtime_packages": [],
-  "updated_runtime_packages": {},
+  "updated_runtime_packages": {
+    "libssl3t64": {"before": "3.5.9-1~deb13u1", "after": "3.5.9-1~deb13u1+codebaseqa1"},
+    "openssl": {"before": "3.5.9-1~deb13u1", "after": "3.5.9-1~deb13u1+codebaseqa1"},
+    "openssl-provider-legacy": {"before": "3.5.9-1~deb13u1", "after": "3.5.9-1~deb13u1+codebaseqa1"}
+  },
   "removed_runtime_commands": [
     "uv",
     "uvx",
