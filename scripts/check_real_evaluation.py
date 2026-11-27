@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -16,11 +17,21 @@ from evaluation.indexes import build_indexes
 from evaluation.reviews import prepare_review
 from evaluation.reporting import import_review, verify_report
 from indexer.repository_state import get_active
+from indexer.sqlite_vectors import LocalVectorClient
+from indexer import vector_store
 from tests.test_real_evaluation import baseline_fixture, ProviderFixture
 
 
 def check(directory, package):
     directory.mkdir(parents=True, exist_ok=False)
+    # Fixed evaluation sources need real vectors, stored beside this check's
+    # other outputs rather than in the application's shared vector database.
+    client = LocalVectorClient(directory / "vectors")
+    with patch.object(vector_store, "_get_client", return_value=client):
+        return _check(directory, package)
+
+
+def _check(directory, package):
     active = get_active("https://github.com/xyma2003/codebase-qa")
     dataset = ROOT / "evals/codebase-qa-v1"
     baseline = directory / "synthetic-baseline"

@@ -1,0 +1,116 @@
+{
+  "status": "local_simulation_passed_after_isolation_fix",
+  "baseline_revision": "902756b47448b099f23d9a456782dd728112422a",
+  "functional_scenario_groups": [
+    {
+      "case": "functional-tests",
+      "status": "passed",
+      "seconds": 67.486
+    },
+    {
+      "case": "repository-import",
+      "status": "passed",
+      "seconds": 13.45
+    },
+    {
+      "case": "conversations",
+      "status": "passed",
+      "seconds": 3.167
+    },
+    {
+      "case": "planning",
+      "status": "passed",
+      "seconds": 2.881
+    },
+    {
+      "case": "history-tools",
+      "status": "passed",
+      "seconds": 1.756
+    },
+    {
+      "case": "evaluation-runner",
+      "status": "passed",
+      "seconds": 5.273
+    },
+    {
+      "case": "evaluation-reviews",
+      "status": "passed",
+      "seconds": 3.977
+    },
+    {
+      "case": "review-page",
+      "status": "passed",
+      "seconds": 7.238
+    },
+    {
+      "case": "provider-fixture",
+      "status": "passed",
+      "seconds": 22.38
+    },
+    {
+      "case": "restore",
+      "status": "passed",
+      "seconds": 3.33
+    }
+  ],
+  "initial_functional_test_count": 157,
+  "isolation_fix_test_count": 13,
+  "full_tests": {
+    "count": 462,
+    "seconds": 118.203,
+    "passed": true
+  },
+  "simulated_evaluation": {
+    "cases": 16,
+    "turns": 19,
+    "local_model_steps": 57,
+    "mock_sdk_requests": 38,
+    "real_model_requests": 0,
+    "real_model_quality_evaluated": false,
+    "isolated_index_chunks": 533
+  },
+  "initial_data_isolation_check": {
+    "passed": false,
+    "issue": "provider checker wrote a new evaluation collection into the app vector store",
+    "raw_records_preserved_locally": true
+  },
+  "correction": {
+    "file": "scripts/check_real_evaluation.py",
+    "isolated_storage": "work_root/vectors",
+    "success_and_exception_paths_tested": true,
+    "only_new_test_collection_moved": true,
+    "old_content_verified_before_cleanup": true,
+    "fresh_process_isolated_index_readback_passed": true
+  },
+  "original_data_unchanged_after_correction": true,
+  "original_counts": {
+    "conversations.sqlite3": {
+      "conversations": 2,
+      "conversation_turns": 3
+    },
+    "vectors.sqlite3": {
+      "vector_collections": 4,
+      "vector_records": 1256
+    },
+    "repository_state.sqlite3": {
+      "versions": 1,
+      "active": 1
+    }
+  },
+  "source_sha256": {
+    "scripts/check_real_evaluation.py": "d6226ea2e0e7d91f9cedc587cbc195fd7ed343ead18cdd00e727817357ab17e3",
+    "tests/test_simulation_isolation.py": "d0b8504e45c075bf1181f24a7e0178c8141c6175fa3522ba7354b8f4c93dfe49"
+  },
+  "log_sha256": {
+    "functional-tests.log": "775666383a93b09279a4261b48f2cb986c748547943c6e3611bc526966a2dba2",
+    "isolation-fix-tests.log": "9a3b721904340e8555d52d9301e20caec88b5314ed5713b5fbdb30eab75366c9",
+    "full-tests-after-fix.log": "1a062a090fa0135f1fd979050dcfbf979ce9d14cac6776ccf1538a60684f2ec7",
+    "provider-fixture-isolated.log": "6115a71195b88e1d331db35f84efe25c0a1f4e1d979b3e52c0d35bd39cd575fb"
+  },
+  "run_configuration": {
+    "huggingface_offline": true,
+    "local_operator": true,
+    "provider": "FunctionModel_or_HTTP_mock_transport",
+    "existing_locks_and_generation_parameters_unchanged": true
+  }
+}
